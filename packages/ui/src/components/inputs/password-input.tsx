@@ -21,7 +21,7 @@ const PasswordInput = forwardRef<HTMLInputElement, InputProps>(
             id={id}
             type={isVisible ? 'text' : 'password'}
             className={cn(
-              'border-input placeholder:text-muted-foreground focus-visible:ring-ring flex h-9 w-full rounded-md border bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50',
+              'border-secondary-300 placeholder:text-muted-foreground focus-visible:ring-ring flex h-9 w-full rounded-md border bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50',
               className,
             )}
             ref={ref}
@@ -33,9 +33,9 @@ const PasswordInput = forwardRef<HTMLInputElement, InputProps>(
             className="absolute end-0 top-0 p-2.5 focus:outline-none disabled:pointer-events-none"
           >
             {isVisible ? (
-              <VisibleIcon className="size-4 flex-shrink-0 text-neutral-400" />
+              <VisibleIcon className="text-secondary-500 size-4 flex-shrink-0" />
             ) : (
-              <InvisibleIcon className="size-4 flex-shrink-0 text-neutral-400" />
+              <InvisibleIcon className="text-secondary-500 size-4 flex-shrink-0" />
             )}
           </button>
         </div>

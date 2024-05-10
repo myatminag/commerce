@@ -11,14 +11,14 @@ export const VisibleIcon = (props: SVGProps<SVGSVGElement>) => {
       {...props}
     >
       <path
-        stroke="#191C1F"
+        stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="1.5"
         d="M12 4.25C4.5 4.25 1.5 12 1.5 12s3 7.75 10.5 7.75S22.5 12 22.5 12s-3-7.75-10.5-7.75z"
       ></path>
       <path
-        stroke="#191C1F"
+        stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="1.5"
@@ -39,14 +39,14 @@ export const InvisibleIcon = (props: SVGProps<SVGSVGElement>) => {
       {...props}
     >
       <path
-        stroke="#191C1F"
+        stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="1.5"
         d="M4.5 3.75l15 16.5M14.522 14.775a3.75 3.75 0 01-5.044-5.55"
       ></path>
       <path
-        stroke="#191C1F"
+        stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="1.5"
