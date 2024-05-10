@@ -7,13 +7,13 @@
   "exports": {
     "./style.css": "./src/style.css",
     "./lib/*": "./src/lib/*.ts",
-    "./p": "./src/p.tsx"
+    "./p": "./src/components/p.tsx"
   },
   "license": "MIT",
   "scripts": {
-    "build": "tailwindcss -i ./src/styles.css -o ./dist/index.css",
+    "build": "tailwindcss -i ./src/style.css -o ./dist/index.css",
     "lint": "eslint src/",
-    "dev": "tailwindcss -i ./src/styles.css -o ./dist/index.css --watch",
+    "dev": "tailwindcss -i ./src/style.css -o ./dist/index.css --watch",
     "type-check": "tsc --noEmit"
   },
   "peerDependencies": {
