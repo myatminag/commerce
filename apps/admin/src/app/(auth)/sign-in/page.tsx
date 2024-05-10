@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: 'Sign in to cds.admin',
 };
 
-const SignIn = () => {
+const Page = () => {
   return (
     <div className="container relative hidden min-h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
       <div className="bg-muted relative hidden h-full flex-col p-10 text-white lg:flex dark:border-r">
@@ -75,4 +75,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default Page;

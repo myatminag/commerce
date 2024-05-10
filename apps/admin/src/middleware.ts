@@ -9,15 +9,15 @@ export default withAuth(
     const isAuthorized = !!token;
     const pathname = req.nextUrl.pathname;
 
-    if (pathname === '/') {
+    if (pathname === '/sign-in') {
       if (isAuthorized) {
-        return NextResponse.redirect(new URL('/dashboard', req.url));
+        return NextResponse.redirect(new URL('/', req.url));
       }
       return null;
     }
 
     if (!isAuthorized) {
-      return NextResponse.redirect(new URL('/', req.url));
+      return NextResponse.redirect(new URL('/sign-in', req.url));
     }
   },
   {
@@ -34,5 +34,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ['/', '/dashboard/:path*'],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };

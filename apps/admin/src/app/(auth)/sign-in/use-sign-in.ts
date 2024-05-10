@@ -22,7 +22,7 @@ export const useSignIn = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
+  const callbackUrl = searchParams.get('callbackUrl') || '/';
 
   const [isPending, startTransition] = useTransition();
 
@@ -48,7 +48,7 @@ export const useSignIn = () => {
           console.log('err', res?.error);
           res.error;
         } else {
-          router.replace('/dashboard');
+          router.replace('/');
         }
       } catch (err) {
         console.log('err', err);
