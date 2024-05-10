@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import { Metadata } from 'next';
 import Link from 'next/link';
 import { Suspense } from 'react';
 
@@ -26,7 +26,7 @@ const Page = () => {
           >
             <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
           </svg>
-          Capture Digital Inc
+          Capture Digital Shop
         </div>
         <div className="relative z-20 mt-auto">
           <blockquote className="space-y-2">
@@ -52,18 +52,18 @@ const Page = () => {
           <Suspense>
             <SignInForm />
           </Suspense>
-          <p className="text-muted-foreground px-8 text-center text-sm">
+          <p className="text-secondary-500 px-8 text-center text-base">
             By clicking continue, you agree to our{' '}
             <Link
               href="/terms"
-              className="hover:text-primary underline underline-offset-4"
+              className="hover:text-secondary-800 underline underline-offset-4"
             >
               Terms of Service
             </Link>{' '}
             and{' '}
             <Link
               href="/privacy"
-              className="hover:text-primary underline underline-offset-4"
+              className="hover:text-secondary-800 underline underline-offset-4"
             >
               Privacy Policy
             </Link>

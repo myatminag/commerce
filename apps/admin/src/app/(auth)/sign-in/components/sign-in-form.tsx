@@ -1,7 +1,10 @@
 'use client';
 
+import Link from 'next/link';
+
 import { Button } from '@repo/ui/components/button';
 import { Input } from '@repo/ui/components/inputs/input';
+import { Checkbox } from '@repo/ui/components/inputs/checkbox';
 import { PasswordInput } from '@repo/ui/components/inputs/password-input';
 
 import { useSignIn } from '../use-sign-in';
@@ -13,12 +16,12 @@ const SignInForm = () => {
     <div className="grid gap-6">
       <form
         onSubmit={handleSubmit(handleSignIn)}
-        className="grid gap-2 space-y-4"
+        className="grid gap-2 space-y-3"
       >
         <Input
           type="email"
           label="Email"
-          placeholder="Enter your email"
+          placeholder="Enter your email address"
           {...register('email')}
           errors={errors.email?.message}
         />
@@ -28,7 +31,24 @@ const SignInForm = () => {
           {...register('password')}
           errors={errors.password?.message}
         />
-        <Button>Sign In with Email</Button>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <Checkbox id="terms2" disabled />
+            <label
+              htmlFor="terms2"
+              className="text-secondary-800 text-base leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Remember Me
+            </label>
+          </div>
+          <Link
+            href="/forgot-password"
+            className="text-secondary-500 hover:text-secondary-800 text-base underline"
+          >
+            Forgot Password?
+          </Link>
+        </div>
+        <Button>Sign In</Button>
       </form>
     </div>
   );

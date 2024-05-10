@@ -1,4 +1,4 @@
-import { authHttpService } from '../http-service';
+import { authHttpService } from '@apis/http-service';
 
 type AdminSignIn = {
   email: string;
