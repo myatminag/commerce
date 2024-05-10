@@ -1,5 +1,5 @@
 import './globals.css';
-import '@repo/shared/style.css';
+import '@repo/ui/style.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 

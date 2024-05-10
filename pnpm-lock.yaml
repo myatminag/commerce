@@ -30,9 +30,9 @@ importers:
 
   apps/admin:
     dependencies:
-      '@repo/shared':
+      '@repo/ui':
         specifier: workspace:*
-        version: link:../../packages/shared
+        version: link:../../packages/ui
       next:
         specifier: ^14.1.1
         version: 14.1.1(react-dom@18.2.0)(react@18.2.0)
@@ -79,9 +79,9 @@ importers:
 
   apps/user:
     dependencies:
-      '@repo/shared':
+      '@repo/ui':
         specifier: workspace:*
-        version: link:../../packages/shared
+        version: link:../../packages/ui
       next:
         specifier: ^14.1.1
         version: 14.1.1(react-dom@18.2.0)(react@18.2.0)
@@ -135,7 +135,18 @@ importers:
         specifier: ^1.12.4
         version: 1.12.4(eslint@8.57.0)
 
-  packages/shared:
+  packages/tailwind-config:
+    devDependencies:
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      tailwindcss:
+        specifier: ^3.4.1
+        version: 3.4.1
+
+  packages/typescript-config: {}
+
+  packages/ui:
     dependencies:
       '@radix-ui/react-icons':
         specifier: ^1.3.0
@@ -186,17 +197,6 @@ importers:
       typescript:
         specifier: ^5.3.3
         version: 5.3.3
-
-  packages/tailwind-config:
-    devDependencies:
-      '@repo/typescript-config':
-        specifier: workspace:*
-        version: link:../typescript-config
-      tailwindcss:
-        specifier: ^3.4.1
-        version: 3.4.1
-
-  packages/typescript-config: {}
 
 packages:
 
