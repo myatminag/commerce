@@ -34,11 +34,24 @@ module.exports = {
     },
   },
   ignorePatterns: ['node_modules/', 'dist/', '.eslintrc.js', '**/*.css'],
-  // add rules configurations here
+  /**
+   * Add rules configurations here
+   *
+   * Value => 0, Severity Level => off
+   * Value => 1, Severity Level => warn
+   * Value => 2, Severity Level => error
+   */
   rules: {
     'import/no-default-export': 'off',
     'import/no-extraneous-dependencies': 'off',
     'import/order': 'off',
+    'react/jsx-sort-props': [
+      2,
+      {
+        ignoreCase: true,
+        noSortAlphabetically: true,
+      },
+    ],
     'react/function-component-definition': [
       2,
       {
@@ -46,15 +59,22 @@ module.exports = {
         unnamedComponents: 'arrow-function',
       },
     ],
+    'react/self-closing-comp': 'off',
     'unicorn/filename-case': [
       'error',
       {
         cases: {
           camelCase: true,
+          kebabCase: true,
         },
       },
     ],
     '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/no-empty-interface': 'off',
+    '@typescript-eslint/consistent-type-imports': 'off',
+    '@typescript-eslint/no-confusing-void-expression': 'off',
+    '@typescript-eslint/no-unnecessary-condition': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
   },
   overrides: [
     {

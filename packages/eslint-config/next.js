@@ -38,9 +38,41 @@ module.exports = {
     },
   },
   ignorePatterns: ['node_modules/', 'dist/'],
-  // add rules configurations here
+  /**
+   * Add rules configurations here
+   *
+   * Value => 0, Severity Level => off
+   * Value => 1, Severity Level => warn
+   * Value => 2, Severity Level => error
+   */
   rules: {
+    '@typescript-eslint/explicit-function-return-type': 'off',
     'import/no-default-export': 'off',
     'no-console': 'warn',
+    'import/order': [
+      2,
+      {
+        groups: [
+          ['builtin', 'external'], // Built-in types are first
+          'internal',
+          ['parent', 'sibling', 'index'],
+        ],
+        'newlines-between': 'off',
+      },
+    ],
+    'react/jsx-sort-props': [
+      2,
+      {
+        ignoreCase: true,
+        noSortAlphabetically: true,
+      },
+    ],
+    'react/function-component-definition': [
+      2,
+      {
+        namedComponents: ['arrow-function', 'function-declaration'],
+        unnamedComponents: 'arrow-function',
+      },
+    ],
   },
 };
