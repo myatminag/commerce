@@ -6,8 +6,8 @@
   ],
   "exports": {
     "./style.css": "./src/style.css",
-    "./lib/*": "./src/lib/*.ts",
-    "./p": "./src/components/p.tsx"
+    "./libs/*": "./src/libs/*.ts",
+    "./components/*": "./src/components/*.tsx"
   },
   "license": "MIT",
   "scripts": {

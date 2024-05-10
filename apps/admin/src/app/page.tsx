@@ -1,4 +1,4 @@
-import Para from '@repo/shared/p';
+import { Button } from '@repo/shared/components/button';
 
 export default function Page(): JSX.Element {
   return (
@@ -6,7 +6,7 @@ export default function Page(): JSX.Element {
       <p className="text-primary-100 mt-10 text-center text-3xl font-semibold">
         Turbo Admin
       </p>
-      <Para />
+      <Button variant="default">Click Me</Button>
     </div>
   );
 }

@@ -46,6 +46,14 @@ module.exports = {
         unnamedComponents: 'arrow-function',
       },
     ],
+    'unicorn/filename-case': [
+      'error',
+      {
+        cases: {
+          camelCase: true,
+        },
+      },
+    ],
     '@typescript-eslint/explicit-function-return-type': 'off',
   },
   overrides: [
