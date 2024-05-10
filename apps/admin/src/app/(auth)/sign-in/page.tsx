@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 import SignInForm from './components/sign-in-form';
 
@@ -8,7 +9,6 @@ export const metadata: Metadata = {
 };
 
 const Page = () => {
-  return null;
   return (
     <div className="container relative hidden min-h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
       <div className="bg-muted relative hidden h-full flex-col p-10 text-white lg:flex dark:border-r">
@@ -49,7 +49,9 @@ const Page = () => {
               Enter your email below to access your dashboard
             </p>
           </div>
-          <SignInForm />
+          <Suspense>
+            <SignInForm />
+          </Suspense>
           <p className="text-muted-foreground px-8 text-center text-sm">
             By clicking continue, you agree to our{' '}
             <Link
