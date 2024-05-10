@@ -1,9 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
-import { cn } from '@repo/ui/libs/utils';
-import { buttonVariants } from '@repo/ui/components/button';
-
 import SignInForm from './components/sign-in-form';
 
 export const metadata: Metadata = {
