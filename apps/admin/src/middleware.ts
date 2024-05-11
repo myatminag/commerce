@@ -9,7 +9,7 @@ export default withAuth(
     const isAuthorized = !!token;
     const pathname = req.nextUrl.pathname;
 
-    if (pathname === '/sign-in') {
+    if (pathname.startsWith('/sign-in')) {
       if (isAuthorized) {
         return NextResponse.redirect(new URL('/', req.url));
       }

@@ -4,6 +4,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import { useRecoverPassword } from '@apis/auth/recover-password';
 
+import { useToast } from '@repo/ui/components/toast/use-toast';
+
 const schema = z.object({
   email: z
     .string()
@@ -14,6 +16,8 @@ const schema = z.object({
 type SchemaType = z.infer<typeof schema>;
 
 export const useForgotPassword = () => {
+  const { toast } = useToast();
+
   const {
     formState: { errors },
     register,
@@ -28,8 +32,20 @@ export const useForgotPassword = () => {
     return mutate(
       { email: data.email },
       {
-        onSuccess: () => {},
-        onError: () => {},
+        onSuccess: (res) => {
+          toast({
+            title: 'Request Password Reset Successful.',
+            description: res.message,
+            variant: 'success',
+          });
+        },
+        onError: (err: any) => {
+          toast({
+            title: err.response.data.error,
+            description: err.response.data.message,
+            variant: 'destructive',
+          });
+        },
       },
     );
   };

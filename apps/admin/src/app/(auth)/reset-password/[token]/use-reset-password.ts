@@ -5,6 +5,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import { useSetNewPassword } from '@apis/auth/reset-password';
 
+import { useToast } from '@repo/ui/components/toast/use-toast';
+
 const schema = z
   .object({
     password: z
@@ -30,7 +32,10 @@ type SchemaType = z.infer<typeof schema>;
 export const useResetPassword = () => {
   const router = useRouter();
   const pathname = usePathname();
+
   const sessionToken = pathname.split('/')[2];
+
+  const { toast } = useToast();
 
   const {
     formState: { errors },
@@ -50,10 +55,22 @@ export const useResetPassword = () => {
         password: data.password,
       },
       {
-        onSuccess: () => {
+        onSuccess: (res) => {
           router.replace('/');
+          console.log(res);
+          toast({
+            title: 'Access Restored! Password Has Been Reset.',
+            description: `${res.data.message}. Sign in now with your new credentials.`,
+            variant: 'success',
+          });
         },
-        onError: () => {},
+        onError: (err: any) => {
+          toast({
+            title: err.response.data.error,
+            description: err.response.data.message,
+            variant: 'destructive',
+          });
+        },
       },
     );
   };

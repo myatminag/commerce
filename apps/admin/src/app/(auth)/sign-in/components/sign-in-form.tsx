@@ -10,7 +10,8 @@ import { PasswordInput } from '@repo/ui/components/inputs/password-input';
 import { useSignIn } from '../use-sign-in';
 
 const SignInForm = () => {
-  const { errors, register, handleSignIn, handleSubmit } = useSignIn();
+  const { isPending, errors, register, handleSignIn, handleSubmit } =
+    useSignIn();
 
   return (
     <div className="grid gap-6">
@@ -23,12 +24,14 @@ const SignInForm = () => {
           label="Email"
           placeholder="Enter your email address"
           {...register('email')}
+          disabled={isPending}
           errors={errors.email?.message}
         />
         <PasswordInput
           label="Password"
           placeholder="Enter your password"
           {...register('password')}
+          disabled={isPending}
           errors={errors.password?.message}
         />
         <div className="flex items-center justify-between">
@@ -48,7 +51,7 @@ const SignInForm = () => {
             Forgot Password?
           </Link>
         </div>
-        <Button>Sign In</Button>
+        <Button disabled={isPending}>Sign In</Button>
       </form>
     </div>
   );

@@ -67,6 +67,9 @@ const config: Omit<Config, 'theme' | 'plugins'> = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
+        success: {
+          DEFAULT: '#5BBC2D',
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',

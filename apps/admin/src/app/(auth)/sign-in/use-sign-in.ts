@@ -5,6 +5,8 @@ import { signIn } from 'next-auth/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
+import { useToast } from '@repo/ui/components/toast/use-toast';
+
 const schema = z.object({
   email: z
     .string()
@@ -26,6 +28,8 @@ export const useSignIn = () => {
 
   const [isPending, startTransition] = useTransition();
 
+  const { toast } = useToast();
+
   const {
     formState: { errors },
     handleSubmit,
@@ -45,13 +49,21 @@ export const useSignIn = () => {
         });
 
         if (res?.error) {
-          console.log('err', res?.error);
-          res.error;
+          toast({
+            title: 'Whoops! Something Went Wrong.',
+            description:
+              'Unable to sign in. Please double-check your credentials, and try again.',
+            variant: 'destructive',
+          });
         } else {
           router.replace('/');
         }
       } catch (err) {
-        console.log('err', err);
+        toast({
+          title: 'Our server just broke up!',
+          description: "We're working on fixing the problem. Be back soon.",
+          variant: 'destructive',
+        });
       }
     });
   };

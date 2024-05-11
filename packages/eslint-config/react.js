@@ -60,6 +60,7 @@ module.exports = {
       },
     ],
     'react/self-closing-comp': 'off',
+    'react/jsx-no-leaked-render': 'off',
     'unicorn/filename-case': [
       'error',
       {
@@ -75,6 +76,8 @@ module.exports = {
     '@typescript-eslint/no-confusing-void-expression': 'off',
     '@typescript-eslint/no-unnecessary-condition': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-unsafe-assignment': 'off',
+    '@typescript-eslint/no-shadow': 'off',
   },
   overrides: [
     {
