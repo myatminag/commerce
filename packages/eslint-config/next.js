@@ -74,5 +74,12 @@ module.exports = {
         unnamedComponents: 'arrow-function',
       },
     ],
+    'react/jsx-key': [
+      2,
+      {
+        warnOnDuplicates: true,
+        checkFragmentShorthand: true,
+      },
+    ],
   },
 };

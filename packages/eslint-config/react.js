@@ -61,6 +61,13 @@ module.exports = {
     ],
     'react/self-closing-comp': 'off',
     'react/jsx-no-leaked-render': 'off',
+    'react/jsx-key': [
+      2,
+      {
+        warnOnDuplicates: true,
+        checkFragmentShorthand: true,
+      },
+    ],
     'unicorn/filename-case': [
       'error',
       {
