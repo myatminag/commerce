@@ -185,7 +185,7 @@ const column: ColumnDef<Product>[] = [
   },
   {
     id: 'actions',
-    cell: ({ row }) => <Actions />,
+    cell: () => <Actions />,
   },
 ];
 

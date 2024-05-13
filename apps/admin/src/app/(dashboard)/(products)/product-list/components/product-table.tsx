@@ -1,12 +1,18 @@
 'use client';
 
+import { Suspense } from 'react';
+
 import { DataTable } from '@repo/ui/components/table/data-table';
 
-import { products } from '@data/product';
 import column from './column';
 import Filter from './filter';
+import { useProducts } from '../use-products';
 
 const ProductTable = () => {
+  const { isLoading, isError, data } = useProducts();
+
+  if (isError) return null;
+
   return (
     <>
       <div className="space-y-2">
@@ -15,7 +21,13 @@ const ProductTable = () => {
 
       <Filter />
 
-      <DataTable data={products} columns={column} />
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : data && data?.items.length > 0 ? (
+        <DataTable data={data?.items} columns={column} />
+      ) : (
+        <p>No Results found</p>
+      )}
     </>
   );
 };

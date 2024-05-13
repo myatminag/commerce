@@ -15,6 +15,6 @@ export const ColumnHeader = <TData, TValue>({
   className,
 }: ColumnHeaderProps<TData, TValue>) => {
   if (!column.getCanSort()) {
-    return <div className={cn(className)}>{title}</div>;
+    return <p className={cn(className)}>{title}</p>;
   }
 };

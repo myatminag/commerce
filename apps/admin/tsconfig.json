@@ -5,8 +5,7 @@
     "paths": {
       "@apis/*": ["./src/apis/*"],
       "@components/*": ["./src/components/*"],
-      "@constants/*": ["./src/constants/*"],
-      "@data/*": ["./src/data/*"]
+      "@constants/*": ["./src/constants/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

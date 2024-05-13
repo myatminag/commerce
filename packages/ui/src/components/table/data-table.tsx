@@ -31,6 +31,8 @@ export const DataTable = <TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
   });
 
+  // console.log('data', data);
+
   return (
     <div className="space-y-4">
       <div className="rounded-md border">
