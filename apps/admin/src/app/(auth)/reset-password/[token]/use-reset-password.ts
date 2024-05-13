@@ -57,7 +57,6 @@ export const useResetPassword = () => {
       {
         onSuccess: (res) => {
           router.replace('/');
-          console.log(res);
           toast({
             title: 'Access Restored! Password Has Been Reset.',
             description: `${res.data.message}. Sign in now with your new credentials.`,

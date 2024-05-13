@@ -1,6 +1,6 @@
 export const ProductLinks = [
-  { id: 1, name: 'New Product', path: '/new-product' },
-  { id: 2, name: 'Product List', path: '/product-list' },
+  { id: 1, name: 'Product List', path: '/product-list' },
+  { id: 2, name: 'New Product', path: '/new-product' },
 ];
 
 export const MarketingLinks = [

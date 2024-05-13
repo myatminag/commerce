@@ -4,12 +4,13 @@ import { Label } from './label';
 import { cn } from '../../libs/utils';
 import { VisibleIcon, InvisibleIcon } from '../../icons/auth-icons';
 
-export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface PasswordInputProps
+  extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   errors?: string | undefined;
 }
 
-const PasswordInput = forwardRef<HTMLInputElement, InputProps>(
+const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
   ({ label, className, id, errors, ...props }, ref) => {
     const [isVisible, setIsVisible] = useState<boolean>();
 
