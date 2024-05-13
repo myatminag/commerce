@@ -19,7 +19,9 @@ const ProductTable = () => {
         <h2 className="text-heading font-semibold">Product List (1,311)</h2>
       </div>
 
-      <Filter />
+      <Suspense>
+        <Filter />
+      </Suspense>
 
       {isLoading ? (
         <p>Loading...</p>
