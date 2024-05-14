@@ -1,5 +1,3 @@
-import { Row } from '@tanstack/react-table';
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,12 +22,6 @@ const Actions = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
         <DropdownMenuItem>Edit</DropdownMenuItem>
-        <DropdownMenuItem className="text-success focus:text-success">
-          Publish
-        </DropdownMenuItem>
-        <DropdownMenuItem className="text-primary-100 focus:text-primary-100">
-          Draft
-        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="text-primary-100 focus:text-primary-100">
           Delete

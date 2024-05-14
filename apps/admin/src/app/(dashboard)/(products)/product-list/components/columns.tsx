@@ -36,43 +36,53 @@ export const productSchema = z.object({
 
 type Product = z.infer<typeof productSchema>;
 
-const column: ColumnDef<Product>[] = [
+const columns: ColumnDef<Product>[] = [
   {
     id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && 'indeterminate')
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-        className="translate-y-[2px]"
-      />
-    ),
-    cell: ({ row }) => (
-      <div className="flex translate-y-[2px] items-center gap-x-4">
+    header: ({ table }) => {
+      return (
         <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && 'indeterminate')
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+          className="translate-y-[2px]"
         />
-        <button>
-          <PopularIcon className="size-5" />
-        </button>
-      </div>
-    ),
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <div className="flex translate-y-[2px] items-center gap-x-4">
+          <Checkbox
+            checked={row.getIsSelected()}
+            onCheckedChange={(value) => row.toggleSelected(!!value)}
+            aria-label="Select row"
+          />
+          <button>
+            <PopularIcon className="size-5" />
+          </button>
+        </div>
+      );
+    },
     enableSorting: false,
     enableHiding: false,
   },
   {
     accessorKey: 'name',
-    header: ({ column }) => (
-      <ColumnHeader column={column} title="Product" className="text-base" />
-    ),
+    header: ({ column }) => {
+      return (
+        <ColumnHeader
+          column={column}
+          title="Product"
+          className="text-base text-neutral-500"
+        />
+      );
+    },
     cell: ({ row }) => {
       return (
-        <div className="flex space-x-2">
+        <div className="flex gap-x-3">
           <Image
             width={100}
             height={100}
@@ -81,7 +91,9 @@ const column: ColumnDef<Product>[] = [
             alt="Image Description"
           />
           <div className="max-w-[500px]">
-            <span className="truncate text-base">{row.getValue('name')}</span>
+            <span className="truncate text-base text-neutral-800">
+              {row.getValue('name')}
+            </span>
             <p className="text-sm text-neutral-500">2 Variants</p>
           </div>
         </div>
@@ -92,13 +104,19 @@ const column: ColumnDef<Product>[] = [
   },
   {
     accessorKey: 'category.name',
-    header: ({ column }) => (
-      <ColumnHeader column={column} title="Category" className="text-base" />
-    ),
+    header: ({ column }) => {
+      return (
+        <ColumnHeader
+          column={column}
+          title="Category"
+          className="text-base text-neutral-500"
+        />
+      );
+    },
     cell: ({ row }) => {
       return (
         <div className="flex max-w-[200px] space-x-2">
-          <span className="truncate text-base">
+          <span className="truncate text-base text-neutral-800">
             {row.original.category.name}
           </span>
         </div>
@@ -109,13 +127,19 @@ const column: ColumnDef<Product>[] = [
   },
   {
     accessorKey: 'sku',
-    header: ({ column }) => (
-      <ColumnHeader column={column} title="Sku" className="text-base" />
-    ),
+    header: ({ column }) => {
+      return (
+        <ColumnHeader
+          column={column}
+          title="Sku"
+          className="text-base text-neutral-500"
+        />
+      );
+    },
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate text-base">
+          <span className="max-w-[500px] truncate text-base text-neutral-800">
             {row.getValue('sku')}
           </span>
         </div>
@@ -126,9 +150,15 @@ const column: ColumnDef<Product>[] = [
   },
   {
     accessorKey: 'isAvailable',
-    header: ({ column }) => (
-      <ColumnHeader column={column} title="Status" className="text-base" />
-    ),
+    header: ({ column }) => {
+      return (
+        <ColumnHeader
+          column={column}
+          title="Status"
+          className="text-base text-neutral-500"
+        />
+      );
+    },
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2">
@@ -151,13 +181,19 @@ const column: ColumnDef<Product>[] = [
   },
   {
     accessorKey: 'qty',
-    header: ({ column }) => (
-      <ColumnHeader column={column} title="Stock" className="text-base" />
-    ),
+    header: ({ column }) => {
+      return (
+        <ColumnHeader
+          column={column}
+          title="Stock"
+          className="text-base text-neutral-500"
+        />
+      );
+    },
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate text-base">
+          <span className="max-w-[500px] truncate text-base text-neutral-800">
             {row.getValue('qty')}
           </span>
         </div>
@@ -168,13 +204,19 @@ const column: ColumnDef<Product>[] = [
   },
   {
     accessorKey: 'price',
-    header: ({ column }) => (
-      <ColumnHeader column={column} title="Price" className="text-base" />
-    ),
+    header: ({ column }) => {
+      return (
+        <ColumnHeader
+          column={column}
+          title="Price"
+          className="text-base text-neutral-500"
+        />
+      );
+    },
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate text-base font-medium">
+          <span className="max-w-[500px] truncate text-base text-neutral-800">
             {row.getValue('price')} Ks
           </span>
         </div>
@@ -189,4 +231,4 @@ const column: ColumnDef<Product>[] = [
   },
 ];
 
-export default column;
+export default columns;

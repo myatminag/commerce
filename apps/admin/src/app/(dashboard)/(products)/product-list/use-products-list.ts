@@ -1,16 +1,16 @@
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
 
-import { useProductList } from '@apis/product/product-list';
+import { useProducts } from '@apis/product/product';
 
-export const useProducts = () => {
+export const useProductList = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const query = searchParams.get('q');
 
-  const { isLoading, isError, data } = useProductList({
+  const { isLoading, isError, data } = useProducts({
     name: query,
     offset: 0,
     limit: 10,

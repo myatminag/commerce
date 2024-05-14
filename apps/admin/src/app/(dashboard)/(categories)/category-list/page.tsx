@@ -1,17 +1,17 @@
 import { Metadata } from 'next';
 import { Suspense } from 'react';
 
-import ProductTable from './components/product-table';
+import CategoryTable from './components/category-table';
 
 export const metadata: Metadata = {
-  title: 'Products',
+  title: 'Categories',
 };
 
 const Page = () => {
   return (
     <div className="hidden h-full flex-1 flex-col space-y-4 p-6 lg:flex">
       <Suspense>
-        <ProductTable />
+        <CategoryTable />
       </Suspense>
     </div>
   );
