@@ -61,14 +61,13 @@ const TableRow = forwardRef<
 >(({ className, ...props }, ref) => (
   <tr
     ref={ref}
-    className={cn(
-      'hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors',
-      className,
-    )}
+    className={cn('hover:bg-muted/50 border-b transition-colors', className)}
     {...props}
   />
 ));
 TableRow.displayName = 'TableRow';
+
+// data-[state=selected]:bg-muted
 
 const TableHead = forwardRef<
   HTMLTableCellElement,

@@ -69,7 +69,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
 
       <SideNav />
 
-      <main className="min-h-screen w-full lg:ps-64">
+      <main className="min-h-screen w-full bg-gray-100 lg:ps-64">
         <header className="z-50 flex w-full flex-wrap border-b bg-white py-2.5 text-sm shadow-sm sm:flex-nowrap sm:justify-start lg:sticky lg:top-0 lg:py-4">
           <nav
             className="mx-auto flex w-full max-w-7xl basis-full items-center justify-between px-4 lg:px-6"
