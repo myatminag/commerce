@@ -23,7 +23,9 @@ const ForgotPasswordForm = () => {
           errors={errors?.email?.message}
           {...register('email')}
         />
-        <Button disabled={isPending}>Recover password</Button>
+        <Button disabled={isPending} className="bg-primary-100">
+          Recover password
+        </Button>
       </form>
     </div>
   );

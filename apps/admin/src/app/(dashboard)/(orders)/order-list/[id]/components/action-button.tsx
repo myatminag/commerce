@@ -6,6 +6,7 @@ import {
   DialogClose,
   DialogContent,
   DialogHeader,
+  DialogTitle,
 } from '@repo/ui/components/dialog';
 
 import { Button } from '@repo/ui/components/button';
@@ -23,7 +24,7 @@ const ActionButton = () => {
           </DialogTrigger>
           <DialogContent className="max-w-sm">
             <DialogHeader className="text-heading border-b font-medium text-neutral-800">
-              Delete Order
+              <DialogTitle>Delete Order</DialogTitle>
             </DialogHeader>
             <p className="px-6 text-center text-base text-neutral-800">
               Are you sure you want to delete this order? This action can not be

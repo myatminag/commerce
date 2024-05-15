@@ -29,7 +29,9 @@ const ResetPasswordForm = () => {
           errors={errors?.cpassword?.message}
           {...register('cpassword')}
         />
-        <Button disabled={isPending}>Reset Password</Button>
+        <Button disabled={isPending} className="bg-primary-100">
+          Reset Password
+        </Button>
       </form>
     </div>
   );
