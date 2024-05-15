@@ -27,11 +27,11 @@ const AssociatedBrands = () => {
             </div>
           </div>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className="max-w-md">
           <DialogHeader className="border-b">
             <DialogTitle>Select associated brands</DialogTitle>
           </DialogHeader>
-          <ul className="h-96 space-y-4 overflow-x-hidden overflow-y-scroll px-6 py-2">
+          <ul className="h-80 space-y-4 overflow-x-hidden overflow-y-scroll px-4 py-2">
             <SearchInput placeholder="Search brands..." />
             {[...Array(10)].map((i) => (
               <li
@@ -50,9 +50,13 @@ const AssociatedBrands = () => {
               </li>
             ))}
           </ul>
-          <div className="flex items-center gap-x-3 px-6 pb-6">
+          <div className="flex items-center gap-x-3 px-4 pb-4">
             <DialogClose asChild>
-              <Button type="button" variant="outline" className="w-full">
+              <Button
+                type="button"
+                variant="outline"
+                className="text-primary-100 w-full bg-[#FAE9EA]"
+              >
                 Close
               </Button>
             </DialogClose>

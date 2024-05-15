@@ -26,11 +26,11 @@ const SubCategories = () => {
             </div>
           </div>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className="max-w-md">
           <DialogHeader className="border-b">
             <DialogTitle>Add new sub category</DialogTitle>
           </DialogHeader>
-          <form className="space-y-3 px-6 py-3">
+          <form className="space-y-3 px-4">
             <div className="relative z-30 m-1 mx-auto h-24 w-24 overflow-hidden rounded-full border-4 border-solid border-white bg-[#FAE9EA]">
               <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 ">
                 <CameraIcon className="text-primary-100 h-10 w-10" />
@@ -48,9 +48,13 @@ const SubCategories = () => {
               rows={5}
             />
           </form>
-          <div className="flex items-center gap-x-3 px-6 pb-6">
+          <div className="flex items-center gap-x-3 px-4 pb-4">
             <DialogClose asChild>
-              <Button type="button" variant="outline" className="w-full">
+              <Button
+                type="button"
+                variant="outline"
+                className="text-primary-100 w-full bg-[#FAE9EA]"
+              >
                 Close
               </Button>
             </DialogClose>

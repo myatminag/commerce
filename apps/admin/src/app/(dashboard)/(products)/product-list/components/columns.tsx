@@ -140,7 +140,7 @@ const columns: ColumnDef<Product>[] = [
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate text-base text-neutral-800">
-            {row.getValue('sku')}
+            000345671
           </span>
         </div>
       );
@@ -217,7 +217,30 @@ const columns: ColumnDef<Product>[] = [
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate text-base text-neutral-800">
-            {row.getValue('price')} Ks
+            12,134,500 Ks
+          </span>
+        </div>
+      );
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: 'modified-on',
+    header: ({ column }) => {
+      return (
+        <ColumnHeader
+          column={column}
+          title="Last Modified On"
+          className="text-base text-neutral-500"
+        />
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <div className="flex space-x-2">
+          <span className="max-w-[500px] truncate text-base text-neutral-800">
+            21 Feb 2024, 8:43 pm
           </span>
         </div>
       );

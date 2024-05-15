@@ -33,6 +33,7 @@ const config: Omit<Config, 'theme' | 'plugins'> = {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
           100: '#FF3951',
+          200: '#FAE9EA',
         },
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',

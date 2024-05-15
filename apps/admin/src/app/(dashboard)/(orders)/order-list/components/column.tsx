@@ -1,4 +1,5 @@
 import * as z from 'zod';
+import Link from 'next/link';
 import Image from 'next/image';
 import { ColumnDef } from '@tanstack/react-table';
 
@@ -38,19 +39,47 @@ export const columns: ColumnDef<Category>[] = [
     },
   },
   {
-    accessorKey: 'name',
+    accessorKey: 'order-id',
     header: ({ column }) => {
       return (
         <ColumnHeader
           column={column}
-          title="Name"
+          title="Order ID"
           className="text-base text-neutral-500"
         />
       );
     },
     cell: ({ row }) => {
       return (
-        <div className="flex max-w-[500px] items-center gap-x-3">
+        <div className="flex max-w-[100px] items-center gap-x-3">
+          <div className="flex space-x-2">
+            <Link
+              href="/order-list/7583100"
+              className="text-base text-neutral-800 hover:underline"
+            >
+              #7583100
+            </Link>
+          </div>
+        </div>
+      );
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: 'customer',
+    header: ({ column }) => {
+      return (
+        <ColumnHeader
+          column={column}
+          title="Customer"
+          className="text-base text-neutral-500"
+        />
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <div className="flex max-w-[300px] items-center gap-x-3">
           <Image
             width={100}
             height={100}
@@ -60,9 +89,9 @@ export const columns: ColumnDef<Category>[] = [
           />
           <div className="">
             <span className="truncate text-base text-neutral-800">
-              {row.getValue('name')}
+              Mathew Gustaffson
             </span>
-            <p className="text-sm text-neutral-500">2 sub categories</p>
+            <p className="text-sm text-neutral-500">09987654321</p>
           </div>
         </div>
       );
@@ -71,12 +100,12 @@ export const columns: ColumnDef<Category>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'description',
+    accessorKey: 'items',
     header: ({ column }) => {
       return (
         <ColumnHeader
           column={column}
-          title="Description"
+          title="Items"
           className="text-base text-neutral-500"
         />
       );
@@ -84,8 +113,8 @@ export const columns: ColumnDef<Category>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate text-base text-neutral-800">
-            Clothing for men, women, and children
+          <span className="max-w-[300px] text-base text-neutral-800">
+            3 Items
           </span>
         </div>
       );
@@ -94,12 +123,12 @@ export const columns: ColumnDef<Category>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'brand',
+    accessorKey: 'price',
     header: ({ column }) => {
       return (
         <ColumnHeader
           column={column}
-          title="Brand"
+          title="Total"
           className="text-base text-neutral-500"
         />
       );
@@ -107,8 +136,8 @@ export const columns: ColumnDef<Category>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2">
-          <span className="max-w-[100px] truncate text-base text-neutral-800">
-            3 Brands
+          <span className="max-w-[300px] text-base text-neutral-800">
+            40,500 Ks
           </span>
         </div>
       );
@@ -117,12 +146,12 @@ export const columns: ColumnDef<Category>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'product',
+    accessorKey: 'status',
     header: ({ column }) => {
       return (
         <ColumnHeader
           column={column}
-          title="Products"
+          title="Order Status"
           className="text-base text-neutral-500"
         />
       );
@@ -130,8 +159,8 @@ export const columns: ColumnDef<Category>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2">
-          <span className="max-w-[100px] truncate text-base text-neutral-800">
-            15 Products
+          <span className="text-success border-success inline-flex items-center gap-x-1 rounded-md border bg-teal-100 px-3 py-0.5 text-sm">
+            Success
           </span>
         </div>
       );
@@ -140,21 +169,46 @@ export const columns: ColumnDef<Category>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'created-at',
+    accessorKey: 'order-date',
     header: ({ column }) => {
       return (
         <ColumnHeader
           column={column}
-          title="Last Modified On"
+          title="Order Date"
           className="text-base text-neutral-500"
         />
       );
     },
     cell: ({ row }) => {
       return (
-        <span className="max-w-[200px] truncate text-base text-neutral-800">
-          21 Feb 2024, 8:43 pm
-        </span>
+        <div className="flex space-x-2">
+          <span className="truncate text-base text-neutral-800">
+            21 Feb 2024, 8:43 pm
+          </span>
+        </div>
+      );
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: 'status',
+    header: ({ column }) => {
+      return (
+        <ColumnHeader
+          column={column}
+          title="Payment"
+          className="text-base text-neutral-500"
+        />
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <div className="flex space-x-2">
+          <span className="text-success border-success inline-flex items-center gap-x-1 rounded-md border bg-teal-100 px-3 py-0.5 text-sm">
+            Success
+          </span>
+        </div>
       );
     },
     enableSorting: false,

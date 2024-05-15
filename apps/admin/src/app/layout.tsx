@@ -6,7 +6,9 @@ import { Inter } from 'next/font/google';
 import AppProvider from './provider';
 import { Toaster } from '@repo/ui/components/toast/toaster';
 
-const inter = Inter({ subsets: ['latin'] });
+const roboto = Inter({
+  subsets: ['latin'],
+});
 
 export const metadata: Metadata = {
   title: 'Capture Digital Admin',
@@ -20,7 +22,7 @@ export default function DashboardLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={roboto.className}>
         <AppProvider>
           {children}
           <Toaster />

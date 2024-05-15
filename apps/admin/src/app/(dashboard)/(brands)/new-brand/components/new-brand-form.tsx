@@ -49,7 +49,11 @@ const NewCategoryForm = () => {
           />
 
           <div className="flex items-center gap-x-3">
-            <Button type="button" variant="outline" className="w-full">
+            <Button
+              type="button"
+              variant="outline"
+              className="text-primary-100 w-full bg-[#FAE9EA]"
+            >
               Cancel
             </Button>
             <Button className="bg-primary-100 w-full">Save</Button>
