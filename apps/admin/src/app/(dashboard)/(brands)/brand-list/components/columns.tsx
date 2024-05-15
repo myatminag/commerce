@@ -6,6 +6,7 @@ import { Checkbox } from '@repo/ui/components/inputs/checkbox';
 import { ColumnHeader } from '@repo/ui/components/table/column-header';
 
 import Actions from './actions';
+import { PopularIcon } from '@components/icons/popular-icon';
 
 const categorySchema = z.object({});
 
@@ -29,11 +30,16 @@ export const columns: ColumnDef<Category>[] = [
     },
     cell: ({ row }) => {
       return (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
+        <div className="flex translate-y-[2px] items-center gap-x-4">
+          <Checkbox
+            checked={row.getIsSelected()}
+            onCheckedChange={(value) => row.toggleSelected(!!value)}
+            aria-label="Select row"
+          />
+          <button>
+            <PopularIcon className="size-5" />
+          </button>
+        </div>
       );
     },
   },
@@ -54,16 +60,13 @@ export const columns: ColumnDef<Category>[] = [
           <Image
             width={100}
             height={100}
-            className="size-[44px] flex-shrink-0 rounded-sm"
+            className="size-12 flex-shrink-0 rounded-full"
             src="https://images.unsplash.com/photo-1594032194509-0056023973b2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=320&h=320&q=80"
             alt="Image Description"
           />
-          <div className="">
-            <span className="truncate text-base text-neutral-800">
-              {row.getValue('name')}
-            </span>
-            <p className="text-sm text-neutral-500">2 sub categories</p>
-          </div>
+          <span className="truncate text-base text-neutral-800">
+            {row.getValue('name')}
+          </span>
         </div>
       );
     },
@@ -84,31 +87,9 @@ export const columns: ColumnDef<Category>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate text-base text-neutral-800">
-            Clothing for men, women, and children
-          </span>
-        </div>
-      );
-    },
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: 'brand',
-    header: ({ column }) => {
-      return (
-        <ColumnHeader
-          column={column}
-          title="Brand"
-          className="text-base text-neutral-500"
-        />
-      );
-    },
-    cell: ({ row }) => {
-      return (
-        <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate text-base text-neutral-800">
-            3 Brands
+          <span className="max-w-[500px] text-base text-neutral-800">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis,
+            alias qui distinctio architecto quas.
           </span>
         </div>
       );
@@ -130,7 +111,7 @@ export const columns: ColumnDef<Category>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate text-base text-neutral-800">
+          <span className="max-w-[150px] truncate text-base text-neutral-800">
             15 Products
           </span>
         </div>
@@ -145,7 +126,7 @@ export const columns: ColumnDef<Category>[] = [
       return (
         <ColumnHeader
           column={column}
-          title="Created At"
+          title="Modified On"
           className="text-base text-neutral-500"
         />
       );
@@ -153,7 +134,7 @@ export const columns: ColumnDef<Category>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate text-base text-neutral-800">
+          <span className="max-w-[150px] truncate text-base text-neutral-800">
             1st Jan, 2024
           </span>
         </div>
