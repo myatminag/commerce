@@ -29,7 +29,12 @@ const Pagination = <TData,>({ table }: PaginationProps<TData>) => {
         </div>
         <div className="flex items-center space-x-6 lg:space-x-8">
           <div className="flex items-center space-x-2">
-            <p className="text-base text-neutral-800">Rows per page</p>
+            <p
+              className="text-base text-neutral-500
+            "
+            >
+              Rows per page
+            </p>
             <Select
               value={`${table.getState().pagination.pageSize}`}
               onValueChange={(value) => {
@@ -50,7 +55,7 @@ const Pagination = <TData,>({ table }: PaginationProps<TData>) => {
               </SelectContent>
             </Select>
           </div>
-          <div className="flex w-[100px] items-center justify-center text-base text-neutral-800">
+          <div className="flex w-[100px] items-center justify-center text-base text-neutral-500">
             Page {table.getState().pagination.pageIndex + 1} of{' '}
             {table.getPageCount()}
           </div>

@@ -58,9 +58,12 @@ export const columns: ColumnDef<Category>[] = [
             src="https://images.unsplash.com/photo-1594032194509-0056023973b2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=320&h=320&q=80"
             alt="Image Description"
           />
-          <span className="truncate text-base text-neutral-800">
-            {row.getValue('name')}
-          </span>
+          <div className="">
+            <span className="truncate text-base text-neutral-800">
+              {row.getValue('name')}
+            </span>
+            <p className="text-sm text-neutral-500">2 sub categories</p>
+          </div>
         </div>
       );
     },
@@ -83,29 +86,6 @@ export const columns: ColumnDef<Category>[] = [
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate text-base text-neutral-800">
             Clothing for men, women, and children
-          </span>
-        </div>
-      );
-    },
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: 'subCategory',
-    header: ({ column }) => {
-      return (
-        <ColumnHeader
-          column={column}
-          title="Sub Category"
-          className="text-base text-neutral-500"
-        />
-      );
-    },
-    cell: ({ row }) => {
-      return (
-        <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate text-base text-neutral-800">
-            3 Sub Categories
           </span>
         </div>
       );

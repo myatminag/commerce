@@ -12,12 +12,7 @@ import {
 } from '@repo/ui/components/accordion';
 import { cn } from '@repo/ui/libs/utils';
 
-import {
-  MarketingLinks,
-  ProductLinks,
-  CategoryList,
-  BrandList,
-} from '@constants/links';
+import { MarketingLinks, CatalogLinks } from '@constants/links';
 
 import { NavLink } from './nav-link';
 import { ProductsIcon } from '../icons/product-icon';
@@ -56,45 +51,11 @@ export const SideNav = () => {
           <Accordion type="single" collapsible className="w-full space-y-3">
             <AccordionItem value="products">
               <AccordionTrigger className="flex w-full items-center gap-x-3.5 rounded-md px-2.5 py-2 text-base font-normal hover:bg-neutral-100">
-                <ProductsIcon className="[data-disabled] size-5 flex-shrink-0 text-neutral-700" />
-                Products
-              </AccordionTrigger>
-              <AccordionContent className="ps-2 pt-2">
-                {ProductLinks.map((product) => (
-                  <Link
-                    key={product.id}
-                    className="flex items-center gap-x-3.5 rounded-lg px-2.5 py-2 text-sm text-neutral-700 hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                    href={product.path}
-                  >
-                    {product.name}
-                  </Link>
-                ))}
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="categories">
-              <AccordionTrigger className="flex w-full items-center gap-x-3.5 rounded-md px-2.5 py-2 text-base font-normal hover:bg-neutral-100">
                 <CategoryIcon className="[data-disabled] size-5 flex-shrink-0 text-neutral-700" />
-                Categories
+                Catalog
               </AccordionTrigger>
               <AccordionContent className="ps-2 pt-2">
-                {CategoryList.map((product) => (
-                  <Link
-                    key={product.id}
-                    className="flex items-center gap-x-3.5 rounded-lg px-2.5 py-2 text-sm text-neutral-700 hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                    href={product.path}
-                  >
-                    {product.name}
-                  </Link>
-                ))}
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="brands">
-              <AccordionTrigger className="flex w-full items-center gap-x-3.5 rounded-md px-2.5 py-2 text-base font-normal hover:bg-neutral-100">
-                <BrandIcon className="[data-disabled] size-5 flex-shrink-0 text-neutral-700" />
-                Brands
-              </AccordionTrigger>
-              <AccordionContent className="ps-2 pt-2">
-                {BrandList.map((product) => (
+                {CatalogLinks.map((product) => (
                   <Link
                     key={product.id}
                     className="flex items-center gap-x-3.5 rounded-lg px-2.5 py-2 text-sm text-neutral-700 hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"

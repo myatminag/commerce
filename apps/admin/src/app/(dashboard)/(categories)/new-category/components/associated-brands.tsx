@@ -11,6 +11,7 @@ import {
 import { Button } from '@repo/ui/components/button';
 import { Label } from '@repo/ui/components/inputs/label';
 import { Checkbox } from '@repo/ui/components/inputs/checkbox';
+import { SearchInput } from '@repo/ui/components/inputs/search-input';
 
 import { CircleIcon } from '@components/icons/circle-icon';
 
@@ -30,7 +31,8 @@ const AssociatedBrands = () => {
           <DialogHeader className="border-b">
             <DialogTitle>Select associated brands</DialogTitle>
           </DialogHeader>
-          <ul className="h-80 space-y-4 overflow-x-hidden overflow-y-scroll px-6">
+          <ul className="h-96 space-y-4 overflow-x-hidden overflow-y-scroll px-6 py-2">
+            <SearchInput placeholder="Search brands..." />
             {[...Array(10)].map((i) => (
               <li
                 key={i}
