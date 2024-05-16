@@ -12,6 +12,20 @@ import SelectProducts from './select-products';
 const NewCategoryForm = () => {
   return (
     <div className="grid grid-cols-3 gap-6">
+      <div className="col-span-2 w-full rounded-md bg-white shadow-sm">
+        <p className="text-heading border-b border-gray-200 p-4 font-medium text-neutral-800">
+          Product Lists
+        </p>
+        <div className="mt-10 flex flex-col items-center">
+          <p className="text-heading text-neutral-800">
+            Start adding products in your category
+          </p>
+          <p className="text-base text-neutral-500">
+            Create a new category to display on your site.
+          </p>
+          <SelectProducts />
+        </div>
+      </div>
       <div className="col-span-1 w-full rounded-md bg-white shadow-sm">
         <p className="text-heading border-b border-gray-200 p-4 font-medium text-neutral-800">
           Category Info
@@ -65,20 +79,6 @@ const NewCategoryForm = () => {
             <Button className="bg-primary-100 w-full">Save</Button>
           </div>
         </form>
-      </div>
-      <div className="col-span-2 w-full rounded-md bg-white shadow-sm">
-        <p className="text-heading border-b border-gray-200 p-4 font-medium text-neutral-800">
-          Product Lists
-        </p>
-        <div className="mt-10 flex flex-col items-center">
-          <p className="text-heading text-neutral-800">
-            Start adding products in your category
-          </p>
-          <p className="text-base text-neutral-500">
-            Create a new category to display on your site.
-          </p>
-          <SelectProducts />
-        </div>
       </div>
     </div>
   );
