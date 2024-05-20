@@ -15,10 +15,8 @@ import { cn } from '@repo/ui/libs/utils';
 import { MarketingLinks, CatalogLinks } from '@constants/links';
 
 import { NavLink } from './nav-link';
-import { ProductsIcon } from '../icons/product-icon';
 import { DashboardIcon } from '../icons/dashboard-icon';
 import { CategoryIcon } from '../icons/category-icon';
-import { BrandIcon } from '../icons/brand-icon';
 import { MarketingIcon } from '../icons/marketing-icon';
 import { OrderIcon } from '../icons/order-icon';
 import { MemberPointIcon } from '../icons/member-point';
