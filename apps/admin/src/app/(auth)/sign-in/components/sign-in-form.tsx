@@ -22,6 +22,7 @@ const SignInForm = () => {
         <Input
           type="email"
           label="Email"
+          id="email"
           placeholder="Enter your email address"
           {...register('email')}
           disabled={isPending}
@@ -29,6 +30,7 @@ const SignInForm = () => {
         />
         <PasswordInput
           label="Password"
+          id="passowrd"
           placeholder="Enter your password"
           {...register('password')}
           disabled={isPending}
@@ -36,7 +38,7 @@ const SignInForm = () => {
         />
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <Checkbox id="terms2" disabled />
+            {/* <Checkbox id="terms2" disabled /> */}
             <label
               htmlFor="terms2"
               className="text-secondary-800 text-base leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"

@@ -18,13 +18,14 @@ const ForgotPasswordForm = () => {
         <Input
           type="email"
           label="Email"
+          id="email"
           placeholder="Enter your email address"
           disabled={isPending}
           errors={errors?.email?.message}
           {...register('email')}
         />
         <Button disabled={isPending} className="bg-primary-100">
-          Recover password
+          Recover Password
         </Button>
       </form>
     </div>
