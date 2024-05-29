@@ -1,6 +1,6 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import * as z from 'zod';
-import { useTransition } from 'react';
+import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -26,7 +26,7 @@ export const useSignIn = () => {
 
   const callbackUrl = searchParams.get('callbackUrl') || '/';
 
-  const [isPending, startTransition] = useTransition();
+  const [isLoading, setIsLoading] = useState(false);
 
   const { toast } = useToast();
 
@@ -38,38 +38,39 @@ export const useSignIn = () => {
     resolver: zodResolver(schema),
   });
 
-  const handleSignIn: SubmitHandler<SchemaType> = (data) => {
-    startTransition(async () => {
-      try {
-        const res = await signIn('credentials', {
-          email: data.email,
-          password: data.password,
-          callbackUrl,
-          redirect: false,
-        });
+  const handleSignIn: SubmitHandler<SchemaType> = async (data) => {
+    try {
+      const res = await signIn('credentials', {
+        email: data.email,
+        password: data.password,
+        callbackUrl,
+        redirect: false,
+      });
 
-        if (res?.error) {
-          toast({
-            title: 'Whoops! Something Went Wrong.',
-            description:
-              'Unable to sign in. Please double-check your credentials, and try again.',
-            variant: 'destructive',
-          });
-        } else {
-          router.replace('/');
-        }
-      } catch (err) {
+      setIsLoading(true);
+
+      if (res?.error) {
+        setIsLoading(false);
         toast({
-          title: 'Our server just broke up!',
-          description: "We're working on fixing the problem. Be back soon.",
+          title: 'Whoops! Something Went Wrong.',
+          description:
+            'Unable to sign in. Please double-check your credentials, and try again.',
           variant: 'destructive',
         });
+      } else {
+        router.replace('/');
       }
-    });
+    } catch (err) {
+      toast({
+        title: 'Our server just broke up!',
+        description: "We're working on fixing the problem. Be back soon.",
+        variant: 'destructive',
+      });
+    }
   };
 
   return {
-    isPending,
+    isLoading,
     errors,
     register,
     handleSubmit,

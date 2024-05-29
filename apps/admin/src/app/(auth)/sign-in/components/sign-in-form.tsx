@@ -10,7 +10,7 @@ import { PasswordInput } from '@repo/ui/components/inputs/password-input';
 import { useSignIn } from '../use-sign-in';
 
 const SignInForm = () => {
-  const { isPending, errors, register, handleSignIn, handleSubmit } =
+  const { isLoading, errors, register, handleSignIn, handleSubmit } =
     useSignIn();
 
   return (
@@ -25,7 +25,6 @@ const SignInForm = () => {
           id="email"
           placeholder="Enter your email address"
           {...register('email')}
-          disabled={isPending}
           errors={errors.email?.message}
         />
         <PasswordInput
@@ -33,7 +32,6 @@ const SignInForm = () => {
           id="passowrd"
           placeholder="Enter your password"
           {...register('password')}
-          disabled={isPending}
           errors={errors.password?.message}
         />
         <div className="flex items-center justify-between">
@@ -53,7 +51,7 @@ const SignInForm = () => {
             Forgot Password?
           </Link>
         </div>
-        <Button disabled={isPending} className="bg-primary-100">
+        <Button disabled={isLoading} className="bg-primary-100">
           Sign In
         </Button>
       </form>
