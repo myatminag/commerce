@@ -10,7 +10,7 @@ import { PasswordInput } from '@repo/ui/components/inputs/password-input';
 import { useSignIn } from '../use-sign-in';
 
 const SignInForm = () => {
-  const { isLoading, errors, register, handleSignIn, handleSubmit } =
+  const { isSubmitting, errors, register, handleSignIn, handleSubmit } =
     useSignIn();
 
   return (
@@ -51,7 +51,7 @@ const SignInForm = () => {
             Forgot Password?
           </Link>
         </div>
-        <Button disabled={isLoading} className="bg-primary-100">
+        <Button disabled={isSubmitting} className="bg-primary-100">
           Sign In
         </Button>
       </form>

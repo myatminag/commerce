@@ -1,6 +1,5 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import * as z from 'zod';
-import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -26,12 +25,10 @@ export const useSignIn = () => {
 
   const callbackUrl = searchParams.get('callbackUrl') || '/';
 
-  const [isLoading, setIsLoading] = useState(false);
-
   const { toast } = useToast();
 
   const {
-    formState: { errors },
+    formState: { errors, isSubmitting },
     handleSubmit,
     register,
   } = useForm<SchemaType>({
@@ -47,10 +44,7 @@ export const useSignIn = () => {
         redirect: false,
       });
 
-      setIsLoading(true);
-
       if (res?.error) {
-        setIsLoading(false);
         toast({
           title: 'Whoops! Something Went Wrong.',
           description:
@@ -70,7 +64,7 @@ export const useSignIn = () => {
   };
 
   return {
-    isLoading,
+    isSubmitting,
     errors,
     register,
     handleSubmit,
