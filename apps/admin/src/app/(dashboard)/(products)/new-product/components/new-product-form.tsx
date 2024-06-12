@@ -37,7 +37,7 @@ const NewProductForm = () => {
                   />
                   <div className="border-primary-200 mx-auto flex h-16 w-16 cursor-pointer items-center justify-center rounded-full border-2 border-dashed">
                     <div className="bg-primary-200 flex h-10 w-10 items-center justify-center rounded-full">
-                      <CircleIcon className="text-primary-100 h-5 w-5" />
+                      <CircleIcon className="text-primary h-5 w-5" />
                     </div>
                   </div>
                   <span className="mt-2 block text-base text-neutral-800">
@@ -114,10 +114,7 @@ const NewProductForm = () => {
                 placeholder="Eg: small, medium, large"
               />
 
-              <Button
-                className="bg-primary-100 ms-auto flex items-center gap-x-2"
-                size="sm"
-              >
+              <Button className="ms-auto flex items-center gap-x-2" size="sm">
                 <CircleIcon />
                 Add Options
               </Button>

@@ -9,7 +9,7 @@ const Filter = () => {
       <SearchInput placeholder="Search brands..." className="w-full lg:w-64" />
       <Link
         href="/new-brand"
-        className="bg-primary-100 flex items-center gap-x-2 rounded-sm px-4 py-2 text-base font-light text-neutral-100"
+        className="bg-primary flex items-center gap-x-2 rounded-sm px-4 py-2 text-base font-light text-neutral-100"
       >
         <CircleIcon className="size-4" />
         Add Brand

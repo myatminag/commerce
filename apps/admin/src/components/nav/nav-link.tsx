@@ -18,7 +18,7 @@ export const NavLink = ({ path, name, icon }: NavLinkProps) => {
       className={cn(
         'flex items-center gap-x-3.5 rounded-sm px-2.5 py-2 text-base text-neutral-700 hover:bg-gray-100',
         {
-          'text-primary-100': pathname === path,
+          'text-primary': pathname === path,
         },
       )}
       href={path}
