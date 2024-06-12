@@ -20,6 +20,7 @@ export const useForgotPassword = () => {
 
   const {
     formState: { errors },
+    reset,
     register,
     handleSubmit,
   } = useForm<SchemaType>({
@@ -38,6 +39,7 @@ export const useForgotPassword = () => {
             description: res.message,
             variant: 'success',
           });
+          reset();
         },
         onError: (err: any) => {
           toast({

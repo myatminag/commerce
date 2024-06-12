@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
-import { signInService } from '../../../../../apis/auth/sign-in';
+import { signInService } from '@apis/auth/sign-in';
 
 export const option: NextAuthOptions = {
   pages: {

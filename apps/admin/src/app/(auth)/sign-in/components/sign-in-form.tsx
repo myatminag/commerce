@@ -51,9 +51,7 @@ const SignInForm = () => {
             Forgot Password?
           </Link>
         </div>
-        <Button disabled={isSubmitting} className="bg-primary-100">
-          Sign In
-        </Button>
+        <Button disabled={isSubmitting}>Sign In</Button>
       </form>
     </div>
   );
