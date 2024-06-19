@@ -57,6 +57,9 @@ const config: Omit<Config, 'theme' | 'plugins'> = {
       borderRadius: {
         base: '6px',
       },
+      boxShadow: {
+        card: '0px 0px 16px 0px #BEE0DA80',
+      },
       keyframes: {
         'accordion-down': {
           from: { height: '0' },

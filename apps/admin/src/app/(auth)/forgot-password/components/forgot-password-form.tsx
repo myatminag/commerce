@@ -13,7 +13,7 @@ const ForgotPasswordForm = () => {
     <div className="grid gap-6">
       <form
         onSubmit={handleSubmit(handleForgotPassword)}
-        className="grid gap-2 space-y-3"
+        className="grid gap-2 space-y-4"
       >
         <Input
           type="email"
@@ -24,9 +24,7 @@ const ForgotPasswordForm = () => {
           errors={errors?.email?.message}
           {...register('email')}
         />
-        <Button disabled={isPending} className="bg-primary-100">
-          Recover Password
-        </Button>
+        <Button disabled={isPending}>Recover Password</Button>
       </form>
     </div>
   );
