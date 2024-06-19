@@ -13,7 +13,7 @@ const ResetPasswordForm = () => {
     <div className="grid gap-6">
       <form
         onSubmit={handleSubmit(handleResetPassword)}
-        className="grid gap-2 space-y-3"
+        className="grid gap-2 space-y-4"
       >
         <PasswordInput
           label="New Password"
@@ -29,9 +29,7 @@ const ResetPasswordForm = () => {
           errors={errors?.cpassword?.message}
           {...register('cpassword')}
         />
-        <Button disabled={isPending} className="bg-primary-100">
-          Reset Password
-        </Button>
+        <Button disabled={isPending}>Reset Password</Button>
       </form>
     </div>
   );

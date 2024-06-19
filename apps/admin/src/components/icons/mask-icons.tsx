@@ -97,3 +97,63 @@ export const MaskThreeIcon = (props: SVGProps<SVGSVGElement>) => {
     </svg>
   );
 };
+
+export const MaskFourIcon = (props: SVGProps<SVGSVGElement>) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="284"
+      height="532"
+      fill="none"
+      viewBox="0 0 284 532"
+      {...props}
+    >
+      <mask
+        id="mask0_262_600"
+        style={{ maskType: 'alpha' }}
+        width="195"
+        height="207"
+        x="-75"
+        y="-8"
+        maskUnits="userSpaceOnUse"
+      >
+        <path
+          fill="#928B8B"
+          fillOpacity="0.2"
+          fillRule="evenodd"
+          d="M6.342-7.78L106.74 29.393l13.111 101.67-81.688 67.289-47.192-18.936s2.686-33.832-11.968-51.884c-14.656-18.051-46.61-20.265-46.61-20.265l-6.504-48.782L6.342-7.78zm-65.735 66.377L23.17 88.824l67.985-55.509L6.486 2.19l-65.879 56.407zm-5.998 10.198c2.651 3.26 4.936 31.393 4.936 31.393s31.592 2.817 46.698 22.634c15.104 19.815 12.725 51.521 12.725 51.521l35.936 13.375-16.702-88.242S-68.04 65.53-65.39 68.795z"
+          clipRule="evenodd"
+        ></path>
+      </mask>
+      <g mask="url(#mask0_262_600)">
+        <path
+          fill="#158572"
+          fillOpacity="0.5"
+          d="M260.832 310.756H842.861V532.644H260.832z"
+          transform="rotate(-156.39 260.832 310.756)"
+        ></path>
+      </g>
+    </svg>
+  );
+};
+
+export const MaskFiveIcon = (props: SVGProps<SVGSVGElement>) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="97"
+      height="97"
+      fill="none"
+      viewBox="0 0 97 97"
+      {...props}
+    >
+      <path
+        fill="#158572"
+        fillOpacity="0.2"
+        fillRule="evenodd"
+        d="M.818 21.523l23.819 65.628 66.246 8.978 44.225-52.987-12.15-30.856s-22.074 1.61-33.784-8.022c-11.71-9.634-13.02-30.481-13.02-30.481L44.37-30.664.818 21.523zM44.38-21.065l19.365 53.969-36.485 44.1L7.32 21.66 44.38-21.065zm6.676-3.869c2.115 1.743 20.452 3.352 20.452 3.352S73.212-.97 86.072 8.965c12.858 9.933 33.544 8.515 33.544 8.515l8.572 23.49L70.712 29.71S48.94-26.675 51.056-24.934z"
+        clipRule="evenodd"
+      ></path>
+    </svg>
+  );
+};

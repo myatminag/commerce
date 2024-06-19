@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
-import Link from 'next/link';
 
 import ResetPasswordForm from './components/reset-password-form';
+import { MaskFiveIcon, MaskFourIcon } from '@components/icons/mask-icons';
 
 export const metadata: Metadata = {
   title: 'Reset password',
@@ -9,33 +9,22 @@ export const metadata: Metadata = {
 
 const Page = () => {
   return (
-    <div className="container relative hidden min-h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
-      <div className="bg-muted relative hidden h-full flex-col p-10 text-white lg:flex dark:border-r">
-        <div className="bg-primary-100 absolute inset-0" />
-      </div>
-      <div className="lg:p-8">
+    <div className="container relative grid min-h-screen place-content-center lg:max-w-none lg:px-0">
+      <div className="shadow-card lg:p-8">
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col space-y-2 text-center">
-            <h1 className="text-2xl font-semibold tracking-tight">
-              Set new password
+            <h1 className="text-primary-900 text-2xl font-semibold tracking-tight">
+              Reset password
             </h1>
-            <p className="text-secondary-500 text-sm">
+            <p className="text-primary-900 text-base font-light">
               This password should be different from the previous password.
             </p>
           </div>
           <ResetPasswordForm />
-          <p className="text-secondary-500 px-8 text-center text-base">
-            Remember your password?{' '}
-            <Link
-              href="/sign-in"
-              className="hover:text-secondary-800 underline underline-offset-4"
-            >
-              Sign in
-            </Link>
-            .
-          </p>
         </div>
       </div>
+      <MaskFourIcon className="absolute left-0 top-0" />
+      <MaskFiveIcon className="absolute right-0 top-0" />
     </div>
   );
 };
