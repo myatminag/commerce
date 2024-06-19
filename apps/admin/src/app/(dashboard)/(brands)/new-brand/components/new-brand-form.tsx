@@ -40,7 +40,7 @@ const NewCategoryForm = () => {
                 type="file"
                 className="sr-only"
               />
-              <CameraIcon className="text-primary-100 mx-auto size-10" />
+              <CameraIcon className="text-primary mx-auto size-10" />
               <span className="mt-2 block text-sm text-neutral-500">
                 Set the brand thumbnail image.
               </span>
@@ -48,7 +48,7 @@ const NewCategoryForm = () => {
             <div className="relative">
               <div className="relative z-30 m-1 mx-auto -mt-8 h-24 w-24 overflow-hidden rounded-full border-4 border-solid border-white bg-[#FAE9EA]">
                 <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 ">
-                  <CameraIcon className="text-primary-100 h-10 w-10" />
+                  <CameraIcon className="text-primary h-10 w-10" />
                 </div>
               </div>
             </div>
@@ -66,11 +66,11 @@ const NewCategoryForm = () => {
             <Button
               type="button"
               variant="outline"
-              className="text-primary-100 w-full bg-[#FAE9EA]"
+              className="text-primary w-full bg-[#FAE9EA]"
             >
               Cancel
             </Button>
-            <Button className="bg-primary-100 w-full">Save</Button>
+            <Button className="w-full">Save</Button>
           </div>
         </form>
       </div>

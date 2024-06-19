@@ -20,7 +20,7 @@ const SelectProducts = () => {
       <DialogTrigger>
         <div className="mt-4 flex h-16 w-16 cursor-pointer items-center justify-center rounded-full border-2 border-dashed border-gray-200">
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FAE9EA]">
-            <CircleIcon className="text-primary-100 h-5 w-5" />
+            <CircleIcon className="text-primary h-5 w-5" />
           </div>
         </div>
       </DialogTrigger>

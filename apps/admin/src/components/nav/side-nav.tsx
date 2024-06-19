@@ -40,7 +40,7 @@ export const SideNav = () => {
             icon={
               <DashboardIcon
                 className={cn('size-5 flex-shrink-0 text-neutral-700', {
-                  'text-primary-100': pathname === '/',
+                  'text-primary': pathname === '/',
                 })}
               />
             }
@@ -89,7 +89,7 @@ export const SideNav = () => {
             icon={
               <OrderIcon
                 className={cn('size-5 flex-shrink-0 text-neutral-700', {
-                  'text-primary-100': pathname === '/order-list',
+                  'text-primary': pathname === '/order-list',
                 })}
               />
             }
@@ -101,7 +101,7 @@ export const SideNav = () => {
             icon={
               <MemberPointIcon
                 className={cn('size-5 flex-shrink-0 text-neutral-700', {
-                  'text-primary-100': pathname === '/member-point',
+                  'text-primary': pathname === '/member-point',
                 })}
               />
             }
@@ -113,7 +113,7 @@ export const SideNav = () => {
             icon={
               <CustomerIcon
                 className={cn('size-5 flex-shrink-0 text-neutral-700', {
-                  'text-primary-100': pathname === '/customer-list',
+                  'text-primary': pathname === '/customer-list',
                 })}
               />
             }
@@ -127,7 +127,7 @@ export const SideNav = () => {
             icon={
               <PermissionIcon
                 className={cn('size-5 flex-shrink-0 text-neutral-700', {
-                  'text-primary-100': pathname === '/role-permission',
+                  'text-primary': pathname === '/role-permission',
                 })}
               />
             }
@@ -139,7 +139,7 @@ export const SideNav = () => {
             icon={
               <SettingIcon
                 className={cn('size-5 flex-shrink-0 text-neutral-700', {
-                  'text-primary-100': pathname === '/setting',
+                  'text-primary': pathname === '/setting',
                 })}
               />
             }
