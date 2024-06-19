@@ -51,10 +51,10 @@ const Page = () => {
       <div className="lg:p-8">
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col space-y-2 text-center">
-            <h1 className="text-2xl font-semibold tracking-tight">
+            <h1 className="text-primary-900 text-2xl font-semibold tracking-tight">
               Sign in to your account
             </h1>
-            <p className="text-muted-foreground text-sm">
+            <p className="text-800 text-base font-light">
               Enter your email below to access your dashboard
             </p>
           </div>
