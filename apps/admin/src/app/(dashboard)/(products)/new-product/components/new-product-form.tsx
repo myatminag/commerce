@@ -115,7 +115,7 @@ const NewProductForm = () => {
               />
 
               <Button className="ms-auto flex items-center gap-x-2" size="sm">
-                <CircleIcon />
+                <PlusIcon />
                 Add Options
               </Button>
             </div>
