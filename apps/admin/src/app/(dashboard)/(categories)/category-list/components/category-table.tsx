@@ -9,9 +9,12 @@ import Filter from './filter';
 const CategoryTable = () => {
   return (
     <>
-      <h2 className="text-heading font-semibold">Category List (32)</h2>
-
-      <Filter />
+      <div className="flex items-center">
+        <h2 className="text-primary-900 text-lg font-semibold">
+          Category <span className="font-normal">(32)</span>
+        </h2>
+        <Filter />
+      </div>
 
       <DataTable data={categories} columns={column} />
     </>

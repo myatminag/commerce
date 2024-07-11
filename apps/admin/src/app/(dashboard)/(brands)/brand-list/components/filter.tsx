@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import { SearchInput } from '@repo/ui/components/inputs/search-input';
-import { CircleIcon } from '@components/icons/circle-icon';
+import { PlusIcon } from '@components/icons/plus-icon';
 
 const Filter = () => {
   return (
@@ -11,7 +11,7 @@ const Filter = () => {
         href="/new-brand"
         className="bg-primary flex items-center gap-x-2 rounded-sm px-4 py-2 text-base font-light text-neutral-100"
       >
-        <CircleIcon className="size-4" />
+        <PlusIcon className="size-4" />
         Add Brand
       </Link>
     </div>

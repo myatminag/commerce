@@ -34,10 +34,10 @@ const config: Omit<Config, 'theme' | 'plugins'> = {
           300: '#54F4CE',
           400: '#22DFB9',
           500: '#09C3A0',
-          600: '#087D6A',
-          700: '#0C6357',
-          800: '#0F5248',
-          900: '#01322D',
+          700: '#087D6A',
+          800: '#0C6357',
+          900: '#0F5248',
+          950: '#01322D',
         },
         secondary: {
           100: '#F3F4F6',
@@ -49,9 +49,18 @@ const config: Omit<Config, 'theme' | 'plugins'> = {
           700: '#374151',
           800: '#1F2937',
           900: '#111827',
+          '950': '#123430CC',
         },
         success: {
           DEFAULT: '#5BBC2D',
+        },
+        border: {
+          DEFAULT: '#E1EEEC',
+          100: '#B4D3CE',
+        },
+        table: {
+          header: '#123430CC',
+          border: '#DBEAE7',
         },
       },
       borderRadius: {
@@ -59,6 +68,8 @@ const config: Omit<Config, 'theme' | 'plugins'> = {
       },
       boxShadow: {
         card: '0px 0px 16px 0px #BEE0DA80',
+        sm: '0px 0px 4px 0px #AF9D9D40',
+        'search-input': '0px 2.49px 2.49px 0px #0000000A',
       },
       keyframes: {
         'accordion-down': {

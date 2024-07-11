@@ -46,10 +46,7 @@ const TableFooter = forwardRef<
 >(({ className, ...props }, ref) => (
   <tfoot
     ref={ref}
-    className={cn(
-      'bg-muted/50 border-t font-medium [&>tr]:last:border-b-0',
-      className,
-    )}
+    className={cn('border-t font-medium [&>tr]:last:border-b-0', className)}
     {...props}
   />
 ));
@@ -61,7 +58,7 @@ const TableRow = forwardRef<
 >(({ className, ...props }, ref) => (
   <tr
     ref={ref}
-    className={cn('hover:bg-muted/50 border-b transition-colors', className)}
+    className={cn('bg-white transition-colors', className)}
     {...props}
   />
 ));
@@ -75,8 +72,11 @@ const TableHead = forwardRef<
 >(({ className, ...props }, ref) => (
   <th
     ref={ref}
+    style={{
+      borderStyle: 'solid none',
+    }}
     className={cn(
-      'text-muted-foreground h-12 px-4 text-left align-middle font-medium [&:has([role=checkbox])]:pr-0',
+      'border-table-border h-14 border px-4 text-left align-middle font-medium first:rounded-bl-lg first:rounded-tl-lg last:rounded-br-lg last:rounded-tr-lg [&:has([role=checkbox])]:pr-0',
       className,
     )}
     {...props}
@@ -90,7 +90,13 @@ const TableCell = forwardRef<
 >(({ className, ...props }, ref) => (
   <td
     ref={ref}
-    className={cn('p-4 align-middle [&:has([role=checkbox])]:pr-0', className)}
+    style={{
+      borderStyle: 'solid none',
+    }}
+    className={cn(
+      'border-table-border border px-4 py-2 align-middle first:rounded-bl-lg first:rounded-tl-lg last:rounded-br-lg last:rounded-tr-lg [&:has([role=checkbox])]:pr-0',
+      className,
+    )}
     {...props}
   />
 ));

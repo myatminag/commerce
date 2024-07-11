@@ -1,7 +1,6 @@
 import Link from 'next/link';
 
 import { SearchInput } from '@repo/ui/components/inputs/search-input';
-import { CircleIcon } from '@components/icons/circle-icon';
 
 const Filter = () => {
   return (

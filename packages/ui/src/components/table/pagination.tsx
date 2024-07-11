@@ -23,14 +23,14 @@ const Pagination = <TData,>({ table }: PaginationProps<TData>) => {
   return (
     <div>
       <div className="flex items-center justify-between px-2">
-        <div className="flex-1 text-base text-neutral-500">
+        <div className="text-primary-900 flex-1 text-base">
           {table.getFilteredSelectedRowModel().rows.length} of{' '}
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>
         <div className="flex items-center space-x-6 lg:space-x-8">
           <div className="flex items-center space-x-2">
             <p
-              className="text-base text-neutral-500
+              className="text-primary-900 text-base
             "
             >
               Rows per page
@@ -41,7 +41,7 @@ const Pagination = <TData,>({ table }: PaginationProps<TData>) => {
                 table.setPageSize(Number(value));
               }}
             >
-              <SelectTrigger className="h-8 w-[70px] focus:ring-0 focus:ring-offset-0">
+              <SelectTrigger className="h-8 w-[70px] border border-neutral-300 focus:ring-0 focus:ring-offset-0">
                 <SelectValue
                   placeholder={table.getState().pagination.pageSize}
                 />
@@ -55,7 +55,7 @@ const Pagination = <TData,>({ table }: PaginationProps<TData>) => {
               </SelectContent>
             </Select>
           </div>
-          <div className="flex w-[100px] items-center justify-center text-base text-neutral-500">
+          <div className="text-primary-900 flex w-[100px] items-center justify-center text-base">
             Page {table.getState().pagination.pageIndex + 1} of{' '}
             {table.getPageCount()}
           </div>
