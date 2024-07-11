@@ -4,7 +4,7 @@ import { SearchInput } from '@repo/ui/components/inputs/search-input';
 
 import { PopularIcon } from '@components/icons/popular-icon';
 import { FilterIcon } from '@components/icons/filter-icon';
-import { CircleIcon } from '@components/icons/circle-icon';
+import { PlusIcon } from '@components/icons/plus-icon';
 
 import { useProductList } from '../use-products-list';
 
@@ -36,7 +36,7 @@ const Filter = () => {
         href="/new-product"
         className="bg-primary flex items-center gap-x-2 rounded-sm px-4 py-2 text-base font-light text-neutral-100"
       >
-        <CircleIcon className="size-4" />
+        <PlusIcon className="size-4" />
         Add Product
       </Link>
     </div>
