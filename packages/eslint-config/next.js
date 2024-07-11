@@ -57,7 +57,7 @@ module.exports = {
           'internal',
           ['parent', 'sibling', 'index'],
         ],
-        'newlines-between': 'off',
+        'newlines-between': 'never',
       },
     ],
     'react/jsx-sort-props': [
