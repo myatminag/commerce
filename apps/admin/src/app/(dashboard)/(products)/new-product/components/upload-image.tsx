@@ -1,4 +1,4 @@
-import { CircleIcon } from '@components/icons/circle-icon';
+import { PlusIcon } from '@components/icons/plus-icon';
 
 const UploadImage = () => {
   return (
@@ -19,7 +19,7 @@ const UploadImage = () => {
           />
           <div className="border-primary-200 mx-auto flex h-16 w-16 cursor-pointer items-center justify-center rounded-full border-2 border-dashed">
             <div className="bg-primary-200 flex h-10 w-10 items-center justify-center rounded-full">
-              <CircleIcon className="text-primary-100 h-5 w-5" />
+              <PlusIcon className="text-primary-100 h-5 w-5" />
             </div>
           </div>
           <span className="mt-2 block text-base text-neutral-800">
