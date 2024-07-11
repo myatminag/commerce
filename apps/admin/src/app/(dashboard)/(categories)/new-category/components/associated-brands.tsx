@@ -13,7 +13,7 @@ import { Label } from '@repo/ui/components/inputs/label';
 import { Checkbox } from '@repo/ui/components/inputs/checkbox';
 import { SearchInput } from '@repo/ui/components/inputs/search-input';
 
-import { CircleIcon } from '@components/icons/circle-icon';
+import { PlusIcon } from '@components/icons/plus-icon';
 
 const AssociatedBrands = () => {
   return (
@@ -23,7 +23,7 @@ const AssociatedBrands = () => {
         <DialogTrigger>
           <div className="flex h-16 w-16 cursor-pointer items-center justify-center rounded-full border-2 border-dashed border-gray-200">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FAE9EA]">
-              <CircleIcon className="text-primary h-5 w-5" />
+              <PlusIcon className="text-primary h-5 w-5" />
             </div>
           </div>
         </DialogTrigger>

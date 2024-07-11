@@ -29,23 +29,34 @@ export const SideNav = () => {
   const pathname = usePathname();
 
   return (
-    <aside className="fixed bottom-0 start-0 top-0 z-[30] hidden w-64 -translate-x-full transform overflow-y-auto border-e border-gray-200 bg-white pb-10 pt-6 transition-all duration-300 lg:bottom-0 lg:end-auto lg:block lg:translate-x-0 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-gray-100 dark:[&::-webkit-scrollbar-track]:bg-slate-700 [&::-webkit-scrollbar]:w-2">
-      <p className="flex-none px-9 text-xl font-semibold">CDS Admin</p>
-
-      <nav className="p-6">
-        <ul className="space-y-3">
+    <aside className="fixed bottom-0 start-0 top-0 z-30 hidden w-[240px] -translate-x-full transform overflow-y-auto border-e border-gray-200 bg-white pb-10 pt-6 transition-all duration-300 lg:bottom-0 lg:end-auto lg:block lg:translate-x-0 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-gray-100 dark:[&::-webkit-scrollbar-track]:bg-slate-700 [&::-webkit-scrollbar]:w-2">
+      <nav className="pt-16">
+        <ul className="space-y-1.5">
           <NavLink
             path="/"
             name="Dashboard"
             icon={
               <DashboardIcon
                 className={cn('size-5 flex-shrink-0 text-neutral-700', {
-                  'text-primary': pathname === '/',
+                  'text-primary-700': pathname === '/',
                 })}
               />
             }
           />
 
+          <NavLink
+            path="/category-list"
+            name="Category"
+            icon={
+              <CategoryIcon
+                className={cn('size-5 flex-shrink-0 text-neutral-700', {
+                  'text-primary-700': pathname === '/category-list',
+                })}
+              />
+            }
+          />
+
+          {/* 
           <Accordion type="single" collapsible className="w-full space-y-3">
             <AccordionItem value="products">
               <AccordionTrigger className="flex w-full items-center gap-x-3.5 rounded-md px-2.5 py-2 text-base font-normal hover:bg-neutral-100">
@@ -81,77 +92,15 @@ export const SideNav = () => {
                 ))}
               </AccordionContent>
             </AccordionItem>
-          </Accordion>
+          </Accordion> */}
 
-          <NavLink
-            path="/order-list"
-            name="Orders"
-            icon={
-              <OrderIcon
-                className={cn('size-5 flex-shrink-0 text-neutral-700', {
-                  'text-primary': pathname === '/order-list',
-                })}
-              />
-            }
-          />
-
-          <NavLink
-            path="/member-point"
-            name="Member Point"
-            icon={
-              <MemberPointIcon
-                className={cn('size-5 flex-shrink-0 text-neutral-700', {
-                  'text-primary': pathname === '/member-point',
-                })}
-              />
-            }
-          />
-
-          <NavLink
-            path="/customer-list"
-            name="Customers"
-            icon={
-              <CustomerIcon
-                className={cn('size-5 flex-shrink-0 text-neutral-700', {
-                  'text-primary': pathname === '/customer-list',
-                })}
-              />
-            }
-          />
-
-          <hr />
-
-          <NavLink
-            path="/role-permission"
-            name="Role & Permission"
-            icon={
-              <PermissionIcon
-                className={cn('size-5 flex-shrink-0 text-neutral-700', {
-                  'text-primary': pathname === '/role-permission',
-                })}
-              />
-            }
-          />
-
-          <NavLink
-            path="/setting"
-            name="Setting"
-            icon={
-              <SettingIcon
-                className={cn('size-5 flex-shrink-0 text-neutral-700', {
-                  'text-primary': pathname === '/setting',
-                })}
-              />
-            }
-          />
-
-          <button
+          {/* <button
             onClick={() => signOut({ callbackUrl: 'http://localhost:3001' })}
             className="flex w-full items-center gap-x-3.5 rounded-sm px-2.5 py-2 text-base text-neutral-700 hover:bg-gray-100"
           >
             <LogoutIcon className="size-5 flex-shrink-0 text-neutral-700" />
             Logout
-          </button>
+          </button> */}
         </ul>
       </nav>
     </aside>

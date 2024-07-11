@@ -33,11 +33,11 @@ export const DataTable = <TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <div className="rounded-md border bg-white">
-        <Table>
+      <div className="rounded-md">
+        <Table className="border-separate border-spacing-y-3">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id} className="bg-white">
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id} colSpan={header.colSpan}>

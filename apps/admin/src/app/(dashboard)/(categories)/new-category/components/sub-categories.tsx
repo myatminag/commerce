@@ -11,7 +11,7 @@ import { Input } from '@repo/ui/components/inputs/input';
 import { Label } from '@repo/ui/components/inputs/label';
 import { Textarea } from '@repo/ui/components/inputs/text-area';
 
-import { CircleIcon } from '@components/icons/circle-icon';
+import { PlusIcon } from '@components/icons/plus-icon';
 import { CameraIcon } from '@components/icons/camera-icon';
 
 const SubCategories = () => {
@@ -22,7 +22,7 @@ const SubCategories = () => {
         <DialogTrigger>
           <div className="flex h-16 w-16 cursor-pointer items-center justify-center rounded-full border-2 border-dashed border-gray-200">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FAE9EA]">
-              <CircleIcon className="text-primary h-5 w-5" />
+              <PlusIcon className="text-primary h-5 w-5" />
             </div>
           </div>
         </DialogTrigger>

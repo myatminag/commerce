@@ -16,9 +16,10 @@ export const NavLink = ({ path, name, icon }: NavLinkProps) => {
   return (
     <Link
       className={cn(
-        'flex items-center gap-x-3.5 rounded-sm px-2.5 py-2 text-base text-neutral-700 hover:bg-gray-100',
+        'flex items-center gap-x-3.5 px-6 py-3 text-base text-neutral-700',
         {
-          'text-primary': pathname === path,
+          'text-primary-700 border-primary border-r-[3px] bg-[#D7F8D4] font-semibold':
+            pathname === path,
         },
       )}
       href={path}

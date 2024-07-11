@@ -131,4 +131,136 @@ export const categories = [
       },
     ],
   },
+  {
+    id: 7,
+    name: 'Electronics',
+    url: '/dummy/category/house-hold-material.png',
+    subCategory: [
+      {
+        id: 1,
+        name: 'Computer',
+        url: '/dummy/category/electronics.png',
+      },
+      {
+        id: 2,
+        name: 'Phone',
+        url: '/dummy/category/fashion.png',
+      },
+      {
+        id: 3,
+        name: 'Television',
+        url: '/dummy/category/alchol.png',
+      },
+    ],
+  },
+  {
+    id: 8,
+    name: 'Electronics',
+    url: '/dummy/category/house-hold-material.png',
+    subCategory: [
+      {
+        id: 1,
+        name: 'Computer',
+        url: '/dummy/category/electronics.png',
+      },
+      {
+        id: 2,
+        name: 'Phone',
+        url: '/dummy/category/fashion.png',
+      },
+      {
+        id: 3,
+        name: 'Television',
+        url: '/dummy/category/alchol.png',
+      },
+    ],
+  },
+  {
+    id: 9,
+    name: 'Electronics',
+    url: '/dummy/category/house-hold-material.png',
+    subCategory: [
+      {
+        id: 1,
+        name: 'Computer',
+        url: '/dummy/category/electronics.png',
+      },
+      {
+        id: 2,
+        name: 'Phone',
+        url: '/dummy/category/fashion.png',
+      },
+      {
+        id: 3,
+        name: 'Television',
+        url: '/dummy/category/alchol.png',
+      },
+    ],
+  },
+  {
+    id: 10,
+    name: 'Electronics',
+    url: '/dummy/category/house-hold-material.png',
+    subCategory: [
+      {
+        id: 1,
+        name: 'Computer',
+        url: '/dummy/category/electronics.png',
+      },
+      {
+        id: 2,
+        name: 'Phone',
+        url: '/dummy/category/fashion.png',
+      },
+      {
+        id: 3,
+        name: 'Television',
+        url: '/dummy/category/alchol.png',
+      },
+    ],
+  },
+  {
+    id: 11,
+    name: 'Electronics',
+    url: '/dummy/category/house-hold-material.png',
+    subCategory: [
+      {
+        id: 1,
+        name: 'Computer',
+        url: '/dummy/category/electronics.png',
+      },
+      {
+        id: 2,
+        name: 'Phone',
+        url: '/dummy/category/fashion.png',
+      },
+      {
+        id: 3,
+        name: 'Television',
+        url: '/dummy/category/alchol.png',
+      },
+    ],
+  },
+  {
+    id: 12,
+    name: 'Electronics',
+    url: '/dummy/category/house-hold-material.png',
+    subCategory: [
+      {
+        id: 1,
+        name: 'Computer',
+        url: '/dummy/category/electronics.png',
+      },
+      {
+        id: 2,
+        name: 'Phone',
+        url: '/dummy/category/fashion.png',
+      },
+      {
+        id: 3,
+        name: 'Television',
+        url: '/dummy/category/alchol.png',
+      },
+    ],
+  },
 ];

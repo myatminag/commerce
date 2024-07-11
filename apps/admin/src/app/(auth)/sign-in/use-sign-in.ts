@@ -38,8 +38,6 @@ export const useSignIn = () => {
   const handleSignIn: SubmitHandler<SchemaType> = async (data) => {
     router.push('/');
 
-    return;
-
     try {
       const res = await signIn('credentials', {
         email: data.email,

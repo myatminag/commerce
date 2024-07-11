@@ -5,8 +5,6 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Checkbox } from '@repo/ui/components/inputs/checkbox';
 import { ColumnHeader } from '@repo/ui/components/table/column-header';
 
-import Actions from './actions';
-
 const categorySchema = z.object({});
 
 type Category = z.infer<typeof categorySchema>;
@@ -43,8 +41,8 @@ export const columns: ColumnDef<Category>[] = [
       return (
         <ColumnHeader
           column={column}
-          title="Name"
-          className="text-base text-neutral-500"
+          title="Category name"
+          className="text-table-header text-base font-medium"
         />
       );
     },
@@ -54,39 +52,13 @@ export const columns: ColumnDef<Category>[] = [
           <Image
             width={100}
             height={100}
-            className="size-[44px] flex-shrink-0 rounded-sm"
+            className="size-10 flex-shrink-0 rounded-sm"
             src="https://images.unsplash.com/photo-1594032194509-0056023973b2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=320&h=320&q=80"
             alt="Image Description"
           />
-          <div className="">
-            <span className="truncate text-base text-neutral-800">
-              {row.getValue('name')}
-            </span>
-            <p className="text-sm text-neutral-500">2 sub categories</p>
-          </div>
-        </div>
-      );
-    },
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: 'description',
-    header: ({ column }) => {
-      return (
-        <ColumnHeader
-          column={column}
-          title="Description"
-          className="text-base text-neutral-500"
-        />
-      );
-    },
-    cell: ({ row }) => {
-      return (
-        <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate text-base text-neutral-800">
-            Clothing for men, women, and children
-          </span>
+          <p className="text-primary-950 truncate text-base font-medium">
+            {row.getValue('name')}
+          </p>
         </div>
       );
     },
@@ -99,17 +71,20 @@ export const columns: ColumnDef<Category>[] = [
       return (
         <ColumnHeader
           column={column}
-          title="Brand"
-          className="text-base text-neutral-500"
+          title="Sub categories"
+          className="text-table-header text-base font-medium"
         />
       );
     },
     cell: ({ row }) => {
       return (
-        <div className="flex space-x-2">
-          <span className="max-w-[100px] truncate text-base text-neutral-800">
-            3 Brands
-          </span>
+        <div className="flex items-center space-x-2">
+          <p className="text-primary-950 max-w-[200px] truncate text-base font-medium">
+            Stove
+          </p>
+          <p className="text-primary-700 flex size-7 items-center justify-center rounded-full bg-[#C8E9E3] text-sm">
+            +8
+          </p>
         </div>
       );
     },
@@ -123,16 +98,39 @@ export const columns: ColumnDef<Category>[] = [
         <ColumnHeader
           column={column}
           title="Products"
-          className="text-base text-neutral-500"
+          className="text-table-header text-base font-medium"
         />
       );
     },
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2">
-          <span className="max-w-[100px] truncate text-base text-neutral-800">
+          <p className="text-primary-950 max-w-[100px] truncate text-base font-medium">
             15 Products
-          </span>
+          </p>
+        </div>
+      );
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: 'description',
+    header: ({ column }) => {
+      return (
+        <ColumnHeader
+          column={column}
+          title="Description"
+          className="text-table-header text-base font-medium"
+        />
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <div className="flex space-x-2">
+          <p className="text-primary-950 max-w-[500px] truncate text-base font-medium">
+            Clothing for men, women, and children
+          </p>
         </div>
       );
     },
@@ -146,23 +144,19 @@ export const columns: ColumnDef<Category>[] = [
         <ColumnHeader
           column={column}
           title="Last Modified On"
-          className="text-base text-neutral-500"
+          className="text-table-header text-base font-medium"
         />
       );
     },
     cell: ({ row }) => {
       return (
-        <span className="max-w-[200px] truncate text-base text-neutral-800">
+        <span className="text-primary-950 max-w-[200px] truncate text-base font-medium">
           21 Feb 2024, 8:43 pm
         </span>
       );
     },
     enableSorting: false,
     enableHiding: false,
-  },
-  {
-    id: 'actions',
-    cell: () => <Actions />,
   },
 ];
 
