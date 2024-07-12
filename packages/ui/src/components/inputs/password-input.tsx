@@ -22,7 +22,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             id={id}
             type={isVisible ? 'text' : 'password'}
             className={cn(
-              'border-secondary-300 placeholder:text-placeholder focus-visible:border-primary-600 rounded-base flex h-9 w-full border bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
+              'border-secondary-300 placeholder:text-placeholder focus-visible:ring-primary rounded-base flex h-9 w-full border bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
               className,
             )}
             ref={ref}
