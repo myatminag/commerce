@@ -62,6 +62,10 @@ const config: Omit<Config, 'theme' | 'plugins'> = {
           header: '#123430CC',
           border: '#DBEAE7',
         },
+        upload: {
+          100: '#DBF6F2AB',
+          200: '#FAFDFC',
+        },
       },
       borderRadius: {
         base: '6px',
@@ -69,6 +73,7 @@ const config: Omit<Config, 'theme' | 'plugins'> = {
       boxShadow: {
         card: '0px 0px 16px 0px #BEE0DA80',
         sm: '0px 0px 4px 0px #AF9D9D40',
+        base: '0px 0px 4px 0px #EAEAEA',
         'search-input': '0px 2.49px 2.49px 0px #0000000A',
       },
       keyframes: {

@@ -33,7 +33,7 @@ export const SideNav = () => {
             icon={
               <CategoryIcon
                 className={cn('size-5 flex-shrink-0 text-neutral-700', {
-                  'text-primary-700': pathname === '/category-list',
+                  'text-primary-700': pathname === '/category-list/',
                 })}
               />
             }
