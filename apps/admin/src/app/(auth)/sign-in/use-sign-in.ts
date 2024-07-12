@@ -1,7 +1,8 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import * as z from 'zod';
 import { signIn } from 'next-auth/react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import type { SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { useToast } from '@repo/ui/components/toast/use-toast';

@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { productsKeys } from './keys/keys';
 import { baseUrlService } from '@apis/http-service';
+
+import { productsKeys } from './keys/keys';
 
 interface ProductsProps {
   name: string | null;
@@ -42,7 +43,7 @@ export const useProducts = ({ name, offset, limit }: ProductsProps) => {
   return useQuery<ProductsRes>({
     queryKey: productsKeys.productList(name, offset, limit),
     queryFn: async () => {
-      return await baseUrlService
+      return baseUrlService
         .get('/manage/products', {
           params: {
             name,

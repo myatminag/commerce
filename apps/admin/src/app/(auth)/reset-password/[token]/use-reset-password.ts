@@ -1,6 +1,7 @@
 import { usePathname, useRouter } from 'next/navigation';
 import * as z from 'zod';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import type { SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { useSetNewPassword } from '@apis/auth/reset-password';
@@ -50,7 +51,7 @@ export const useResetPassword = () => {
   });
 
   const handleResetPassword: SubmitHandler<SchemaType> = (data) => {
-    return mutate(
+    mutate(
       {
         password: data.password,
       },
@@ -59,13 +60,16 @@ export const useResetPassword = () => {
           router.replace('/');
           toast({
             title: 'Access Restored! Password Has Been Reset.',
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- Temporary disabling the rule because of unknown response type
             description: `${res.data.message}. Sign in now with your new credentials.`,
             variant: 'success',
           });
         },
         onError: (err: any) => {
           toast({
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- Temporary disabling the rule because of unknown response type
             title: err.response.data.error,
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- Temporary disabling the rule because of unknown response type
             description: err.response.data.message,
             variant: 'destructive',
           });

@@ -1,4 +1,4 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 
 import { CdsIcon } from '@repo/ui/icons/cds-icon';
@@ -21,8 +21,8 @@ const Page = () => {
               Forgot your password?
             </h1>
             <p className="text-primary-800 text-base font-light">
-              Enter the email address associated with your account and we'll
-              send you a link to reset your password.
+              Enter the email address associated with your account and
+              we&apos;ll send you a link to reset your password.
             </p>
           </div>
           <ForgotPasswordForm />

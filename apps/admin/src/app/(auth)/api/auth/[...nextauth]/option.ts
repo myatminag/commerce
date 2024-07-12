@@ -1,5 +1,5 @@
-import { AxiosError } from 'axios';
-import { NextAuthOptions } from 'next-auth';
+import type { AxiosError } from 'axios';
+import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 import { signInService } from '@apis/auth/sign-in';
@@ -31,25 +31,23 @@ export const option: NextAuthOptions = {
           };
 
           return user;
-        } catch (error) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const axiosError = error as any as AxiosError;
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const errData = axiosError.response?.data as any;
-          throw new Error(errData.message);
+        } catch (error: unknown) {
+          const axiosError = error as AxiosError;
+          const errData = axiosError.response?.data as { message: string };
+          throw new Error(errData.message || 'Unkown error occured!');
         }
       },
     }),
   ],
   callbacks: {
-    jwt: async ({ token, user }) => {
+    jwt: ({ token, user }) => {
       if (user) {
         token.user = user;
       }
 
       return token;
     },
-    session: async ({ session, token }) => {
+    session: ({ session, token }) => {
       if (token) {
         session.user.accessToken = token.user.accessToken;
         session.user.refreshToken = token.user.refreshToken;

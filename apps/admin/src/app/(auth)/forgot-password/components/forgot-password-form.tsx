@@ -21,7 +21,7 @@ const ForgotPasswordForm = () => {
           id="email"
           placeholder="Enter your email address"
           disabled={isPending}
-          errors={errors?.email?.message}
+          errors={errors.email?.message}
           {...register('email')}
         />
         <Button disabled={isPending}>Recover Password</Button>

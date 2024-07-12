@@ -1,8 +1,9 @@
 'use client';
 
 import Image from 'next/image';
-import { ReactNode } from 'react';
-import { GoogleMap, useJsApiLoader, Libraries } from '@react-google-maps/api';
+import type { ReactNode } from 'react';
+import type { Libraries } from '@react-google-maps/api';
+import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 
 import { LocationIcon } from '@repo/ui/icons/location-icon';
 
@@ -21,7 +22,7 @@ const defaultMapContainerStyle = {
 
 const MapProvider = ({ children }: { children: ReactNode }) => {
   const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY!,
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY ?? '',
     libraries: libraries as Libraries,
   });
 

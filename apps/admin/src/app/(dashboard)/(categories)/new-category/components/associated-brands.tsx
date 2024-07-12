@@ -33,8 +33,10 @@ const AssociatedBrands = () => {
           </DialogHeader>
           <ul className="h-80 space-y-4 overflow-x-hidden overflow-y-scroll px-4 py-2">
             <SearchInput placeholder="Search brands..." />
+            {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- Temporary disabling the rule because of no actual API binding */}
             {[...Array(10)].map((i) => (
               <li
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- Temporary disabling the rule because of no actual API binding
                 key={i}
                 className="flex items-center justify-start gap-4 px-2"
               >

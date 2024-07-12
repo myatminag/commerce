@@ -1,4 +1,4 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 import ResetPasswordForm from './components/reset-password-form';
 import { MaskFiveIcon, MaskFourIcon } from '@components/icons/mask-icons';

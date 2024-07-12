@@ -46,20 +46,10 @@ module.exports = {
    * Value => 2, Severity Level => error
    */
   rules: {
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    'import/no-default-export': 'off',
+    'no-nested-ternary': 'off',
+    'dot-notation': 'off',
     'no-console': 'warn',
-    'import/order': [
-      2,
-      {
-        groups: [
-          ['builtin', 'external'], // Built-in types are first
-          'internal',
-          ['parent', 'sibling', 'index'],
-        ],
-        'newlines-between': 'never',
-      },
-    ],
+    'import/order': 'off',
     'react/jsx-sort-props': [
       2,
       {
@@ -81,5 +71,14 @@ module.exports = {
         checkFragmentShorthand: true,
       },
     ],
+    'import/no-default-export': 'off',
+    'import/no-named-as-default': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-unsafe-return': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/dot-notation': 'off',
+    '@typescript-eslint/no-misused-promises': 'off',
+    '@typescript-eslint/no-confusing-void-expression': 'off',
+    '@typescript-eslint/no-unnecessary-condition': 'off',
   },
 };

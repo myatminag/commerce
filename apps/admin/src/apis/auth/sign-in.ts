@@ -1,22 +1,20 @@
 import { authHttpService } from '@apis/http-service';
 
-type AdminSignIn = {
+interface AdminSignIn {
   email: string;
   password: string;
-};
+}
 
-type SignInResponse = {
+interface SignInResponse {
   accessToken: string;
   refreshToken: string;
   userId: string;
   email: string;
   exp: number;
-};
+}
 
 export const signInService = async (
   data: AdminSignIn,
 ): Promise<SignInResponse> => {
-  return await authHttpService
-    .post('/admin-login', data)
-    .then((res) => res.data);
+  return authHttpService.post('/admin-login', data).then((res) => res.data);
 };

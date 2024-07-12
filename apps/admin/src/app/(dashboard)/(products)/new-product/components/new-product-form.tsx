@@ -1,13 +1,10 @@
 'use client';
 
-import * as z from 'zod';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Button } from '@repo/ui/components/button';
 import { Input } from '@repo/ui/components/inputs/input';
 
-import UploadImage from './upload-image';
 import { PlusIcon } from '@components/icons/plus-icon';
 import { Label } from '@repo/ui/components/inputs/label';
 
@@ -130,7 +127,6 @@ const NewProductForm = () => {
             your product that customers can buy.
           </p>
         </div>
-        <div></div>
       </div>
     </>
   );

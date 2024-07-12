@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import Image from 'next/image';
 
 import { CdsIcon } from '@repo/ui/icons/cds-icon';
@@ -93,7 +93,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
             </div>
             <div className="ms-auto flex w-full items-center justify-end lg:order-3 lg:gap-x-3">
               <div className="flex flex-row items-center justify-end gap-x-4">
-                <button>
+                <button type="button">
                   <CreateIcon />
                 </button>
                 <button

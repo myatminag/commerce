@@ -1,7 +1,7 @@
 import * as z from 'zod';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ColumnDef } from '@tanstack/react-table';
+import type { ColumnDef } from '@tanstack/react-table';
 
 import { Checkbox } from '@repo/ui/components/inputs/checkbox';
 import { ColumnHeader } from '@repo/ui/components/table/column-header';
@@ -22,7 +22,9 @@ export const columns: ColumnDef<Category>[] = [
             table.getIsAllPageRowsSelected() ||
             (table.getIsSomePageRowsSelected() && 'indeterminate')
           }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          onCheckedChange={(value) =>
+            table.toggleAllPageRowsSelected(Boolean(value))
+          }
           aria-label="Select all"
           className="translate-y-[2px]"
         />
@@ -32,7 +34,7 @@ export const columns: ColumnDef<Category>[] = [
       return (
         <Checkbox
           checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          onCheckedChange={(value) => row.toggleSelected(Boolean(value))}
           aria-label="Select row"
         />
       );
@@ -49,7 +51,7 @@ export const columns: ColumnDef<Category>[] = [
         />
       );
     },
-    cell: ({ row }) => {
+    cell: () => {
       return (
         <div className="flex max-w-[100px] items-center gap-x-3">
           <div className="flex space-x-2">
@@ -77,7 +79,7 @@ export const columns: ColumnDef<Category>[] = [
         />
       );
     },
-    cell: ({ row }) => {
+    cell: () => {
       return (
         <div className="flex max-w-[300px] items-center gap-x-3">
           <Image
@@ -110,7 +112,7 @@ export const columns: ColumnDef<Category>[] = [
         />
       );
     },
-    cell: ({ row }) => {
+    cell: () => {
       return (
         <div className="flex space-x-2">
           <span className="max-w-[300px] text-base text-neutral-800">
@@ -133,7 +135,7 @@ export const columns: ColumnDef<Category>[] = [
         />
       );
     },
-    cell: ({ row }) => {
+    cell: () => {
       return (
         <div className="flex space-x-2">
           <span className="max-w-[300px] text-base text-neutral-800">
@@ -156,7 +158,7 @@ export const columns: ColumnDef<Category>[] = [
         />
       );
     },
-    cell: ({ row }) => {
+    cell: () => {
       return (
         <div className="flex space-x-2">
           <span className="text-success border-success inline-flex items-center gap-x-1 rounded-md border bg-teal-100 px-3 py-0.5 text-sm">
@@ -179,7 +181,7 @@ export const columns: ColumnDef<Category>[] = [
         />
       );
     },
-    cell: ({ row }) => {
+    cell: () => {
       return (
         <div className="flex space-x-2">
           <span className="truncate text-base text-neutral-800">
@@ -202,7 +204,7 @@ export const columns: ColumnDef<Category>[] = [
         />
       );
     },
-    cell: ({ row }) => {
+    cell: () => {
       return (
         <div className="flex space-x-2">
           <span className="text-success border-success inline-flex items-center gap-x-1 rounded-md border bg-teal-100 px-3 py-0.5 text-sm">

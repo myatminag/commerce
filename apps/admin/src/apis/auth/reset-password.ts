@@ -2,9 +2,9 @@ import { useMutation } from '@tanstack/react-query';
 
 import { authHttpService } from '@apis/http-service';
 
-type Payload = {
+interface Payload {
   password: string;
-};
+}
 
 export const useSetNewPassword = ({
   sessionToken,
@@ -13,7 +13,7 @@ export const useSetNewPassword = ({
 }) => {
   return useMutation<any, unknown, Payload>({
     mutationFn: async (payload) => {
-      return await authHttpService.post(
+      return authHttpService.post(
         `/admin/reset-password/${sessionToken}`,
         payload,
       );

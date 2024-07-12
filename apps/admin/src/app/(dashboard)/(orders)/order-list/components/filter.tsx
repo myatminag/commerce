@@ -1,5 +1,3 @@
-import Link from 'next/link';
-
 import { SearchInput } from '@repo/ui/components/inputs/search-input';
 
 const Filter = () => {

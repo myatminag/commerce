@@ -30,7 +30,9 @@ const SelectProducts = () => {
         </DialogHeader>
         <ul className="h-80 space-y-4 overflow-x-hidden overflow-y-scroll px-6 py-2">
           <SearchInput placeholder="Search products..." />
+          {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- Temporary disabling the rule because of no actual API binding */}
           {[...Array(10)].map((i) => (
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- Temporary disabling the rule because of no actual API binding
             <li key={i} className="flex items-center justify-between px-2">
               <div className="flex items-center justify-start gap-x-4">
                 <Checkbox aria-label="Select row" />

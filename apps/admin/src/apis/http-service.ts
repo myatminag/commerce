@@ -1,4 +1,5 @@
-import axios, { AxiosInstance } from 'axios';
+import type { AxiosInstance } from 'axios';
+import axios from 'axios';
 import { getSession } from 'next-auth/react';
 
 export const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -24,7 +25,7 @@ const httpRequestInterceptor = (service: AxiosInstance) => {
       const session = await getSession();
 
       if (session?.user.accessToken) {
-        config.headers['Authorization'] = `Bearer ${session?.user.accessToken}`;
+        config.headers['Authorization'] = `Bearer ${session.user.accessToken}`;
       }
 
       return config;

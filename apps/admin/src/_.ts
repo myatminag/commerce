@@ -1,12 +1,13 @@
 import { getToken } from 'next-auth/jwt';
 import { NextResponse } from 'next/server';
-import { NextRequestWithAuth, withAuth } from 'next-auth/middleware';
+import { withAuth } from 'next-auth/middleware';
+import type { NextRequestWithAuth } from 'next-auth/middleware';
 
 export default withAuth(
   async function middleware(req: NextRequestWithAuth) {
     const token = await getToken({ req });
 
-    const isAuthorized = !!token;
+    const isAuthorized = Boolean(token);
     const pathname = req.nextUrl.pathname;
 
     if (pathname.startsWith('/sign-in')) {
@@ -27,7 +28,7 @@ export default withAuth(
          * This is work-around for handling redirect on auth pages.
          * We return true here so that the middleware function above is always called.
          */
-        return true;
+        return Promise.resolve(true);
       },
     },
   },

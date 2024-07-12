@@ -1,4 +1,4 @@
-import { SVGProps } from 'react';
+import type { SVGProps } from 'react';
 
 export const ThreeDotsIcon = (props: SVGProps<SVGSVGElement>) => {
   return (
@@ -13,7 +13,7 @@ export const ThreeDotsIcon = (props: SVGProps<SVGSVGElement>) => {
       <path
         fill="currentColor"
         d="M12 13.125a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25zM12 7.125a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25zM12 19.125a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z"
-      ></path>
+      />
     </svg>
   );
 };

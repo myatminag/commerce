@@ -1,5 +1,6 @@
 import * as z from 'zod';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import type { SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { useRecoverPassword } from '@apis/auth/recover-password';
@@ -30,12 +31,13 @@ export const useForgotPassword = () => {
   const { isPending, mutate } = useRecoverPassword();
 
   const handleForgotPassword: SubmitHandler<SchemaType> = (data) => {
-    return mutate(
+    mutate(
       { email: data.email },
       {
-        onSuccess: (res) => {
+        onSuccess: (res: any) => {
           toast({
             title: 'Request Password Reset Successful.',
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- Temporary disabling the rule because of unknown response type
             description: res.message,
             variant: 'success',
           });
@@ -43,7 +45,9 @@ export const useForgotPassword = () => {
         },
         onError: (err: any) => {
           toast({
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- Temporary disabling the rule because of unknown response type
             title: err.response.data.error,
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- Temporary disabling the rule because of unknown response type
             description: err.response.data.message,
             variant: 'destructive',
           });

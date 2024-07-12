@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^5.51.1",
     "@vercel/style-guide": "^5.2.0",
     "eslint-config-turbo": "^2.0.6"
   }

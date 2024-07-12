@@ -19,14 +19,14 @@ const ResetPasswordForm = () => {
           label="New Password"
           placeholder="Enter new password"
           disabled={isPending}
-          errors={errors?.password?.message}
+          errors={errors.password?.message}
           {...register('password')}
         />
         <PasswordInput
           label="Confirm Password"
           placeholder="Enter confirm password"
           disabled={isPending}
-          errors={errors?.cpassword?.message}
+          errors={errors.cpassword?.message}
           {...register('cpassword')}
         />
         <Button disabled={isPending}>Reset Password</Button>

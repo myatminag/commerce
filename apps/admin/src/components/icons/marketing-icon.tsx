@@ -1,4 +1,4 @@
-import { SVGProps } from 'react';
+import type { SVGProps } from 'react';
 
 export const MarketingIcon = (props: SVGProps<SVGSVGElement>) => {
   return (
@@ -16,14 +16,14 @@ export const MarketingIcon = (props: SVGProps<SVGSVGElement>) => {
         strokeLinejoin="round"
         strokeWidth="1.5"
         d="M15 7.5h3v3M9 16.5H6v-3"
-      ></path>
+      />
       <path
         stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="1.5"
         d="M20.25 4.5H3.75a.75.75 0 00-.75.75v13.5c0 .414.336.75.75.75h16.5a.75.75 0 00.75-.75V5.25a.75.75 0 00-.75-.75z"
-      ></path>
+      />
     </svg>
   );
 };

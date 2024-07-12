@@ -1,29 +1,12 @@
 'use client';
 
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { signOut } from 'next-auth/react';
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@repo/ui/components/accordion';
 import { cn } from '@repo/ui/libs/utils';
-
-import { MarketingLinks, CatalogLinks } from '@constants/links';
 
 import { NavLink } from './nav-link';
 import { DashboardIcon } from '../icons/dashboard-icon';
 import { CategoryIcon } from '../icons/category-icon';
-import { MarketingIcon } from '../icons/marketing-icon';
-import { OrderIcon } from '../icons/order-icon';
-import { MemberPointIcon } from '../icons/member-point';
-import { CustomerIcon } from '../icons/customer-icon';
-import { PermissionIcon } from '../icons/permission-icon';
-import { SettingIcon } from '../icons/setting-icon';
-import { LogoutIcon } from '../icons/logout-icon';
 
 export const SideNav = () => {
   const pathname = usePathname();

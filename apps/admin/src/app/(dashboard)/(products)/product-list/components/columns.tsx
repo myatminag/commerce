@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import * as z from 'zod';
-import { ColumnDef } from '@tanstack/react-table';
+import type { ColumnDef } from '@tanstack/react-table';
 
 import { Checkbox } from '@repo/ui/components/inputs/checkbox';
 import { ColumnHeader } from '@repo/ui/components/table/column-header';
@@ -46,7 +46,9 @@ const columns: ColumnDef<Product>[] = [
             table.getIsAllPageRowsSelected() ||
             (table.getIsSomePageRowsSelected() && 'indeterminate')
           }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          onCheckedChange={(value) =>
+            table.toggleAllPageRowsSelected(Boolean(value))
+          }
           aria-label="Select all"
           className="translate-y-[2px]"
         />
@@ -57,10 +59,10 @@ const columns: ColumnDef<Product>[] = [
         <div className="flex translate-y-[2px] items-center gap-x-4">
           <Checkbox
             checked={row.getIsSelected()}
-            onCheckedChange={(value) => row.toggleSelected(!!value)}
+            onCheckedChange={(value) => row.toggleSelected(Boolean(value))}
             aria-label="Select row"
           />
-          <button>
+          <button type="button">
             <PopularIcon className="size-5" />
           </button>
         </div>
@@ -136,7 +138,7 @@ const columns: ColumnDef<Product>[] = [
         />
       );
     },
-    cell: ({ row }) => {
+    cell: () => {
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate text-base text-neutral-800">
@@ -213,7 +215,7 @@ const columns: ColumnDef<Product>[] = [
         />
       );
     },
-    cell: ({ row }) => {
+    cell: () => {
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate text-base text-neutral-800">
@@ -236,7 +238,7 @@ const columns: ColumnDef<Product>[] = [
         />
       );
     },
-    cell: ({ row }) => {
+    cell: () => {
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate text-base text-neutral-800">

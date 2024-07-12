@@ -20,7 +20,10 @@ const Filter = () => {
         Add Category
       </Link>
 
-      <button className="s flex size-10 items-center justify-center rounded-md bg-white shadow-sm">
+      <button
+        type="button"
+        className="s flex size-10 items-center justify-center rounded-md bg-white shadow-sm"
+      >
         <CardIcon />
       </button>
     </div>

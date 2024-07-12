@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import { Button } from '@repo/ui/components/button';
 import { Input } from '@repo/ui/components/inputs/input';
-import { Checkbox } from '@repo/ui/components/inputs/checkbox';
+// import { Checkbox } from '@repo/ui/components/inputs/checkbox';
 import { PasswordInput } from '@repo/ui/components/inputs/password-input';
 
 import { useSignIn } from '../use-sign-in';

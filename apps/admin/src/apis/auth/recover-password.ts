@@ -2,14 +2,14 @@ import { useMutation } from '@tanstack/react-query';
 
 import { authHttpService } from '@apis/http-service';
 
-type Payload = {
+interface Payload {
   email: string;
-};
+}
 
 export const useRecoverPassword = () => {
   return useMutation<any, unknown, Payload>({
     mutationFn: async (payload) => {
-      return await authHttpService
+      return authHttpService
         .post('/admin/reset-password', payload)
         .then((res) => res.data);
     },

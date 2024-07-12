@@ -1,6 +1,6 @@
 import * as z from 'zod';
 import Image from 'next/image';
-import { ColumnDef } from '@tanstack/react-table';
+import type { ColumnDef } from '@tanstack/react-table';
 
 import { Checkbox } from '@repo/ui/components/inputs/checkbox';
 import { ColumnHeader } from '@repo/ui/components/table/column-header';
@@ -19,7 +19,9 @@ export const columns: ColumnDef<Category>[] = [
             table.getIsAllPageRowsSelected() ||
             (table.getIsSomePageRowsSelected() && 'indeterminate')
           }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          onCheckedChange={(value) =>
+            table.toggleAllPageRowsSelected(Boolean(value))
+          }
           aria-label="Select all"
           className="translate-y-[2px]"
         />
@@ -29,7 +31,7 @@ export const columns: ColumnDef<Category>[] = [
       return (
         <Checkbox
           checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          onCheckedChange={(value) => row.toggleSelected(Boolean(value))}
           aria-label="Select row"
         />
       );
@@ -76,7 +78,7 @@ export const columns: ColumnDef<Category>[] = [
         />
       );
     },
-    cell: ({ row }) => {
+    cell: () => {
       return (
         <div className="flex items-center space-x-2">
           <p className="text-primary-950 max-w-[200px] truncate text-base font-medium">
@@ -102,7 +104,7 @@ export const columns: ColumnDef<Category>[] = [
         />
       );
     },
-    cell: ({ row }) => {
+    cell: () => {
       return (
         <div className="flex space-x-2">
           <p className="text-primary-950 max-w-[100px] truncate text-base font-medium">
@@ -125,7 +127,7 @@ export const columns: ColumnDef<Category>[] = [
         />
       );
     },
-    cell: ({ row }) => {
+    cell: () => {
       return (
         <div className="flex space-x-2">
           <p className="text-primary-950 max-w-[500px] truncate text-base font-medium">
@@ -148,7 +150,7 @@ export const columns: ColumnDef<Category>[] = [
         />
       );
     },
-    cell: ({ row }) => {
+    cell: () => {
       return (
         <span className="text-primary-950 max-w-[200px] truncate text-base font-medium">
           21 Feb 2024, 8:43 pm

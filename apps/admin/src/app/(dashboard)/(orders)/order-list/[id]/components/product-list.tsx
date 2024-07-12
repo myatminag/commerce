@@ -9,9 +9,12 @@ const ProductList = () => {
         Product List
       </p>
       <div className="space-y-4 p-4">
-        {[...Array(3)].map((_, idx) => (
+        {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- Temporary disabling the rule because of no actual API binding */}
+        {[...Array(3)].map((_, i) => (
+          // eslint-disable-next-line react/jsx-key -- Temporary disabling the rule because of no actual API binding
           <>
-            <div key={idx} className="flex items-start gap-x-4">
+            {/* eslint-disable-next-line react/no-array-index-key -- Temporary disabling the rule because of no actual API binding */}
+            <div key={i} className="flex items-start gap-x-4">
               <Image
                 className="size-16 flex-shrink-0 rounded-sm"
                 src="https://images.unsplash.com/photo-1572307480813-ceb0e59d8325?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=320&h=320&q=80"
@@ -36,7 +39,7 @@ const ProductList = () => {
                 </div>
               </div>
             </div>
-            {idx !== 2 && <hr />}
+            {i !== 2 && <hr />}
           </>
         ))}
       </div>

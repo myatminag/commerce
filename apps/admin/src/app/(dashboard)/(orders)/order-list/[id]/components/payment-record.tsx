@@ -47,8 +47,10 @@ const PaymentRecord = () => {
         <div className="space-y-1">
           <p className="text-base text-neutral-400">Screenshots</p>
           <div className="grid grid-cols-3 gap-3 lg:grid-cols-8">
+            {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- Temporary disabling the rule because of no actual API binding */}
             {[...Array(3)].map((_, i) => (
               <Image
+                // eslint-disable-next-line react/no-array-index-key -- Temporary disabling the rule because of no actual API binding
                 key={i}
                 src="https://images.unsplash.com/photo-1572307480813-ceb0e59d8325?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=320&h=320&q=80"
                 alt="payment-screenshots"
