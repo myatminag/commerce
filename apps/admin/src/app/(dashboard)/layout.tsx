@@ -130,7 +130,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
             </div>
           </nav>
         </header>
-        <div className="lg:ps-60 lg:pt-16">{children}</div>
+        {children}
       </main>
     </>
   );

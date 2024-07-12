@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 
 import CategoryTable from './components/category-table';
+import { SectionWrapper } from '@components/section-wrapper';
 
 export const metadata: Metadata = {
   title: 'Categories',
@@ -9,11 +10,11 @@ export const metadata: Metadata = {
 
 const Page = () => {
   return (
-    <div className="hidden h-full flex-1 flex-col space-y-4 p-6 lg:flex">
+    <SectionWrapper className="lg:pe-6 lg:ps-[265px]">
       <Suspense>
         <CategoryTable />
       </Suspense>
-    </div>
+    </SectionWrapper>
   );
 };
 
