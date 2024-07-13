@@ -32,3 +32,24 @@ export const ChevronIcon = ({
     </svg>
   );
 };
+
+export const SubCategoryChevron = (props: SVGProps<SVGSVGElement>) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      fill="none"
+      viewBox="0 0 16 16"
+      {...props}
+    >
+      <rect width="16" height="16" fill="#04A88C" rx="0.889"></rect>
+      <path
+        fill="#fff"
+        fillRule="evenodd"
+        d="M8.542 10.468a.677.677 0 01-.958 0L4.198 7.082a.677.677 0 11.958-.957l2.907 2.907 2.907-2.907a.677.677 0 11.958.957l-3.386 3.386z"
+        clipRule="evenodd"
+      ></path>
+    </svg>
+  );
+};
