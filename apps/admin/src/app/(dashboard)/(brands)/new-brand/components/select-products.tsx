@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogClose,
-} from '@repo/ui/components/dialog';
+} from '@repo/ui/components/dialog/dialog';
 import { Button } from '@repo/ui/components/button';
 import { Checkbox } from '@repo/ui/components/inputs/checkbox';
 import { SearchInput } from '@repo/ui/components/inputs/search-input';

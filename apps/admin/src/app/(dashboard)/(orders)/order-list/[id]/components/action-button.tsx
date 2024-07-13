@@ -7,7 +7,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from '@repo/ui/components/dialog';
+} from '@repo/ui/components/dialog/dialog';
 
 import { Button } from '@repo/ui/components/button';
 import { TrashIcon } from '@repo/ui/icons/trash-icon';
