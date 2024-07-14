@@ -58,7 +58,7 @@ export const columns: ColumnDef<Category>[] = [
             src="https://images.unsplash.com/photo-1594032194509-0056023973b2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=320&h=320&q=80"
             alt="Image Description"
           />
-          <p className="text-primary-950 truncate text-base font-medium">
+          <p className="text-brand-600-950 truncate text-base font-medium">
             {row.getValue('name')}
           </p>
         </div>
@@ -81,10 +81,10 @@ export const columns: ColumnDef<Category>[] = [
     cell: () => {
       return (
         <div className="flex items-center space-x-2">
-          <p className="text-primary-950 max-w-[200px] truncate text-base font-medium">
+          <p className="text-brand-600-950 max-w-[200px] truncate text-base font-medium">
             Stove
           </p>
-          <p className="text-primary-700 flex size-7 items-center justify-center rounded-full bg-[#C8E9E3] text-sm">
+          <p className="text-brand-600-700 flex size-7 items-center justify-center rounded-full bg-[#C8E9E3] text-sm">
             +8
           </p>
         </div>
@@ -107,7 +107,7 @@ export const columns: ColumnDef<Category>[] = [
     cell: () => {
       return (
         <div className="flex space-x-2">
-          <p className="text-primary-950 max-w-[100px] truncate text-base font-medium">
+          <p className="text-brand-600-950 max-w-[100px] truncate text-base font-medium">
             15 Products
           </p>
         </div>
@@ -130,7 +130,7 @@ export const columns: ColumnDef<Category>[] = [
     cell: () => {
       return (
         <div className="flex space-x-2">
-          <p className="text-primary-950 max-w-[500px] truncate text-base font-medium">
+          <p className="text-brand-600-950 max-w-[500px] truncate text-base font-medium">
             Clothing for men, women, and children
           </p>
         </div>
@@ -152,7 +152,7 @@ export const columns: ColumnDef<Category>[] = [
     },
     cell: () => {
       return (
-        <span className="text-primary-950 max-w-[200px] truncate text-base font-medium">
+        <span className="text-brand-600-950 max-w-[200px] truncate text-base font-medium">
           21 Feb 2024, 8:43 pm
         </span>
       );

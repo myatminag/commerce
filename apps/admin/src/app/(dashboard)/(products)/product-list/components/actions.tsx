@@ -25,11 +25,11 @@ const Actions = () => {
         <DropdownMenuItem className="text-success focus:text-success">
           Publish
         </DropdownMenuItem>
-        <DropdownMenuItem className="text-primary-100 focus:text-primary-100">
+        <DropdownMenuItem className="text-brand-600-100 focus:text-brand-600-100">
           Draft
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="text-primary-100 focus:text-primary-100">
+        <DropdownMenuItem className="text-brand-600-100 focus:text-brand-600-100">
           Delete
         </DropdownMenuItem>
       </DropdownMenuContent>

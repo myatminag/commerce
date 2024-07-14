@@ -29,18 +29,20 @@ const Page = () => {
           </Link>
           <ActionButton />
         </div>
-        <h2 className="text-primary-900 text-xl font-semibold">Electronics</h2>
+        <h2 className="text-brand-600-900 text-xl font-semibold">
+          Electronics
+        </h2>
       </div>
       <div className="relative -top-12 z-30 grid grid-cols-3 gap-6 lg:pe-6 lg:ps-[265px]">
         <div className="shadow-base col-span-2 rounded-md bg-white p-6">
-          <p className="text-md text-primary-900 font-medium uppercase">
+          <p className="text-md text-brand-600-900 font-medium uppercase">
             Category Info
           </p>
           <CategoryForm />
         </div>
         <div className="shadow-base col-span-1 rounded-md bg-white p-6">
           <div className="flex items-center justify-between">
-            <p className="text-md text-primary-900 font-medium uppercase">
+            <p className="text-md text-brand-600-900 font-medium uppercase">
               Sub Categories
             </p>
             <CreateSubCategory hasSubCategory />

@@ -10,7 +10,7 @@ const CategoryTable = () => {
   return (
     <>
       <div className="flex items-center">
-        <h2 className="text-primary-900 text-lg font-semibold">
+        <h2 className="text-brand-600-900 text-lg font-semibold">
           Category <span className="font-normal">(32)</span>
         </h2>
         <Filter />

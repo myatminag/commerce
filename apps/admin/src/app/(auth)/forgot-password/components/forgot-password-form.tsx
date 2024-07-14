@@ -24,7 +24,7 @@ const ForgotPasswordForm = () => {
           errors={errors.email?.message}
           {...register('email')}
         />
-        <Button disabled={isPending}>Recover Password</Button>
+        <Button disabled={isPending}>Sent resent link</Button>
       </form>
     </div>
   );

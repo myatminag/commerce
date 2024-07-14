@@ -38,7 +38,7 @@ const CustomerInfo = () => {
     <div className="w-full rounded-md bg-white shadow-sm">
       <div className="flex items-center justify-between border-b border-gray-200 p-4 ">
         <p className="text-heading font-medium">Customer Info</p>
-        <div className="bg-primary-100 flex items-center gap-x-1 rounded-full px-2 py-1">
+        <div className="bg-brand-600-100 flex items-center gap-x-1 rounded-full px-2 py-1">
           <LocationIcon className="size-3 text-white" />
           <p className="text-sm text-white">Home</p>
         </div>

@@ -20,14 +20,14 @@ const CategoryForm = () => {
               className="sr-only"
             />
             <div className="bg-upload-100 flex size-14 items-center justify-center rounded-full">
-              <UploadImageIcon className="text-primary mx-auto" />
+              <UploadImageIcon className="text-brand-600 mx-auto" />
             </div>
-            <p className="text-primary-900 mt-3 text-base font-medium">
+            <p className="text-brand-600-900 mt-3 text-base font-medium">
               Banner Image
             </p>
             <p className="mt-3 text-sm text-[#506D6A]">
               Drop files here or{' '}
-              <span className="text-primary font-medium">Browse</span>
+              <span className="text-brand-600 font-medium">Browse</span>
             </p>
           </label>
         </div>
@@ -43,14 +43,14 @@ const CategoryForm = () => {
               className="sr-only"
             />
             <div className="bg-upload-100 flex size-14 items-center justify-center rounded-full">
-              <UploadImageIcon className="text-primary mx-auto" />
+              <UploadImageIcon className="text-brand-600 mx-auto" />
             </div>
-            <p className="text-primary-900 mt-3 text-base font-medium">
+            <p className="text-brand-600-900 mt-3 text-base font-medium">
               Thumbnail Image
             </p>
             <p className="mt-3 text-sm text-[#506D6A]">
               Drop files here or{' '}
-              <span className="text-primary font-medium">Browse</span>
+              <span className="text-brand-600 font-medium">Browse</span>
             </p>
           </label>
         </div>

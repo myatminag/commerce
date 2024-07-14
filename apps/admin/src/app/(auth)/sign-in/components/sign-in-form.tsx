@@ -39,19 +39,21 @@ const SignInForm = () => {
             {/* <Checkbox id="terms2" disabled /> */}
             <label
               htmlFor="terms2"
-              className="text-primary-800 text-base leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              className="text-brand-900 text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
               Remember Me
             </label>
           </div>
           <Link
             href="/forgot-password"
-            className="text-primary-800 text-base underline"
+            className="text-brand-900 text-sm underline"
           >
             Forgot Password?
           </Link>
         </div>
-        <Button disabled={isSubmitting}>Sign In</Button>
+        <Button disabled={isSubmitting} className="">
+          Sign In
+        </Button>
       </form>
     </div>
   );

@@ -16,17 +16,17 @@ const Page = () => {
       <div className="shadow-card lg:p-8">
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[360px]">
           <div className="flex flex-col items-center space-y-3 text-center">
-            <CdsIcon className="text-primary size-16" />
-            <h1 className="text-primary-900 text-2xl font-semibold tracking-tight">
-              Forgot your password?
+            <CdsIcon className="text-brand-600 size-16" />
+            <h1 className="text-2xl font-bold tracking-wide text-neutral-950">
+              Forgot Password?
             </h1>
-            <p className="text-primary-800 text-base font-light">
+            <p className="text-sm font-light text-neutral-800">
               Enter the email address associated with your account and
               we&apos;ll send you a link to reset your password.
             </p>
           </div>
           <ForgotPasswordForm />
-          <p className="text-primary-800 px-8 text-center text-base">
+          <p className="px-8 text-center text-sm text-neutral-950">
             Remember your password?{' '}
             <Link href="/sign-in" className="underline underline-offset-4">
               Sign in

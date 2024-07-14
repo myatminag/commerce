@@ -71,7 +71,7 @@ const SubCategoryList = () => {
         >
           {SUB_CATEGORY_DATA.map((data) => (
             <AccordionItem key={data.id} value={data.subCategoryName}>
-              <AccordionTrigger className="text-primary-950 my-3 h-8 text-base font-semibold">
+              <AccordionTrigger className="text-brand-600-950 my-3 h-8 text-base font-semibold">
                 {data.subCategoryName}{' '}
                 <span className="ms-1 font-normal">
                   ({data.totalSubCategory})
@@ -96,10 +96,10 @@ const SubCategoryList = () => {
                     </DialogTrigger>
                     <DialogContent onClick={(e) => e.stopPropagation()}>
                       <DialogHeader className="mt-10 space-y-3">
-                        <DialogTitle className="text-primary-950 text-md font-semibold">
+                        <DialogTitle className="text-brand-600-950 text-md font-semibold">
                           Are you want to delete this sub category?
                         </DialogTitle>
-                        <DialogDescription className="text-primary-950 text-base">
+                        <DialogDescription className="text-brand-600-950 text-base">
                           This action cannot be undone. This will permanently
                           delete sub category and remove category type from sub
                           category.
@@ -111,7 +111,7 @@ const SubCategoryList = () => {
                             <Button
                               type="button"
                               variant="outline"
-                              className="text-primary border-primary bg-primary-50 w-[100px] text-base"
+                              className="text-brand-600 border-primary bg-brand-600-50 w-[100px] text-base"
                             >
                               Cancel
                             </Button>
@@ -132,7 +132,7 @@ const SubCategoryList = () => {
                     className="flex items-center gap-x-3"
                   >
                     <SubCategoryFrameIcon />
-                    <p className="text-primary-950 text-base font-medium">
+                    <p className="text-brand-600-950 text-base font-medium">
                       {categoryType.type}
                     </p>
                   </div>

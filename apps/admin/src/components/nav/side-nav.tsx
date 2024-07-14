@@ -24,8 +24,8 @@ export const SideNav = () => {
             name="Dashboard"
             icon={
               <DashboardIcon
-                className={cn('size-5 flex-shrink-0 text-neutral-700', {
-                  'text-primary-700': pathname === '/',
+                className={cn('size-5 flex-shrink-0 text-neutral-950', {
+                  'text-brand-700': pathname === '/',
                 })}
               />
             }
@@ -36,8 +36,8 @@ export const SideNav = () => {
             name="Category"
             icon={
               <CategoryIcon
-                className={cn('size-5 flex-shrink-0 text-neutral-700', {
-                  'text-primary-700': pathname === '/category-list/',
+                className={cn('size-5 flex-shrink-0 text-neutral-950', {
+                  'text-brand-700': pathname === '/category-list/',
                 })}
               />
             }

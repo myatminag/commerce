@@ -1,5 +1,3 @@
-'use client';
-
 import type { ReactNode } from 'react';
 import Image from 'next/image';
 
@@ -80,14 +78,14 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
         <header className="flex h-[64px] w-full flex-wrap border-b bg-white text-sm shadow-sm sm:flex-nowrap sm:justify-start lg:fixed lg:top-0 lg:z-50 lg:bg-white lg:py-4">
           <nav className="flex w-full basis-full items-center justify-between px-4 lg:px-6">
             <div className="flex flex-shrink-0 items-center">
-              <CdsIcon className="text-primary size-12" />
-              <p className="text-primary-950 text-[18px] font-semibold">
+              <CdsIcon className="text-brand-600 size-12" />
+              <p className="text-md font-extrabold text-neutral-950">
                 Capture Digital
               </p>
             </div>
             <div className="ml-16 w-96 flex-shrink-0">
               <SearchInput
-                className="placeholder:text-primary-950 rounded-full bg-[#F1F7F6]"
+                className="rounded-full bg-[#F1F7F6]"
                 placeholder="Search products..."
               />
             </div>
@@ -114,7 +112,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
                 >
                   <TranslationIcon className="size-5 flex-shrink-0 text-neutral-700" />
                 </button>
-                <div className="bg-primary-50 border-border inline-flex items-center gap-x-1.5 rounded-full border p-1">
+                <div className="bg-brand-50 border-border inline-flex items-center gap-x-1.5 rounded-full border p-1">
                   <Image
                     className="inline-block size-10 rounded-full"
                     src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80"
@@ -122,7 +120,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
                     width={150}
                     height={150}
                   />
-                  <p className="text-primary-900 pr-1 text-base font-semibold">
+                  <p className="text-brand-900 pr-1 text-sm font-bold">
                     Super Admin
                   </p>
                 </div>
