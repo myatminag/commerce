@@ -90,15 +90,11 @@ export const SubCategoryForm = () => {
       </form>
       <div className="flex items-center justify-end gap-x-3 border-t px-4 py-4">
         <DialogClose asChild>
-          <Button
-            type="button"
-            variant="outline"
-            className="text-brand-600 border-primary bg-brand-600-50 w-[100px] text-base"
-          >
+          <Button type="button" variant="outline" className="w-[100px]">
             Discard
           </Button>
         </DialogClose>
-        <Button type="submit" className="w-[100px] text-base">
+        <Button type="submit" className="w-[100px]">
           Save
         </Button>
       </div>
@@ -126,7 +122,7 @@ export const CreateSubCategory = ({
           <div className="bg-upload-100 flex size-20 items-center justify-center rounded-full">
             <SubCategoryUploadIcon className="text-brand-600" />
           </div>
-          <p className="text-brand-600-900 mt-3 text-base font-medium">
+          <p className="mt-3 text-base font-semibold text-neutral-950">
             Create sub-categories
           </p>
         </DialogTrigger>

@@ -13,7 +13,7 @@ export const SideNav = () => {
 
   return (
     <aside className="fixed bottom-0 start-0 top-0 z-30 hidden w-[240px] -translate-x-full transform overflow-y-auto border-e border-gray-200 bg-white pb-10 pt-6 transition-all duration-300 lg:bottom-0 lg:end-auto lg:block lg:translate-x-0 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-gray-100 dark:[&::-webkit-scrollbar-track]:bg-slate-700 [&::-webkit-scrollbar]:w-2">
-      <nav className="pt-16">
+      <nav className="pt-20">
         <ul className="space-y-1.5">
           <p className="mb-3 ps-6 text-base uppercase text-[#2F575380]">
             Main Menu

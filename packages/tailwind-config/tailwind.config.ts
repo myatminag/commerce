@@ -65,7 +65,7 @@ const config: Omit<Config, 'theme' | 'plugins'> = {
           100: '#BEE2DC',
         },
         table: {
-          header: '#123430CC',
+          header: '#123430',
           border: '#DBEAE7',
         },
         upload: {

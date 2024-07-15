@@ -1,6 +1,6 @@
 export const categories = [
   {
-    id: 1,
+    id: '1',
     name: 'Electronics',
     url: '/dummy/category/electronics.png',
     subCategory: [

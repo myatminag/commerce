@@ -18,6 +18,7 @@ import Pagination from './pagination';
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: any[];
+  pathname: string;
 }
 
 export const DataTable = <TData, TValue>({
