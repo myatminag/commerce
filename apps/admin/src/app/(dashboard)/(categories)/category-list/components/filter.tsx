@@ -12,12 +12,12 @@ const Filter = () => {
     <div className="ms-auto flex items-center justify-between gap-x-3">
       <SearchInput
         placeholder="Search categories..."
-        className="placeholder:text-primary-950 shadow-search-input w-full rounded-md lg:h-10 lg:w-64"
+        className="placeholder:text-brand-950 shadow-search-input w-full rounded-md lg:h-10 lg:w-64"
       />
 
       <Link
         href={`${pathname}/new-category`}
-        className="bg-primary flex h-10 items-center gap-x-2 rounded-md px-4 text-base font-light text-neutral-100"
+        className="bg-brand-600 flex h-10 items-center gap-x-2 rounded-md px-4 text-sm font-medium text-white"
       >
         <PlusIcon className="size-4" />
         Add Category

@@ -1,11 +1,23 @@
 import * as z from 'zod';
 import Image from 'next/image';
+import Link from 'next/link';
 import type { ColumnDef } from '@tanstack/react-table';
 
 import { Checkbox } from '@repo/ui/components/inputs/checkbox';
 import { ColumnHeader } from '@repo/ui/components/table/column-header';
 
-const categorySchema = z.object({});
+const categorySchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  url: z.string(),
+  subCategory: z.array(
+    z.object({
+      id: z.number(),
+      name: z.string(),
+      url: z.string(),
+    }),
+  ),
+});
 
 type Category = z.infer<typeof categorySchema>;
 
@@ -31,6 +43,7 @@ export const columns: ColumnDef<Category>[] = [
       return (
         <Checkbox
           checked={row.getIsSelected()}
+          onClick={(e) => e.stopPropagation()}
           onCheckedChange={(value) => row.toggleSelected(Boolean(value))}
           aria-label="Select row"
         />
@@ -40,17 +53,14 @@ export const columns: ColumnDef<Category>[] = [
   {
     accessorKey: 'name',
     header: ({ column }) => {
-      return (
-        <ColumnHeader
-          column={column}
-          title="Category name"
-          className="text-table-header text-base font-medium"
-        />
-      );
+      return <ColumnHeader column={column} title="Category name" />;
     },
     cell: ({ row }) => {
       return (
-        <div className="flex max-w-[500px] items-center gap-x-3">
+        <Link
+          href={`/category-list/${row.original.id}`}
+          className="flex max-w-[500px] items-center gap-x-3"
+        >
           <Image
             width={100}
             height={100}
@@ -58,10 +68,10 @@ export const columns: ColumnDef<Category>[] = [
             src="https://images.unsplash.com/photo-1594032194509-0056023973b2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=320&h=320&q=80"
             alt="Image Description"
           />
-          <p className="text-primary-950 truncate text-base font-medium">
+          <p className="truncate text-sm font-medium text-neutral-950">
             {row.getValue('name')}
           </p>
-        </div>
+        </Link>
       );
     },
     enableSorting: false,
@@ -70,21 +80,13 @@ export const columns: ColumnDef<Category>[] = [
   {
     accessorKey: 'brand',
     header: ({ column }) => {
-      return (
-        <ColumnHeader
-          column={column}
-          title="Sub categories"
-          className="text-table-header text-base font-medium"
-        />
-      );
+      return <ColumnHeader column={column} title="Sub categories" />;
     },
     cell: () => {
       return (
-        <div className="flex items-center space-x-2">
-          <p className="text-primary-950 max-w-[200px] truncate text-base font-medium">
-            Stove
-          </p>
-          <p className="text-primary-700 flex size-7 items-center justify-center rounded-full bg-[#C8E9E3] text-sm">
+        <div className="flex max-w-40 items-center space-x-2">
+          <p className="truncate text-sm font-medium text-neutral-950">Stove</p>
+          <p className="text-brand-600-700 flex size-7 items-center justify-center rounded-full bg-[#C8E9E3] text-sm">
             +8
           </p>
         </div>
@@ -96,19 +98,13 @@ export const columns: ColumnDef<Category>[] = [
   {
     accessorKey: 'product',
     header: ({ column }) => {
-      return (
-        <ColumnHeader
-          column={column}
-          title="Products"
-          className="text-table-header text-base font-medium"
-        />
-      );
+      return <ColumnHeader column={column} title="Products" />;
     },
     cell: () => {
       return (
         <div className="flex space-x-2">
-          <p className="text-primary-950 max-w-[100px] truncate text-base font-medium">
-            15 Products
+          <p className="max-w-24 truncate text-sm font-medium text-neutral-950">
+            15 <span className="text-[#4F5E5D]">Products</span>
           </p>
         </div>
       );
@@ -119,18 +115,12 @@ export const columns: ColumnDef<Category>[] = [
   {
     accessorKey: 'description',
     header: ({ column }) => {
-      return (
-        <ColumnHeader
-          column={column}
-          title="Description"
-          className="text-table-header text-base font-medium"
-        />
-      );
+      return <ColumnHeader column={column} title="Description" />;
     },
     cell: () => {
       return (
         <div className="flex space-x-2">
-          <p className="text-primary-950 max-w-[500px] truncate text-base font-medium">
+          <p className="max-w-[500px] truncate text-sm font-medium text-neutral-950">
             Clothing for men, women, and children
           </p>
         </div>
@@ -142,17 +132,11 @@ export const columns: ColumnDef<Category>[] = [
   {
     accessorKey: 'created-at',
     header: ({ column }) => {
-      return (
-        <ColumnHeader
-          column={column}
-          title="Last Modified On"
-          className="text-table-header text-base font-medium"
-        />
-      );
+      return <ColumnHeader column={column} title="Last Modified On" />;
     },
     cell: () => {
       return (
-        <span className="text-primary-950 max-w-[200px] truncate text-base font-medium">
+        <span className="max-w-[200px] truncate text-sm font-medium text-neutral-950">
           21 Feb 2024, 8:43 pm
         </span>
       );

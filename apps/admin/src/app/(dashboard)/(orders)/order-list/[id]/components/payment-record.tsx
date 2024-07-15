@@ -66,7 +66,7 @@ const PaymentRecord = () => {
           <Dialog>
             <DialogTrigger>
               <Button
-                className="text-primary-100 rounded-md bg-[#FAE9EA] px-4 text-sm"
+                className="text-brand-600-100 rounded-md bg-[#FAE9EA] px-4 text-sm"
                 size="sm"
               >
                 Reject
@@ -85,17 +85,17 @@ const PaymentRecord = () => {
                   <Button
                     type="button"
                     variant="outline"
-                    className="text-primary-100 bg-primary-200 w-full"
+                    className="text-brand-600-100 bg-brand-600-200 w-full"
                   >
                     Cancel
                   </Button>
                 </DialogClose>
-                <Button className="bg-primary-100 w-full">Reject</Button>
+                <Button className="bg-brand-600-100 w-full">Reject</Button>
               </div>
             </DialogContent>
           </Dialog>
           <Button
-            className="bg-primary-100 rounded-md px-4 text-sm text-white"
+            className="bg-brand-600-100 rounded-md px-4 text-sm text-white"
             size="sm"
           >
             Approve

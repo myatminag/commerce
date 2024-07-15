@@ -33,7 +33,7 @@ const ProductList = () => {
                   <p className="block text-sm text-neutral-800">
                     (123,000 Ks / pc)
                   </p>
-                  <p className="text-primary-100 block text-base font-semibold">
+                  <p className="text-brand-600-100 block text-base font-semibold">
                     123,000 Ks
                   </p>
                 </div>

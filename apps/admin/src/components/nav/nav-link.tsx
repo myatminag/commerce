@@ -16,9 +16,9 @@ export const NavLink = ({ path, name, icon }: NavLinkProps) => {
   return (
     <Link
       className={cn(
-        'flex items-center gap-x-3.5 px-6 py-3 text-base text-neutral-700',
+        'flex items-center gap-x-3.5 px-6 py-3 text-sm text-neutral-950',
         {
-          'text-primary-700 border-primary border-r-[3px] bg-[#D7F8D4] font-semibold':
+          'text-brand-700 border-brand-600 border-r-[3px] bg-[#D7F8D4] font-semibold':
             pathname === path,
         },
       )}

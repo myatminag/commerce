@@ -18,7 +18,7 @@ const ActionButton = () => {
       <Dialog>
         <DialogTrigger>
           <Button size="icon" className="rounded-md bg-[#FAE9EA] p-2">
-            <TrashIcon className="text-primary-100 size-5" />
+            <TrashIcon className="text-brand-600-100 size-5" />
           </Button>
         </DialogTrigger>
         <DialogContent className="max-w-sm">
@@ -34,16 +34,16 @@ const ActionButton = () => {
               <Button
                 type="button"
                 variant="outline"
-                className="text-primary-100 bg-primary-200 w-full"
+                className="text-brand-600-100 bg-brand-600-200 w-full"
               >
                 Cancel
               </Button>
             </DialogClose>
-            <Button className="bg-primary-100 w-full">Delete</Button>
+            <Button className="bg-brand-600-100 w-full">Delete</Button>
           </div>
         </DialogContent>
       </Dialog>
-      <Button className="bg-primary-100 flex-1 rounded-md p-2 text-base text-white">
+      <Button className="bg-brand-600-100 flex-1 rounded-md p-2 text-base text-white">
         Confirm
       </Button>
     </div>

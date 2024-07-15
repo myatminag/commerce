@@ -71,7 +71,7 @@ const SubCategoryList = () => {
         >
           {SUB_CATEGORY_DATA.map((data) => (
             <AccordionItem key={data.id} value={data.subCategoryName}>
-              <AccordionTrigger className="text-primary-950 my-3 h-8 text-base font-semibold">
+              <AccordionTrigger className="my-3 h-8 text-sm font-semibold text-neutral-950">
                 {data.subCategoryName}{' '}
                 <span className="ms-1 font-normal">
                   ({data.totalSubCategory})
@@ -79,6 +79,7 @@ const SubCategoryList = () => {
                 <div className="ms-auto flex items-center gap-x-3">
                   <Dialog>
                     <DialogTrigger
+                      asChild
                       type="button"
                       onClick={(e) => e.stopPropagation()}
                     >
@@ -89,6 +90,7 @@ const SubCategoryList = () => {
 
                   <Dialog>
                     <DialogTrigger
+                      asChild
                       type="button"
                       onClick={(e) => e.stopPropagation()}
                     >
@@ -96,10 +98,10 @@ const SubCategoryList = () => {
                     </DialogTrigger>
                     <DialogContent onClick={(e) => e.stopPropagation()}>
                       <DialogHeader className="mt-10 space-y-3">
-                        <DialogTitle className="text-primary-950 text-md font-semibold">
+                        <DialogTitle className="text-md font-bold text-neutral-950">
                           Are you want to delete this sub category?
                         </DialogTitle>
-                        <DialogDescription className="text-primary-950 text-base">
+                        <DialogDescription className="text-sm text-neutral-800">
                           This action cannot be undone. This will permanently
                           delete sub category and remove category type from sub
                           category.
@@ -111,12 +113,12 @@ const SubCategoryList = () => {
                             <Button
                               type="button"
                               variant="outline"
-                              className="text-primary border-primary bg-primary-50 w-[100px] text-base"
+                              className="w-[100px]"
                             >
                               Cancel
                             </Button>
                           </DialogClose>
-                          <Button type="submit" className="w-[100px] text-base">
+                          <Button type="button" className="w-[100px]">
                             Continue
                           </Button>
                         </div>
@@ -132,7 +134,7 @@ const SubCategoryList = () => {
                     className="flex items-center gap-x-3"
                   >
                     <SubCategoryFrameIcon />
-                    <p className="text-primary-950 text-base font-medium">
+                    <p className="text-sm font-medium text-neutral-950">
                       {categoryType.type}
                     </p>
                   </div>

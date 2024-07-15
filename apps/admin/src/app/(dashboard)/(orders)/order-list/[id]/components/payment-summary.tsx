@@ -28,7 +28,7 @@ const PaymentSummary = () => {
         <hr />
         <div className="flex items-center justify-between">
           <p className="text-base text-neutral-800">Total:</p>
-          <p className="text-primary-100 text-md font-medium">380,000 Ks</p>
+          <p className="text-brand-600-100 text-md font-medium">380,000 Ks</p>
         </div>
       </div>
     </div>

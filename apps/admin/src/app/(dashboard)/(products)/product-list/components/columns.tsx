@@ -170,7 +170,7 @@ const columns: ColumnDef<Product>[] = [
               Publish
             </span>
           ) : (
-            <span className="text-primary-100 bg-primary-100/30 inline-flex items-center gap-x-1 rounded-full px-2 py-0.5 text-base">
+            <span className="text-brand-600-100 bg-brand-600-100/30 inline-flex items-center gap-x-1 rounded-full px-2 py-0.5 text-base">
               <SuccessIcon className="h-[14px] w-[14px]" />
               Draft
             </span>

@@ -22,7 +22,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             id={id}
             type={isVisible ? 'text' : 'password'}
             className={cn(
-              'border-secondary-300 placeholder:text-placeholder focus-visible:ring-primary rounded-base flex h-9 w-full border bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
+              'border-border-100 placeholder:text-placeholder focus-visible:ring-brand-600 rounded-base flex h-10 w-full border bg-transparent px-3 py-1 text-base transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-sm focus:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
               className,
             )}
             ref={ref}
@@ -31,12 +31,12 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
           <button
             type="button"
             onClick={() => setIsVisible(!isVisible)}
-            className="absolute end-0 top-0 p-2.5 focus:outline-none disabled:pointer-events-none"
+            className="absolute end-0 top-0.5 p-2.5 focus:outline-none disabled:pointer-events-none"
           >
             {isVisible ? (
-              <VisibleIcon className="text-secondary-500 size-4 flex-shrink-0" />
+              <VisibleIcon className="size-4 flex-shrink-0 text-[#0F524870]" />
             ) : (
-              <InvisibleIcon className="text-secondary-500 size-4 flex-shrink-0" />
+              <InvisibleIcon className="size-4 flex-shrink-0 text-[#0F524870]" />
             )}
           </button>
         </div>

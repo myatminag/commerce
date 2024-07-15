@@ -23,7 +23,7 @@ const Actions = () => {
       <DropdownMenuContent align="end" className="w-[160px]">
         <DropdownMenuItem>Edit</DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="text-primary-100 focus:text-primary-100">
+        <DropdownMenuItem className="text-brand-600-100 focus:text-brand-600-100">
           Delete
         </DropdownMenuItem>
       </DropdownMenuContent>

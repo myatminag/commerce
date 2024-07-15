@@ -73,6 +73,8 @@ module.exports = {
     ],
     'import/no-default-export': 'off',
     'import/no-named-as-default': 'off',
+    'jsx-a11y/click-events-have-key-events': 'off',
+    'jsx-a11y/no-noninteractive-element-interactions': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-unsafe-return': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
