@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@repo/ui/libs/utils';
-import { Button } from '@repo/ui/components/button';
+import Link from 'next/link';
 
 import { useCategoryDetail } from '../use-category-detail';
 
@@ -39,9 +39,12 @@ const CategoryList = () => {
         <h2 className="text-brand-900 text-lg font-bold">
           Category <span className="text-md font-normal">(32)</span>
         </h2>
-        <Button>
-          <PlusIcon />
-        </Button>
+        <Link
+          href="/category-list/new-category"
+          className="bg-brand-600 flex h-10 w-12 items-center justify-center rounded-md"
+        >
+          <PlusIcon className="text-white" />
+        </Link>
       </div>
       <ul className="space-y-2 pt-6">
         {CATEGORY_LIST.map((data) => (

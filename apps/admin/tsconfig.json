@@ -7,7 +7,8 @@
       "@components/*": ["./src/components/*"],
       "@constants/*": ["./src/constants/*"],
       "@store/*": ["./src/store/*"],
-      "@assets/*": ["./src/assets/*"]
+      "@assets/*": ["./src/assets/*"],
+      "@/types/*": ["./src/types/*"] // Including "/" prevents from @types global import error.
     }
   },
   "include": [

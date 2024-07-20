@@ -1,8 +1,10 @@
 'use client';
 
-import { UploadImageIcon } from '@components/icons/image-upload-icon';
+import { Label } from '@repo/ui/components/inputs/label';
 import { Input } from '@repo/ui/components/inputs/input';
-import { Textarea } from '@repo/ui/components/inputs/text-area';
+
+import { UploadImageIcon } from '@components/icons/image-upload-icon';
+import { TextEditor } from '@components/editor/text-editor';
 
 const CategoryForm = () => {
   return (
@@ -58,11 +60,8 @@ const CategoryForm = () => {
       <form className="mt-6 space-y-4">
         <Input label="Category name" placeholder="Enter category name" />
 
-        <Textarea
-          label="Description"
-          placeholder="Enter description"
-          rows={8}
-        />
+        <Label className="block">Description</Label>
+        <TextEditor />
       </form>
     </>
   );
