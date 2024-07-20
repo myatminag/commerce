@@ -8,7 +8,7 @@ const SectionWrapper = forwardRef<HTMLLIElement, ComponentPropsWithRef<'li'>>(
     <section
       ref={ref}
       className={cn(
-        'hidden h-full flex-col space-y-4 lg:flex lg:pb-6 lg:pt-24',
+        'hidden h-full flex-col lg:flex lg:pb-6 lg:pt-24',
         className,
       )}
       {...props}

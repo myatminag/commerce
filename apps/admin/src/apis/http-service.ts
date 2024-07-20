@@ -1,4 +1,3 @@
-import type { AxiosInstance } from 'axios';
 import axios from 'axios';
 import { getSession } from 'next-auth/react';
 
@@ -8,6 +7,7 @@ export const authURL = `${baseURL}/auth`;
 export const authHttpService = axios.create({
   baseURL: authURL,
   headers: {
+    'Content-Type': 'application/json',
     Accept: 'application/json',
   },
 });
@@ -19,21 +19,29 @@ export const baseUrlService = axios.create({
   },
 });
 
-const httpRequestInterceptor = (service: AxiosInstance) => {
-  return service.interceptors.request.use(
-    async (config) => {
-      const session = await getSession();
+authHttpService.interceptors.request.use(
+  async (config) => {
+    const session = await getSession();
 
-      if (session?.user.accessToken) {
-        config.headers['Authorization'] = `Bearer ${session.user.accessToken}`;
-      }
+    // If a token is found, add it to the headers
+    if (session?.user.accessToken) {
+      config.headers.Authorization = `Bearer ${session.user.accessToken}`;
+    }
 
-      return config;
-    },
-    (error) => {
-      return Promise.resolve(error);
-    },
-  );
-};
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
 
-httpRequestInterceptor(baseUrlService);
+authHttpService.interceptors.response.use(
+  (response) => {
+    return response.data;
+  },
+  (error) => {
+    // Handle the error response here ...
+
+    return Promise.reject(error);
+  },
+);

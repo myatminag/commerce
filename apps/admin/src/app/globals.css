@@ -68,3 +68,8 @@
 .react-select__indicator {
   cursor: pointer !important;
 }
+
+/* ----- Editor ----- */
+.editor-text-strikethrough {
+  text-decoration: line-through;
+}

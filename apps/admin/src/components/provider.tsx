@@ -9,7 +9,15 @@ import { Provider } from 'react-redux';
 import { appStore } from '../store/store';
 import type { AppStore } from '../store/store';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60,
+      retry: false,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const AppProvider = ({ children }: { children: ReactNode }) => {
   const storeRef = useRef<AppStore>();

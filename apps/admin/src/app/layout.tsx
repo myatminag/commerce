@@ -3,7 +3,7 @@ import '@repo/ui/style.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
-import AppProvider from './provider';
+import AppProvider from '../components/provider';
 import { Toaster } from '@repo/ui/components/toast/toaster';
 
 const roboto = Inter({

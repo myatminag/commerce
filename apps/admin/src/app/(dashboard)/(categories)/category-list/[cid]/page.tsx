@@ -14,7 +14,7 @@ const CategoryDetail = () => {
       <div className="col-span-1 overflow-y-auto">
         <CategoryList />
       </div>
-      <div className="col-span-3 min-h-[calc(100vh-140px)] rounded-lg bg-white p-5">
+      <div className="col-span-3 min-h-[calc(100vh-160px)] rounded-lg bg-white p-5">
         <CategoryInfo />
       </div>
     </SectionWrapper>
