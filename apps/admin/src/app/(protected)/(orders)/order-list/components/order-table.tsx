@@ -1,11 +1,11 @@
 'use client';
 
-import { DataTable } from '@repo/ui/components/table/data-table';
+// import { DataTable } from '@repo/ui/components/table/data-table';
 
 import Filter from './filter';
 
-import { orders } from './data';
-import columns from './column';
+// import { orders } from './data';
+// import columns from './column';
 
 const OrderTable = () => {
   return (
@@ -14,7 +14,7 @@ const OrderTable = () => {
 
       <Filter />
 
-      <DataTable columns={columns} data={orders} />
+      {/* <DataTable columns={columns} data={orders} /> */}
     </>
   );
 };
