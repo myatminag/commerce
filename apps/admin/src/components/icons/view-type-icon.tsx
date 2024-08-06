@@ -1,6 +1,6 @@
 import type { SVGProps } from 'react';
 
-const CardIcon = (props: SVGProps<SVGSVGElement>) => {
+export const CardViewIcon = (props: SVGProps<SVGSVGElement>) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -18,4 +18,20 @@ const CardIcon = (props: SVGProps<SVGSVGElement>) => {
   );
 };
 
-export default CardIcon;
+export const RowViewIcon = (props: SVGProps<SVGSVGElement>) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="18"
+      fill="none"
+      viewBox="0 0 18 18"
+      {...props}
+    >
+      <path
+        fill="#04A88C"
+        d="M2.25 7.313h13.5v3.375H2.25V7.312zM2.25 14.625a1.125 1.125 0 001.125 1.125h11.25a1.125 1.125 0 001.125-1.125v-2.813H2.25v2.813zM14.625 2.25H3.375A1.125 1.125 0 002.25 3.375v2.813h13.5V3.374a1.125 1.125 0 00-1.125-1.125z"
+      />
+    </svg>
+  );
+};

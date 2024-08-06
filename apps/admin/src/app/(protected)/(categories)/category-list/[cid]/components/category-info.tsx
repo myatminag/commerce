@@ -65,13 +65,19 @@ const CategoryInfo = () => {
       </div>
       <Tabs defaultValue="overview" className="mt-2 w-full">
         <TabsList className="w-full justify-start gap-x-6 border-b">
-          <TabsTrigger value="overview" className="py-[14.5px]">
+          <TabsTrigger value="overview" className="py-4 text-sm font-semibold">
             Overview
           </TabsTrigger>
-          <TabsTrigger value="related-products" className="py-[14.5px]">
+          <TabsTrigger
+            value="related-products"
+            className="py-4 text-sm font-semibold"
+          >
             Related products
           </TabsTrigger>
-          <TabsTrigger value="related-brands" className="py-[14.5px]">
+          <TabsTrigger
+            value="related-brands"
+            className="py-4 text-sm font-semibold"
+          >
             Related brands
           </TabsTrigger>
         </TabsList>

@@ -1,12 +1,16 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { PlusIcon } from '@components/icons/plus-icon';
 import { SearchInput } from '@repo/ui/components/inputs/search-input';
-import CardIcon from '@components/icons/card-icon';
+
+import { useCategoryList } from '../use-category-list';
+import { PlusIcon } from '@components/icons/plus-icon';
+import { CardViewIcon, RowViewIcon } from '@components/icons/view-type-icon';
 
 const Filter = () => {
   const pathname = usePathname();
+
+  const { viewType, handleToggleViewType } = useCategoryList();
 
   return (
     <div className="ms-auto flex items-center justify-between gap-x-3">
@@ -17,7 +21,7 @@ const Filter = () => {
 
       <Link
         href={`${pathname}/new-category`}
-        className="bg-brand-600 flex h-10 items-center gap-x-2 rounded-md px-4 text-sm font-medium text-white"
+        className="bg-brand-600 flex h-10 w-40 items-center justify-center gap-x-2 rounded-md px-4 text-sm font-medium text-white"
       >
         <PlusIcon className="size-4" />
         Add Category
@@ -25,9 +29,10 @@ const Filter = () => {
 
       <button
         type="button"
-        className="s flex size-10 items-center justify-center rounded-md bg-white shadow-sm"
+        onClick={handleToggleViewType}
+        className="flex size-10 items-center justify-center rounded-md bg-white shadow-sm"
       >
-        <CardIcon />
+        {viewType === 'rows' ? <CardViewIcon /> : <RowViewIcon />}
       </button>
     </div>
   );

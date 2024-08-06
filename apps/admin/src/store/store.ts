@@ -1,9 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import viewTypeSlice from './features/view-type.slice';
+
 export const appStore = () => {
   return configureStore({
     devTools: true,
-    reducer: {},
+    reducer: {
+      viewType: viewTypeSlice,
+    },
   });
 };
 

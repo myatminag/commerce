@@ -8,6 +8,7 @@
       "@constants/*": ["./src/constants/*"],
       "@store/*": ["./src/store/*"],
       "@assets/*": ["./src/assets/*"],
+      "@hooks/*": ["./src/hooks/*"],
       "@/types/*": ["./src/types/*"] // Including "/" prevents from @types global import error.
     }
   },

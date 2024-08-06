@@ -1,23 +1,11 @@
 import * as z from 'zod';
 import Image from 'next/image';
-import Link from 'next/link';
 import type { ColumnDef } from '@tanstack/react-table';
 
 import { Checkbox } from '@repo/ui/components/inputs/checkbox';
 import { ColumnHeader } from '@repo/ui/components/table/column-header';
 
-const categorySchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  url: z.string(),
-  subCategory: z.array(
-    z.object({
-      id: z.number(),
-      name: z.string(),
-      url: z.string(),
-    }),
-  ),
-});
+const categorySchema = z.object({});
 
 type Category = z.infer<typeof categorySchema>;
 
@@ -53,14 +41,11 @@ export const columns: ColumnDef<Category>[] = [
   {
     accessorKey: 'name',
     header: ({ column }) => {
-      return <ColumnHeader column={column} title="Category name" />;
+      return <ColumnHeader column={column} title="Brand name" />;
     },
     cell: ({ row }) => {
       return (
-        <Link
-          href={`/category-list/${row.original.id}`}
-          className="flex max-w-[500px] items-center gap-x-3"
-        >
+        <div className="flex max-w-[500px] items-center gap-x-3">
           <Image
             width={100}
             height={100}
@@ -71,21 +56,23 @@ export const columns: ColumnDef<Category>[] = [
           <p className="truncate text-sm font-medium text-neutral-950">
             {row.getValue('name')}
           </p>
-        </Link>
+        </div>
       );
     },
     enableSorting: false,
     enableHiding: false,
   },
   {
-    accessorKey: 'brand',
+    accessorKey: 'description',
     header: ({ column }) => {
-      return <ColumnHeader column={column} title="Sub categories" />;
+      return <ColumnHeader column={column} title="Categories" />;
     },
     cell: () => {
       return (
-        <div className="flex max-w-40 items-center space-x-2">
-          <p className="truncate text-sm font-medium text-neutral-950">Stove</p>
+        <div className="flex max-w-60 items-center space-x-2">
+          <p className="truncate text-sm font-medium text-neutral-950">
+            Clothes / Women&apos;s
+          </p>
           <p className="text-brand-600-700 flex size-7 items-center justify-center rounded-full bg-[#C8E9E3] text-sm">
             +8
           </p>
@@ -102,28 +89,24 @@ export const columns: ColumnDef<Category>[] = [
     },
     cell: () => {
       return (
-        <div className="flex space-x-2">
-          <p className="max-w-24 truncate text-sm font-medium text-neutral-950">
-            15 <span className="text-[#4F5E5D]">Products</span>
-          </p>
-        </div>
+        <p className="max-w-24 truncate text-sm font-medium text-neutral-950">
+          123 <span className="text-[#4F5E5D]">Products</span>
+        </p>
       );
     },
     enableSorting: false,
     enableHiding: false,
   },
   {
-    accessorKey: 'description',
+    accessorKey: 'created-at',
     header: ({ column }) => {
       return <ColumnHeader column={column} title="Description" />;
     },
     cell: () => {
       return (
-        <div className="flex space-x-2">
-          <p className="max-w-[500px] truncate text-sm font-medium text-neutral-950">
-            Clothing for men, women, and children
-          </p>
-        </div>
+        <p className="max-w-[500px] truncate text-sm font-medium text-neutral-950">
+          Clothing for men, women, and children
+        </p>
       );
     },
     enableSorting: false,

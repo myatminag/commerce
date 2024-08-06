@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 
 import { cn } from '@repo/ui/libs/utils';
 
-import { NavLink } from './nav-link';
+import { NavLink } from './nav-item';
 import { DashboardIcon } from '../icons/dashboard-icon';
 import { CategoryIcon } from '../icons/category-icon';
 
