@@ -23,7 +23,7 @@ const ProductTable = () => {
       {isLoading ? (
         <p>Loading...</p>
       ) : data && data?.items.length > 0 ? (
-        <DataTable data={data?.items} columns={columns} />
+        <DataTable data={data?.items} columns={columns} viewType="rows" />
       ) : (
         <p>No Results found</p>
       )}
