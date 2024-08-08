@@ -4,7 +4,7 @@ import { getSession } from 'next-auth/react';
 export const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 export const authURL = `${baseURL}/auth`;
 
-export const authHttpService = axios.create({
+export const axiosService = axios.create({
   baseURL: authURL,
   headers: {
     'Content-Type': 'application/json',
@@ -12,14 +12,7 @@ export const authHttpService = axios.create({
   },
 });
 
-export const baseUrlService = axios.create({
-  baseURL,
-  headers: {
-    Accept: 'application/json',
-  },
-});
-
-authHttpService.interceptors.request.use(
+axiosService.interceptors.request.use(
   async (config) => {
     const session = await getSession();
 
@@ -35,7 +28,7 @@ authHttpService.interceptors.request.use(
   },
 );
 
-authHttpService.interceptors.response.use(
+axiosService.interceptors.response.use(
   (response) => {
     return response.data;
   },

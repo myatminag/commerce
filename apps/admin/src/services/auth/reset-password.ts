@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { authHttpService } from '@apis/http-service';
+import { axiosService } from '../axios-service';
 
 interface Payload {
   password: string;
@@ -13,7 +13,7 @@ export const useSetNewPassword = ({
 }) => {
   return useMutation<any, unknown, Payload>({
     mutationFn: async (payload) => {
-      return authHttpService.post(
+      return axiosService.post(
         `/admin/reset-password/${sessionToken}`,
         payload,
       );

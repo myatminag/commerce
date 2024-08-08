@@ -4,7 +4,7 @@ import { forwardRef } from 'react';
 import { cn } from '@repo/ui/libs/utils';
 
 const SectionWrapper = forwardRef<
-  HTMLLIElement,
+  HTMLElement,
   ComponentPropsWithRef<'section'>
 >(({ className, children, ...props }, ref) => (
   <section

@@ -3,7 +3,7 @@
   "compilerOptions": {
     "plugins": [{ "name": "next" }],
     "paths": {
-      "@apis/*": ["./src/apis/*"],
+      "@services/*": ["./src/services/*"],
       "@components/*": ["./src/components/*"],
       "@constants/*": ["./src/constants/*"],
       "@store/*": ["./src/store/*"],

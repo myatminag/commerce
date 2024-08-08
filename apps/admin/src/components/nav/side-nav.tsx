@@ -3,93 +3,91 @@
 import { usePathname } from 'next/navigation';
 
 import { cn } from '@repo/ui/libs/utils';
+import { CdsIcon } from '@repo/ui/icons/cds-icon';
 
-import { NavLink } from './nav-item';
-import { DashboardIcon } from '../icons/dashboard-icon';
-import { CategoryIcon } from '../icons/category-icon';
+import { useAppSelector, useAppDispatch } from '@store/hook';
+import { toggleExpandable } from '@store/features/expandable.slice';
+
+import { NavItem } from './nav-item';
+import { DashboardIcon } from '@components/icons/dashboard-icon';
+import { CategoryIcon } from '@components/icons/category-icon';
+import { ExpandableIcon } from '@components/icons/expandable-icon';
 
 export const SideNav = () => {
   const pathname = usePathname();
+  const dispatch = useAppDispatch();
+
+  const isExpandable = useAppSelector((state) => state.expandable.isExpandable);
 
   return (
-    <aside className="fixed bottom-0 start-0 top-0 z-40 hidden w-[240px] -translate-x-full transform overflow-y-auto border-e border-gray-200 bg-white pb-10 pt-6 transition-all duration-300 lg:bottom-0 lg:end-auto lg:block lg:translate-x-0 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-gray-100 dark:[&::-webkit-scrollbar-track]:bg-slate-700 [&::-webkit-scrollbar]:w-2">
-      <nav className="pt-20">
-        <ul className="space-y-1.5">
-          <p className="mb-3 ps-6 text-base uppercase text-[#2F575380]">
-            Main Menu
-          </p>
-
-          <NavLink
-            path="/"
-            name="Dashboard"
-            icon={
+    <aside
+      className={cn(
+        'fixed inset-y-0 left-0 z-50 w-[86px] transform border-r bg-white transition-all duration-300',
+        {
+          'w-[230px]': isExpandable,
+        },
+      )}
+    >
+      <button
+        type="button"
+        onClick={() => dispatch(toggleExpandable())}
+        className="absolute left-full top-4 z-50 -translate-x-1/2 transform"
+      >
+        <ExpandableIcon />
+      </button>
+      <div className="flex h-[64px] items-center border-b pl-4">
+        <CdsIcon className="text-brand-600 size-12" />
+        <p
+          className={cn('text-md hidden font-extrabold text-neutral-950', {
+            block: isExpandable,
+          })}
+        >
+          Capture Digital
+        </p>
+      </div>
+      <div className="pt-10">
+        <NavItem
+          path="/"
+          name="Dashboard"
+          icon={
+            <div
+              className={cn(
+                'flex h-[40px] w-[60px] items-center justify-center rounded-lg',
+                {
+                  'bg-[#E4FEF7]': pathname === '/',
+                },
+              )}
+            >
               <DashboardIcon
                 className={cn('size-5 flex-shrink-0 text-neutral-950', {
                   'text-brand-700': pathname === '/',
                 })}
               />
-            }
-          />
+            </div>
+          }
+        />
 
-          <NavLink
-            path="/category-list"
-            name="Category"
-            icon={
+        <NavItem
+          path="/category-list"
+          name="Categories"
+          icon={
+            <div
+              className={cn(
+                'flex h-[40px] w-[60px] items-center justify-center rounded-lg',
+                {
+                  'bg-[#E4FEF7]': pathname === '/category-list',
+                },
+              )}
+            >
               <CategoryIcon
                 className={cn('size-5 flex-shrink-0 text-neutral-950', {
                   'text-brand-700': pathname === '/category-list',
                 })}
               />
-            }
-          />
-
-          {/* 
-          <Accordion type="single" collapsible className="w-full space-y-3">
-            <AccordionItem value="products">
-              <AccordionTrigger className="flex w-full items-center gap-x-3.5 rounded-md px-2.5 py-2 text-base font-normal hover:bg-neutral-100">
-                <CategoryIcon className="[data-disabled] size-5 flex-shrink-0 text-neutral-700" />
-                Catalog
-              </AccordionTrigger>
-              <AccordionContent className="ps-2 pt-2">
-                {CatalogLinks.map((product) => (
-                  <Link
-                    key={product.id}
-                    className="flex items-center gap-x-3.5 rounded-lg px-2.5 py-2 text-sm text-neutral-700 hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                    href={product.path}
-                  >
-                    {product.name}
-                  </Link>
-                ))}
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="marketing">
-              <AccordionTrigger className="flex w-full items-center gap-x-3.5 rounded-md px-2.5 py-2 text-base font-normal hover:bg-neutral-100">
-                <MarketingIcon className="[data-disabled] size-5 flex-shrink-0 text-neutral-700" />
-                Marketing
-              </AccordionTrigger>
-              <AccordionContent className="ps-2 pt-2">
-                {MarketingLinks.map((marketing) => (
-                  <Link
-                    key={marketing.id}
-                    className="flex items-center gap-x-3.5 rounded-lg px-2.5 py-2 text-sm text-neutral-700 hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                    href={marketing.path}
-                  >
-                    {marketing.name}
-                  </Link>
-                ))}
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion> */}
-
-          {/* <button
-            onClick={() => signOut({ callbackUrl: 'http://localhost:3001' })}
-            className="flex w-full items-center gap-x-3.5 rounded-sm px-2.5 py-2 text-base text-neutral-700 hover:bg-gray-100"
-          >
-            <LogoutIcon className="size-5 flex-shrink-0 text-neutral-700" />
-            Logout
-          </button> */}
-        </ul>
-      </nav>
+            </div>
+          }
+        />
+      </div>
     </aside>
   );
 };

@@ -3,7 +3,7 @@ import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { useRecoverPassword } from '@apis/auth/recover-password';
+import { useRecoverPassword } from '../../../services/auth/recover-password';
 
 import { useToast } from '@repo/ui/components/toast/use-toast';
 

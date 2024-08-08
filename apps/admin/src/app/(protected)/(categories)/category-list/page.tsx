@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 const Page = () => {
   return (
-    <SectionWrapper className="lg:pe-6 lg:ps-[265px]">
+    <SectionWrapper className="lg:pe-6">
       <CategoryTable />
     </SectionWrapper>
   );

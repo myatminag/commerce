@@ -1,4 +1,4 @@
-import { authHttpService } from '@apis/http-service';
+import { axiosService } from '../axios-service';
 
 interface AdminSignIn {
   email: string;
@@ -16,5 +16,5 @@ interface SignInResponse {
 export const signInService = async (
   data: AdminSignIn,
 ): Promise<SignInResponse> => {
-  return authHttpService.post('/admin-login', data).then((res) => res.data);
+  return axiosService.post('/admin-login', data).then((res) => res.data);
 };
