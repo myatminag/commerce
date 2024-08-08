@@ -1,6 +1,6 @@
 import type { SVGProps } from 'react';
 
-const CreateIcon = (props: SVGProps<SVGSVGElement>) => {
+export const CreateIcon = (props: SVGProps<SVGSVGElement>) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -26,5 +26,3 @@ const CreateIcon = (props: SVGProps<SVGSVGElement>) => {
     </svg>
   );
 };
-
-export default CreateIcon;

@@ -1,9 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import expandableReducer from './features/expandable.slice';
+
 export const appStore = () => {
   return configureStore({
     devTools: true,
-    reducer: {},
+    reducer: {
+      expandable: expandableReducer,
+    },
   });
 };
 

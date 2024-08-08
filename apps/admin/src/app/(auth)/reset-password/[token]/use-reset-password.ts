@@ -4,7 +4,7 @@ import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { useSetNewPassword } from '@apis/auth/reset-password';
+import { useSetNewPassword } from '../../../../services/auth/reset-password';
 
 import { useToast } from '@repo/ui/components/toast/use-toast';
 
