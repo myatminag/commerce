@@ -6,19 +6,13 @@ import { PopularIcon } from '@components/icons/popular-icon';
 import { FilterIcon } from '@components/icons/filter-icon';
 import { PlusIcon } from '@components/icons/plus-icon';
 
-import { useProductList } from '../use-products-list';
-
 const Filter = () => {
-  const { searchParams, handleSearchProducts } = useProductList();
-
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-x-3">
         <SearchInput
           placeholder="Search products..."
           className="w-full lg:w-64"
-          defaultValue={searchParams.get('q')?.toString()}
-          onChange={(e) => handleSearchProducts(e.target.value)}
         />
         <button
           type="button"
