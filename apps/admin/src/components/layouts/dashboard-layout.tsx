@@ -16,7 +16,7 @@ export const DashboardLayout = ({
   return (
     <main
       className={cn(
-        'relative min-h-screen flex-1 pl-6 transition-all duration-300',
+        'relative min-h-screen flex-1 transition-all duration-300',
         {
           'ml-20': !isExpandable,
           'ml-[230px]': isExpandable,
