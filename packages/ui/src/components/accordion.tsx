@@ -3,7 +3,6 @@ import * as AccordionPrimitive from '@radix-ui/react-accordion';
 // import { ChevronDown } from 'lucide-react';
 
 import { cn } from '../libs/utils';
-import { SubCategoryChevron } from '../icons/chevron-icon';
 
 const Accordion = AccordionPrimitive.Root;
 
@@ -28,7 +27,6 @@ const AccordionTrigger = React.forwardRef<
       )}
       {...props}
     >
-      <SubCategoryChevron className="AccordionChevron me-5 size-4 shrink-0 transition-transform duration-200" />
       {children}
       {/* <ChevronDown className="AccordionChevron ms-auto h-4 w-4 shrink-0 transition-transform duration-200" /> */}
     </AccordionPrimitive.Trigger>

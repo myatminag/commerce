@@ -14,7 +14,7 @@ export const ColumnHeader = <TData, TValue>({
   title,
   className,
 }: ColumnHeaderProps<TData, TValue>) => {
-  if (!column.getCanSort()) {
+  if (!column?.getCanSort()) {
     return (
       <p className={cn('text-table-header text-sm font-medium', className)}>
         {title}

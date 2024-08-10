@@ -13,11 +13,11 @@ import {
   DialogClose,
 } from '@repo/ui/components/dialog/dialog';
 import { Button } from '@repo/ui/components/button';
+import { Input } from '@repo/ui/components/inputs/input';
 import { Label } from '@repo/ui/components/inputs/label';
 
 import { PlusIcon } from '@components/icons/plus-icon';
 import { SubCategoryUploadIcon } from '@components/icons/subcategory-upload-icon';
-import { Input } from '@repo/ui/components/inputs/input';
 
 const components = {
   DropdownIndicator: null,

@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unknown-property -- disabling the rule because of cmdk package */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access -- disabling the rule because of cmdk package */
+
 'use client';
 
 import * as React from 'react';

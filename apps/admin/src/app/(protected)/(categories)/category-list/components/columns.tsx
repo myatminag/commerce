@@ -6,6 +6,8 @@ import type { ColumnDef } from '@tanstack/react-table';
 import { Checkbox } from '@repo/ui/components/inputs/checkbox';
 import { ColumnHeader } from '@repo/ui/components/table/column-header';
 
+import { useViewType } from '@hooks/use-view-type';
+
 const categorySchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -24,30 +26,42 @@ type Category = z.infer<typeof categorySchema>;
 export const columns: ColumnDef<Category>[] = [
   {
     id: 'select',
-    header: ({ table }) => {
-      return (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && 'indeterminate')
-          }
-          onCheckedChange={(value) =>
-            table.toggleAllPageRowsSelected(Boolean(value))
-          }
-          aria-label="Select all"
-          className="translate-y-[2px]"
-        />
-      );
+    header: function HeaderComponent({ table }) {
+      const { viewType } = useViewType();
+
+      if (viewType === 'rows') {
+        return (
+          <Checkbox
+            checked={
+              table.getIsAllPageRowsSelected() ||
+              (table.getIsSomePageRowsSelected() && 'indeterminate')
+            }
+            onCheckedChange={(value) =>
+              table.toggleAllPageRowsSelected(Boolean(value))
+            }
+            aria-label="Select all"
+            className="translate-y-[2px]"
+          />
+        );
+      }
+
+      return null;
     },
-    cell: ({ row }) => {
-      return (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onClick={(e) => e.stopPropagation()}
-          onCheckedChange={(value) => row.toggleSelected(Boolean(value))}
-          aria-label="Select row"
-        />
-      );
+    cell: function CellComponent({ row }) {
+      const { viewType } = useViewType();
+
+      if (viewType === 'rows') {
+        return (
+          <Checkbox
+            checked={row.getIsSelected()}
+            onClick={(e) => e.stopPropagation()}
+            onCheckedChange={(value) => row.toggleSelected(Boolean(value))}
+            aria-label="Select row"
+          />
+        );
+      }
+
+      return null;
     },
   },
   {
@@ -78,7 +92,7 @@ export const columns: ColumnDef<Category>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'brand',
+    accessorKey: 'sub-categories',
     header: ({ column }) => {
       return <ColumnHeader column={column} title="Sub categories" />;
     },

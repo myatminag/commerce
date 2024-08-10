@@ -1,5 +1,5 @@
 const Page = () => {
-  return <div>Role and Permission</div>;
+  return <div>Enter</div>;
 };
 
 export default Page;

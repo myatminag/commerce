@@ -1,14 +1,24 @@
-import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useCallback } from 'react';
 
 export const useViewType = () => {
-  const [viewType, setViewType] = useState<'rows' | 'cards'>('rows');
+  const searchParams = useSearchParams();
 
-  const handleToggleViewType = () => {
-    setViewType((prevView) => (prevView === 'rows' ? 'cards' : 'rows'));
-  };
+  const viewType = (searchParams.get('view') as 'cards' | 'rows') || 'rows';
+
+  const createQueryString = useCallback(
+    (value: 'rows' | 'cards') => {
+      const params = new URLSearchParams(searchParams.toString());
+
+      params.set('view', value);
+
+      return params.toString();
+    },
+    [searchParams],
+  );
 
   return {
     viewType,
-    handleToggleViewType,
+    createQueryString,
   };
 };
