@@ -19,11 +19,14 @@ export const NavItem = ({ path, name, icon }: NavLinkProps) => {
 
   return (
     <Link
-      className={cn('flex items-center py-2.5 pl-3 text-sm text-neutral-950', {
-        'text-brand-700 border-brand-600 border-r-[3px] bg-[#E4FEF7] font-semibold':
-          pathname === path,
-        'border-none bg-transparent': !isExpandable,
-      })}
+      className={cn(
+        'flex items-center py-1 pl-3 text-sm font-semibold text-neutral-700',
+        {
+          'text-brand-700 border-brand-600 border-r-[3px] bg-[#E4FEF7]':
+            pathname === path,
+          'border-none bg-transparent': !isExpandable,
+        },
+      )}
       href={path}
     >
       {icon}

@@ -9,7 +9,6 @@ import { SearchInput } from '@repo/ui/components/inputs/search-input';
 import { useAppSelector } from '@store/hook';
 
 import { CreateIcon } from '@components/icons/create-icon';
-import { SettingIcon } from '@components/icons/setting-icon';
 import { TranslationIcon } from '@components/icons/translation-icon';
 
 export const HeaderNav = () => {
@@ -36,12 +35,6 @@ export const HeaderNav = () => {
           <div className="flex flex-row items-center justify-end gap-x-4">
             <button type="button">
               <CreateIcon />
-            </button>
-            <button
-              type="button"
-              className="border-border inline-flex size-10 items-center justify-center rounded-full border"
-            >
-              <SettingIcon className="size-6 flex-shrink-0 text-neutral-700" />
             </button>
             <button
               type="button"

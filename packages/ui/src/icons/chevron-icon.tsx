@@ -33,7 +33,7 @@ export const ChevronIcon = ({
   );
 };
 
-export const SubCategoryChevron = (props: SVGProps<SVGSVGElement>) => {
+export const AccordionChevronIcon = (props: SVGProps<SVGSVGElement>) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

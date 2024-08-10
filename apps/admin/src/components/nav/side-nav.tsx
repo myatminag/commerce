@@ -4,14 +4,63 @@ import { usePathname } from 'next/navigation';
 
 import { cn } from '@repo/ui/libs/utils';
 import { CdsIcon } from '@repo/ui/icons/cds-icon';
+import { Separator } from '@repo/ui/components/separator';
 
 import { useAppSelector, useAppDispatch } from '@store/hook';
 import { toggleExpandable } from '@store/features/expandable.slice';
 
+import { NavMenu } from '@lib/pathnames';
+
 import { NavItem } from './nav-item';
 import { DashboardIcon } from '@components/icons/dashboard-icon';
 import { CategoryIcon } from '@components/icons/category-icon';
+import { ProductsIcon } from '@components/icons/product-icon';
 import { ExpandableIcon } from '@components/icons/expandable-icon';
+import { BrandIcon } from '@components/icons/brand-icon';
+import { OrderIcon } from '@components/icons/order-icon';
+import { CustomerIcon } from '@components/icons/customer-icon';
+import { PersonalizationIcon } from '@components/icons/personalization-icon';
+import { SettingIcon } from '@components/icons/setting-icon';
+
+export interface NavItemProps {
+  path?: string;
+  name?: string;
+  iconKey?: keyof typeof icons;
+  separator?: string;
+}
+
+interface IconWrapperProps {
+  path: string;
+  children: React.ReactNode;
+}
+
+const icons = {
+  dashboard: DashboardIcon,
+  products: ProductsIcon,
+  categories: CategoryIcon,
+  brands: BrandIcon,
+  orders: OrderIcon,
+  customers: CustomerIcon,
+  personalization: PersonalizationIcon,
+  settings: SettingIcon,
+};
+
+const IconWrapper = ({ path, children }: IconWrapperProps) => {
+  const pathname = usePathname();
+
+  return (
+    <div
+      className={cn(
+        'flex h-[40px] w-[60px] items-center justify-center rounded-lg',
+        {
+          'bg-[#E4FEF7]': pathname === path,
+        },
+      )}
+    >
+      {children}
+    </div>
+  );
+};
 
 export const SideNav = () => {
   const pathname = usePathname();
@@ -46,47 +95,33 @@ export const SideNav = () => {
         </p>
       </div>
       <div className="pt-10">
-        <NavItem
-          path="/"
-          name="Dashboard"
-          icon={
-            <div
-              className={cn(
-                'flex h-[40px] w-[60px] items-center justify-center rounded-lg',
-                {
-                  'bg-[#E4FEF7]': pathname === '/',
-                },
-              )}
-            >
-              <DashboardIcon
-                className={cn('size-5 flex-shrink-0 text-neutral-950', {
-                  'text-brand-700': pathname === '/',
-                })}
-              />
-            </div>
+        {NavMenu.map(({ path, name, iconKey, separator }) => {
+          if (separator) {
+            return <Separator key={separator} className="my-3" />;
           }
-        />
 
-        <NavItem
-          path="/category-list"
-          name="Categories"
-          icon={
-            <div
-              className={cn(
-                'flex h-[40px] w-[60px] items-center justify-center rounded-lg',
-                {
-                  'bg-[#E4FEF7]': pathname === '/category-list',
-                },
-              )}
-            >
-              <CategoryIcon
-                className={cn('size-5 flex-shrink-0 text-neutral-950', {
-                  'text-brand-700': pathname === '/category-list',
-                })}
+          if (path && name && iconKey) {
+            const IconComponent = icons[iconKey];
+
+            return (
+              <NavItem
+                key={path}
+                path={path}
+                name={name}
+                icon={
+                  <IconWrapper path={path}>
+                    <IconComponent
+                      className={cn('size-5 flex-shrink-0 text-[#64716F]', {
+                        'text-brand-700': pathname === path,
+                      })}
+                    />
+                  </IconWrapper>
+                }
               />
-            </div>
+            );
           }
-        />
+          return null; // fallback for invalid nav items
+        })}
       </div>
     </aside>
   );

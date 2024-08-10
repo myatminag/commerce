@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 import { SearchInput } from '@repo/ui/components/inputs/search-input';
 
@@ -8,9 +8,10 @@ import { PlusIcon } from '@components/icons/plus-icon';
 import { CardViewIcon, RowViewIcon } from '@components/icons/view-type-icon';
 
 const Filter = () => {
+  const router = useRouter();
   const pathname = usePathname();
 
-  const { viewType, handleToggleViewType } = useCategoryList();
+  const { viewType, createQueryString } = useCategoryList();
 
   return (
     <div className="ms-auto flex items-center justify-between gap-x-3">
@@ -29,7 +30,11 @@ const Filter = () => {
 
       <button
         type="button"
-        onClick={handleToggleViewType}
+        onClick={() =>
+          router.push(
+            `${pathname}?${createQueryString(viewType === 'rows' ? 'cards' : 'rows')}`,
+          )
+        }
         className="flex size-10 items-center justify-center rounded-md bg-white shadow-sm"
       >
         {viewType === 'rows' ? <CardViewIcon /> : <RowViewIcon />}

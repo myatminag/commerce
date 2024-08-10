@@ -9,6 +9,7 @@
       "@store/*": ["./src/store/*"],
       "@assets/*": ["./src/assets/*"],
       "@hooks/*": ["./src/hooks/*"],
+      "@lib/*": ["./src/lib/*"],
       "@/types/*": ["./src/types/*"] // Including "/" prevents from @types global import error.
     }
   },
