@@ -10,7 +10,7 @@ import { CardViewIcon, RowViewIcon } from '@components/icons/view-type-icon';
 const Filter = () => {
   const pathname = usePathname();
 
-  const { viewType, handleToggleViewType } = useBrandList();
+  const { viewType } = useBrandList();
 
   return (
     <div className="ms-auto flex items-center justify-between gap-x-3">
@@ -29,7 +29,6 @@ const Filter = () => {
 
       <button
         type="button"
-        onClick={handleToggleViewType}
         className="flex size-10 items-center justify-center rounded-md bg-white shadow-sm"
       >
         {viewType === 'rows' ? <CardViewIcon /> : <RowViewIcon />}
