@@ -2,28 +2,15 @@
 
 import Image from 'next/image';
 
-import { cn } from '@repo/ui/libs/utils';
 import { NotiIcon } from '@repo/ui/icons/noti-icon';
 import { SearchInput } from '@repo/ui/components/inputs/search-input';
-
-import { useAppSelector } from '@store/hook';
 
 import { CreateIcon } from '@components/icons/create-icon';
 import { TranslationIcon } from '@components/icons/translation-icon';
 
 export const HeaderNav = () => {
-  const isExpandable = useAppSelector((state) => state.expandable.isExpandable);
-
   return (
-    <header
-      className={cn(
-        'flex h-[64px] border-b bg-white text-sm shadow-sm transition-all duration-300 sm:flex-nowrap sm:justify-start lg:fixed lg:inset-x-0 lg:top-0 lg:z-40 lg:bg-white lg:py-4',
-        {
-          'ml-[86px]': !isExpandable,
-          'ml-[230px]': isExpandable,
-        },
-      )}
-    >
+    <header className="flex h-[64px] border-b bg-white text-sm shadow-sm transition-all duration-300 sm:flex-nowrap sm:justify-start lg:sticky lg:inset-x-0 lg:top-0 lg:z-40 lg:w-full lg:bg-white lg:py-4">
       <nav className="flex w-full items-center justify-between px-4 lg:px-6">
         <div className="w-96 flex-shrink-0">
           <SearchInput

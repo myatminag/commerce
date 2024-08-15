@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 
 import BrandTable from './components/brand-table';
-import { SectionWrapper } from '@components/section-wrapper';
 
 export const metadata: Metadata = {
   title: 'Brands',
@@ -10,11 +9,11 @@ export const metadata: Metadata = {
 
 const Page = () => {
   return (
-    <SectionWrapper className="lg:pe-6 lg:ps-[265px]">
+    <section className="pt-6 lg:px-6">
       <Suspense>
         <BrandTable />
       </Suspense>
-    </SectionWrapper>
+    </section>
   );
 };
 

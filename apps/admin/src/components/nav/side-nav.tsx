@@ -1,17 +1,15 @@
 'use client';
 
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 
 import { cn } from '@repo/ui/libs/utils';
 import { CdsIcon } from '@repo/ui/icons/cds-icon';
 import { Separator } from '@repo/ui/components/separator';
 
-import { useAppSelector, useAppDispatch } from '@store/hook';
-import { toggleExpandable } from '@store/features/expandable.slice';
-
 import { NavMenu } from '@lib/pathnames';
 
-import { NavItem } from './nav-item';
 import { DashboardIcon } from '@components/icons/dashboard-icon';
 import { CategoryIcon } from '@components/icons/category-icon';
 import { ProductsIcon } from '@components/icons/product-icon';
@@ -29,11 +27,6 @@ export interface NavItemProps {
   separator?: string;
 }
 
-interface IconWrapperProps {
-  path: string;
-  children: React.ReactNode;
-}
-
 const icons = {
   dashboard: DashboardIcon,
   products: ProductsIcon,
@@ -45,51 +38,38 @@ const icons = {
   settings: SettingIcon,
 };
 
-const IconWrapper = ({ path, children }: IconWrapperProps) => {
-  const pathname = usePathname();
-
-  return (
-    <div
-      className={cn(
-        'flex h-[40px] w-[60px] items-center justify-center rounded-lg',
-        {
-          'bg-[#E4FEF7]': pathname === path,
-        },
-      )}
-    >
-      {children}
-    </div>
-  );
-};
-
 export const SideNav = () => {
   const pathname = usePathname();
-  const dispatch = useAppDispatch();
 
-  const isExpandable = useAppSelector((state) => state.expandable.isExpandable);
+  const [isExpandable, setIsExpandable] = useState(true);
 
   return (
     <aside
       className={cn(
-        'fixed inset-y-0 left-0 z-50 w-[86px] transform border-r bg-white transition-all duration-300',
+        'relative z-50 h-full w-20 transform border-r bg-white transition-all duration-300',
         {
-          'w-[230px]': isExpandable,
+          'w-60': isExpandable,
         },
       )}
     >
       <button
         type="button"
-        onClick={() => dispatch(toggleExpandable())}
+        onClick={() => setIsExpandable((prev) => !prev)}
         className="absolute left-full top-4 z-50 -translate-x-1/2 transform"
       >
         <ExpandableIcon />
       </button>
       <div className="flex h-[64px] items-center border-b pl-4">
-        <CdsIcon className="text-brand-600 size-12" />
+        <div>
+          <CdsIcon className="text-brand-600 size-12" />
+        </div>
         <p
-          className={cn('text-md hidden font-extrabold text-neutral-950', {
-            block: isExpandable,
-          })}
+          className={cn(
+            'text-md origin-left font-extrabold text-neutral-950 duration-300',
+            {
+              'scale-0': !isExpandable,
+            },
+          )}
         >
           Capture Digital
         </p>
@@ -104,20 +84,42 @@ export const SideNav = () => {
             const IconComponent = icons[iconKey];
 
             return (
-              <NavItem
+              <Link
                 key={path}
-                path={path}
-                name={name}
-                icon={
-                  <IconWrapper path={path}>
+                className={cn(
+                  'flex items-center py-1 pl-3 text-sm font-semibold text-neutral-700',
+                  {
+                    'text-brand-700 border-brand-600 border-r-[3px] bg-[#E4FEF7]':
+                      pathname === path,
+                    'border-none bg-transparent': !isExpandable,
+                  },
+                )}
+                href={path}
+              >
+                <div>
+                  <div
+                    className={cn(
+                      'flex h-[40px] w-[60px] items-center justify-center rounded-lg',
+                      {
+                        'bg-[#E4FEF7]': pathname === path,
+                      },
+                    )}
+                  >
                     <IconComponent
                       className={cn('size-5 flex-shrink-0 text-[#64716F]', {
                         'text-brand-700': pathname === path,
                       })}
                     />
-                  </IconWrapper>
-                }
-              />
+                  </div>
+                </div>
+                <p
+                  className={cn('origin-left duration-300', {
+                    hidden: !isExpandable,
+                  })}
+                >
+                  {isExpandable ? name : null}
+                </p>
+              </Link>
             );
           }
           return null; // fallback for invalid nav items
