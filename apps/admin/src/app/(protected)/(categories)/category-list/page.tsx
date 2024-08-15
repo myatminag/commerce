@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 
 import CategoryTable from './components/category-table';
-import { SectionWrapper } from '@components/section-wrapper';
 
 export const metadata: Metadata = {
   title: 'Categories',
@@ -9,9 +8,9 @@ export const metadata: Metadata = {
 
 const Page = () => {
   return (
-    <SectionWrapper className="lg:pe-5 lg:pl-6">
+    <section className="pt-6 lg:px-6">
       <CategoryTable />
-    </SectionWrapper>
+    </section>
   );
 };
 
