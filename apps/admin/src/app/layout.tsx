@@ -19,25 +19,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  sidebar,
-  header,
 }: Readonly<{
   children: React.ReactNode;
-  sidebar: React.ReactNode;
-  header: React.ReactNode;
 }>) {
   return (
     <html lang="en">
       <body className={roboto.className}>
         <AppProvider>
-          <main className="flex h-[calc(100dvh)] w-full overflow-hidden bg-[#F0F5F4]">
-            {sidebar}
-
-            <div className="relative flex flex-1 flex-col overflow-auto pb-10">
-              {header}
-              {children}
-            </div>
-          </main>
+          {children}
           <Toaster />
         </AppProvider>
       </body>
