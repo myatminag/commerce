@@ -1,5 +1,7 @@
 # Capture Digital Shop
 
+Capture Digital Shop aims to cater to businesses of all sizes by providing an efficient, customizable, and scalable solution for online retail. It is designed to offer a seamless shopping experience for both customers and administrators.
+
 ## Tech Stacks 💻
 
 - [Turborepo](https://turbo.build/repo/docs)
