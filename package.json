@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@commitlint/cli": "^19.4.1",
-    "@commitlint/config-conventional": "^19.4.1",
+    "@commitlint/config-conventional": "^19.5.0",
     "@repo/typescript-config": "workspace:*",
     "eslint": "^8.57.0",
     "lint-staged": "^15.2.7",
