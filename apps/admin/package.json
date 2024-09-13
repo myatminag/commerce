@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
-    "@lexical/link": "^0.16.1",
+    "@lexical/link": "^0.17.1",
     "@lexical/list": "^0.16.1",
     "@lexical/react": "^0.16.1",
     "@lexical/rich-text": "^0.16.1",
