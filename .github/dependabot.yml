@@ -11,8 +11,6 @@ updates:
       interval: 'weekly'
     allow:
       - dependency-type: "direct"
-    commit-message:
-      prefix: "[Root]"
     target-branch: dependabot-updates
 
   - package-ecosystem: 'npm'
@@ -21,8 +19,6 @@ updates:
       interval: 'weekly'
     allow:
       - dependency-type: "direct"
-    commit-message:
-      prefix: "[Admin]"
     target-branch: dependabot-updates
 
   - package-ecosystem: 'npm'
@@ -31,6 +27,4 @@ updates:
       interval: 'weekly'
     allow:
       - dependency-type: "direct"
-    commit-message:
-      prefix: "[User]"
     target-branch: dependabot-updates
