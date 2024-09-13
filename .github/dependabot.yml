@@ -11,7 +11,7 @@ updates:
       interval: 'weekly'
     allow:
       - dependency-type: "direct"
-    target-branch: dependabot-updates
+    target-branch: "dependabot-updates"
 
   - package-ecosystem: 'npm'
     directory: '/apps/admin'
@@ -19,7 +19,7 @@ updates:
       interval: 'weekly'
     allow:
       - dependency-type: "direct"
-    target-branch: dependabot-updates
+    target-branch: "dependabot-updates"
 
   - package-ecosystem: 'npm'
     directory: '/apps/user'
@@ -27,4 +27,4 @@ updates:
       interval: 'weekly'
     allow:
       - dependency-type: "direct"
-    target-branch: dependabot-updates
+    target-branch: "dependabot-updates"
