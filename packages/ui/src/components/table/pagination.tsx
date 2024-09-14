@@ -1,10 +1,10 @@
-import { Table } from '@tanstack/react-table';
+import { Table } from "@tanstack/react-table";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
   DoubleArrowLeftIcon,
   DoubleArrowRightIcon,
-} from '@radix-ui/react-icons';
+} from "@radix-ui/react-icons";
 
 import {
   Select,
@@ -12,8 +12,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '../select';
-import { Button } from '../button';
+} from "../select";
+import { Button } from "../button";
 
 interface PaginationProps<TData> {
   table: Table<TData>;
@@ -24,7 +24,7 @@ const Pagination = <TData,>({ table }: PaginationProps<TData>) => {
     <div>
       <div className="flex items-center justify-between px-2">
         <div className="flex-1 text-sm text-neutral-900">
-          {table.getFilteredSelectedRowModel().rows.length} of{' '}
+          {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>
         <div className="flex items-center space-x-6 lg:space-x-8">
@@ -51,7 +51,7 @@ const Pagination = <TData,>({ table }: PaginationProps<TData>) => {
             </Select>
           </div>
           <div className="text-brand-900 flex w-[100px] items-center justify-center text-sm">
-            Page {table.getState().pagination.pageIndex + 1} of{' '}
+            Page {table.getState().pagination.pageIndex + 1} of{" "}
             {table.getPageCount()}
           </div>
           <div className="flex items-center space-x-2">

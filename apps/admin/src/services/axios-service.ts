@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { getSession } from 'next-auth/react';
+import axios from "axios";
+import { getSession } from "next-auth/react";
 
 export const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 export const authURL = `${baseURL}/auth`;
@@ -7,8 +7,8 @@ export const authURL = `${baseURL}/auth`;
 export const axiosService = axios.create({
   baseURL: authURL,
   headers: {
-    'Content-Type': 'application/json',
-    Accept: 'application/json',
+    "Content-Type": "application/json",
+    Accept: "application/json",
   },
 });
 

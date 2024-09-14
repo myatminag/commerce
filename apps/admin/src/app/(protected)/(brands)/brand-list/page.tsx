@@ -1,10 +1,10 @@
-import type { Metadata } from 'next';
-import { Suspense } from 'react';
+import type { Metadata } from "next";
+import { Suspense } from "react";
 
-import BrandTable from './components/brand-table';
+import BrandTable from "./components/brand-table";
 
 export const metadata: Metadata = {
-  title: 'Brands',
+  title: "Brands",
 };
 
 const Page = () => {
