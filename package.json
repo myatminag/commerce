@@ -24,13 +24,13 @@
   },
   "devDependencies": {
     "@commitlint/cli": "^19.5.0",
-    "@commitlint/config-conventional": "^19.4.1",
+    "@commitlint/config-conventional": "^19.5.0",
     "@repo/typescript-config": "workspace:*",
-    "eslint": "^8.57.0",
-    "lint-staged": "^15.2.7",
-    "prettier": "^3.2.5",
-    "prettier-plugin-tailwindcss": "^0.5.11",
-    "turbo": "^2.1.0"
+    "eslint": "^9.10.0",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.3.3",
+    "prettier-plugin-tailwindcss": "^0.6.6",
+    "turbo": "^2.1.2"
   },
   "packageManager": "pnpm@9.1.2",
   "engines": {
@@ -41,6 +41,6 @@
     "packages/*"
   ],
   "dependencies": {
-    "husky": "^9.0.11"
+    "husky": "^9.1.6"
   }
 }
