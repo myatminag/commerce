@@ -9,50 +9,50 @@ updates:
     directory: '/'
     schedule:
       interval: 'weekly'
-    versioning-strategy: "increase"
+    versioning-strategy: 'increase'
     allow:
-      - dependency-type: "direct"
-    target-branch: "main"
+      - dependency-type: 'direct'
+    target-branch: dependabot-updates
     groups:
       root-dependencies:
         patterns:
-          - "*"
+          - '*'
 
   - package-ecosystem: 'npm'
     directory: '/apps/admin'
     schedule:
       interval: 'weekly'
-    versioning-strategy: "increase"
+    versioning-strategy: 'increase'
     allow:
-      - dependency-type: "direct"
-    target-branch: "main"
+      - dependency-type: 'direct'
+    target-branch: dependabot-updates
     groups:
       admin-dependencies:
         patterns:
-          - "*"
+          - '*'
 
   - package-ecosystem: 'npm'
     directory: '/apps/user'
     schedule:
       interval: 'weekly'
-    versioning-strategy: "increase"
+    versioning-strategy: 'increase'
     allow:
-      - dependency-type: "direct"
-    target-branch: "main"
+      - dependency-type: 'direct'
+    target-branch: dependabot-updates
     groups:
       user-dependencies:
         patterns:
-          - "*"
+          - '*'
 
   - package-ecosystem: 'npm'
     directory: '/packages/ui'
     schedule:
       interval: 'weekly'
-    versioning-strategy: "increase"
+    versioning-strategy: 'increase'
     allow:
-      - dependency-type: "direct"
-    target-branch: "main"
+      - dependency-type: 'direct'
+    target-branch: dependabot-updates
     groups:
       user-dependencies:
         patterns:
-          - "*"
+          - '*'
