@@ -18,7 +18,7 @@
     "@lexical/react": "^0.16.1",
     "@lexical/rich-text": "^0.16.1",
     "@lexical/selection": "^0.16.1",
-    "@lexical/utils": "^0.16.1",
+    "@lexical/utils": "^0.17.1",
     "@react-google-maps/api": "^2.19.3",
     "@reduxjs/toolkit": "^2.2.7",
     "@repo/ui": "workspace:*",
