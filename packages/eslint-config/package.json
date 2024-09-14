@@ -4,7 +4,7 @@
   "private": true,
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.56.1",
-    "@vercel/style-guide": "^5.2.0",
-    "eslint-config-turbo": "^2.0.6"
+    "@vercel/style-guide": "^6.0.0",
+    "eslint-config-turbo": "^2.1.2"
   }
 }
