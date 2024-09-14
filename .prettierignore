@@ -2,3 +2,4 @@
 node_modules
 /apps/admin/.next
 /apps/user/.next
+/apps/api/dist
