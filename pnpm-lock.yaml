@@ -106,8 +106,8 @@ importers:
         specifier: ^5.8.0
         version: 5.8.0(@types/react@18.2.61)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       use-debounce:
-        specifier: ^10.0.0
-        version: 10.0.0(react@18.2.0)
+        specifier: ^10.0.3
+        version: 10.0.3(react@18.2.0)
       zod:
         specifier: ^3.23.8
         version: 3.23.8
@@ -5118,11 +5118,11 @@ packages:
       '@types/react':
         optional: true
 
-  use-debounce@10.0.0:
-    resolution: {integrity: sha512-XRjvlvCB46bah9IBXVnq/ACP2lxqXyZj0D9hj4K5OzNroMDpTEBg8Anuh1/UfRTRs7pLhQ+RiNxxwZu9+MVl1A==}
+  use-debounce@10.0.3:
+    resolution: {integrity: sha512-DxQSI9ZKso689WM1mjgGU3ozcxU1TJElBJ3X6S4SMzMNcm2lVH0AHmyXB+K7ewjz2BSUKJTDqTcwtSMRfB89dg==}
     engines: {node: '>= 16.0.0'}
     peerDependencies:
-      react: '>=16.8.0'
+      react: '*'
 
   use-isomorphic-layout-effect@1.1.2:
     resolution: {integrity: sha512-49L8yCO3iGT/ZF9QttjwLF/ZD9Iwto5LnH5LmEdk/6cFmXddqi2ulF0edxTwjj+7mqvpVVGQWvbXZdn32wRSHA==}
@@ -10705,7 +10705,7 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.2.61
 
-  use-debounce@10.0.0(react@18.2.0):
+  use-debounce@10.0.3(react@18.2.0):
     dependencies:
       react: 18.2.0
 
