@@ -16,11 +16,20 @@ Capture Digital Shop aims to cater to businesses of all sizes by providing an ef
 ## Getting Start
 
 ```bash
-pnpm dev:user         # launch user repository
-pnpm dev:admin        # launch admin repository
-pnpm dev              # run both repositories parallel
-pnpm lint             # check both repositories by linting
-pnpm type-check       # verify both repositorues for type safety
+pnpm dev:user         # start a developmenet server for user repo
+pnpm build:user       # create an optimized production build for user repo
+pnpm start:user       # start a production server for user repo
+
+pnpm dev:admin        # start a developmenet server for admin repo
+pnpm build:admin      # create an optimized production build for admin repo
+pnpm start:admin      # start a production server for admin repo
+
+pnpm dev:api          # start in watch mode for api repo
+pnpm start:api        # start a standard mode for api repo
+
+pnpm dev              # start parallel development server for all repo
+pnpm lint             # lint all repositories
+pnpm type-check       # verify all repositories for type safety
 ```
 
 ## Project Structure
