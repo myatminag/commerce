@@ -10,20 +10,20 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "next": "^14.2.13",
+    "next": "^14.2.15",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "@repo/ui": "workspace:*"
   },
   "devDependencies": {
-    "@next/eslint-plugin-next": "^14.2.13",
-    "@types/node": "^22.7.4",
-    "@types/react": "^18.3.10",
+    "@next/eslint-plugin-next": "^14.2.15",
+    "@types/node": "^22.7.5",
+    "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.0",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.12",
-    "typescript": "^5.6.2",
+    "typescript": "^5.6.3",
     "@repo/eslint-config": "workspace:*",
     "@repo/tailwind-config": "workspace:*",
     "@repo/typescript-config": "workspace:*"
