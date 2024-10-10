@@ -12,7 +12,7 @@ updates:
     versioning-strategy: 'increase'
     allow:
       - dependency-type: 'direct'
-    target-branch: dependabot-updates
+    target-branch: main
     groups:
       root-dependencies:
         patterns:
