@@ -50,11 +50,11 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
-    "lucide-react": "^0.451.0",
+    "lucide-react": "^0.452.0",
     "react-hook-form": "^7.53.0",
-    "react-router-dom": "^6.26.2",
-    "tailwind-merge": "^2.5.3",
+    "react-router-dom": "^6.27.0",
+    "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
-    "vaul": "^1.0.0"
+    "vaul": "^1.1.0"
   }
 }
