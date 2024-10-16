@@ -5,15 +5,15 @@
 
 version: 2
 updates:
-  - package-ecosystem: 'npm'
-    directory: '/'
+  - package-ecosystem: "npm"
+    directory: "/"
     schedule:
-      interval: 'weekly'
-    versioning-strategy: 'increase'
-    allow:
-      - dependency-type: 'direct'
+      interval: "weekly"
+    ignore:
+      - dependency-name: "eslint"
+    versioning-strategy: "increase"
     target-branch: main
     groups:
       root-dependencies:
         patterns:
-          - '*'
+          - "*"
