@@ -28,7 +28,7 @@
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.47",
     "react": "^18.3.1",
-    "tailwindcss": "^3.4.12",
+    "tailwindcss": "^3.4.14",
     "typescript": "^5.6.3"
   },
   "dependencies": {
@@ -50,7 +50,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
-    "lucide-react": "^0.452.0",
+    "lucide-react": "^0.453.0",
     "react-hook-form": "^7.53.0",
     "react-router-dom": "^6.27.0",
     "tailwind-merge": "^2.5.4",
