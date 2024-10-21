@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Dialog,
@@ -7,10 +7,10 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from '@repo/ui/components/dialog/dialog';
+} from "@collex/ui/components/dialog/dialog";
 
-import { Button } from '@repo/ui/components/button';
-import { TrashIcon } from '@repo/ui/icons/trash-icon';
+import { Button } from "@collex/ui/components/button";
+import { TrashIcon } from "@collex/ui/icons/trash-icon";
 
 const ActionButton = () => {
   return (

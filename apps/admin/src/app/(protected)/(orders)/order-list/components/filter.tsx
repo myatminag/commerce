@@ -1,4 +1,4 @@
-import { SearchInput } from '@repo/ui/components/inputs/search-input';
+import { SearchInput } from "@collex/ui/components/inputs/search-input";
 
 const Filter = () => {
   return (

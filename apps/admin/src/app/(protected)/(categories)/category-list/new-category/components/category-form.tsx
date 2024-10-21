@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { Label } from '@repo/ui/components/inputs/label';
-import { Input } from '@repo/ui/components/inputs/input';
+import { Label } from "@collex/ui/components/inputs/label";
+import { Input } from "@collex/ui/components/inputs/input";
 
-import { UploadImageIcon } from '@components/icons/image-upload-icon';
-import { TextEditor } from '@components/editor/text-editor';
+import { UploadImageIcon } from "@components/icons/image-upload-icon";
+import { TextEditor } from "@components/editor/text-editor";
 
 const CategoryForm = () => {
   return (
@@ -28,7 +28,7 @@ const CategoryForm = () => {
               Banner Image
             </p>
             <p className="mt-3 text-xs text-neutral-600">
-              Drop files here or{' '}
+              Drop files here or{" "}
               <span className="text-brand-600 font-medium">Browse</span>
             </p>
           </label>
@@ -51,7 +51,7 @@ const CategoryForm = () => {
               Thumbnail Image
             </p>
             <p className="mt-3 text-xs text-neutral-600">
-              Drop files here or{' '}
+              Drop files here or{" "}
               <span className="text-brand-600 font-medium">Browse</span>
             </p>
           </label>

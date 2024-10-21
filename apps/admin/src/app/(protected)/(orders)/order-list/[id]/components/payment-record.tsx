@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from "next/image";
 
 import {
   Dialog,
@@ -6,10 +6,10 @@ import {
   DialogClose,
   DialogContent,
   DialogHeader,
-} from '@repo/ui/components/dialog/dialog';
-import { Button } from '@repo/ui/components/button';
+} from "@collex/ui/components/dialog/dialog";
+import { Button } from "@collex/ui/components/button";
 
-import { SuccessIcon } from '@components/icons/status-icon';
+import { SuccessIcon } from "@components/icons/status-icon";
 
 const PaymentRecord = () => {
   return (

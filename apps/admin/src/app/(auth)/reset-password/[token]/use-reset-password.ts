@@ -1,31 +1,31 @@
-import { usePathname, useRouter } from 'next/navigation';
-import * as z from 'zod';
-import type { SubmitHandler } from 'react-hook-form';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { usePathname, useRouter } from "next/navigation";
+import * as z from "zod";
+import type { SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import { useSetNewPassword } from '../../../../services/auth/reset-password';
+import { useSetNewPassword } from "../../../../services/auth/reset-password";
 
-import { useToast } from '@repo/ui/components/toast/use-toast';
+import { useToast } from "@collex/ui/components/toast/use-toast";
 
 const schema = z
   .object({
     password: z
       .string()
-      .min(1, { message: 'New password is required!' })
+      .min(1, { message: "New password is required!" })
       .min(4, {
-        message: 'New Password must be at least 4 characters!',
+        message: "New Password must be at least 4 characters!",
       }),
     cpassword: z
       .string()
-      .min(1, { message: 'Confirm password is required!' })
+      .min(1, { message: "Confirm password is required!" })
       .min(4, {
-        message: 'Confirm Password must be at least 4 characters!',
+        message: "Confirm Password must be at least 4 characters!",
       }),
   })
   .refine((data) => data.password === data.cpassword, {
-    message: 'Passwords do not match!',
-    path: ['cpassword'],
+    message: "Passwords do not match!",
+    path: ["cpassword"],
   });
 
 type SchemaType = z.infer<typeof schema>;
@@ -34,7 +34,7 @@ export const useResetPassword = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const sessionToken = pathname.split('/')[2];
+  const sessionToken = pathname.split("/")[2];
 
   const { toast } = useToast();
 
@@ -57,12 +57,12 @@ export const useResetPassword = () => {
       },
       {
         onSuccess: (res) => {
-          router.replace('/');
+          router.replace("/");
           toast({
-            title: 'Access Restored! Password Has Been Reset.',
+            title: "Access Restored! Password Has Been Reset.",
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- Temporary disabling the rule because of unknown response type
             description: `${res.data.message}. Sign in now with your new credentials.`,
-            variant: 'success',
+            variant: "success",
           });
         },
         onError: (err: any) => {
@@ -71,7 +71,7 @@ export const useResetPassword = () => {
             title: err.response.data.error,
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- Temporary disabling the rule because of unknown response type
             description: err.response.data.message,
-            variant: 'destructive',
+            variant: "destructive",
           });
         },
       },

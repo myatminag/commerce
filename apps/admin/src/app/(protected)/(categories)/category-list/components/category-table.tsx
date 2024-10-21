@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { DataTable } from '@repo/ui/components/table/data-table';
+import { DataTable } from "@collex/ui/components/table/data-table";
 
-import column from './columns';
-import Filter from './filter';
-import { categories } from './data';
-import { useCategoryList } from '../use-category-list';
+import column from "./columns";
+import Filter from "./filter";
+import { categories } from "./data";
+import { useCategoryList } from "../use-category-list";
 
 const CategoryTable = () => {
   const { viewType } = useCategoryList();

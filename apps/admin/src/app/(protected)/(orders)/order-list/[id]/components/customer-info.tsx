@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import type { ReactNode } from 'react';
-import type { Libraries } from '@react-google-maps/api';
-import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import Image from "next/image";
+import type { ReactNode } from "react";
+import type { Libraries } from "@react-google-maps/api";
+import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 
-import { LocationIcon } from '@repo/ui/icons/location-icon';
+import { LocationIcon } from "@collex/ui/icons/location-icon";
 
-const libraries = ['places', 'drawing', 'geometry'];
+const libraries = ["places", "drawing", "geometry"];
 
 const center = {
   lat: 16.8409, // default latitude
@@ -15,14 +15,14 @@ const center = {
 };
 
 const defaultMapContainerStyle = {
-  width: '100%',
-  height: '150px',
-  borderRadius: '10px',
+  width: "100%",
+  height: "150px",
+  borderRadius: "10px",
 };
 
 const MapProvider = ({ children }: { children: ReactNode }) => {
   const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY ?? '',
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY ?? "",
     libraries: libraries as Libraries,
   });
 
@@ -36,7 +36,7 @@ const MapProvider = ({ children }: { children: ReactNode }) => {
 const CustomerInfo = () => {
   return (
     <div className="w-full rounded-md bg-white shadow-sm">
-      <div className="flex items-center justify-between border-b border-gray-200 p-4 ">
+      <div className="flex items-center justify-between border-b border-gray-200 p-4">
         <p className="text-heading font-medium">Customer Info</p>
         <div className="bg-brand-600-100 flex items-center gap-x-1 rounded-full px-2 py-1">
           <LocationIcon className="size-3 text-white" />

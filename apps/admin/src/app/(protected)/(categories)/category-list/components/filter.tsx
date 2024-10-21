@@ -1,11 +1,11 @@
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 
-import { SearchInput } from '@repo/ui/components/inputs/search-input';
+import { SearchInput } from "@collex/ui/components/inputs/search-input";
 
-import { useCategoryList } from '../use-category-list';
-import { PlusIcon } from '@components/icons/plus-icon';
-import { CardViewIcon, RowViewIcon } from '@components/icons/view-type-icon';
+import { useCategoryList } from "../use-category-list";
+import { PlusIcon } from "@components/icons/plus-icon";
+import { CardViewIcon, RowViewIcon } from "@components/icons/view-type-icon";
 
 const Filter = () => {
   const router = useRouter();
@@ -32,12 +32,12 @@ const Filter = () => {
         type="button"
         onClick={() =>
           router.push(
-            `${pathname}?${createQueryString(viewType === 'rows' ? 'cards' : 'rows')}`,
+            `${pathname}?${createQueryString(viewType === "rows" ? "cards" : "rows")}`,
           )
         }
         className="flex size-10 items-center justify-center rounded-md bg-white shadow-sm"
       >
-        {viewType === 'rows' ? <CardViewIcon /> : <RowViewIcon />}
+        {viewType === "rows" ? <CardViewIcon /> : <RowViewIcon />}
       </button>
     </div>
   );

@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@repo/ui/components/accordion';
+} from "@collex/ui/components/accordion";
 import {
   Dialog,
   DialogClose,
@@ -15,47 +15,47 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@repo/ui/components/dialog/dialog';
-import { Button } from '@repo/ui/components/button';
+} from "@collex/ui/components/dialog/dialog";
+import { Button } from "@collex/ui/components/button";
 
-import { EditIcon } from '@components/icons/edit-icon';
-import { DeleteIcon } from '@components/icons/delete-icon';
-import { CategoryIcon } from '@components/icons/category-icon';
-import { SubCategoryFrameIcon } from '@components/icons/subcategory-frame-icon';
-import { CreateSubCategory, SubCategoryForm } from './add-subcategories';
+import { EditIcon } from "@components/icons/edit-icon";
+import { DeleteIcon } from "@components/icons/delete-icon";
+import { CategoryIcon } from "@components/icons/category-icon";
+import { SubCategoryFrameIcon } from "@components/icons/subcategory-frame-icon";
+import { CreateSubCategory, SubCategoryForm } from "./add-subcategories";
 
 const SUB_CATEGORY_DATA = [
   {
     id: 1,
-    subCategoryName: 'Cosmetics',
+    subCategoryName: "Cosmetics",
     totalSubCategory: 14,
     subCategoryType: [
-      { id: 1, type: 'Makeup' },
-      { id: 2, type: 'Ring' },
-      { id: 3, type: 'Footwear' },
-      { id: 4, type: 'Lipstick' },
+      { id: 1, type: "Makeup" },
+      { id: 2, type: "Ring" },
+      { id: 3, type: "Footwear" },
+      { id: 4, type: "Lipstick" },
     ],
   },
   {
     id: 2,
-    subCategoryName: 'Electronics',
+    subCategoryName: "Electronics",
     totalSubCategory: 14,
     subCategoryType: [
-      { id: 1, type: 'Makeup' },
-      { id: 2, type: 'Ring' },
-      { id: 3, type: 'Footwear' },
-      { id: 4, type: 'Lipstick' },
+      { id: 1, type: "Makeup" },
+      { id: 2, type: "Ring" },
+      { id: 3, type: "Footwear" },
+      { id: 4, type: "Lipstick" },
     ],
   },
   {
     id: 3,
-    subCategoryName: 'Fashion',
+    subCategoryName: "Fashion",
     totalSubCategory: 14,
     subCategoryType: [
-      { id: 1, type: 'Makeup' },
-      { id: 2, type: 'Ring' },
-      { id: 3, type: 'Footwear' },
-      { id: 4, type: 'Lipstick' },
+      { id: 1, type: "Makeup" },
+      { id: 2, type: "Ring" },
+      { id: 3, type: "Footwear" },
+      { id: 4, type: "Lipstick" },
     ],
   },
 ];
@@ -74,7 +74,7 @@ const SubCategoryList = () => {
             <AccordionItem key={data.id} value={data.subCategoryName}>
               <AccordionTrigger className="my-3 h-8 text-sm font-semibold text-neutral-950">
                 <CategoryIcon className="AccordionChevron text-brand-600 me-5 size-4 shrink-0 transition-transform duration-200" />
-                {data.subCategoryName}{' '}
+                {data.subCategoryName}{" "}
                 <span className="ms-1 font-normal">
                   ({data.totalSubCategory})
                 </span>

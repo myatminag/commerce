@@ -13,7 +13,7 @@
     "next": "^14.2.15",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "@repo/ui": "workspace:*"
+    "@collex/ui": "workspace:*"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^14.2.15",
@@ -24,8 +24,8 @@
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.12",
     "typescript": "^5.6.3",
-    "@repo/eslint-config": "workspace:*",
-    "@repo/tailwind-config": "workspace:*",
-    "@repo/typescript-config": "workspace:*"
+    "@collex/eslint-config": "workspace:*",
+    "@collex/tailwind-config": "workspace:*",
+    "@collex/typescript-config": "workspace:*"
   }
 }

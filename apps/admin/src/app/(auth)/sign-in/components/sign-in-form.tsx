@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
+import Link from "next/link";
 
-import { Button } from '@repo/ui/components/button';
-import { Input } from '@repo/ui/components/inputs/input';
-// import { Checkbox } from '@repo/ui/components/inputs/checkbox';
-import { PasswordInput } from '@repo/ui/components/inputs/password-input';
+import { Button } from "@collex/ui/components/button";
+import { Input } from "@collex/ui/components/inputs/input";
+// import { Checkbox } from '@collex/ui/components/inputs/checkbox';
+import { PasswordInput } from "@collex/ui/components/inputs/password-input";
 
-import { useSignIn } from '../use-sign-in';
+import { useSignIn } from "../use-sign-in";
 
 const SignInForm = () => {
   const { isSubmitting, errors, register, handleSignIn, handleSubmit } =
@@ -24,14 +24,14 @@ const SignInForm = () => {
           label="Email"
           id="email"
           placeholder="Enter your email address"
-          {...register('email')}
+          {...register("email")}
           errors={errors.email?.message}
         />
         <PasswordInput
           label="Password"
           id="passowrd"
           placeholder="Enter your password"
-          {...register('password')}
+          {...register("password")}
           errors={errors.password?.message}
         />
         <div className="flex items-center justify-between">

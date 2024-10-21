@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { Button } from '@repo/ui/components/button';
-import { PasswordInput } from '@repo/ui/components/inputs/password-input';
+import { Button } from "@collex/ui/components/button";
+import { PasswordInput } from "@collex/ui/components/inputs/password-input";
 
-import { useResetPassword } from '../use-reset-password';
+import { useResetPassword } from "../use-reset-password";
 
 const ResetPasswordForm = () => {
   const { errors, isPending, register, handleSubmit, handleResetPassword } =
@@ -20,14 +20,14 @@ const ResetPasswordForm = () => {
           placeholder="Enter new password"
           disabled={isPending}
           errors={errors.password?.message}
-          {...register('password')}
+          {...register("password")}
         />
         <PasswordInput
           label="Confirm Password"
           placeholder="Enter confirm password"
           disabled={isPending}
           errors={errors.cpassword?.message}
-          {...register('cpassword')}
+          {...register("cpassword")}
         />
         <Button disabled={isPending}>Reset Password</Button>
       </form>

@@ -1,20 +1,20 @@
-import type { Metadata } from 'next';
-import Link from 'next/link';
-import Image from 'next/image';
-import { Suspense } from 'react';
+import type { Metadata } from "next";
+import Link from "next/link";
+import Image from "next/image";
+import { Suspense } from "react";
 
-import { CdsIcon } from '@repo/ui/icons/cds-icon';
+import { CdsIcon } from "@collex/ui/icons/cds-icon";
 
-import SignInForm from './components/sign-in-form';
+import SignInForm from "./components/sign-in-form";
 import {
   MaskOneIcon,
   MaskTwoIcon,
   MaskThreeIcon,
-} from '@components/icons/mask-icons';
-import LoginImg from '@assets/images/login-img.webp';
+} from "@components/icons/mask-icons";
+import LoginImg from "@assets/images/login-img.webp";
 
 export const metadata: Metadata = {
-  title: 'Sign in to cds.admin',
+  title: "Sign in to cds.admin",
 };
 
 const Page = () => {
@@ -62,14 +62,14 @@ const Page = () => {
             <SignInForm />
           </Suspense>
           <p className="px-8 text-center text-sm text-neutral-950">
-            By clicking continue, you agree to our{' '}
+            By clicking continue, you agree to our{" "}
             <Link
               href="/terms"
               className="hover:text-secondary-800 underline underline-offset-4"
             >
               Terms of Service
-            </Link>{' '}
-            and{' '}
+            </Link>{" "}
+            and{" "}
             <Link
               href="/privacy"
               className="hover:text-secondary-800 underline underline-offset-4"

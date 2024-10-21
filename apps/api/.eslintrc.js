@@ -1,8 +1,8 @@
 module.exports = {
-  extends: ['@repo/eslint-config/nest.js'],
+  extends: ["@collex/eslint-config/nest.js"],
   parserOptions: {
-    project: 'tsconfig.json',
+    project: "tsconfig.json",
     tsconfigRootDir: __dirname,
-    sourceType: 'module',
+    sourceType: "module",
   },
 };

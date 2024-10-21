@@ -1,12 +1,12 @@
 {
-  "name": "@repo/tailwind-config",
+  "name": "@collex/tailwind-config",
   "version": "0.0.0",
   "private": true,
   "exports": {
     ".": "./tailwind.config.ts"
   },
   "devDependencies": {
-    "@repo/typescript-config": "workspace:*",
+    "@collex/typescript-config": "workspace:*",
     "@tailwindcss/typography": "^0.5.15",
     "@types/node": "^22.7.5",
     "tailwind-scrollbar-hide": "^1.1.7",

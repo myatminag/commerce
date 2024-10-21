@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useForm } from 'react-hook-form';
+import { useForm } from "react-hook-form";
 
-import { Button } from '@repo/ui/components/button';
-import { Input } from '@repo/ui/components/inputs/input';
+import { Button } from "@collex/ui/components/button";
+import { Input } from "@collex/ui/components/inputs/input";
 
-import { PlusIcon } from '@components/icons/plus-icon';
-import { Label } from '@repo/ui/components/inputs/label';
+import { PlusIcon } from "@components/icons/plus-icon";
+import { Label } from "@collex/ui/components/inputs/label";
 
 const NewProductForm = () => {
   const { register } = useForm();
@@ -38,7 +38,7 @@ const NewProductForm = () => {
                     </div>
                   </div>
                   <span className="mt-2 block text-base text-neutral-800">
-                    Browse your device or{' '}
+                    Browse your device or{" "}
                     <span className="text-brand-600">
                       drag&apos;n drop&apos;
                     </span>
@@ -54,14 +54,14 @@ const NewProductForm = () => {
                   label="Product name"
                   placeholder="Enter product name"
                   className="w-full"
-                  {...register('displayPrice')}
+                  {...register("displayPrice")}
                 />
 
                 <Input
                   label="Sku"
                   placeholder="Enter product sku"
                   className="w-full"
-                  {...register('displayPrice')}
+                  {...register("displayPrice")}
                 />
               </div>
               <div className="flex items-center justify-center gap-x-6">
@@ -69,14 +69,14 @@ const NewProductForm = () => {
                   label="Price"
                   placeholder="Enter product price"
                   className="w-full"
-                  {...register('displayPrice')}
+                  {...register("displayPrice")}
                 />
 
                 <Input
                   label="Cost of good"
                   placeholder="Enter product cost"
                   className="w-full"
-                  {...register('displayPrice')}
+                  {...register("displayPrice")}
                 />
               </div>
               <div className="flex items-center justify-center gap-x-6">
@@ -84,14 +84,14 @@ const NewProductForm = () => {
                   label="Select categories"
                   placeholder="Enter product display price"
                   className="w-full"
-                  {...register('displayPrice')}
+                  {...register("displayPrice")}
                 />
 
                 <Input
                   label="Select brands"
                   placeholder="Enter product display price"
                   className="w-full"
-                  {...register('displayPrice')}
+                  {...register("displayPrice")}
                 />
               </div>
             </div>

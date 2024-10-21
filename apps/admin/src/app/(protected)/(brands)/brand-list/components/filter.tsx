@@ -1,11 +1,11 @@
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-import { SearchInput } from '@repo/ui/components/inputs/search-input';
+import { SearchInput } from "@collex/ui/components/inputs/search-input";
 
-import { useBrandList } from '../use-brand-list';
-import { PlusIcon } from '@components/icons/plus-icon';
-import { CardViewIcon, RowViewIcon } from '@components/icons/view-type-icon';
+import { useBrandList } from "../use-brand-list";
+import { PlusIcon } from "@components/icons/plus-icon";
+import { CardViewIcon, RowViewIcon } from "@components/icons/view-type-icon";
 
 const Filter = () => {
   const pathname = usePathname();
@@ -31,7 +31,7 @@ const Filter = () => {
         type="button"
         className="flex size-10 items-center justify-center rounded-md bg-white shadow-sm"
       >
-        {viewType === 'rows' ? <CardViewIcon /> : <RowViewIcon />}
+        {viewType === "rows" ? <CardViewIcon /> : <RowViewIcon />}
       </button>
     </div>
   );

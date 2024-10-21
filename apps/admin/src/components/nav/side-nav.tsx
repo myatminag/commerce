@@ -1,24 +1,24 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
 
-import { cn } from '@repo/ui/libs/utils';
-import { CdsIcon } from '@repo/ui/icons/cds-icon';
-import { Separator } from '@repo/ui/components/separator';
+import { cn } from "@collex/ui/libs/utils";
+import { CdsIcon } from "@collex/ui/icons/cds-icon";
+import { Separator } from "@collex/ui/components/separator";
 
-import { NavMenu } from '@lib/pathnames';
+import { NavMenu } from "@lib/pathnames";
 
-import { DashboardIcon } from '@components/icons/dashboard-icon';
-import { CategoryIcon } from '@components/icons/category-icon';
-import { ProductsIcon } from '@components/icons/product-icon';
-import { ExpandableIcon } from '@components/icons/expandable-icon';
-import { BrandIcon } from '@components/icons/brand-icon';
-import { OrderIcon } from '@components/icons/order-icon';
-import { CustomerIcon } from '@components/icons/customer-icon';
-import { PersonalizationIcon } from '@components/icons/personalization-icon';
-import { SettingIcon } from '@components/icons/setting-icon';
+import { DashboardIcon } from "@components/icons/dashboard-icon";
+import { CategoryIcon } from "@components/icons/category-icon";
+import { ProductsIcon } from "@components/icons/product-icon";
+import { ExpandableIcon } from "@components/icons/expandable-icon";
+import { BrandIcon } from "@components/icons/brand-icon";
+import { OrderIcon } from "@components/icons/order-icon";
+import { CustomerIcon } from "@components/icons/customer-icon";
+import { PersonalizationIcon } from "@components/icons/personalization-icon";
+import { SettingIcon } from "@components/icons/setting-icon";
 
 export interface NavItemProps {
   path?: string;
@@ -46,9 +46,9 @@ export const SideNav = () => {
   return (
     <aside
       className={cn(
-        'relative z-50 h-full w-20 transform border-r bg-white transition-all duration-300',
+        "relative z-50 h-full w-20 transform border-r bg-white transition-all duration-300",
         {
-          'w-60': isExpandable,
+          "w-60": isExpandable,
         },
       )}
     >
@@ -65,9 +65,9 @@ export const SideNav = () => {
         </div>
         <p
           className={cn(
-            'text-md origin-left font-extrabold text-neutral-950 duration-300',
+            "text-md origin-left font-extrabold text-neutral-950 duration-300",
             {
-              'scale-0': !isExpandable,
+              "scale-0": !isExpandable,
             },
           )}
         >
@@ -87,11 +87,11 @@ export const SideNav = () => {
               <Link
                 key={path}
                 className={cn(
-                  'flex items-center py-1 pl-3 text-sm font-semibold text-neutral-700',
+                  "flex items-center py-1 pl-3 text-sm font-semibold text-neutral-700",
                   {
-                    'text-brand-700 border-brand-600 border-r-[3px] bg-[#E4FEF7]':
+                    "text-brand-700 border-brand-600 border-r-[3px] bg-[#E4FEF7]":
                       pathname === path,
-                    'border-none bg-transparent': !isExpandable,
+                    "border-none bg-transparent": !isExpandable,
                   },
                 )}
                 href={path}
@@ -99,21 +99,21 @@ export const SideNav = () => {
                 <div>
                   <div
                     className={cn(
-                      'flex h-[40px] w-[60px] items-center justify-center rounded-lg',
+                      "flex h-[40px] w-[60px] items-center justify-center rounded-lg",
                       {
-                        'bg-[#E4FEF7]': pathname === path,
+                        "bg-[#E4FEF7]": pathname === path,
                       },
                     )}
                   >
                     <IconComponent
-                      className={cn('size-5 flex-shrink-0 text-[#64716F]', {
-                        'text-brand-700': pathname === path,
+                      className={cn("size-5 flex-shrink-0 text-[#64716F]", {
+                        "text-brand-700": pathname === path,
                       })}
                     />
                   </div>
                 </div>
                 <p
-                  className={cn('origin-left duration-300', {
+                  className={cn("origin-left duration-300", {
                     hidden: !isExpandable,
                   })}
                 >

@@ -1,0 +1,32 @@
+Project Collex {
+  database_type: 'PostgreSQL'
+  Note: '''
+    Collex Database
+  '''
+}
+
+Table brand {
+  id varchar [pk, unique, not null, ref: < category.id]
+  banner_image varchar [unique]
+  thumbnail_image varchar [unique]
+  name varchar(255) [not null]
+  description text
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+}
+
+Table category {
+  id varchar [pk, unique, not null]
+  banner_image varchar [unique]
+  thumbnail_image varchar [unique]
+  name varchar(255) [not null]
+  description text
+  parent_id varchar [null, ref: > category.id]
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+}
+
+Table product {
+  id varchar [pk, unique, not null]
+  
+}

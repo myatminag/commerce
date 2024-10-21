@@ -4,10 +4,10 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@repo/ui/components/dropdown-menu';
-import { Button } from '@repo/ui/components/button';
+} from "@collex/ui/components/dropdown-menu";
+import { Button } from "@collex/ui/components/button";
 
-import { ThreeDotsIcon } from '@components/icons/three-dots-icon';
+import { ThreeDotsIcon } from "@components/icons/three-dots-icon";
 
 const Actions = () => {
   return (

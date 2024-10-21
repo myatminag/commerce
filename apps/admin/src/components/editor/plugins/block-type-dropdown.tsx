@@ -1,13 +1,13 @@
-import { $createParagraphNode, $getSelection } from 'lexical';
+import { $createParagraphNode, $getSelection } from "lexical";
 import {
   INSERT_ORDERED_LIST_COMMAND,
   INSERT_UNORDERED_LIST_COMMAND,
   REMOVE_LIST_COMMAND,
-} from '@lexical/list';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import type { HeadingTagType } from '@lexical/rich-text';
-import { $createHeadingNode, $createQuoteNode } from '@lexical/rich-text';
-import { $setBlocksType } from '@lexical/selection';
+} from "@lexical/list";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import type { HeadingTagType } from "@lexical/rich-text";
+import { $createHeadingNode, $createQuoteNode } from "@lexical/rich-text";
+import { $setBlocksType } from "@lexical/selection";
 
 import {
   Select,
@@ -15,9 +15,9 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@repo/ui/components/select';
+} from "@collex/ui/components/select";
 
-import { blockTypeToBlockName } from '@/types/block-name';
+import { blockTypeToBlockName } from "@/types/block-name";
 
 interface BlockTypeDropdownProps {
   blockType: keyof typeof blockTypeToBlockName;
@@ -41,7 +41,7 @@ export const BlockNameDropDown = ({ blockType }: BlockTypeDropdownProps) => {
   };
 
   const formatOrderedList = () => {
-    if (blockType !== 'number') {
+    if (blockType !== "number") {
       editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
     } else {
       editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
@@ -49,7 +49,7 @@ export const BlockNameDropDown = ({ blockType }: BlockTypeDropdownProps) => {
   };
 
   const formatUnorderedList = () => {
-    if (blockType !== 'bullet') {
+    if (blockType !== "bullet") {
       editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
     } else {
       editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
@@ -68,25 +68,25 @@ export const BlockNameDropDown = ({ blockType }: BlockTypeDropdownProps) => {
       value={blockType}
       onValueChange={(value) => {
         switch (value) {
-          case 'h1':
-            formatHeading('h1');
+          case "h1":
+            formatHeading("h1");
             break;
-          case 'h2':
-            formatHeading('h2');
+          case "h2":
+            formatHeading("h2");
             break;
-          case 'h3':
-            formatHeading('h3');
+          case "h3":
+            formatHeading("h3");
             break;
-          case 'paragraph':
+          case "paragraph":
             formatParagraph();
             break;
-          case 'number':
+          case "number":
             formatOrderedList();
             break;
-          case 'bullet':
+          case "bullet":
             formatUnorderedList();
             break;
-          case 'quote':
+          case "quote":
             formatQuote();
             break;
         }

@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { DataTable } from '@repo/ui/components/table/data-table';
+import { DataTable } from "@collex/ui/components/table/data-table";
 
-import Filter from './filter';
-import { columns } from './columns';
-import { useBrandList } from '../use-brand-list';
-import { categories } from '../../../(categories)/category-list/components/data';
+import Filter from "./filter";
+import { columns } from "./columns";
+import { useBrandList } from "../use-brand-list";
+import { categories } from "../../../(categories)/category-list/components/data";
 
 const BrandTable = () => {
   const { viewType } = useBrandList();

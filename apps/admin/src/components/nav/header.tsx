@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
+import Image from "next/image";
 
-import { NotiIcon } from '@repo/ui/icons/noti-icon';
-import { SearchInput } from '@repo/ui/components/inputs/search-input';
+import { NotiIcon } from "@collex/ui/icons/noti-icon";
+import { SearchInput } from "@collex/ui/components/inputs/search-input";
 
-import { CreateIcon } from '@components/icons/create-icon';
-import { TranslationIcon } from '@components/icons/translation-icon';
+import { CreateIcon } from "@components/icons/create-icon";
+import { TranslationIcon } from "@components/icons/translation-icon";
 
 export const HeaderNav = () => {
   return (

@@ -1,13 +1,13 @@
-import type { Metadata } from 'next';
-import Link from 'next/link';
+import type { Metadata } from "next";
+import Link from "next/link";
 
-import { CdsIcon } from '@repo/ui/icons/cds-icon';
+import { CdsIcon } from "@collex/ui/icons/cds-icon";
 
-import ForgotPasswordForm from './components/forgot-password-form';
-import { MaskFiveIcon, MaskFourIcon } from '@components/icons/mask-icons';
+import ForgotPasswordForm from "./components/forgot-password-form";
+import { MaskFiveIcon, MaskFourIcon } from "@components/icons/mask-icons";
 
 export const metadata: Metadata = {
-  title: 'Forgot password',
+  title: "Forgot password",
 };
 
 const Page = () => {
@@ -27,7 +27,7 @@ const Page = () => {
           </div>
           <ForgotPasswordForm />
           <p className="px-8 text-center text-sm text-neutral-950">
-            Remember your password?{' '}
+            Remember your password?{" "}
             <Link href="/sign-in" className="underline underline-offset-4">
               Sign in
             </Link>

@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { Button } from '@repo/ui/components/button';
+import { Button } from "@collex/ui/components/button";
 
 const ActionButton = () => {
   return (

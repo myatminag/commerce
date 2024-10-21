@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-// import { DataTable } from '@repo/ui/components/table/data-table';
+// import { DataTable } from '@collex/ui/components/table/data-table';
 
-import Filter from './filter';
+import Filter from "./filter";
 
 // import { orders } from './data';
 // import columns from './column';

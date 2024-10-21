@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import type { KeyboardEventHandler } from 'react';
-import { useState } from 'react';
-import CreatableSelect from 'react-select/creatable';
+import type { KeyboardEventHandler } from "react";
+import { useState } from "react";
+import CreatableSelect from "react-select/creatable";
 
 import {
   Dialog,
@@ -11,13 +11,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogClose,
-} from '@repo/ui/components/dialog/dialog';
-import { Button } from '@repo/ui/components/button';
-import { Input } from '@repo/ui/components/inputs/input';
-import { Label } from '@repo/ui/components/inputs/label';
+} from "@collex/ui/components/dialog/dialog";
+import { Button } from "@collex/ui/components/button";
+import { Input } from "@collex/ui/components/inputs/input";
+import { Label } from "@collex/ui/components/inputs/label";
 
-import { PlusIcon } from '@components/icons/plus-icon';
-import { SubCategoryUploadIcon } from '@components/icons/subcategory-upload-icon';
+import { PlusIcon } from "@components/icons/plus-icon";
+import { SubCategoryUploadIcon } from "@components/icons/subcategory-upload-icon";
 
 const components = {
   DropdownIndicator: null,
@@ -38,16 +38,16 @@ interface CreateSubCategoryProps {
 }
 
 export const SubCategoryForm = () => {
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
   const [value, setValue] = useState<readonly Option[]>([]);
 
   const handleKeyDown: KeyboardEventHandler = (event) => {
     if (!inputValue) return;
     switch (event.key) {
-      case 'Enter':
-      case 'Tab':
+      case "Enter":
+      case "Tab":
         setValue((prev) => [...prev, createOption(inputValue)]);
-        setInputValue('');
+        setInputValue("");
         event.preventDefault();
     }
   };

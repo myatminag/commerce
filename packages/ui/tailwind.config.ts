@@ -1,9 +1,9 @@
 // tailwind config is required for editor support
 
-import type { Config } from 'tailwindcss';
-import sharedConfig from '@repo/tailwind-config';
+import type { Config } from "tailwindcss";
+import sharedConfig from "@collex/tailwind-config";
 
-const config: Pick<Config, 'presets'> = {
+const config: Pick<Config, "presets"> = {
   presets: [sharedConfig],
 };
 

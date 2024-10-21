@@ -1,7 +1,7 @@
-import { DeliveringIcon } from '@repo/ui/icons/delivering-icon';
-import { DeliveredIcon } from '@repo/ui/icons/delivered-icon';
+import { DeliveringIcon } from "@collex/ui/icons/delivering-icon";
+import { DeliveredIcon } from "@collex/ui/icons/delivered-icon";
 
-import { OrderIcon } from '@components/icons/order-icon';
+import { OrderIcon } from "@components/icons/order-icon";
 
 const ShipmentDetail = () => {
   return (

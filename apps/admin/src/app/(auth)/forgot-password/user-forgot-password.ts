@@ -1,17 +1,17 @@
-import * as z from 'zod';
-import type { SubmitHandler } from 'react-hook-form';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from "zod";
+import type { SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import { useRecoverPassword } from '../../../services/auth/recover-password';
+import { useRecoverPassword } from "../../../services/auth/recover-password";
 
-import { useToast } from '@repo/ui/components/toast/use-toast';
+import { useToast } from "@collex/ui/components/toast/use-toast";
 
 const schema = z.object({
   email: z
     .string()
-    .min(1, { message: 'Email is required!' })
-    .email({ message: 'Invalid Email!' }),
+    .min(1, { message: "Email is required!" })
+    .email({ message: "Invalid Email!" }),
 });
 
 type SchemaType = z.infer<typeof schema>;
@@ -36,10 +36,10 @@ export const useForgotPassword = () => {
       {
         onSuccess: (res: any) => {
           toast({
-            title: 'Request Password Reset Successful.',
+            title: "Request Password Reset Successful.",
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- Temporary disabling the rule because of unknown response type
             description: res.message,
-            variant: 'success',
+            variant: "success",
           });
           reset();
         },
@@ -49,7 +49,7 @@ export const useForgotPassword = () => {
             title: err.response.data.error,
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- Temporary disabling the rule because of unknown response type
             description: err.response.data.message,
-            variant: 'destructive',
+            variant: "destructive",
           });
         },
       },

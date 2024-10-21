@@ -1,13 +1,13 @@
-import Image from 'next/image';
-import * as z from 'zod';
-import type { ColumnDef } from '@tanstack/react-table';
+import Image from "next/image";
+import * as z from "zod";
+import type { ColumnDef } from "@tanstack/react-table";
 
-import { Checkbox } from '@repo/ui/components/inputs/checkbox';
-import { ColumnHeader } from '@repo/ui/components/table/column-header';
+import { Checkbox } from "@collex/ui/components/inputs/checkbox";
+import { ColumnHeader } from "@collex/ui/components/table/column-header";
 
-import Actions from './actions';
-import { SuccessIcon } from '@components/icons/status-icon';
-import { PopularIcon } from '@components/icons/popular-icon';
+import Actions from "./actions";
+import { SuccessIcon } from "@components/icons/status-icon";
+import { PopularIcon } from "@components/icons/popular-icon";
 
 export const productSchema = z.object({
   id: z.string().uuid(),
@@ -29,7 +29,7 @@ export const productSchema = z.object({
       id: z.string().uuid(),
       index: z.number().int(),
       image: z.string(),
-      type: z.literal('image'),
+      type: z.literal("image"),
     }),
   ),
 });
@@ -38,13 +38,13 @@ type Product = z.infer<typeof productSchema>;
 
 const columns: ColumnDef<Product>[] = [
   {
-    id: 'select',
+    id: "select",
     header: ({ table }) => {
       return (
         <Checkbox
           checked={
             table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && 'indeterminate')
+            (table.getIsSomePageRowsSelected() && "indeterminate")
           }
           onCheckedChange={(value) =>
             table.toggleAllPageRowsSelected(Boolean(value))
@@ -72,7 +72,7 @@ const columns: ColumnDef<Product>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'name',
+    accessorKey: "name",
     header: ({ column }) => {
       return (
         <ColumnHeader
@@ -94,7 +94,7 @@ const columns: ColumnDef<Product>[] = [
           />
           <div className="max-w-[500px]">
             <span className="truncate text-base text-neutral-800">
-              {row.getValue('name')}
+              {row.getValue("name")}
             </span>
             <p className="text-sm text-neutral-500">2 Variants</p>
           </div>
@@ -105,7 +105,7 @@ const columns: ColumnDef<Product>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'category.name',
+    accessorKey: "category.name",
     header: ({ column }) => {
       return (
         <ColumnHeader
@@ -128,7 +128,7 @@ const columns: ColumnDef<Product>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'sku',
+    accessorKey: "sku",
     header: ({ column }) => {
       return (
         <ColumnHeader
@@ -151,7 +151,7 @@ const columns: ColumnDef<Product>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'isAvailable',
+    accessorKey: "isAvailable",
     header: ({ column }) => {
       return (
         <ColumnHeader
@@ -164,7 +164,7 @@ const columns: ColumnDef<Product>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2">
-          {row.getValue('isAvailable') ? (
+          {row.getValue("isAvailable") ? (
             <span className="text-success inline-flex items-center gap-x-1 rounded-full bg-teal-100 px-2 py-0.5 text-base">
               <SuccessIcon className="h-[14px] w-[14px]" />
               Publish
@@ -182,7 +182,7 @@ const columns: ColumnDef<Product>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'qty',
+    accessorKey: "qty",
     header: ({ column }) => {
       return (
         <ColumnHeader
@@ -196,7 +196,7 @@ const columns: ColumnDef<Product>[] = [
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate text-base text-neutral-800">
-            {row.getValue('qty')}
+            {row.getValue("qty")}
           </span>
         </div>
       );
@@ -205,7 +205,7 @@ const columns: ColumnDef<Product>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'price',
+    accessorKey: "price",
     header: ({ column }) => {
       return (
         <ColumnHeader
@@ -228,7 +228,7 @@ const columns: ColumnDef<Product>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'modified-on',
+    accessorKey: "modified-on",
     header: ({ column }) => {
       return (
         <ColumnHeader
@@ -251,7 +251,7 @@ const columns: ColumnDef<Product>[] = [
     enableHiding: false,
   },
   {
-    id: 'actions',
+    id: "actions",
     cell: () => <Actions />,
   },
 ];

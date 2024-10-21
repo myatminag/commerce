@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { Button } from '@repo/ui/components/button';
-import { Input } from '@repo/ui/components/inputs/input';
+import { Button } from "@collex/ui/components/button";
+import { Input } from "@collex/ui/components/inputs/input";
 
-import { useForgotPassword } from '../user-forgot-password';
+import { useForgotPassword } from "../user-forgot-password";
 
 const ForgotPasswordForm = () => {
   const { errors, isPending, register, handleSubmit, handleForgotPassword } =
@@ -22,7 +22,7 @@ const ForgotPasswordForm = () => {
           placeholder="Enter your email address"
           disabled={isPending}
           errors={errors.email?.message}
-          {...register('email')}
+          {...register("email")}
         />
         <Button disabled={isPending}>Sent resent link</Button>
       </form>

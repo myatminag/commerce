@@ -1,9 +1,9 @@
-import * as z from 'zod';
-import Image from 'next/image';
-import type { ColumnDef } from '@tanstack/react-table';
+import * as z from "zod";
+import Image from "next/image";
+import type { ColumnDef } from "@tanstack/react-table";
 
-import { Checkbox } from '@repo/ui/components/inputs/checkbox';
-import { ColumnHeader } from '@repo/ui/components/table/column-header';
+import { Checkbox } from "@collex/ui/components/inputs/checkbox";
+import { ColumnHeader } from "@collex/ui/components/table/column-header";
 
 const categorySchema = z.object({});
 
@@ -11,13 +11,13 @@ type Category = z.infer<typeof categorySchema>;
 
 export const columns: ColumnDef<Category>[] = [
   {
-    id: 'select',
+    id: "select",
     header: ({ table }) => {
       return (
         <Checkbox
           checked={
             table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && 'indeterminate')
+            (table.getIsSomePageRowsSelected() && "indeterminate")
           }
           onCheckedChange={(value) =>
             table.toggleAllPageRowsSelected(Boolean(value))
@@ -39,7 +39,7 @@ export const columns: ColumnDef<Category>[] = [
     },
   },
   {
-    accessorKey: 'name',
+    accessorKey: "name",
     header: ({ column }) => {
       return <ColumnHeader column={column} title="Brand name" />;
     },
@@ -54,7 +54,7 @@ export const columns: ColumnDef<Category>[] = [
             alt="Image Description"
           />
           <p className="truncate text-sm font-medium text-neutral-950">
-            {row.getValue('name')}
+            {row.getValue("name")}
           </p>
         </div>
       );
@@ -63,7 +63,7 @@ export const columns: ColumnDef<Category>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'description',
+    accessorKey: "description",
     header: ({ column }) => {
       return <ColumnHeader column={column} title="Categories" />;
     },
@@ -83,7 +83,7 @@ export const columns: ColumnDef<Category>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'product',
+    accessorKey: "product",
     header: ({ column }) => {
       return <ColumnHeader column={column} title="Products" />;
     },
@@ -98,7 +98,7 @@ export const columns: ColumnDef<Category>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'created-at',
+    accessorKey: "created-at",
     header: ({ column }) => {
       return <ColumnHeader column={column} title="Description" />;
     },
@@ -113,7 +113,7 @@ export const columns: ColumnDef<Category>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'created-at',
+    accessorKey: "created-at",
     header: ({ column }) => {
       return <ColumnHeader column={column} title="Last Modified On" />;
     },

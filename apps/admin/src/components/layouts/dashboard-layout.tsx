@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import React from 'react';
+import React from "react";
 
-import { cn } from '@repo/ui/libs/utils';
+import { cn } from "@collex/ui/libs/utils";
 
-import { useAppSelector } from '@store/hook';
+import { useAppSelector } from "@store/hook";
 
 export const DashboardLayout = ({
   children,
@@ -16,10 +16,10 @@ export const DashboardLayout = ({
   return (
     <main
       className={cn(
-        'relative min-h-screen flex-1 transition-all duration-300',
+        "relative min-h-screen flex-1 transition-all duration-300",
         {
-          'ml-20': !isExpandable,
-          'ml-[230px]': isExpandable,
+          "ml-20": !isExpandable,
+          "ml-[230px]": isExpandable,
         },
       )}
     >

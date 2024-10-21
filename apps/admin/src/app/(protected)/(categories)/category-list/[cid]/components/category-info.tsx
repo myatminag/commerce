@@ -1,23 +1,23 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
+import Image from "next/image";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from '@repo/ui/components/tab';
-import { Separator } from '@repo/ui/components/separator';
+} from "@collex/ui/components/tab";
+import { Separator } from "@collex/ui/components/separator";
 
-import SubCategoryList from './sub-category-list';
-import RelatedProducts from './related-products';
-import RelatedBrands from './related-brands';
+import SubCategoryList from "./sub-category-list";
+import RelatedProducts from "./related-products";
+import RelatedBrands from "./related-brands";
 
-import { EditIcon } from '@components/icons/edit-icon';
-import { DeleteIcon } from '@components/icons/delete-icon';
+import { EditIcon } from "@components/icons/edit-icon";
+import { DeleteIcon } from "@components/icons/delete-icon";
 
-import CategoryBanner from '@assets/temp/category-banner.png';
-import CategoryThumbnail from '@assets/temp/category-thumbnail.png';
+import CategoryBanner from "@assets/temp/category-banner.png";
+import CategoryThumbnail from "@assets/temp/category-thumbnail.png";
 
 const CategoryInfo = () => {
   return (

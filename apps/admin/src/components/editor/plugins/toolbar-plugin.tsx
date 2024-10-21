@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback, useState, useEffect } from "react";
 import {
   $getSelection,
   $isRangeSelection,
@@ -11,35 +11,35 @@ import {
   SELECTION_CHANGE_COMMAND,
   UNDO_COMMAND,
   FORMAT_ELEMENT_COMMAND,
-} from 'lexical';
-import { $isHeadingNode } from '@lexical/rich-text';
-import { $isListNode, ListNode } from '@lexical/list';
+} from "lexical";
+import { $isHeadingNode } from "@lexical/rich-text";
+import { $isListNode, ListNode } from "@lexical/list";
 import {
   $findMatchingParent,
   $getNearestNodeOfType,
   mergeRegister,
-} from '@lexical/utils';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+} from "@lexical/utils";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 
-import { Toggle } from '@repo/ui/components/toggle';
-import { Button } from '@repo/ui/components/button';
-import { Separator } from '@repo/ui/components/separator';
+import { Toggle } from "@collex/ui/components/toggle";
+import { Button } from "@collex/ui/components/button";
+import { Separator } from "@collex/ui/components/separator";
 
-import { blockTypeToBlockName } from '@/types/block-name';
+import { blockTypeToBlockName } from "@/types/block-name";
 
-import { BlockNameDropDown } from './block-type-dropdown';
-import { RedoIcon } from '@components/icons/redo-icon';
-import { UndoIcon } from '@components/icons/undo-icon';
-import { BoldIcon } from '@components/icons/bold-icon';
-import { ItalicIcon } from '@components/icons/italic-icon';
-import { UnderlineIcon } from '@components/icons/underline-icon';
-import { StrikeThroughIcon } from '@components/icons/strike-through-icon';
+import { BlockNameDropDown } from "./block-type-dropdown";
+import { RedoIcon } from "@components/icons/redo-icon";
+import { UndoIcon } from "@components/icons/undo-icon";
+import { BoldIcon } from "@components/icons/bold-icon";
+import { ItalicIcon } from "@components/icons/italic-icon";
+import { UnderlineIcon } from "@components/icons/underline-icon";
+import { StrikeThroughIcon } from "@components/icons/strike-through-icon";
 import {
   TextAlignCenterIcon,
   TextAlignJusitfyIcon,
   TextAlignLeftIcon,
   TextAlignRightIcon,
-} from '@components/icons/text-align-icon';
+} from "@components/icons/text-align-icon";
 
 export const ToolbarPlugin = () => {
   const [editor] = useLexicalComposerContext();
@@ -50,20 +50,20 @@ export const ToolbarPlugin = () => {
   const [isItalic, setIsItalic] = useState(false);
   const [isUnderline, setIsUnderline] = useState(false);
   const [isStrikethrough, setIsStrikethrough] = useState(false);
-  const [blockType, setBlockType] = useState('paragraph');
+  const [blockType, setBlockType] = useState("paragraph");
 
   const handleUpdateToolBar = useCallback(() => {
     const selection = $getSelection();
     if ($isRangeSelection(selection)) {
-      setIsBold(selection.hasFormat('bold'));
-      setIsItalic(selection.hasFormat('italic'));
-      setIsUnderline(selection.hasFormat('underline'));
-      setIsStrikethrough(selection.hasFormat('strikethrough'));
+      setIsBold(selection.hasFormat("bold"));
+      setIsItalic(selection.hasFormat("italic"));
+      setIsUnderline(selection.hasFormat("underline"));
+      setIsStrikethrough(selection.hasFormat("strikethrough"));
 
       const anchorNode = selection.anchor.getNode();
 
       let element =
-        anchorNode.getKey() === 'root'
+        anchorNode.getKey() === "root"
           ? anchorNode
           : $findMatchingParent(anchorNode, (e) => {
               const parent = e.getParent();
@@ -177,7 +177,7 @@ export const ToolbarPlugin = () => {
           size="sm"
           pressed={isBold}
           onPressedChange={(pressed: boolean) => {
-            editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold');
+            editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
             setIsBold(pressed);
           }}
         >
@@ -189,7 +189,7 @@ export const ToolbarPlugin = () => {
           size="sm"
           pressed={isItalic}
           onPressedChange={(pressed) => {
-            editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic');
+            editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
             setIsItalic(pressed);
           }}
         >
@@ -201,7 +201,7 @@ export const ToolbarPlugin = () => {
           size="sm"
           pressed={isUnderline}
           onPressedChange={(pressed) => {
-            editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline');
+            editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
             setIsUnderline(pressed);
           }}
         >
@@ -213,7 +213,7 @@ export const ToolbarPlugin = () => {
           size="sm"
           pressed={isStrikethrough}
           onPressedChange={(pressed) => {
-            editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough');
+            editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
             setIsStrikethrough(pressed);
           }}
         >
@@ -226,7 +226,7 @@ export const ToolbarPlugin = () => {
           aria-label="strikethrough"
           size="sm"
           onPressedChange={(pressed) => {
-            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left');
+            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
             setIsStrikethrough(pressed);
           }}
         >
@@ -237,7 +237,7 @@ export const ToolbarPlugin = () => {
           aria-label="strikethrough"
           size="sm"
           onPressedChange={(pressed) => {
-            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center');
+            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
             setIsStrikethrough(pressed);
           }}
         >
@@ -248,7 +248,7 @@ export const ToolbarPlugin = () => {
           aria-label="align-right"
           size="sm"
           onPressedChange={(pressed) => {
-            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right');
+            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
             setIsStrikethrough(pressed);
           }}
         >
@@ -259,7 +259,7 @@ export const ToolbarPlugin = () => {
           aria-label="align-justify"
           size="sm"
           onPressedChange={(pressed) => {
-            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'justify');
+            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify");
             setIsStrikethrough(pressed);
           }}
         >

@@ -5,7 +5,7 @@ import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { useToast } from "@repo/ui/components/toast/use-toast";
+import { useToast } from "@collex/ui/components/toast/use-toast";
 
 const schema = z.object({
   email: z

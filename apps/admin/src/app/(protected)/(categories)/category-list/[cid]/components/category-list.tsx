@@ -1,32 +1,32 @@
-'use client';
+"use client";
 
-import { cn } from '@repo/ui/libs/utils';
-import Link from 'next/link';
+import { cn } from "@collex/ui/libs/utils";
+import Link from "next/link";
 
-import { useCategoryDetail } from '../use-category-detail';
+import { useCategoryDetail } from "../use-category-detail";
 
-import { PlusIcon } from '@components/icons/plus-icon';
+import { PlusIcon } from "@components/icons/plus-icon";
 
 const CATEGORY_LIST = [
   {
     id: 1,
-    name: 'Fashion & Accessories',
+    name: "Fashion & Accessories",
   },
   {
     id: 2,
-    name: 'Electronics',
+    name: "Electronics",
   },
   {
     id: 3,
-    name: 'Health & Fitness',
+    name: "Health & Fitness",
   },
   {
     id: 4,
-    name: 'Kitchen Accessories',
+    name: "Kitchen Accessories",
   },
   {
     id: 5,
-    name: 'Beauty',
+    name: "Beauty",
   },
 ];
 
@@ -52,9 +52,9 @@ const CategoryList = () => {
             key={data.id}
             onClick={() => setIsSelected(data.id)}
             className={cn(
-              'flex h-14 items-center rounded-lg border border-[#A7E4DA] bg-white ps-5 text-sm font-medium text-neutral-950',
+              "flex h-14 items-center rounded-lg border border-[#A7E4DA] bg-white ps-5 text-sm font-medium text-neutral-950",
               {
-                'bg-[#D5F5EF]': isSelected === data.id,
+                "bg-[#D5F5EF]": isSelected === data.id,
               },
             )}
           >
