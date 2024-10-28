@@ -1,0 +1,12 @@
+model Brand {
+  id             String    @id @default(cuid())
+  bannerImage    Json
+  thumbnailImage Json
+  name           String    @db.VarChar(255)
+  description    String
+  created_at     DateTime  @default(now())
+  updated_at     DateTime  @updatedAt
+  categoryId     String
+  category       Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  Product        Product[]
+}

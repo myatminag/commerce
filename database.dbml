@@ -1,32 +1,202 @@
-Project Collex {
+Project "Ecommerce Platform" {
   database_type: 'PostgreSQL'
   Note: '''
-    Collex Database
+    Scale Smart & Sell More
   '''
 }
 
-Table brand {
-  id varchar [pk, unique, not null, ref: < category.id]
-  banner_image varchar [unique]
-  thumbnail_image varchar [unique]
-  name varchar(255) [not null]
-  description text
+Table tenant {
+  id varchar [pk, unique, not null]
+  name varchar(255)
+  phone varchar(20)
+  email varchar(255)
+  metadata json
+  is_active boolean [default: false]
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`] 
+}
+
+Table tenant.admin {
+  id varchar [pk, unique, not null]
+  username varchar(255) [not null]
+  email varchar(255) [unique]
+  phone varchar(20) [not null]
+  password varchar [not null]
   created_at timestamp [default: `now()`]
   updated_at timestamp [default: `now()`]
 }
 
-Table category {
+Table tenant.customer {
   id varchar [pk, unique, not null]
-  banner_image varchar [unique]
-  thumbnail_image varchar [unique]
   name varchar(255) [not null]
-  description text
-  parent_id varchar [null, ref: > category.id]
+  phone varchar(20) [not null]
+  email varchar(255) [unique]
+  address text
+  city varchar(255) [not null]
+  township varchar(255) [not null]
   created_at timestamp [default: `now()`]
   updated_at timestamp [default: `now()`]
 }
 
-Table product {
+Table tenant.brand {
+  id varchar [pk, unique]
+  banner_image json
+  thumbnail_image json
+  name varchar(255) [not null]
+  description text
+  category_id varchar [not null, ref: > tenant.category.id]
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+}
+
+Table tenant.category {
   id varchar [pk, unique, not null]
-  
+  banner_image json [unique]
+  thumbnail_image json [unique]
+  name varchar(255) [not null]
+  description text
+  parent_id varchar [null, ref: > tenant.category.id]
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+}
+
+Table tenant.product {
+  id varchar [pk, unique, not null]
+  name varchar(255) [not null]
+  sku varchar(255) [unique, not null]
+  description text
+  images json [not null]
+  price integer [not null]
+  cost integer [not null]
+  profit integer [not null]
+  brand_id varchar [not null, ref: > tenant.brand.id]
+  category_id varchar [not null, ref: > tenant.category.id]
+  stock integer [default: 0]
+  weight_value integer
+  weight_unit weight
+  start_date timestamp [null]
+  end_date timestamp [null]
+  discount_amount integer [null, default: 0]
+  discount_type discount [null]
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+}
+
+Table tenant.product_variant {
+  id varchar [pk, unique, not null]
+  product_id varchar [not null, ref: > tenant.product.id]
+  attribute varchar(255) 
+  options json
+  images json
+  sku varchar [unique, not null]
+  price integer
+  cost integer
+  profit integer
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+}
+
+Table tenant.cart {
+  id varchar [pk, unique, not null]
+  product_id varchar [not null, ref: > tenant.product.id]
+  customer_id varchar [not null, ref: > tenant.customer.id]
+  quantity integer [not null, default: 1]
+  sub_total integer [not null]
+  delivery_fee integer [not null]
+  tax integer [not null]
+  discount integer [not null]
+  total_amount integer [not null]
+  created_at timestamp [default: `now()`]
+}
+
+Table tenant.order {
+  id varchar [pk, unique, not null]
+  customer_id varchar [not null, ref: > tenant.customer.id]
+  cart_id varchar [not null, ref: - tenant.cart.id] 
+  order_note text 
+  status order_status
+  invoice_id varchar [not null, ref: - tenant.invoice.id]
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+}
+
+Table tenant.invoice {
+  id varchar [pk, unique, not null]
+  invoice_number varchar [unique, not null]
+  customer_id varchar [not null, ref: > tenant.customer.id]
+  sub_total integer [not null] 
+  tax integer [not null]
+  delivery_fee int [not null] 
+  total_amount integer [not null] 
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+}
+
+Table tenant.invoice_item {
+  id varchar [pk, unique, not null]
+  invoice_id varchar [not null, ref: > tenant.invoice.id]
+  product_id varchar [not null, ref: > tenant.product.id]
+  quantity integer [not null] 
+  price integer [not null] 
+  amount integer [not null] 
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+}
+
+Table tenant.payment {
+  id varchar [pk, unique, not null]
+  amount int
+  payment_date datetime
+  status payment_status
+  method payment_method
+  transaction_id varchar(255)
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+}
+
+Table tenant.system_config {
+  id varchar [pk, unique, not null]
+  delivery_options json
+  tax_rate numeric(5, 2) [not null, default: 0.00]
+  currency varchar(10) [default: 'MMK']
+  banner_image json
+  ads_image json
+  shopping_hours json
+  maintenance_mode boolean [default: false]
+  contact_email varchar(255)
+  contact_phone varchar(20)
+  social_links json
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+}
+
+Enum weight {
+  kg
+  g
+  lbs
+}
+
+Enum discount {
+  percentage
+  kyats
+}
+
+Enum order_status {
+  pending
+  confirmed
+  shipped
+  delivered
+  cancelled
+}
+
+Enum payment_method {
+  AYAPAY
+  WAVEPAY
+  KBZPAY
+}
+
+Enum payment_status {
+  pending
+  completed
+  failed
 }

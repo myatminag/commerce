@@ -1,0 +1,51 @@
+model Product {
+  id             String           @id @default(cuid())
+  name           String           @db.VarChar(255)
+  sku            String           @unique @db.VarChar(255)
+  description    String?
+  images         Json
+  price          Int
+  cost           Int
+  profit         Int
+  brandId        String
+  brand          Brand            @relation(fields: [brandId], references: [id])
+  categoryId     String
+  category       Category         @relation(fields: [categoryId], references: [id])
+  stock          Int              @default(0)
+  weightValue    Int
+  weightUnit     Weight
+  startDate      DateTime?
+  endDate        DateTime?
+  discountAmount Int?             @default(0)
+  discountType   Discount?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  ProductVariant ProductVariant[]
+  Cart           Cart[]
+}
+
+model ProductVariant {
+  id        String   @id @default(cuid())
+  attribute String?  @db.VarChar(255)
+  options   Json?
+  images    Json
+  sku       String   @unique @db.VarChar(255)
+  price     Int
+  cost      Int
+  profit    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+}
+
+enum Weight {
+  kg
+  g
+  lbs
+}
+
+enum Discount {
+  percentage
+  kyats
+}

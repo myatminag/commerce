@@ -1,0 +1,22 @@
+model Order {
+  id          String   @id @default(cuid())
+  cartId      String?
+  Cart        Cart?    @relation(fields: [cartId], references: [id])
+  customerId  String
+  Customer    Customer @relation(fields: [customerId], references: [id])
+  note        String
+  subTotal    Int
+  deliveryFee Int
+  tax         Int
+  totalAmount Int
+  status      Status
+  invoice     Invoice?
+}
+
+enum Status {
+  pending
+  confirmed
+  shipped
+  delivered
+  cancelled
+}

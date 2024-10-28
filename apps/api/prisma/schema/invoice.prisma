@@ -1,0 +1,5 @@
+model Invoice {
+  id      String @id @default(cuid())
+  orderId String @unique
+  order   Order  @relation(fields: [orderId], references: [id])
+}
