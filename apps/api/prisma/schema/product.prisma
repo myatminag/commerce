@@ -1,42 +1,54 @@
 model Product {
-  id             String           @id @default(cuid())
-  name           String           @db.VarChar(255)
-  sku            String           @unique @db.VarChar(255)
-  description    String?
-  images         Json
-  price          Int
-  cost           Int
-  profit         Int
-  brandId        String
-  brand          Brand            @relation(fields: [brandId], references: [id])
-  categoryId     String
-  category       Category         @relation(fields: [categoryId], references: [id])
-  stock          Int              @default(0)
-  weightValue    Int
-  weightUnit     Weight
-  startDate      DateTime?
-  endDate        DateTime?
-  discountAmount Int?             @default(0)
-  discountType   Discount?
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  ProductVariant ProductVariant[]
-  Cart           Cart[]
+  id                  String           @id @default(cuid())
+  name                String           @db.VarChar(255)
+  slug                String           @unique @db.VarChar(255)
+  sku                 String           @unique @db.VarChar(255)
+  options             Json?
+  description         String?
+  feature_image       String
+  images              Json
+  price               Int
+  price_max           Int
+  price_min           Int
+  cost                Int
+  profit              Int
+  vendorId            String
+  vendor              Vendor           @relation(fields: [vendorId], references: [id])
+  categoryId          String
+  category            Category         @relation(fields: [categoryId], references: [id])
+  stock               Int              @default(0)
+  is_available        Boolean          @default(true)
+  weight              Int
+  weight_unit         Weight
+  discount_type       Discount
+  discount_amount     Int              @default(0)
+  discount_start_date DateTime?
+  discount_end_date   DateTime?
+  published_at        DateTime
+  created_at          DateTime         @default(now())
+  updated_at          DateTime         @default(now())
+  ProductVariant      ProductVariant[]
+  cartId              String
+  cart                Cart             @relation(fields: [cartId], references: [id])
+  Wishlist            Wishlist[]
+  OrderItem           OrderItems[]
 }
 
 model ProductVariant {
-  id        String   @id @default(cuid())
-  attribute String?  @db.VarChar(255)
-  options   Json?
-  images    Json
-  sku       String   @unique @db.VarChar(255)
-  price     Int
-  cost      Int
-  profit    Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  productId String
-  product   Product  @relation(fields: [productId], references: [id])
+  id            String   @id @default(cuid())
+  name          String   @db.VarChar(255)
+  productId     String
+  product       Product  @relation(fields: [productId], references: [id])
+  options       Json
+  feature_image Json
+  sku           String   @unique @db.VarChar(255)
+  price         Int
+  cost          Int
+  profit        Int
+  is_available  Boolean  @default(true)
+  weight        Int      @default(0)
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
 }
 
 enum Weight {

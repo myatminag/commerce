@@ -1,6 +1,7 @@
 model Category {
   id             String     @id @default(cuid())
   name           String     @db.VarChar(255)
+  slug           String     @unique @db.VarChar(255)
   description    String
   bannerImage    Json
   thumbnailImage Json
@@ -9,6 +10,5 @@ model Category {
   children       Category[] @relation("CategoryToParent")
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
-  brand          Brand[]
   product        Product[]
 }
