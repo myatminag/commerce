@@ -1,0 +1,20 @@
+model SystemConfig {
+  id               String   @id @default(cuid())
+  delivery_options Json
+  tax_rate         Decimal  @db.Decimal(5, 2)
+  currency         Currency
+  banner_image     Json?
+  ads_image        Json?
+  shopping_hours   Json
+  pickup_available Boolean  @default(true)
+  maintenance_mode Boolean  @default(false)
+  contact_email    String   @db.VarChar(255)
+  contact_phone    String   @db.VarChar(15)
+  social_links     Json?
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+}
+
+enum Currency {
+  MMK
+}

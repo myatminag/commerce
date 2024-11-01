@@ -1,5 +1,10 @@
 model Invoice {
-  id      String @id @default(cuid())
-  orderId String @unique
-  order   Order  @relation(fields: [orderId], references: [id])
+  id             String   @id @default(cuid())
+  orderId        String   @unique
+  order          Order    @relation(fields: [orderId], references: [id])
+  invoice_number String   @unique
+  shop_name      String
+  location       String
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
 }

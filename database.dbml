@@ -7,13 +7,19 @@ Project "Ecommerce Platform" {
 
 Table tenant {
   id varchar [pk, unique, not null]
-  name varchar(255)
-  phone varchar(20)
-  email varchar(255)
+  name varchar(255) [not null]
+  domain varchar(255) [unique]
+  phone varchar(20) 
+  email varchar(255) [unique]
   metadata json
   is_active boolean [default: false]
   created_at timestamp [default: `now()`]
-  updated_at timestamp [default: `now()`] 
+
+  Note: '''
+    The 'metadata' field is a JSON type and stores an object.\n
+    It can represent any data type that is specific to the tenant's customization needs.
+    For example: 'logo', 'theme', 'policy', etc...
+  '''
 }
 
 Table tenant.admin {
@@ -26,7 +32,7 @@ Table tenant.admin {
   updated_at timestamp [default: `now()`]
 }
 
-Table tenant.customer {
+Table tenant.user {
   id varchar [pk, unique, not null]
   name varchar(255) [not null]
   phone varchar(20) [not null]
@@ -38,118 +44,175 @@ Table tenant.customer {
   updated_at timestamp [default: `now()`]
 }
 
-Table tenant.brand {
+Table tenant.wishlist {
+  id varchar [pk, unique, not null]
+  product_id varchar [ref: <> tenant.product.id]
+  user_id varchar [ref: > tenant.user.id]
+  created_at timestamp [default: `now()`]
+  deleted_at timestamp [default: `now()`]
+}
+
+Table tenant.vendor {
   id varchar [pk, unique]
+  name varchar(255) [not null]
+  slug varchar(255) [unique, not null]
   banner_image json
   thumbnail_image json
-  name varchar(255) [not null]
-  description text
-  category_id varchar [not null, ref: > tenant.category.id]
+  description textqq
   created_at timestamp [default: `now()`]
   updated_at timestamp [default: `now()`]
 }
 
 Table tenant.category {
   id varchar [pk, unique, not null]
-  banner_image json [unique]
-  thumbnail_image json [unique]
   name varchar(255) [not null]
+  slug varchar(255) [unique, not null]
   description text
+  banner_image json 
+  thumbnail_image json 
   parent_id varchar [null, ref: > tenant.category.id]
   created_at timestamp [default: `now()`]
   updated_at timestamp [default: `now()`]
+
+  Note: '''
+    This table is self-referencing, enabling a hierarchical structure for categories.\n
+    Main Category: A record is considered a main category if 'parent_id' is NULL.\n
+    Sub Category: A record is considered a sub-category if 'parent_id' references an existing
+    category 'id'. 
+  '''
 }
 
 Table tenant.product {
   id varchar [pk, unique, not null]
   name varchar(255) [not null]
+  slug varchar(255) [unique, not null]
   sku varchar(255) [unique, not null]
+  options json
   description text
+  feature_image varchar [not null]
   images json [not null]
   price integer [not null]
+  price_max integer [not null]
+  price_min integer [not null]
   cost integer [not null]
   profit integer [not null]
-  brand_id varchar [not null, ref: > tenant.brand.id]
+  vendor_id varchar [not null, ref: > tenant.vendor.id]
   category_id varchar [not null, ref: > tenant.category.id]
   stock integer [default: 0]
-  weight_value integer
+  is_available boolean [default: true]
+  weight integer [default: 0]
   weight_unit weight
-  start_date timestamp [null]
-  end_date timestamp [null]
+  discount_start_date timestamp [null]
+  discount_end_date timestamp [null]
   discount_amount integer [null, default: 0]
   discount_type discount [null]
+  published_at timestamp [default: `now()`]
   created_at timestamp [default: `now()`]
   updated_at timestamp [default: `now()`]
+
+  Note: '''
+    The 'options' field is a JSON type and stores an array of objects.\n
+    Each object in the array has the following structure: 
+    'name': A string representing the name of the option (e.g., 'Size' or 'Color').\n- 
+    'position': An integer denoting the position of the option for sorting purposes.\n- 
+    'values': An array of strings that represents possible values for the option (e.g., ['Small', 'Medium', 'Large'] for size).
+  '''
 }
 
 Table tenant.product_variant {
   id varchar [pk, unique, not null]
   product_id varchar [not null, ref: > tenant.product.id]
-  attribute varchar(255) 
+  name varchar(255) [not null]
   options json
-  images json
+  feature_image json
   sku varchar [unique, not null]
-  price integer
-  cost integer
-  profit integer
+  price integer [not null]
+  cost integer  [not null]
+  profit integer [not null]
+  is_available boolean [default: true]
+  weight integer [default: 0]
   created_at timestamp [default: `now()`]
   updated_at timestamp [default: `now()`]
+
+  Note: '''
+    The 'options' field in the 'product_variant' table is of type JSON and 
+    stores an array representing specific choices selected from the main product's available options.\n
+    Each variant's options array corresponds to a unique combination, such as ['Natural Titanium', '256GB'], 
+    drawn from the 'options' field in the associated 'product' table.
+  '''
 }
 
 Table tenant.cart {
   id varchar [pk, unique, not null]
-  product_id varchar [not null, ref: > tenant.product.id]
-  customer_id varchar [not null, ref: > tenant.customer.id]
-  quantity integer [not null, default: 1]
-  sub_total integer [not null]
+  user_id varchar [not null, ref: - tenant.user.id]
+  product_id varchar [not null, ref: < tenant.product.id]
+  quantity smallint [not null, default: 1]
   delivery_fee integer [not null]
   tax integer [not null]
-  discount integer [not null]
-  total_amount integer [not null]
+  item_count integer [not null]
+  sub_total_price integer [not null]
+  total_discount integer [not null]
+  total_price integer [not null]
+  total_weight integer [not null, default: 0]
+  currency currency
+  note text
   created_at timestamp [default: `now()`]
+
+  Note: '''
+    sub_total_price represents the total price of all items in the cart 
+    before any additional fees such as total_discount, delivery_fee, tax.\n
+    total_price = sub_total_price - total_discount + delivery_fee + tax
+  '''
 }
 
 Table tenant.order {
   id varchar [pk, unique, not null]
-  customer_id varchar [not null, ref: > tenant.customer.id]
+  order_no bigint [unique, not null]
+  user_id varchar [not null, ref: > tenant.user.id]
   cart_id varchar [not null, ref: - tenant.cart.id] 
-  order_note text 
+  delivery_fee integer [not null]
+  tax integer [not null]
+  item_count integer [not null]
+  sub_total_price integer [not null]
+  total_discount integer [not null]
+  total_price integer [not null]
+  total_weight integer [not null, default: 0]
   status order_status
+  note text 
+  payment payment_method
+  currency currency
   invoice_id varchar [not null, ref: - tenant.invoice.id]
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+}
+
+Table tenant.order_items {
+  id varchar [pk, unique, not null]
+  order_id varchar [not null, ref: > tenant.order.id]
+  product_id varchar [not null, ref: > tenant.product.id]
+  quantity smallint [not null]
+  price integer [not null]
   created_at timestamp [default: `now()`]
   updated_at timestamp [default: `now()`]
 }
 
 Table tenant.invoice {
   id varchar [pk, unique, not null]
+  order_id varchar [not null, ref: - tenant.order.id]
   invoice_number varchar [unique, not null]
-  customer_id varchar [not null, ref: > tenant.customer.id]
-  sub_total integer [not null] 
-  tax integer [not null]
-  delivery_fee int [not null] 
-  total_amount integer [not null] 
-  created_at timestamp [default: `now()`]
-  updated_at timestamp [default: `now()`]
-}
-
-Table tenant.invoice_item {
-  id varchar [pk, unique, not null]
-  invoice_id varchar [not null, ref: > tenant.invoice.id]
-  product_id varchar [not null, ref: > tenant.product.id]
-  quantity integer [not null] 
-  price integer [not null] 
-  amount integer [not null] 
+  shop_name varchar(255) [not null]
+  location varchar(255) [not null] 
   created_at timestamp [default: `now()`]
   updated_at timestamp [default: `now()`]
 }
 
 Table tenant.payment {
   id varchar [pk, unique, not null]
-  amount int
+  total_amount int 
   payment_date datetime
-  status payment_status
-  method payment_method
-  transaction_id varchar(255)
+  payment_status payment_status
+  payment_method payment_method 
+  transaction_id varchar(255) [unique, not null]
   created_at timestamp [default: `now()`]
   updated_at timestamp [default: `now()`]
 }
@@ -162,6 +225,7 @@ Table tenant.system_config {
   banner_image json
   ads_image json
   shopping_hours json
+  pickup_available boolean [default: false]
   maintenance_mode boolean [default: false]
   contact_email varchar(255)
   contact_phone varchar(20)
@@ -184,7 +248,7 @@ Enum discount {
 Enum order_status {
   pending
   confirmed
-  shipped
+  packaging
   delivered
   cancelled
 }
@@ -199,4 +263,8 @@ Enum payment_status {
   pending
   completed
   failed
+}
+
+Enum currency {
+  MMK
 }

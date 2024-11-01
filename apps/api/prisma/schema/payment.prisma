@@ -1,0 +1,22 @@
+model Payment {
+  id             String        @id @default(cuid())
+  total_amount   Int
+  payment_date   DateTime
+  payment_status PaymentStatus
+  payment_method PaymentMethod
+  transaction_id String        @unique
+  created_at     DateTime      @default(now())
+  updated_at     DateTime      @updatedAt
+}
+
+enum PaymentMethod {
+  AYAPAY
+  KBZPAY
+  WAVEPAY
+}
+
+enum PaymentStatus {
+  pending
+  completed
+  failed
+}
