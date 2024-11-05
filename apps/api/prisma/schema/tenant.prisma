@@ -5,7 +5,7 @@ model Tenant {
   phone      String   @db.VarChar(15)
   email      String?  @unique @db.VarChar(255)
   metadata   Json
-  isActive   Boolean  @default(false)
+  is_active  Boolean  @default(false)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }

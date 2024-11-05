@@ -1,4 +1,6 @@
 import {
+  HttpException,
+  HttpStatus,
   Injectable,
   Logger,
   OnModuleDestroy,
@@ -24,12 +26,15 @@ export class PrismaService
 
   async getClient(req: Request) {
     const tenantId = this.getTenantId(req);
-    let client = this.clients[tenantId];
 
-    if (!client) {
+    if (!tenantId) {
+      throw new HttpException("Missing tenant id!", HttpStatus.BAD_REQUEST);
+    }
+
+    if (!this.clients[tenantId]) {
       const databaseURL = process.env.DATABASE_URL!.replace("public", tenantId);
 
-      client = new PrismaClient({
+      this.clients[tenantId] = new PrismaClient({
         datasources: {
           db: {
             url: databaseURL,
@@ -37,10 +42,10 @@ export class PrismaService
         },
       });
 
-      this.clients[tenantId] = client;
+      return this.clients[tenantId];
     }
 
-    return client;
+    return this.clients[tenantId];
   }
 
   async onModuleDestroy() {
@@ -49,7 +54,7 @@ export class PrismaService
     );
   }
 
-  getTenantId(req: Request) {
-    return String(req.query.tenantId);
+  private getTenantId(req: Request) {
+    return req["tenant"];
   }
 }
