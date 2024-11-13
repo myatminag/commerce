@@ -1,9 +1,9 @@
 model Cart {
   id              String    @id @default(cuid())
-  userId          String    @unique
-  user            User      @relation(fields: [userId], references: [id])
+  user_id         String    @unique
+  user            User      @relation(fields: [user_id], references: [id])
   quantity        Int       @default(1)
-  deliveru_fee    Int
+  delivery_fee    Int
   tax             Int
   item_count      Int
   sub_total_price Int
@@ -12,8 +12,13 @@ model Cart {
   total_weight    Int
   currency        Currency
   note            String?
+  tenant_id       String
+  tenant          Tenant    @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
   created_at      DateTime  @default(now())
   updated_at      DateTime  @updatedAt
-  Product         Product[]
+  product         Product[]
   order           Order?
+
+  @@index([tenant_id], type: Hash)
+  @@map("cart")
 }

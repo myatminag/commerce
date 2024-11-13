@@ -12,10 +12,10 @@ model Product {
   price_min           Int
   cost                Int
   profit              Int
-  vendorId            String
-  vendor              Vendor           @relation(fields: [vendorId], references: [id])
-  categoryId          String
-  category            Category         @relation(fields: [categoryId], references: [id])
+  vendor_id           String
+  vendor              Vendor           @relation(fields: [vendor_id], references: [id])
+  category_id         String
+  category            Category         @relation(fields: [category_id], references: [id])
   stock               Int              @default(0)
   is_available        Boolean          @default(true)
   weight              Int
@@ -27,18 +27,23 @@ model Product {
   published_at        DateTime
   created_at          DateTime         @default(now())
   updated_at          DateTime         @default(now())
-  ProductVariant      ProductVariant[]
-  cartId              String
-  cart                Cart             @relation(fields: [cartId], references: [id])
-  Wishlist            Wishlist[]
-  OrderItem           OrderItems[]
+  product_variant     ProductVariant[]
+  cart_id             String
+  cart                Cart             @relation(fields: [cart_id], references: [id])
+  wishlist            Wishlist[]
+  order_item          OrderItems[]
+  tenant_id           String
+  tenant              Tenant           @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
+
+  @@index([tenant_id], type: Hash)
+  @@map("product")
 }
 
 model ProductVariant {
   id            String   @id @default(cuid())
   name          String   @db.VarChar(255)
-  productId     String
-  product       Product  @relation(fields: [productId], references: [id])
+  product_id    String
+  product       Product  @relation(fields: [product_id], references: [id], onDelete: Cascade)
   options       Json
   feature_image Json
   sku           String   @unique @db.VarChar(255)
@@ -49,6 +54,8 @@ model ProductVariant {
   weight        Int      @default(0)
   created_at    DateTime @default(now())
   updated_at    DateTime @updatedAt
+
+  @@map("product_variant")
 }
 
 enum Weight {

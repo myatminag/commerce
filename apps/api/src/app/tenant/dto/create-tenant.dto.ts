@@ -4,7 +4,6 @@ import {
   IsNotEmpty,
   IsObject,
   IsOptional,
-  IsPhoneNumber,
   IsString,
   MaxLength,
 } from "class-validator";
@@ -20,19 +19,24 @@ export class CreateTenantDto {
   @MaxLength(255)
   domain: string;
 
-  @IsPhoneNumber()
+  @IsString()
   @IsNotEmpty()
+  password: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(15)
   phone: string;
 
   @IsEmail()
   @IsOptional()
-  email?: string;
+  email: string;
 
   @IsOptional()
   @IsObject()
-  metadata?: object;
+  metadata: object;
 
   @IsOptional()
   @IsBoolean()
-  is_active?: boolean;
+  is_active: boolean;
 }

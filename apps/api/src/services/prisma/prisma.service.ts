@@ -1,20 +1,20 @@
 import {
-  HttpException,
-  HttpStatus,
   Injectable,
   Logger,
   OnModuleDestroy,
   OnModuleInit,
 } from "@nestjs/common";
+import { ClsService } from "nestjs-cls";
 import { PrismaClient } from "@prisma/client";
-import { Request } from "express";
 
 @Injectable()
 export class PrismaService
   extends PrismaClient
   implements OnModuleInit, OnModuleDestroy
 {
-  private clients: { [key: string]: PrismaClient } = {};
+  constructor(private clsService: ClsService) {
+    super();
+  }
 
   async onModuleInit() {
     try {
@@ -24,37 +24,38 @@ export class PrismaService
     }
   }
 
-  async getClient(req: Request) {
-    const tenantId = this.getTenantId(req);
-
-    if (!tenantId) {
-      throw new HttpException("Missing tenant id!", HttpStatus.BAD_REQUEST);
-    }
-
-    if (!this.clients[tenantId]) {
-      const databaseURL = process.env.DATABASE_URL!.replace("public", tenantId);
-
-      this.clients[tenantId] = new PrismaClient({
-        datasources: {
-          db: {
-            url: databaseURL,
-          },
-        },
-      });
-
-      return this.clients[tenantId];
-    }
-
-    return this.clients[tenantId];
-  }
-
   async onModuleDestroy() {
-    await Promise.all(
-      Object.values(this.clients).map((client) => client.$disconnect()),
-    );
+    await this.$disconnect();
   }
 
-  private getTenantId(req: Request) {
-    return req["tenant"];
+  public get instance() {
+    const tenantId = this.clsService.get("tenant-id");
+
+    return this.$extends({
+      query: {
+        $allOperations({ args, operation, query }) {
+          if (operation === "create") {
+            args.data = {
+              ...args.data,
+              tenant_id: tenantId,
+            } as any;
+
+            return query(args);
+          }
+
+          if (operation === "findMany") {
+            args.where = {
+              ...args.where,
+              tenant_id: tenantId,
+            } as any;
+
+            return query(args);
+          }
+          // args = args as Extract<typeof args, { where: unknown }>;
+
+          return query(args);
+        },
+      },
+    }) as PrismaService;
   }
 }

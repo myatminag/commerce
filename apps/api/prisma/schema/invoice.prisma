@@ -1,10 +1,15 @@
 model Invoice {
   id             String   @id @default(cuid())
-  orderId        String   @unique
-  order          Order    @relation(fields: [orderId], references: [id])
+  order_id       String   @unique
+  order          Order    @relation(fields: [order_id], references: [id], onDelete: Cascade)
   invoice_number String   @unique
   shop_name      String
   location       String
   created_at     DateTime @default(now())
   updated_at     DateTime @updatedAt
+  tenant_id      String
+  tenant         Tenant   @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
+
+  @@index([tenant_id], type: Hash)
+  @@map("invoice")
 }

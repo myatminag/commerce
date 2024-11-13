@@ -1,16 +1,13 @@
 import { ValidationPipe } from "@nestjs/common";
-import expressBasicAuth from "express-basic-auth";
-import { ContextIdFactory, NestFactory } from "@nestjs/core";
+import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import expressBasicAuth from "express-basic-auth";
 
-import metadata from "./metadata";
 import { AppModule } from "./app/app.module";
-import { AggregateByTenantContextIdStrategy } from "./strategy/tenant.strategy";
+import metadata from "./metadata";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
-  ContextIdFactory.apply(new AggregateByTenantContextIdStrategy());
 
   app.enableCors({
     credentials: true,
@@ -31,8 +28,9 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle("ATX Ecommerce Api")
     .setVersion("1.0.0")
-    .addBearerAuth({ type: "http", scheme: "bearer", bearerFormat: "JWT" })
     .addSecurityRequirements("bearer")
+    .addGlobalParameters({ name: "tenant-id", in: "header" })
+    .addBearerAuth({ type: "http", scheme: "bearer", bearerFormat: "JWT" })
     .build();
 
   /**

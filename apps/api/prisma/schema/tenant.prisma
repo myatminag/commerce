@@ -1,11 +1,27 @@
 model Tenant {
-  id         String   @id @default(cuid())
-  name       String   @db.VarChar(255)
-  domain     String   @unique
-  phone      String   @db.VarChar(15)
-  email      String?  @unique @db.VarChar(255)
-  metadata   Json
-  is_active  Boolean  @default(false)
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id            String         @id @default(cuid())
+  name          String         @db.VarChar(255)
+  domain        String         @unique
+  phone         String         @unique @db.VarChar(15)
+  password      String         @db.VarChar(255)
+  email         String?        @unique @db.VarChar(255)
+  metadata      Json?
+  is_active     Boolean        @default(true)
+  created_at    DateTime       @default(now())
+  updated_at    DateTime       @updatedAt
+  admin         Admin[]
+  user          User[]
+  wishlist      Wishlist[]
+  category      Category[]
+  vendor        Vendor[]
+  product       Product[]
+  cart          Cart[]
+  order         Order[]
+  invoice       Invoice[]
+  payment       Payment[]
+  notification  Notification[]
+  system_config SystemConfig[]
+  feature_flags FeatureFlags[]
+
+  @@map("tenant")
 }

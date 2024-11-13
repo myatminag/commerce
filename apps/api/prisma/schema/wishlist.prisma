@@ -1,8 +1,13 @@
 model Wishlist {
   id         String    @id @default(cuid())
-  userId     String
-  user       User      @relation(fields: [userId], references: [id])
+  user_id    String
+  user       User      @relation(fields: [user_id], references: [id])
   product    Product[]
   created_at DateTime  @default(now())
   updated_at DateTime  @updatedAt
+  tenant_id  String
+  tenant     Tenant    @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
+
+  @@index([tenant_id], type: Hash)
+  @@map("wishlist")
 }
