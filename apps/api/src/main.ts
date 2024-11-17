@@ -1,13 +1,16 @@
-import { ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
-import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import { ConfigService } from "@nestjs/config";
 import expressBasicAuth from "express-basic-auth";
+import { ValidationPipe, VersioningType } from "@nestjs/common";
+import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 
-import { AppModule } from "./app/app.module";
 import metadata from "./metadata";
+import { AppConfig } from "./config/type";
+import { AppModule } from "./app/app.module";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const configService = app.get(ConfigService<AppConfig, true>);
 
   app.enableCors({
     credentials: true,
@@ -15,8 +18,15 @@ async function bootstrap() {
     allowedHeaders: ["Content-Type", "Authorization"],
   });
 
-  // validation pipe
-  app.useGlobalPipes(new ValidationPipe());
+  app.enableVersioning({ defaultVersion: "1", type: VersioningType.URI });
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
 
   // swagger docs username and password
   app.use(
@@ -29,7 +39,6 @@ async function bootstrap() {
     .setTitle("ATX Ecommerce Api")
     .setVersion("1.0.0")
     .addSecurityRequirements("bearer")
-    .addGlobalParameters({ name: "tenant-id", in: "header" })
     .addBearerAuth({ type: "http", scheme: "bearer", bearerFormat: "JWT" })
     .build();
 
@@ -41,6 +50,8 @@ async function bootstrap() {
   const document = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("api", app, document);
 
-  await app.listen(8000);
+  const port = configService.get("PORT");
+  await app.listen(port);
 }
+
 bootstrap();

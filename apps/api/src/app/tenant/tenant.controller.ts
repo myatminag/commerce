@@ -1,23 +1,45 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 
-import { CreateTenantDto } from "./dto/create-tenant.dto";
 import { TenantService } from "./tenant.service";
-import { NoTenantGuard } from "./decorator/no-tenant-guard";
+import { CreateTenantDto } from "./dto/create-tenant.dto";
+import { UpdateTenantDto } from "./dto/update-tenant.dto";
+import { NoTenantGuard } from "src/decorators/no-tenant.decorator";
 
 @ApiTags("tenants")
 @Controller("tenants")
 export class TenantController {
   constructor(private tenantService: TenantService) {}
 
+  @Post()
   @NoTenantGuard()
-  @Post("/register")
   async create(@Body() createTanantDto: CreateTenantDto) {
     return await this.tenantService.create(createTanantDto);
   }
 
   @Get(":id")
-  async findById() {
-    return await this.tenantService.findById();
+  @NoTenantGuard()
+  async findById(@Param("id") id: string) {
+    return await this.tenantService.findById(id);
+  }
+
+  @Put(":id")
+  @NoTenantGuard()
+  async update(@Param("id") id: string, @Body() dto: UpdateTenantDto) {
+    return await this.tenantService.update(id, dto);
+  }
+
+  @Delete(":id")
+  @NoTenantGuard()
+  async delete(@Param("id") id: string) {
+    return await this.tenantService.delete(id);
   }
 }

@@ -12,6 +12,9 @@ export class UserService {
       data: {
         ...dto,
       },
+      omit: {
+        password: true,
+      },
     });
 
     return user;

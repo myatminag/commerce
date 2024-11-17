@@ -1,0 +1,24 @@
+model Subscription {
+  id             String         @id @default(cuid())
+  duration       Int
+  plan_type      PlanType
+  plan_price     Int
+  payment_method PaymentMethod
+  payment_status PaymentStatus?
+  transaction_id String
+  payment_date   DateTime
+  start_date     DateTime
+  end_date       DateTime
+  created_at     DateTime       @default(now())
+  updated_at     DateTime       @updatedAt
+  tenant_id      String         @unique
+  tenant         Tenant         @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
+
+  @@index([tenant_id], type: Hash)
+  @@map("subscription")
+}
+
+enum PlanType {
+  MONTHLY
+  ANNUALLY
+}

@@ -1,8 +1,8 @@
-import Joi from "joi";
-import { ClsModule } from "nestjs-cls";
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
+import { ClsModule } from "nestjs-cls";
 
+import configuration from "src/config/app";
 import { UserModule } from "./user/user.module";
 import { TenantModule } from "./tenant/tenant.module";
 import { PrismaModule } from "src/services/prisma/prisma.module";
@@ -10,14 +10,12 @@ import { PrismaModule } from "src/services/prisma/prisma.module";
 @Module({
   imports: [
     UserModule,
-    PrismaModule,
     TenantModule,
+    PrismaModule,
     ConfigModule.forRoot({
       cache: true,
       isGlobal: true,
-      validationSchema: Joi.object({
-        DATABASE_URL: Joi.string().required(),
-      }),
+      load: [configuration],
     }),
     ClsModule.forRoot({
       global: true,

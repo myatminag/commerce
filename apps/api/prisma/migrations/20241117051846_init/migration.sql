@@ -23,6 +23,9 @@ CREATE TYPE "Weight" AS ENUM ('kg', 'g', 'lbs');
 CREATE TYPE "Discount" AS ENUM ('percentage', 'kyats');
 
 -- CreateEnum
+CREATE TYPE "PlanType" AS ENUM ('MONTHLY', 'ANNUALLY');
+
+-- CreateEnum
 CREATE TYPE "Currency" AS ENUM ('MMK');
 
 -- CreateTable
@@ -132,7 +135,6 @@ CREATE TABLE "order" (
     "total_weight" INTEGER NOT NULL,
     "order_status" "OrderStatus" NOT NULL,
     "order_note" TEXT,
-    "payment_method" "PaymentMethod" NOT NULL,
     "currency" "Currency" NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
@@ -159,11 +161,12 @@ CREATE TABLE "payment" (
     "id" TEXT NOT NULL,
     "total_amount" INTEGER NOT NULL,
     "payment_date" TIMESTAMP(3) NOT NULL,
-    "payment_status" "PaymentStatus" NOT NULL,
+    "payment_status" "PaymentStatus",
     "payment_method" "PaymentMethod" NOT NULL,
     "transaction_id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
+    "order_id" TEXT NOT NULL,
     "tenant_id" TEXT NOT NULL,
 
     CONSTRAINT "payment_pkey" PRIMARY KEY ("id")
@@ -223,6 +226,25 @@ CREATE TABLE "product_variant" (
 );
 
 -- CreateTable
+CREATE TABLE "subscription" (
+    "id" TEXT NOT NULL,
+    "duration" INTEGER NOT NULL,
+    "plan_type" "PlanType" NOT NULL,
+    "plan_price" INTEGER NOT NULL,
+    "payment_method" "PaymentMethod" NOT NULL,
+    "payment_status" "PaymentStatus",
+    "transaction_id" TEXT NOT NULL,
+    "payment_date" TIMESTAMP(3) NOT NULL,
+    "start_date" TIMESTAMP(3) NOT NULL,
+    "end_date" TIMESTAMP(3) NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+    "tenant_id" TEXT NOT NULL,
+
+    CONSTRAINT "subscription_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "system_config" (
     "id" TEXT NOT NULL,
     "delivery_options" JSONB NOT NULL,
@@ -249,7 +271,6 @@ CREATE TABLE "tenant" (
     "name" VARCHAR(255) NOT NULL,
     "domain" TEXT NOT NULL,
     "phone" VARCHAR(15) NOT NULL,
-    "password" VARCHAR(255) NOT NULL,
     "email" VARCHAR(255),
     "metadata" JSONB,
     "is_active" BOOLEAN NOT NULL DEFAULT true,
@@ -262,7 +283,7 @@ CREATE TABLE "tenant" (
 -- CreateTable
 CREATE TABLE "user" (
     "id" TEXT NOT NULL,
-    "name" VARCHAR(255) NOT NULL,
+    "username" VARCHAR(255) NOT NULL,
     "phone" VARCHAR(15) NOT NULL,
     "password" VARCHAR(255) NOT NULL,
     "email" VARCHAR(255),
@@ -271,7 +292,7 @@ CREATE TABLE "user" (
     "township" VARCHAR(255) NOT NULL,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "tenant_id" VARCHAR(255) NOT NULL,
+    "tenant_id" TEXT NOT NULL,
 
     CONSTRAINT "user_pkey" PRIMARY KEY ("id")
 );
@@ -363,6 +384,9 @@ CREATE INDEX "order_tenant_id_idx" ON "order" USING HASH ("tenant_id");
 CREATE UNIQUE INDEX "payment_transaction_id_key" ON "payment"("transaction_id");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "payment_order_id_key" ON "payment"("order_id");
+
+-- CreateIndex
 CREATE INDEX "payment_tenant_id_idx" ON "payment" USING HASH ("tenant_id");
 
 -- CreateIndex
@@ -376,6 +400,12 @@ CREATE INDEX "product_tenant_id_idx" ON "product" USING HASH ("tenant_id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "product_variant_sku_key" ON "product_variant"("sku");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "subscription_tenant_id_key" ON "subscription"("tenant_id");
+
+-- CreateIndex
+CREATE INDEX "subscription_tenant_id_idx" ON "subscription" USING HASH ("tenant_id");
 
 -- CreateIndex
 CREATE INDEX "system_config_tenant_id_idx" ON "system_config" USING HASH ("tenant_id");
@@ -450,7 +480,7 @@ ALTER TABLE "notification" ADD CONSTRAINT "notification_admin_id_fkey" FOREIGN K
 ALTER TABLE "notification" ADD CONSTRAINT "notification_tenant_id_fkey" FOREIGN KEY ("tenant_id") REFERENCES "tenant"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "order" ADD CONSTRAINT "order_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "order" ADD CONSTRAINT "order_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "order" ADD CONSTRAINT "order_cart_id_fkey" FOREIGN KEY ("cart_id") REFERENCES "cart"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -463,6 +493,9 @@ ALTER TABLE "order_items" ADD CONSTRAINT "order_items_order_id_fkey" FOREIGN KEY
 
 -- AddForeignKey
 ALTER TABLE "order_items" ADD CONSTRAINT "order_items_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "payment" ADD CONSTRAINT "payment_order_id_fkey" FOREIGN KEY ("order_id") REFERENCES "order"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "payment" ADD CONSTRAINT "payment_tenant_id_fkey" FOREIGN KEY ("tenant_id") REFERENCES "tenant"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -481,6 +514,9 @@ ALTER TABLE "product" ADD CONSTRAINT "product_tenant_id_fkey" FOREIGN KEY ("tena
 
 -- AddForeignKey
 ALTER TABLE "product_variant" ADD CONSTRAINT "product_variant_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "product"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "subscription" ADD CONSTRAINT "subscription_tenant_id_fkey" FOREIGN KEY ("tenant_id") REFERENCES "tenant"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "system_config" ADD CONSTRAINT "system_config_tenant_id_fkey" FOREIGN KEY ("tenant_id") REFERENCES "tenant"("id") ON DELETE CASCADE ON UPDATE CASCADE;

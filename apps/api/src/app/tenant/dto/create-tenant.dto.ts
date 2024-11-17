@@ -21,10 +21,6 @@ export class CreateTenantDto {
 
   @IsString()
   @IsNotEmpty()
-  password: string;
-
-  @IsString()
-  @IsNotEmpty()
   @MaxLength(15)
   phone: string;
 

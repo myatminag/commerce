@@ -3,12 +3,12 @@ model Tenant {
   name          String         @db.VarChar(255)
   domain        String         @unique
   phone         String         @unique @db.VarChar(15)
-  password      String         @db.VarChar(255)
   email         String?        @unique @db.VarChar(255)
   metadata      Json?
   is_active     Boolean        @default(true)
   created_at    DateTime       @default(now())
   updated_at    DateTime       @updatedAt
+  subscription  Subscription?
   admin         Admin[]
   user          User[]
   wishlist      Wishlist[]
