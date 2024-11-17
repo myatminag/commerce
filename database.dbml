@@ -22,7 +22,7 @@ Table tenant {
   '''
 }
 
-Table tenant.admin {
+Table admin {
   id varchar [pk, unique, not null]
   username varchar(255) [not null]
   email varchar(255) [unique]
@@ -30,9 +30,10 @@ Table tenant.admin {
   password varchar [not null]
   created_at timestamp [default: `now()`]
   updated_at timestamp [default: `now()`]
+  tenant_id varchar [ref: > tenant.id]
 }
 
-Table tenant.user {
+Table user {
   id varchar [pk, unique, not null]
   name varchar(255) [not null]
   phone varchar(20) [not null]
@@ -42,17 +43,19 @@ Table tenant.user {
   township varchar(255) [not null]
   created_at timestamp [default: `now()`]
   updated_at timestamp [default: `now()`]
+  tenant_id varchar [ref: > tenant.id]
 }
 
-Table tenant.wishlist {
+Table wishlist {
   id varchar [pk, unique, not null]
   product_id varchar [ref: <> tenant.product.id]
   user_id varchar [ref: > tenant.user.id]
   created_at timestamp [default: `now()`]
   deleted_at timestamp [default: `now()`]
+  tenant_id varchar [ref: > tenant.id]
 }
 
-Table tenant.vendor {
+Table vendor {
   id varchar [pk, unique]
   name varchar(255) [not null]
   slug varchar(255) [unique, not null]
@@ -61,9 +64,10 @@ Table tenant.vendor {
   description textqq
   created_at timestamp [default: `now()`]
   updated_at timestamp [default: `now()`]
+  tenant_id varchar [ref: > tenant.id]
 }
 
-Table tenant.category {
+Table category {
   id varchar [pk, unique, not null]
   name varchar(255) [not null]
   slug varchar(255) [unique, not null]
@@ -73,6 +77,7 @@ Table tenant.category {
   parent_id varchar [null, ref: > tenant.category.id]
   created_at timestamp [default: `now()`]
   updated_at timestamp [default: `now()`]
+  tenant_id varchar [ref: > tenant.id]
 
   Note: '''
     This table is self-referencing, enabling a hierarchical structure for categories.\n
@@ -82,7 +87,7 @@ Table tenant.category {
   '''
 }
 
-Table tenant.product {
+Table product {
   id varchar [pk, unique, not null]
   name varchar(255) [not null]
   slug varchar(255) [unique, not null]
@@ -109,6 +114,7 @@ Table tenant.product {
   published_at timestamp [default: `now()`]
   created_at timestamp [default: `now()`]
   updated_at timestamp [default: `now()`]
+  tenant_id varchar [ref: > tenant.id]
 
   Note: '''
     The 'options' field is a JSON type and stores an array of objects.\n
@@ -119,7 +125,7 @@ Table tenant.product {
   '''
 }
 
-Table tenant.product_variant {
+Table product_variant {
   id varchar [pk, unique, not null]
   product_id varchar [not null, ref: > tenant.product.id]
   name varchar(255) [not null]
@@ -133,6 +139,7 @@ Table tenant.product_variant {
   weight integer [default: 0]
   created_at timestamp [default: `now()`]
   updated_at timestamp [default: `now()`]
+  tenant_id varchar [ref: > tenant.id]
 
   Note: '''
     The 'options' field in the 'product_variant' table is of type JSON and 
@@ -142,7 +149,7 @@ Table tenant.product_variant {
   '''
 }
 
-Table tenant.cart {
+Table cart {
   id varchar [pk, unique, not null]
   user_id varchar [not null, ref: - tenant.user.id]
   product_id varchar [not null, ref: < tenant.product.id]
@@ -157,6 +164,7 @@ Table tenant.cart {
   currency currency
   note text
   created_at timestamp [default: `now()`]
+  tenant_id varchar [ref: > tenant.id]
 
   Note: '''
     sub_total_price represents the total price of all items in the cart 
@@ -165,7 +173,7 @@ Table tenant.cart {
   '''
 }
 
-Table tenant.order {
+Table order {
   id varchar [pk, unique, not null]
   order_no bigint [unique, not null]
   user_id varchar [not null, ref: > tenant.user.id]
@@ -184,9 +192,10 @@ Table tenant.order {
   invoice_id varchar [not null, ref: - tenant.invoice.id]
   created_at timestamp [default: `now()`]
   updated_at timestamp [default: `now()`]
+  tenant_id varchar [ref: > tenant.id]
 }
 
-Table tenant.order_items {
+Table order_items {
   id varchar [pk, unique, not null]
   order_id varchar [not null, ref: > tenant.order.id]
   product_id varchar [not null, ref: > tenant.product.id]
@@ -194,9 +203,10 @@ Table tenant.order_items {
   price integer [not null]
   created_at timestamp [default: `now()`]
   updated_at timestamp [default: `now()`]
+  tenant_id varchar [ref: > tenant.id]
 }
 
-Table tenant.invoice {
+Table invoice {
   id varchar [pk, unique, not null]
   order_id varchar [not null, ref: - tenant.order.id]
   invoice_number varchar [unique, not null]
@@ -204,9 +214,10 @@ Table tenant.invoice {
   location varchar(255) [not null] 
   created_at timestamp [default: `now()`]
   updated_at timestamp [default: `now()`]
+  tenant_id varchar [ref: > tenant.id]
 }
 
-Table tenant.payment {
+Table payment {
   id varchar [pk, unique, not null]
   total_amount int 
   payment_date datetime
@@ -215,9 +226,32 @@ Table tenant.payment {
   transaction_id varchar(255) [unique, not null]
   created_at timestamp [default: `now()`]
   updated_at timestamp [default: `now()`]
+  tenant_id varchar [ref: > tenant.id]
 }
 
-Table tenant.system_config {
+Table notification {
+  id varchar [pk, unique, not null]
+  message varchar [not null]
+  type notification_type
+  status notification_status [default: 'unread']
+  user_id [ref: > user.id]
+  admin_id [ref: > admin.id]
+  tenant_id varchar [ref: > tenant.id]
+  recipient_type recipient_type
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+}
+
+Table feature_flags {
+  id varchar [pk, unique, not null]
+  name varchar(255)
+  is_enabled boolean [default: false]
+  tenant_id varchar [ref: <> tenant.id]
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+}
+
+Table system_config {
   id varchar [pk, unique, not null]
   delivery_options json
   tax_rate numeric(5, 2) [not null, default: 0.00]
@@ -232,6 +266,36 @@ Table tenant.system_config {
   social_links json
   created_at timestamp [default: `now()`]
   updated_at timestamp [default: `now()`]
+  tenant_id varchar [ref: > tenant.id]
+}
+
+Enum notification_status {
+  read
+  unread
+  archive
+}
+
+Enum notification_type {
+  order_confirmation
+  order_shipped
+  order_delivered
+  order_canceled
+  new_order_received
+  out_of_stock
+  low_stock_alert
+  new_promotion
+  discount_expiry_alert
+  payment_confirmation
+  payment_failed
+  password_change_confirmation
+  system_maintenance_alert
+  feature_updates
+  policy_updates
+}
+
+Enum recipient_type {
+  user
+  admin
 }
 
 Enum weight {

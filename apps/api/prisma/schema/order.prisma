@@ -1,11 +1,11 @@
 model Order {
-  id              String        @id @default(cuid())
-  order_no        String        @unique
-  OrderItems      OrderItems[]
-  userId          String
-  User            User          @relation(fields: [userId], references: [id])
-  cartId          String        @unique
-  cart            Cart          @relation(fields: [cartId], references: [id])
+  id              String       @id @default(cuid())
+  order_no        String       @unique
+  order_items     OrderItems[]
+  user_id         String
+  user            User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  cart_id         String       @unique
+  cart            Cart         @relation(fields: [cart_id], references: [id])
   delivery_fee    Int
   tax             Int
   item_count      Int
@@ -15,23 +15,30 @@ model Order {
   total_weight    Int
   order_status    OrderStatus
   order_note      String?
-  payment_method  PaymentMethod
   currency        Currency
   invoice         Invoice?
-  created_at      DateTime      @default(now())
-  updated_at      DateTime      @updatedAt
+  created_at      DateTime     @default(now())
+  updated_at      DateTime     @updatedAt
+  payment         Payment?
+  tenant_id       String
+  tenant          Tenant       @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
+
+  @@index([tenant_id], type: Hash)
+  @@map("order")
 }
 
 model OrderItems {
   id         String   @id @default(cuid())
-  orderId    String
-  Order      Order    @relation(fields: [orderId], references: [id])
-  productId  String
-  product    Product  @relation(fields: [productId], references: [id])
   quantity   Int      @default(1)
   price      Int
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+  order_id   String
+  order      Order    @relation(fields: [order_id], references: [id])
+  product_id String
+  product    Product  @relation(fields: [product_id], references: [id])
+
+  @@map("order_items")
 }
 
 enum OrderStatus {

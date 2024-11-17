@@ -1,31 +1,57 @@
 import { NestFactory } from "@nestjs/core";
-import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import { ConfigService } from "@nestjs/config";
 import expressBasicAuth from "express-basic-auth";
+import { ValidationPipe, VersioningType } from "@nestjs/common";
+import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 
+import metadata from "./metadata";
+import { AppConfig } from "./config/type";
 import { AppModule } from "./app/app.module";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const configService = app.get(ConfigService<AppConfig, true>);
+
   app.enableCors({
     credentials: true,
     origin: ["http://localhost:3000", "http://localhost:3001"],
     allowedHeaders: ["Content-Type", "Authorization"],
   });
-  app.use(
-    "/api/*",
-    expressBasicAuth({ challenge: true, users: { cds: "cds@api#299" } }),
+
+  app.enableVersioning({ defaultVersion: "1", type: VersioningType.URI });
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
   );
 
-  // initialize swagger
+  // swagger docs username and password
+  app.use(
+    "/api/*",
+    expressBasicAuth({ challenge: true, users: { atx: "atx@123!@#" } }),
+  );
+
+  // swagger docs
   const config = new DocumentBuilder()
-    .setTitle("Capture Digital Api")
+    .setTitle("ATX Ecommerce Api")
     .setVersion("1.0.0")
-    .addBearerAuth({ type: "http", scheme: "bearer", bearerFormat: "JWT" })
     .addSecurityRequirements("bearer")
+    .addBearerAuth({ type: "http", scheme: "bearer", bearerFormat: "JWT" })
     .build();
-  const document = SwaggerModule.createDocument(app, config);
+
+  /**
+   * using swc builder need to enble type checking
+   * https://docs.nestjs.com/openapi/cli-plugin#swc-builder
+   */
+  await SwaggerModule.loadPluginMetadata(metadata);
+  const document = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("api", app, document);
 
-  await app.listen(8000);
+  const port = configService.get("PORT");
+  await app.listen(port);
 }
+
 bootstrap();

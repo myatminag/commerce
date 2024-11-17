@@ -1,12 +1,19 @@
 model Payment {
-  id             String        @id @default(cuid())
+  id             String         @id @default(cuid())
   total_amount   Int
   payment_date   DateTime
-  payment_status PaymentStatus
+  payment_status PaymentStatus?
   payment_method PaymentMethod
-  transaction_id String        @unique
-  created_at     DateTime      @default(now())
-  updated_at     DateTime      @updatedAt
+  transaction_id String         @unique
+  created_at     DateTime       @default(now())
+  updated_at     DateTime       @updatedAt
+  order_id       String         @unique
+  order          Order          @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  tenant_id      String
+  tenant         Tenant         @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
+
+  @@index([tenant_id], type: Hash)
+  @@map("payment")
 }
 
 enum PaymentMethod {

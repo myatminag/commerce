@@ -13,6 +13,11 @@ model SystemConfig {
   social_links     Json?
   created_at       DateTime @default(now())
   updated_at       DateTime @updatedAt
+  tenant_id        String
+  tenant           Tenant   @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
+
+  @@index([tenant_id], type: Hash)
+  @@map("system_config")
 }
 
 enum Currency {
