@@ -7,10 +7,14 @@ import {
   MaxLength,
 } from "class-validator";
 
-export class CreateUserDto {
+export class UserRegisterDto {
   @IsString()
   @IsNotEmpty()
   username: string;
+
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
 
   @IsString()
   @IsNotEmpty()
@@ -20,10 +24,6 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   password: string;
-
-  @IsEmail()
-  @IsNotEmpty()
-  email: string;
 
   @IsString()
   @IsOptional()

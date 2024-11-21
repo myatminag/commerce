@@ -3,10 +3,12 @@ model User {
   username     String         @db.VarChar(255)
   phone        String         @unique @db.VarChar(15)
   password     String         @db.VarChar(255)
-  email        String?        @unique @db.VarChar(255)
-  address      String
-  city         String         @db.VarChar(255)
-  township     String         @db.VarChar(255)
+  email        String         @unique @db.VarChar(255)
+  address      String?
+  city         String?        @db.VarChar(255)
+  township     String?        @db.VarChar(255)
+  reset_token  String?        @unique
+  expired_at   DateTime?
   updated_at   DateTime       @updatedAt
   created_at   DateTime       @default(now())
   cart         Cart?
