@@ -101,8 +101,6 @@ export class AuthService {
     return { message: "Password successfully reset!" };
   }
 
-  async adminLogin() {}
-
   async validateCredentials(email: string, password: string) {
     const user = await this.userService.findByEmail(email);
 

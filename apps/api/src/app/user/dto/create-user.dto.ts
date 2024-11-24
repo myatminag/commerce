@@ -26,6 +26,18 @@ export class CreateUserDto {
   email: string;
 
   @IsString()
+  @IsNotEmpty()
+  address?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  township?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  city?: string;
+
+  @IsString()
   @IsOptional()
   @ApiProperty({ readOnly: true })
   tenant_id: string;
