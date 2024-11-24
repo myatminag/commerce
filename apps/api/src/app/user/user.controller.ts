@@ -1,22 +1,59 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
-import { ApiTags, ApiHeader } from "@nestjs/swagger";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Inject,
+  Param,
+  Patch,
+  Put,
+  Query,
+} from "@nestjs/common";
+import { REQUEST } from "@nestjs/core";
+import { ApiHeader, ApiTags } from "@nestjs/swagger";
 
-import { CreateUserDto } from "./dto/create-user.dto";
 import { UserService } from "./user.service";
+import { UpdateUserDto } from "./dto/update-user.dto";
+import { RequestUserType } from "src/types/request-user.type";
+import { UpdatePasswordDto } from "./dto/update-password.dto";
+import { QueryParamsDto } from "./dto/pagination-params.dto";
 
-@ApiTags("user")
+@ApiTags("users")
 @ApiHeader({ name: "tenant-id", required: true })
-@Controller("user")
+@Controller("users")
 export class UserController {
-  constructor(private userService: UserService) {}
-
-  @Post()
-  async create(@Body() dto: CreateUserDto) {
-    return await this.userService.create(dto);
-  }
+  constructor(
+    private userService: UserService,
+    @Inject(REQUEST) private request: RequestUserType,
+  ) {}
 
   @Get()
-  async get() {
-    return await this.userService.getAll();
+  async getUsers(@Query() dto: QueryParamsDto) {
+    return this.userService.getUsers(dto);
+  }
+
+  @Get("/:id")
+  async findById(@Param("id") id: string) {
+    return this.userService.findById(id);
+  }
+
+  @Put("/info")
+  async updateProfile(@Body() dto: UpdateUserDto) {
+    return this.userService.update(this.request.user.id, dto);
+  }
+
+  @Patch("/password")
+  async updatePassword(@Body() dto: UpdatePasswordDto) {
+    return this.userService.updatePassword(this.request.user.id, dto);
+  }
+
+  @Delete(":id")
+  async deleteUser(@Param("id") id: string) {
+    return this.userService.deleteUser(id);
+  }
+
+  @Delete()
+  async deleteUsers(@Body() ids: string[]) {
+    return this.userService.deleteUsers(ids);
   }
 }

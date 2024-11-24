@@ -22,20 +22,20 @@ export class CreateUserDto {
   password: string;
 
   @IsEmail()
-  @IsOptional()
+  @IsNotEmpty()
   email: string;
 
   @IsString()
   @IsNotEmpty()
-  address: string;
+  address?: string;
 
   @IsString()
   @IsNotEmpty()
-  city: string;
+  township?: string;
 
   @IsString()
   @IsNotEmpty()
-  township: string;
+  city?: string;
 
   @IsString()
   @IsOptional()
