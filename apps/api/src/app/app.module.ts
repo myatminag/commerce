@@ -7,10 +7,12 @@ import { UserModule } from "./user/user.module";
 import { TenantModule } from "./tenant/tenant.module";
 import { AuthModule } from "src/services/auth/auth.module";
 import { PrismaModule } from "src/services/prisma/prisma.module";
+import { AdminModule } from "./admin/admin.module";
 
 @Module({
   imports: [
     AuthModule,
+    AdminModule,
     UserModule,
     TenantModule,
     PrismaModule,

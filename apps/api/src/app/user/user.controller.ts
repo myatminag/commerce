@@ -16,7 +16,7 @@ import { UserService } from "./user.service";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { RequestUserType } from "src/types/request-user.type";
 import { UpdatePasswordDto } from "./dto/update-password.dto";
-import { QueryParamsDto } from "./dto/pagination-params.dto";
+import { QueryParamsDto } from "./dto/query-params.dto";
 
 @ApiTags("users")
 @ApiHeader({ name: "tenant-id", required: true })

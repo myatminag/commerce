@@ -9,9 +9,9 @@ import { Prisma } from "@prisma/client";
 
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
+import { QueryParamsDto } from "./dto/query-params.dto";
 import { UpdatePasswordDto } from "./dto/update-password.dto";
 import { PrismaService } from "src/services/prisma/prisma.service";
-import { QueryParamsDto } from "./dto/pagination-params.dto";
 
 @Injectable()
 export class UserService {
@@ -26,12 +26,10 @@ export class UserService {
       throw new ConflictException("User already exits!");
     }
 
-    const newUser = await this.prismaService.instance.user.create({
+    return await this.prismaService.instance.user.create({
       data: { ...dto },
       omit: { password: true },
     });
-
-    return newUser;
   }
 
   async update(id: string, dto: UpdateUserDto) {
@@ -60,6 +58,10 @@ export class UserService {
       where: { id: user.id },
       data: { password: newPassword },
     });
+
+    return {
+      message: "Password has been successfully updated!",
+    };
   }
 
   async findById(id: string) {

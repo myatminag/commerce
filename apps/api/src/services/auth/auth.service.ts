@@ -11,17 +11,21 @@ import ms from "ms";
 
 import { AppConfig } from "src/config/type";
 import { UserLoginDto } from "./dto/user-login.dto";
+import { AdminLoginDto } from "./dto/admin-login.dto";
 import { UserService } from "src/app/user/user.service";
 import { PrismaService } from "../prisma/prisma.service";
 import { UserRegisterDto } from "./dto/user-register.dto";
 import { ForgotPasswordDto } from "./dto/forgot-password.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
+import { AdminService } from "src/app/admin/admin.service";
+import { AdminRegisterDto } from "./dto/admin-register.dto";
 
 @Injectable()
 export class AuthService {
   constructor(
     private jwtService: JwtService,
     private userService: UserService,
+    private adminService: AdminService,
     private prismaService: PrismaService,
     private configService: ConfigService<AppConfig>,
   ) {}
@@ -36,13 +40,34 @@ export class AuthService {
     });
   }
 
+  async adminRegister(dto: AdminRegisterDto) {
+    const salt = await genSalt();
+    const hashPassword = await hash(dto.password, salt);
+
+    return await this.adminService.create({
+      ...dto,
+      password: hashPassword,
+    });
+  }
+
   async login(dto: UserLoginDto) {
-    const user = await this.validateCredentials(dto.email, dto.password);
+    const user = await this.validateUserCredentials(dto.email, dto.password);
 
     const token = await this.generateToken(user.id, user.email);
 
     return {
       user,
+      token,
+    };
+  }
+
+  async adminLogin(dto: AdminLoginDto) {
+    const admin = await this.validateAdminCredentials(dto.email, dto.password);
+
+    const token = await this.generateToken(admin.id, admin.email);
+
+    return {
+      admin,
       token,
     };
   }
@@ -101,7 +126,7 @@ export class AuthService {
     return { message: "Password successfully reset!" };
   }
 
-  async validateCredentials(email: string, password: string) {
+  async validateUserCredentials(email: string, password: string) {
     const user = await this.userService.findByEmail(email);
 
     const isValid = await compare(password, user.password);
@@ -113,6 +138,30 @@ export class AuthService {
     delete user.password;
 
     return user;
+  }
+
+  async validateAdminCredentials(email: string, password: string) {
+    const admin = await this.adminService.findByEmail(email);
+
+    const isValid = await compare(password, admin.password);
+
+    if (!isValid) {
+      throw new UnauthorizedException("Invalid credentials!");
+    }
+
+    delete admin.password;
+
+    return admin;
+  }
+
+  async refreshToken(token: string) {
+    const payload = await this.jwtService.verifyAsync(token, {
+      secret: this.configService.get("REFRESH_TOKEN_KEY"),
+    });
+
+    const { id, email } = payload;
+
+    return await this.generateToken(id, email);
   }
 
   async generateToken(id: string, email: string) {

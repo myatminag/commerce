@@ -1,19 +1,23 @@
-import { JwtModule } from "@nestjs/jwt";
 import { Module } from "@nestjs/common";
 import { APP_GUARD } from "@nestjs/core";
+import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
 
-import { AuthService } from "./auth.service";
-import { AuthController } from "./auth.controller";
+import { AdminModule } from "src/app/admin/admin.module";
 import { UserModule } from "src/app/user/user.module";
 import { JwtAuthGuard } from "src/guards/jwt-auth.guard";
-import { JwtStrategy } from "src/strategies/jwt.strategy";
-import { LocalStrategy } from "src/strategies/local.strategy";
+import { AdminLocalStrategy } from "src/strategies/admin-local.strategy";
+import { JwtTokenStrategy } from "src/strategies/jwt-token.strategy";
+import { RefreshTokenStrategy } from "src/strategies/refresh-token.strategy";
+import { UserLocalStrategy } from "src/strategies/user-local.strategy";
 import { PrismaModule } from "../prisma/prisma.module";
+import { AuthController } from "./auth.controller";
+import { AuthService } from "./auth.service";
 
 @Module({
   imports: [
     UserModule,
+    AdminModule,
     PrismaModule,
     PassportModule,
     JwtModule.register({
@@ -27,8 +31,10 @@ import { PrismaModule } from "../prisma/prisma.module";
   controllers: [AuthController],
   providers: [
     AuthService,
-    LocalStrategy,
-    JwtStrategy,
+    UserLocalStrategy,
+    AdminLocalStrategy,
+    JwtTokenStrategy,
+    RefreshTokenStrategy,
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
