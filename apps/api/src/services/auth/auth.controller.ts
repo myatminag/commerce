@@ -11,6 +11,7 @@ import { ApiHeader, ApiTags } from "@nestjs/swagger";
 import { IsPublic } from "src/decorators/is-public.decorator";
 import { AdminAuthGuard } from "src/guards/admin-auth.guard";
 import { RefreshTokenGuard } from "src/guards/refresh-token.guard";
+import { RolesGuard } from "src/guards/roles.guard";
 import { UserAuthGuard } from "src/guards/user-auth.guard";
 import { AuthService } from "./auth.service";
 import { AdminLoginDto } from "./dto/admin-login.dto";
@@ -22,6 +23,7 @@ import { UserRegisterDto } from "./dto/user-register.dto";
 
 @ApiTags("auth")
 @ApiHeader({ name: "tenant-id", required: true })
+@UseGuards(RolesGuard)
 @Controller("auth")
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -52,19 +54,6 @@ export class AuthController {
   }
 
   @IsPublic()
-  @Post("/register/admin")
-  async adminRegister(@Body() dto: AdminRegisterDto) {
-    return this.authService.adminRegister(dto);
-  }
-
-  @IsPublic()
-  @Post("/login/admin")
-  @UseGuards(AdminAuthGuard)
-  async adminLogin(@Body() dto: AdminLoginDto) {
-    return this.authService.adminLogin(dto);
-  }
-
-  @IsPublic()
   @Post("/refresh-token")
   @UseGuards(RefreshTokenGuard)
   async refreshToken(@Headers("authorization") authorization: string) {
@@ -75,5 +64,18 @@ export class AuthController {
     const token = authorization.replace("Bearer", "").trim();
 
     return this.authService.refreshToken(token);
+  }
+
+  @IsPublic()
+  @Post("/register/admin")
+  async adminRegister(@Body() dto: AdminRegisterDto) {
+    return this.authService.adminRegister(dto);
+  }
+
+  @IsPublic()
+  @Post("/login/admin")
+  @UseGuards(AdminAuthGuard)
+  async adminLogin(@Body() dto: AdminLoginDto) {
+    return this.authService.adminLogin(dto);
   }
 }

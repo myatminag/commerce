@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Inject,
   Param,
   Patch,
@@ -12,11 +14,13 @@ import {
 import { REQUEST } from "@nestjs/core";
 import { ApiHeader, ApiTags } from "@nestjs/swagger";
 
-import { UserService } from "./user.service";
-import { UpdateUserDto } from "./dto/update-user.dto";
+import { Roles } from "src/decorators/roles.decorator";
 import { RequestUserType } from "src/types/request-user.type";
-import { UpdatePasswordDto } from "./dto/update-password.dto";
+import { Role } from "src/types/roles.enum";
 import { QueryParamsDto } from "./dto/query-params.dto";
+import { UpdatePasswordDto } from "./dto/update-password.dto";
+import { UpdateUserDto } from "./dto/update-user.dto";
+import { UserService } from "./user.service";
 
 @ApiTags("users")
 @ApiHeader({ name: "tenant-id", required: true })
@@ -28,11 +32,13 @@ export class UserController {
   ) {}
 
   @Get()
+  @Roles(Role.Admin)
   async getUsers(@Query() dto: QueryParamsDto) {
     return this.userService.getUsers(dto);
   }
 
-  @Get("/:id")
+  @Get(":id")
+  @Roles(Role.Admin)
   async findById(@Param("id") id: string) {
     return this.userService.findById(id);
   }
@@ -43,16 +49,19 @@ export class UserController {
   }
 
   @Patch("/password")
+  @HttpCode(HttpStatus.NO_CONTENT)
   async updatePassword(@Body() dto: UpdatePasswordDto) {
     return this.userService.updatePassword(this.request.user.id, dto);
   }
 
   @Delete(":id")
+  @Roles(Role.Admin)
   async deleteUser(@Param("id") id: string) {
     return this.userService.deleteUser(id);
   }
 
   @Delete()
+  @Roles(Role.Admin)
   async deleteUsers(@Body() ids: string[]) {
     return this.userService.deleteUsers(ids);
   }

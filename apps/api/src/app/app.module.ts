@@ -3,11 +3,11 @@ import { ConfigModule } from "@nestjs/config";
 import { ClsModule } from "nestjs-cls";
 
 import configuration from "src/config/app";
-import { UserModule } from "./user/user.module";
-import { TenantModule } from "./tenant/tenant.module";
 import { AuthModule } from "src/services/auth/auth.module";
 import { PrismaModule } from "src/services/prisma/prisma.module";
 import { AdminModule } from "./admin/admin.module";
+import { TenantModule } from "./tenant/tenant.module";
+import { UserModule } from "./user/user.module";
 
 @Module({
   imports: [
