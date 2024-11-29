@@ -35,20 +35,34 @@ export class AuthService {
     const salt = await genSalt();
     const hashPassword = await hash(dto.password, salt);
 
-    return await this.userService.create({
+    const user = await this.userService.create({
       ...dto,
       password: hashPassword,
     });
+
+    const token = await this.generateToken(user.id, user.email, Role.User);
+
+    return {
+      user,
+      token,
+    };
   }
 
   async adminRegister(dto: AdminRegisterDto) {
     const salt = await genSalt();
     const hashPassword = await hash(dto.password, salt);
 
-    return await this.adminService.create({
+    const admin = await this.adminService.create({
       ...dto,
       password: hashPassword,
     });
+
+    const token = await this.generateToken(admin.id, admin.email, Role.Admin);
+
+    return {
+      admin,
+      token,
+    };
   }
 
   async login(dto: UserLoginDto) {

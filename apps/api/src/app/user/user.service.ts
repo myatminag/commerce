@@ -4,14 +4,15 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from "@nestjs/common";
-import { compare, genSalt, hash } from "bcrypt";
 import { Prisma } from "@prisma/client";
+import { compare, genSalt, hash } from "bcrypt";
 
+import { PrismaService } from "src/services/prisma/prisma.service";
 import { CreateUserDto } from "./dto/create-user.dto";
-import { UpdateUserDto } from "./dto/update-user.dto";
+import { DeleteUsersDto } from "./dto/delete-users.dto";
 import { QueryParamsDto } from "./dto/query-params.dto";
 import { UpdatePasswordDto } from "./dto/update-password.dto";
-import { PrismaService } from "src/services/prisma/prisma.service";
+import { UpdateUserDto } from "./dto/update-user.dto";
 
 @Injectable()
 export class UserService {
@@ -116,7 +117,7 @@ export class UserService {
         take: limit,
         skip: (offset - 1) * limit,
         omit: { password: true },
-        orderBy: { username: "asc" },
+        orderBy: { created_at: "asc" },
         where: {
           AND: searchQuery,
         },
@@ -141,9 +142,9 @@ export class UserService {
     };
   }
 
-  async deleteUsers(ids: string[]) {
+  async deleteUsers(dto: DeleteUsersDto) {
     const existingUsers = await this.prismaService.instance.user.findMany({
-      where: { id: { in: ids } },
+      where: { id: { in: dto.ids } },
       select: { id: true },
     });
 
