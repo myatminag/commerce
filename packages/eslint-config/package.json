@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "devDependencies": {
-    "@tanstack/eslint-plugin-query": "^5.61.3",
-    "@typescript-eslint/eslint-plugin": "^8.15.0",
-    "@typescript-eslint/parser": "^8.15.0",
+    "@tanstack/eslint-plugin-query": "^5.61.6",
+    "@typescript-eslint/eslint-plugin": "^8.16.0",
+    "@typescript-eslint/parser": "^8.16.0",
     "@vercel/style-guide": "^6.0.0",
-    "eslint-config-turbo": "^2.3.1"
+    "eslint-config-turbo": "^2.3.3"
   }
 }
