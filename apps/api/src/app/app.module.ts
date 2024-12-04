@@ -12,11 +12,11 @@ import { UserModule } from "./user/user.module";
 
 @Module({
   imports: [
-    S3Module,
     AuthModule,
+    S3Module,
+    TenantModule,
     AdminModule,
     UserModule,
-    TenantModule,
     PrismaModule,
     ConfigModule.forRoot({
       cache: true,

@@ -101,12 +101,6 @@ export class UserService {
               mode: "insensitive",
             },
           },
-          {
-            email: {
-              contains: search,
-              mode: "insensitive",
-            },
-          },
         ],
       });
     }

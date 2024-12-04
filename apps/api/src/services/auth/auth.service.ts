@@ -7,7 +7,7 @@ import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
 import { compare, genSalt, hash } from "bcrypt";
 import { randomBytes } from "crypto";
-import ms from "ms";
+import * as ms from "ms";
 
 import { AdminService } from "src/app/admin/admin.service";
 import { UserService } from "src/app/user/user.service";

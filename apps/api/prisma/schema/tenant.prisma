@@ -23,5 +23,7 @@ model Tenant {
   system_config SystemConfig[]
   feature_flags FeatureFlags[]
 
+  @@index([domain])
+  @@index([name])
   @@map("tenant")
 }

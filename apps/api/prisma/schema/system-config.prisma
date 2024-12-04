@@ -2,7 +2,7 @@ model SystemConfig {
   id               String   @id @default(cuid())
   delivery_options Json
   tax_rate         Decimal  @db.Decimal(5, 2)
-  currency         Currency
+  currency         Currency @default(MMK)
   banner_image     Json?
   ads_image        Json?
   shopping_hours   Json
@@ -16,7 +16,7 @@ model SystemConfig {
   tenant_id        String
   tenant           Tenant   @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
 
-  @@index([tenant_id], type: Hash)
+  @@index([tenant_id])
   @@map("system_config")
 }
 

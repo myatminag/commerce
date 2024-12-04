@@ -14,6 +14,7 @@ model Category {
   updated_at      DateTime   @updatedAt
   product         Product[]
 
-  @@index([tenant_id], type: Hash)
+  @@index([tenant_id])
+  @@index([name])
   @@map("category")
 }

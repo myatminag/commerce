@@ -8,6 +8,6 @@ model Wishlist {
   tenant_id  String
   tenant     Tenant    @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
 
-  @@index([tenant_id], type: Hash)
+  @@index([tenant_id])
   @@map("wishlist")
 }

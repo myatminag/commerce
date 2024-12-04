@@ -10,6 +10,10 @@ import {
 export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
+  avatar?: string;
+
+  @IsString()
+  @IsNotEmpty()
   username: string;
 
   @IsString()

@@ -14,7 +14,7 @@ model Subscription {
   tenant_id      String         @unique
   tenant         Tenant         @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
 
-  @@index([tenant_id], type: Hash)
+  @@index([tenant_id])
   @@map("subscription")
 }
 
