@@ -1,10 +1,9 @@
 import { NestFactory } from "@nestjs/core";
 import { ConfigService } from "@nestjs/config";
-import expressBasicAuth from "express-basic-auth";
+import * as expressBasicAuth from "express-basic-auth";
 import { ValidationPipe, VersioningType } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 
-import metadata from "./metadata";
 import { AppConfig } from "./config/type";
 import { AppModule } from "./app/app.module";
 
@@ -42,11 +41,6 @@ async function bootstrap() {
     .addBearerAuth({ type: "http", scheme: "bearer", bearerFormat: "JWT" })
     .build();
 
-  /**
-   * using swc builder need to enble type checking
-   * https://docs.nestjs.com/openapi/cli-plugin#swc-builder
-   */
-  await SwaggerModule.loadPluginMetadata(metadata);
   const document = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("api", app, document);
 

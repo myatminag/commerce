@@ -4,14 +4,15 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from "@nestjs/common";
-import { compare, genSalt, hash } from "bcrypt";
 import { Prisma } from "@prisma/client";
+import { compare, genSalt, hash } from "bcrypt";
 
-import { CreateUserDto } from "./dto/create-user.dto";
-import { UpdateUserDto } from "./dto/update-user.dto";
-import { UpdatePasswordDto } from "./dto/update-password.dto";
 import { PrismaService } from "src/services/prisma/prisma.service";
-import { QueryParamsDto } from "./dto/pagination-params.dto";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { DeleteUsersDto } from "./dto/delete-users.dto";
+import { QueryParamsDto } from "./dto/query-params.dto";
+import { UpdatePasswordDto } from "./dto/update-password.dto";
+import { UpdateUserDto } from "./dto/update-user.dto";
 
 @Injectable()
 export class UserService {
@@ -26,12 +27,10 @@ export class UserService {
       throw new ConflictException("User already exits!");
     }
 
-    const newUser = await this.prismaService.instance.user.create({
+    return await this.prismaService.instance.user.create({
       data: { ...dto },
       omit: { password: true },
     });
-
-    return newUser;
   }
 
   async update(id: string, dto: UpdateUserDto) {
@@ -60,6 +59,10 @@ export class UserService {
       where: { id: user.id },
       data: { password: newPassword },
     });
+
+    return {
+      message: "Password has been successfully updated!",
+    };
   }
 
   async findById(id: string) {
@@ -98,12 +101,6 @@ export class UserService {
               mode: "insensitive",
             },
           },
-          {
-            email: {
-              contains: search,
-              mode: "insensitive",
-            },
-          },
         ],
       });
     }
@@ -114,7 +111,7 @@ export class UserService {
         take: limit,
         skip: (offset - 1) * limit,
         omit: { password: true },
-        orderBy: { username: "asc" },
+        orderBy: { created_at: "asc" },
         where: {
           AND: searchQuery,
         },
@@ -139,9 +136,9 @@ export class UserService {
     };
   }
 
-  async deleteUsers(ids: string[]) {
+  async deleteUsers(dto: DeleteUsersDto) {
     const existingUsers = await this.prismaService.instance.user.findMany({
-      where: { id: { in: ids } },
+      where: { id: { in: dto.ids } },
       select: { id: true },
     });
 

@@ -3,25 +3,30 @@ import {
   Injectable,
   UnauthorizedException,
 } from "@nestjs/common";
-import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from "@nestjs/config";
-import { genSalt, hash, compare } from "bcrypt";
+import { JwtService } from "@nestjs/jwt";
+import { compare, genSalt, hash } from "bcrypt";
 import { randomBytes } from "crypto";
-import ms from "ms";
+import * as ms from "ms";
 
-import { AppConfig } from "src/config/type";
-import { UserLoginDto } from "./dto/user-login.dto";
+import { AdminService } from "src/app/admin/admin.service";
 import { UserService } from "src/app/user/user.service";
+import { AppConfig } from "src/config/type";
 import { PrismaService } from "../prisma/prisma.service";
-import { UserRegisterDto } from "./dto/user-register.dto";
+import { AdminLoginDto } from "./dto/admin-login.dto";
+import { AdminRegisterDto } from "./dto/admin-register.dto";
 import { ForgotPasswordDto } from "./dto/forgot-password.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
+import { UserLoginDto } from "./dto/user-login.dto";
+import { UserRegisterDto } from "./dto/user-register.dto";
+import { Role } from "src/types/roles.enum";
 
 @Injectable()
 export class AuthService {
   constructor(
     private jwtService: JwtService,
     private userService: UserService,
+    private adminService: AdminService,
     private prismaService: PrismaService,
     private configService: ConfigService<AppConfig>,
   ) {}
@@ -30,19 +35,54 @@ export class AuthService {
     const salt = await genSalt();
     const hashPassword = await hash(dto.password, salt);
 
-    return await this.userService.create({
+    const user = await this.userService.create({
       ...dto,
       password: hashPassword,
     });
-  }
 
-  async login(dto: UserLoginDto) {
-    const user = await this.validateCredentials(dto.email, dto.password);
-
-    const token = await this.generateToken(user.id, user.email);
+    const token = await this.generateToken(user.id, user.email, Role.User);
 
     return {
       user,
+      token,
+    };
+  }
+
+  async adminRegister(dto: AdminRegisterDto) {
+    const salt = await genSalt();
+    const hashPassword = await hash(dto.password, salt);
+
+    const admin = await this.adminService.create({
+      ...dto,
+      password: hashPassword,
+    });
+
+    const token = await this.generateToken(admin.id, admin.email, Role.Admin);
+
+    return {
+      admin,
+      token,
+    };
+  }
+
+  async login(dto: UserLoginDto) {
+    const user = await this.validateUserCredentials(dto.email, dto.password);
+
+    const token = await this.generateToken(user.id, user.email, Role.User);
+
+    return {
+      user,
+      token,
+    };
+  }
+
+  async adminLogin(dto: AdminLoginDto) {
+    const admin = await this.validateAdminCredentials(dto.email, dto.password);
+
+    const token = await this.generateToken(admin.id, admin.email, Role.Admin);
+
+    return {
+      admin,
       token,
     };
   }
@@ -101,7 +141,7 @@ export class AuthService {
     return { message: "Password successfully reset!" };
   }
 
-  async validateCredentials(email: string, password: string) {
+  async validateUserCredentials(email: string, password: string) {
     const user = await this.userService.findByEmail(email);
 
     const isValid = await compare(password, user.password);
@@ -115,14 +155,38 @@ export class AuthService {
     return user;
   }
 
-  async generateToken(id: string, email: string) {
+  async validateAdminCredentials(email: string, password: string) {
+    const admin = await this.adminService.findByEmail(email);
+
+    const isValid = await compare(password, admin.password);
+
+    if (!isValid) {
+      throw new UnauthorizedException("Invalid credentials!");
+    }
+
+    delete admin.password;
+
+    return admin;
+  }
+
+  async refreshToken(token: string) {
+    const payload = await this.jwtService.verifyAsync(token, {
+      secret: this.configService.get("REFRESH_TOKEN_KEY"),
+    });
+
+    const { id, email, role } = payload;
+
+    return await this.generateToken(id, email, role);
+  }
+
+  async generateToken(id: string, email: string, role: Role) {
     const tokenExpiresIn = this.configService.get("ACCESS_TOKEN_EXPIRES_IN");
 
     const expiresIn = Date.now() + ms(tokenExpiresIn);
 
     const [access_token, refresh_token] = await Promise.all([
       await this.jwtService.signAsync(
-        { id, email },
+        { id, email, role },
         {
           secret: this.configService.get("ACCESS_TOKEN_KEY"),
           expiresIn: tokenExpiresIn,

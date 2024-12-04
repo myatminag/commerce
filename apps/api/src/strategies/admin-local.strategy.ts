@@ -5,7 +5,10 @@ import { PassportStrategy } from "@nestjs/passport";
 import { AuthService } from "src/services/auth/auth.service";
 
 @Injectable()
-export class LocalStrategy extends PassportStrategy(Strategy) {
+export class AdminLocalStrategy extends PassportStrategy(
+  Strategy,
+  "admin-jwt",
+) {
   constructor(private authService: AuthService) {
     super({
       usernameField: "email",
@@ -14,12 +17,15 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(email: string, password: string) {
-    const user = await this.authService.validateCredentials(email, password);
+    const admin = await this.authService.validateAdminCredentials(
+      email,
+      password,
+    );
 
-    if (!user) {
+    if (!admin) {
       throw new UnauthorizedException("Invalid credentials!");
     }
 
-    return user;
+    return admin;
   }
 }

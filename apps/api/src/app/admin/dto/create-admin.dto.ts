@@ -7,14 +7,14 @@ import {
   MaxLength,
 } from "class-validator";
 
-export class CreateUserDto {
-  @IsString()
-  @IsNotEmpty()
-  avatar?: string;
-
+export class CreateAdminDto {
   @IsString()
   @IsNotEmpty()
   username: string;
+
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
 
   @IsString()
   @IsNotEmpty()
@@ -24,22 +24,6 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   password: string;
-
-  @IsEmail()
-  @IsNotEmpty()
-  email: string;
-
-  @IsString()
-  @IsNotEmpty()
-  address?: string;
-
-  @IsString()
-  @IsNotEmpty()
-  township?: string;
-
-  @IsString()
-  @IsNotEmpty()
-  city?: string;
 
   @IsString()
   @IsOptional()

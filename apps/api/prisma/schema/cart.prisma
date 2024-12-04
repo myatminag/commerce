@@ -19,6 +19,6 @@ model Cart {
   product         Product[]
   order           Order?
 
-  @@index([tenant_id], type: Hash)
+  @@index([tenant_id])
   @@map("cart")
 }

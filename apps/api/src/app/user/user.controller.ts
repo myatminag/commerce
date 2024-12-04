@@ -3,57 +3,66 @@ import {
   Controller,
   Delete,
   Get,
-  Inject,
+  HttpCode,
+  HttpStatus,
   Param,
   Patch,
   Put,
   Query,
+  Req,
 } from "@nestjs/common";
-import { REQUEST } from "@nestjs/core";
 import { ApiHeader, ApiTags } from "@nestjs/swagger";
 
-import { UserService } from "./user.service";
-import { UpdateUserDto } from "./dto/update-user.dto";
+import { Roles } from "src/decorators/roles.decorator";
 import { RequestUserType } from "src/types/request-user.type";
+import { Role } from "src/types/roles.enum";
+import { DeleteUsersDto } from "./dto/delete-users.dto";
+import { QueryParamsDto } from "./dto/query-params.dto";
 import { UpdatePasswordDto } from "./dto/update-password.dto";
-import { QueryParamsDto } from "./dto/pagination-params.dto";
+import { UpdateUserDto } from "./dto/update-user.dto";
+import { UserService } from "./user.service";
 
 @ApiTags("users")
 @ApiHeader({ name: "tenant-id", required: true })
 @Controller("users")
 export class UserController {
-  constructor(
-    private userService: UserService,
-    @Inject(REQUEST) private request: RequestUserType,
-  ) {}
+  constructor(private userService: UserService) {}
 
   @Get()
+  @Roles(Role.Admin)
   async getUsers(@Query() dto: QueryParamsDto) {
     return this.userService.getUsers(dto);
   }
 
-  @Get("/:id")
+  @Get(":id")
+  @Roles(Role.Admin)
   async findById(@Param("id") id: string) {
     return this.userService.findById(id);
   }
 
   @Put("/info")
-  async updateProfile(@Body() dto: UpdateUserDto) {
-    return this.userService.update(this.request.user.id, dto);
+  async updateProfile(@Req() req: RequestUserType, @Body() dto: UpdateUserDto) {
+    return this.userService.update(req.user.id, dto);
   }
 
   @Patch("/password")
-  async updatePassword(@Body() dto: UpdatePasswordDto) {
-    return this.userService.updatePassword(this.request.user.id, dto);
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async updatePassword(
+    @Req() req: RequestUserType,
+    @Body() dto: UpdatePasswordDto,
+  ) {
+    return this.userService.updatePassword(req.user.id, dto);
   }
 
   @Delete(":id")
+  @Roles(Role.Admin)
   async deleteUser(@Param("id") id: string) {
     return this.userService.deleteUser(id);
   }
 
   @Delete()
-  async deleteUsers(@Body() ids: string[]) {
-    return this.userService.deleteUsers(ids);
+  @Roles(Role.Admin)
+  async deleteUsers(@Body() dto: DeleteUsersDto) {
+    return this.userService.deleteUsers(dto);
   }
 }

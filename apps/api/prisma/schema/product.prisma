@@ -35,7 +35,10 @@ model Product {
   tenant_id           String
   tenant              Tenant           @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
 
-  @@index([tenant_id], type: Hash)
+  @@index([tenant_id])
+  @@index([category_id])
+  @@index([vendor_id])
+  @@index([name])
   @@map("product")
 }
 
@@ -55,6 +58,7 @@ model ProductVariant {
   created_at    DateTime @default(now())
   updated_at    DateTime @updatedAt
 
+  @@index([product_id])
   @@map("product_variant")
 }
 
