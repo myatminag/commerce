@@ -9,6 +9,7 @@ import { S3Module } from "src/services/s3/s3.module";
 import { AdminModule } from "./admin/admin.module";
 import { TenantModule } from "./tenant/tenant.module";
 import { UserModule } from "./user/user.module";
+import { BrandModule } from "./brand/brand.module";
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { UserModule } from "./user/user.module";
     TenantModule,
     AdminModule,
     UserModule,
+    BrandModule,
     PrismaModule,
     ConfigModule.forRoot({
       cache: true,

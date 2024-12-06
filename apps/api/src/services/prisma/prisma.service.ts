@@ -61,6 +61,15 @@ export class PrismaService
             return query(args);
           }
 
+          if (operation === "findFirst") {
+            args.where = {
+              ...args.where,
+              tenant_id: tenantId,
+            } as any;
+
+            return query(args);
+          }
+
           // args = args as Extract<typeof args, { where: unknown }>;
 
           return query(args);

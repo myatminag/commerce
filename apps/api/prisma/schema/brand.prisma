@@ -1,7 +1,7 @@
-model Vendor {
+model Brand {
   id              String    @id @default(cuid())
   name            String    @db.VarChar(255)
-  slug            String    @unique @db.VarChar(255)
+  slug            String    @db.VarChar(255)
   banner_image    Json
   thumbnail_image Json
   description     String
@@ -11,7 +11,8 @@ model Vendor {
   tenant_id       String
   tenant          Tenant    @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
 
+  @@unique([tenant_id, slug])
   @@index([tenant_id])
   @@index([name])
-  @@map("vendor")
+  @@map("brand")
 }
