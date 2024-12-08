@@ -91,7 +91,7 @@ export class BrandService {
     });
 
     return {
-      message: "Brands have been successfully deleted.",
+      message: "Brand has been successfully deleted.",
     };
   }
 }

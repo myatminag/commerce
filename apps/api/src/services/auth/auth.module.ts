@@ -36,10 +36,10 @@ import { AuthService } from "./auth.service";
     AdminLocalStrategy,
     JwtTokenStrategy,
     RefreshTokenStrategy,
-    {
-      provide: APP_GUARD,
-      useClass: JwtAuthGuard,
-    },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: JwtAuthGuard,
+    // },
     {
       provide: APP_GUARD,
       useClass: RolesGuard,
