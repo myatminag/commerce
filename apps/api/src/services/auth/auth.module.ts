@@ -5,7 +5,7 @@ import { PassportModule } from "@nestjs/passport";
 
 import { AdminModule } from "src/app/admin/admin.module";
 import { UserModule } from "src/app/user/user.module";
-import { JwtAuthGuard } from "src/guards/jwt-auth.guard";
+// import { JwtAuthGuard } from "src/guards/jwt-auth.guard";
 import { RolesGuard } from "src/guards/roles.guard";
 import { AdminLocalStrategy } from "src/strategies/admin-local.strategy";
 import { JwtTokenStrategy } from "src/strategies/jwt-token.strategy";
