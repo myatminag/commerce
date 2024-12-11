@@ -28,7 +28,7 @@ export class UserService {
     }
 
     return await this.prismaService.instance.user.create({
-      data: { ...dto },
+      data: { ...dto } as Prisma.UserCreateInput,
       omit: { password: true },
     });
   }

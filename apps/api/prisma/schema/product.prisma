@@ -4,7 +4,7 @@ model Product {
   slug                String           @db.VarChar(255)
   sku                 String           @unique @db.VarChar(255)
   options             Json?
-  description         String?
+  description         String
   feature_image       String
   images              Json
   price               Int

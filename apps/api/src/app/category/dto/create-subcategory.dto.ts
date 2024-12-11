@@ -1,5 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsArray, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { IsArray, IsNotEmpty, IsString } from "class-validator";
 
 export class CreateSubCategoryDto {
   @IsArray()
@@ -10,9 +9,4 @@ export class CreateSubCategoryDto {
   @IsString()
   @IsNotEmpty()
   parent_id: string;
-
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ readOnly: true })
-  tenant_id?: string;
 }

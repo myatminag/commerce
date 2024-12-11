@@ -35,7 +35,7 @@ export class CategoryService {
       data: {
         ...dto,
         slug,
-      },
+      } as Prisma.CategoryCreateInput,
       omit: {
         parent_id: true,
       },
@@ -72,8 +72,7 @@ export class CategoryService {
       name,
       slug: slugify(name),
       parent_id: dto.parent_id,
-      tenant_id: "",
-    }));
+    })) as Prisma.CategoryCreateManyInput[];
 
     return await this.prismaService.instance.category.createMany({
       data: subCategories,
@@ -205,19 +204,20 @@ export class CategoryService {
   }
 
   async updateSubCategory(slug: string, dto: UpdateSubCategoryDto) {
-    const subCategory = await this.prismaService.instance.category.findFirst({
-      where: { slug },
-      select: { id: true },
-    });
+    const [subCategory, mainCategory] = await Promise.all([
+      this.prismaService.instance.category.findFirst({
+        where: { slug },
+        select: { id: true },
+      }),
+      this.prismaService.instance.category.findUnique({
+        where: { id: dto.parent_id },
+        select: { id: true },
+      }),
+    ]);
 
     if (!subCategory) {
       throw new NotFoundException("Subcategory not found!");
     }
-
-    const mainCategory = await this.prismaService.instance.category.findUnique({
-      where: { id: dto.parent_id },
-      select: { id: true },
-    });
 
     if (!mainCategory) {
       throw new NotFoundException("Main category not found!");

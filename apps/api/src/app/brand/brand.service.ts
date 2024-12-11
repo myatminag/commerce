@@ -31,7 +31,7 @@ export class BrandService {
       data: {
         ...dto,
         slug,
-      },
+      } as Prisma.BrandCreateInput,
     });
   }
 
