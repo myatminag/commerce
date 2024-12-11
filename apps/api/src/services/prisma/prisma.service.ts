@@ -1,11 +1,12 @@
 import {
+  BadRequestException,
   Injectable,
   Logger,
   OnModuleDestroy,
   OnModuleInit,
 } from "@nestjs/common";
-import { ClsService } from "nestjs-cls";
 import { PrismaClient } from "@prisma/client";
+import { ClsService } from "nestjs-cls";
 
 @Injectable()
 export class PrismaService
@@ -13,7 +14,9 @@ export class PrismaService
   implements OnModuleInit, OnModuleDestroy
 {
   constructor(private clsService: ClsService) {
-    super();
+    super({
+      log: ["query"],
+    });
   }
 
   async onModuleInit() {
@@ -28,42 +31,74 @@ export class PrismaService
     await this.$disconnect();
   }
 
-  public get instance() {
+  public get instance(): PrismaService {
     const tenantId = this.clsService.get("tenant-id");
+
+    if (!tenantId) {
+      throw new BadRequestException("Tenant id is missing!");
+    }
 
     return this.$extends({
       query: {
-        $allOperations({ args, operation, query }) {
-          if (operation === "create") {
+        $allModels: {
+          create: function ({ args, query }) {
             args.data = {
               ...args.data,
               tenant_id: tenantId,
             } as any;
 
             return query(args);
-          }
+          },
+          createMany: function ({ args, query }) {
+            if (Array.isArray(args.data)) {
+              args.data = args.data.map(
+                (d) =>
+                  ({
+                    ...d,
+                    tenant_id: tenantId,
+                  }) as any,
+              );
+            } else {
+              args.data = {
+                ...args.data,
+                tenant_id: tenantId,
+              } as any;
+            }
 
-          if (operation === "findMany") {
+            return query(args);
+          },
+          findMany: function ({ args, query }) {
+            args.where = {
+              ...args.where,
+              tenant_id: tenantId,
+            } as unknown;
+
+            return query(args);
+          },
+          findUnique: function ({ args, query }) {
             args.where = {
               ...args.where,
               tenant_id: tenantId,
             } as any;
 
             return query(args);
-          }
-
-          if (operation === "findUnique") {
+          },
+          findFirst: function ({ args, query }) {
             args.where = {
               ...args.where,
               tenant_id: tenantId,
-            } as any;
+            } as unknown;
 
             return query(args);
-          }
+          },
+          deleteMany: function ({ args, query }) {
+            args.where = {
+              ...args.where,
+              tenant_id: tenantId,
+            } as unknown;
 
-          // args = args as Extract<typeof args, { where: unknown }>;
-
-          return query(args);
+            return query(args);
+          },
         },
       },
     }) as PrismaService;

@@ -14,3 +14,14 @@ export enum PlanType {
   MONTHLY,
   ANNUALLY,
 }
+
+export enum Weight {
+  kg = "kg",
+  g = "g",
+  lbs = "lbs",
+}
+
+export enum Discount {
+  percentage = "percentage",
+  kyats = "kyats",
+}

@@ -13,7 +13,7 @@ model Tenant {
   user          User[]
   wishlist      Wishlist[]
   category      Category[]
-  vendor        Vendor[]
+  brand         Brand[]
   product       Product[]
   cart          Cart[]
   order         Order[]

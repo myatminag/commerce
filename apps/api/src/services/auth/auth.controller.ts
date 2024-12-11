@@ -6,13 +6,11 @@ import {
   Post,
   UseGuards,
 } from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
 import { ApiHeader, ApiTags } from "@nestjs/swagger";
 
 import { IsPublic } from "src/decorators/is-public.decorator";
-import { AdminAuthGuard } from "src/guards/admin-auth.guard";
-import { RefreshTokenGuard } from "src/guards/refresh-token.guard";
 import { RolesGuard } from "src/guards/roles.guard";
-import { UserAuthGuard } from "src/guards/user-auth.guard";
 import { AuthService } from "./auth.service";
 import { AdminLoginDto } from "./dto/admin-login.dto";
 import { AdminRegisterDto } from "./dto/admin-register.dto";
@@ -36,7 +34,7 @@ export class AuthController {
 
   @IsPublic()
   @Post("/login")
-  @UseGuards(UserAuthGuard)
+  @UseGuards(AuthGuard("user-jwt"))
   async login(@Body() dto: UserLoginDto) {
     return this.authService.login(dto);
   }
@@ -55,7 +53,7 @@ export class AuthController {
 
   @IsPublic()
   @Post("/refresh-token")
-  @UseGuards(RefreshTokenGuard)
+  @UseGuards(AuthGuard("refresh-token"))
   async refreshToken(@Headers("authorization") authorization: string) {
     if (!authorization) {
       throw new ForbiddenException("Authorization header missing!");
@@ -74,7 +72,7 @@ export class AuthController {
 
   @IsPublic()
   @Post("/login/admin")
-  @UseGuards(AdminAuthGuard)
+  @UseGuards(AuthGuard("admin-jwt"))
   async adminLogin(@Body() dto: AdminLoginDto) {
     return this.authService.adminLogin(dto);
   }

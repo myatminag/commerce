@@ -1,10 +1,10 @@
 model Product {
   id                  String           @id @default(cuid())
   name                String           @db.VarChar(255)
-  slug                String           @unique @db.VarChar(255)
+  slug                String           @db.VarChar(255)
   sku                 String           @unique @db.VarChar(255)
   options             Json?
-  description         String?
+  description         String
   feature_image       String
   images              Json
   price               Int
@@ -12,8 +12,8 @@ model Product {
   price_min           Int
   cost                Int
   profit              Int
-  vendor_id           String
-  vendor              Vendor           @relation(fields: [vendor_id], references: [id])
+  brand_id            String
+  brand               Brand            @relation(fields: [brand_id], references: [id])
   category_id         String
   category            Category         @relation(fields: [category_id], references: [id])
   stock               Int              @default(0)
@@ -35,9 +35,10 @@ model Product {
   tenant_id           String
   tenant              Tenant           @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
 
+  @@unique([tenant_id, slug])
   @@index([tenant_id])
   @@index([category_id])
-  @@index([vendor_id])
+  @@index([brand_id])
   @@index([name])
   @@map("product")
 }

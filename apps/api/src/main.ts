@@ -1,14 +1,16 @@
-import { NestFactory } from "@nestjs/core";
-import { ConfigService } from "@nestjs/config";
-import * as expressBasicAuth from "express-basic-auth";
 import { ValidationPipe, VersioningType } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
+import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import * as expressBasicAuth from "express-basic-auth";
 
-import { AppConfig } from "./config/type";
 import { AppModule } from "./app/app.module";
+import { AppConfig } from "./config/type";
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: ["error", "warn", "log"],
+  });
   const configService = app.get(ConfigService<AppConfig, true>);
 
   app.enableCors({
