@@ -16,20 +16,19 @@ model Product {
   brand               Brand            @relation(fields: [brand_id], references: [id])
   category_id         String
   category            Category         @relation(fields: [category_id], references: [id])
-  stock               Int              @default(0)
+  stock               Int
   is_available        Boolean          @default(true)
-  weight              Int
-  weight_unit         Weight
-  discount_type       Discount
-  discount_amount     Int              @default(0)
+  weight              Int              @default(0)
+  weight_unit         Weight           @default(KG)
+  discount_type       Discount?
+  discount_amount     Int?             @default(0)
   discount_start_date DateTime?
   discount_end_date   DateTime?
-  published_at        DateTime
   created_at          DateTime         @default(now())
   updated_at          DateTime         @default(now())
   product_variant     ProductVariant[]
-  cart_id             String
-  cart                Cart             @relation(fields: [cart_id], references: [id])
+  cart_id             String?
+  cart                Cart?            @relation(fields: [cart_id], references: [id])
   wishlist            Wishlist[]
   order_item          OrderItems[]
   tenant_id           String
@@ -37,8 +36,6 @@ model Product {
 
   @@unique([tenant_id, slug])
   @@index([tenant_id])
-  @@index([category_id])
-  @@index([brand_id])
   @@index([name])
   @@map("product")
 }
@@ -46,10 +43,10 @@ model Product {
 model ProductVariant {
   id            String   @id @default(cuid())
   name          String   @db.VarChar(255)
-  product_id    String
-  product       Product  @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  product_id    String?
+  product       Product? @relation(fields: [product_id], references: [id], onDelete: Cascade)
   options       Json
-  feature_image Json
+  feature_image String
   sku           String   @unique @db.VarChar(255)
   price         Int
   cost          Int
@@ -64,12 +61,12 @@ model ProductVariant {
 }
 
 enum Weight {
-  kg
-  g
-  lbs
+  KG
+  G
+  LBS
 }
 
 enum Discount {
-  percentage
-  kyats
+  PERCENTAGE
+  KYATS
 }

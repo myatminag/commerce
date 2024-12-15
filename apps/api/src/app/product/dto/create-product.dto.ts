@@ -4,26 +4,28 @@ import {
   IsBoolean,
   IsDate,
   IsEnum,
-  IsJSON,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
+  MaxLength,
   Min,
   ValidateNested,
 } from "class-validator";
-
-import { Weight, Discount } from "src/types/enum";
+import { Discount, Weight } from "@prisma/client";
 
 export class ProductOptionDto {
   @IsString()
+  @IsNotEmpty()
   name: string;
 
   @IsNumber()
+  @IsNotEmpty()
   position: number;
 
   @IsArray()
   @IsString({ each: true })
+  @IsNotEmpty()
   values: string[];
 }
 
@@ -38,11 +40,8 @@ export class ProductImagesDto {
 export class ProductVariantDto {
   @IsString()
   @IsNotEmpty()
+  @MaxLength(255)
   name: string;
-
-  @IsString()
-  @IsNotEmpty()
-  product_id: string;
 
   @IsArray()
   @IsNotEmpty()
@@ -54,15 +53,24 @@ export class ProductVariantDto {
 
   @IsString()
   @IsNotEmpty()
+  @MaxLength(255)
   sku: string;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  price: string;
+  price: number;
 
   @IsNumber()
-  @IsString()
+  @IsNotEmpty()
   cost: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  profit: number;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  is_available: boolean;
 
   @IsNumber()
   @IsNotEmpty()
@@ -72,13 +80,15 @@ export class ProductVariantDto {
 export class CreateProductDto {
   @IsString()
   @IsNotEmpty()
+  @MaxLength(255)
   name: string;
 
   @IsString()
   @IsNotEmpty()
+  @MaxLength(255)
   sku: string;
 
-  @IsJSON()
+  @IsArray()
   @IsOptional()
   @ValidateNested({ each: true })
   @Type(() => ProductOptionDto)
@@ -92,31 +102,31 @@ export class CreateProductDto {
   @IsNotEmpty()
   feature_image: string;
 
+  @IsOptional()
   @IsArray()
-  @IsNotEmpty()
   @ValidateNested({ each: true })
   @Type(() => ProductImagesDto)
   images: ProductImagesDto[];
 
   @IsNumber()
-  @IsString()
+  @IsNotEmpty()
   price: number;
 
   @IsNumber()
-  @IsString()
+  @IsNotEmpty()
   price_max: number;
 
   @IsNumber()
-  @IsString()
+  @IsNotEmpty()
+  price_min: number;
+
+  @IsNumber()
+  @IsNotEmpty()
   cost: number;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  brand_id: string;
-
-  @IsString()
-  @IsNotEmpty()
-  category_id: string;
+  profit: number;
 
   @IsNumber()
   @IsNotEmpty()
@@ -128,7 +138,7 @@ export class CreateProductDto {
   is_available: boolean;
 
   @IsNumber()
-  @IsNotEmpty()
+  @IsOptional()
   weight: number;
 
   @IsEnum(Weight)
@@ -136,21 +146,31 @@ export class CreateProductDto {
   weight_unit: Weight;
 
   @IsEnum(Discount)
-  @IsNotEmpty()
-  discount_type: Discount;
+  @IsOptional()
+  discount_type?: Discount;
 
   @IsNumber()
-  @IsNotEmpty()
-  discount_amount: number;
-
   @IsOptional()
+  discount_amount?: number;
+
   @IsDate()
+  @IsOptional()
   discount_start_date?: Date;
 
-  @IsOptional()
   @IsDate()
+  @IsOptional()
   discount_end_date?: Date;
 
+  @IsString()
+  @IsNotEmpty()
+  brand_id: string;
+
+  @IsString()
+  @IsNotEmpty()
+  category_id: string;
+
   @IsOptional()
-  product_variant: ProductVariantDto;
+  @ValidateNested({ each: true })
+  @Type(() => ProductVariantDto)
+  product_variant: ProductVariantDto[];
 }

@@ -43,6 +43,21 @@ CREATE TABLE "admin" (
 );
 
 -- CreateTable
+CREATE TABLE "brand" (
+    "id" TEXT NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
+    "slug" VARCHAR(255) NOT NULL,
+    "banner_image" JSONB NOT NULL,
+    "thumbnail_image" JSONB NOT NULL,
+    "description" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+    "tenant_id" TEXT NOT NULL,
+
+    CONSTRAINT "brand_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "cart" (
     "id" TEXT NOT NULL,
     "user_id" TEXT NOT NULL,
@@ -68,9 +83,9 @@ CREATE TABLE "category" (
     "id" TEXT NOT NULL,
     "name" VARCHAR(255) NOT NULL,
     "slug" VARCHAR(255) NOT NULL,
-    "description" TEXT NOT NULL,
-    "banner_image" JSONB NOT NULL,
-    "thumbnail_image" JSONB NOT NULL,
+    "description" TEXT,
+    "banner_image" JSONB,
+    "thumbnail_image" JSONB,
     "parent_id" TEXT,
     "tenant_id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -135,6 +150,7 @@ CREATE TABLE "order" (
     "total_weight" INTEGER NOT NULL,
     "order_status" "OrderStatus" NOT NULL,
     "order_note" TEXT,
+    "order_date" TIMESTAMP(3) NOT NULL,
     "currency" "Currency" NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
@@ -179,7 +195,7 @@ CREATE TABLE "product" (
     "slug" VARCHAR(255) NOT NULL,
     "sku" VARCHAR(255) NOT NULL,
     "options" JSONB,
-    "description" TEXT,
+    "description" TEXT NOT NULL,
     "feature_image" TEXT NOT NULL,
     "images" JSONB NOT NULL,
     "price" INTEGER NOT NULL,
@@ -187,20 +203,19 @@ CREATE TABLE "product" (
     "price_min" INTEGER NOT NULL,
     "cost" INTEGER NOT NULL,
     "profit" INTEGER NOT NULL,
-    "vendor_id" TEXT NOT NULL,
+    "brand_id" TEXT NOT NULL,
     "category_id" TEXT NOT NULL,
-    "stock" INTEGER NOT NULL DEFAULT 0,
+    "stock" INTEGER NOT NULL,
     "is_available" BOOLEAN NOT NULL DEFAULT true,
-    "weight" INTEGER NOT NULL,
+    "weight" INTEGER NOT NULL DEFAULT 0,
     "weight_unit" "Weight" NOT NULL,
-    "discount_type" "Discount" NOT NULL,
-    "discount_amount" INTEGER NOT NULL DEFAULT 0,
+    "discount_type" "Discount",
+    "discount_amount" INTEGER DEFAULT 0,
     "discount_start_date" TIMESTAMP(3),
     "discount_end_date" TIMESTAMP(3),
-    "published_at" TIMESTAMP(3) NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "cart_id" TEXT NOT NULL,
+    "cart_id" TEXT,
     "tenant_id" TEXT NOT NULL,
 
     CONSTRAINT "product_pkey" PRIMARY KEY ("id")
@@ -210,9 +225,9 @@ CREATE TABLE "product" (
 CREATE TABLE "product_variant" (
     "id" TEXT NOT NULL,
     "name" VARCHAR(255) NOT NULL,
-    "product_id" TEXT NOT NULL,
+    "product_id" TEXT,
     "options" JSONB NOT NULL,
-    "feature_image" JSONB NOT NULL,
+    "feature_image" TEXT NOT NULL,
     "sku" VARCHAR(255) NOT NULL,
     "price" INTEGER NOT NULL,
     "cost" INTEGER NOT NULL,
@@ -221,6 +236,7 @@ CREATE TABLE "product_variant" (
     "weight" INTEGER NOT NULL DEFAULT 0,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
+    "tenant_id" TEXT NOT NULL,
 
     CONSTRAINT "product_variant_pkey" PRIMARY KEY ("id")
 );
@@ -249,7 +265,7 @@ CREATE TABLE "system_config" (
     "id" TEXT NOT NULL,
     "delivery_options" JSONB NOT NULL,
     "tax_rate" DECIMAL(5,2) NOT NULL,
-    "currency" "Currency" NOT NULL,
+    "currency" "Currency" NOT NULL DEFAULT 'MMK',
     "banner_image" JSONB,
     "ads_image" JSONB,
     "shopping_hours" JSONB NOT NULL,
@@ -283,33 +299,21 @@ CREATE TABLE "tenant" (
 -- CreateTable
 CREATE TABLE "user" (
     "id" TEXT NOT NULL,
+    "avatar" TEXT,
     "username" VARCHAR(255) NOT NULL,
     "phone" VARCHAR(15) NOT NULL,
     "password" VARCHAR(255) NOT NULL,
-    "email" VARCHAR(255),
-    "address" TEXT NOT NULL,
-    "city" VARCHAR(255) NOT NULL,
-    "township" VARCHAR(255) NOT NULL,
+    "email" VARCHAR(255) NOT NULL,
+    "address" TEXT,
+    "city" VARCHAR(255),
+    "township" VARCHAR(255),
+    "reset_token" TEXT,
+    "expired_at" TIMESTAMP(3),
     "updated_at" TIMESTAMP(3) NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "tenant_id" TEXT NOT NULL,
 
     CONSTRAINT "user_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "vendor" (
-    "id" TEXT NOT NULL,
-    "name" VARCHAR(255) NOT NULL,
-    "slug" VARCHAR(255) NOT NULL,
-    "banner_image" JSONB NOT NULL,
-    "thumbnail_image" JSONB NOT NULL,
-    "description" TEXT NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL,
-    "tenant_id" TEXT NOT NULL,
-
-    CONSTRAINT "vendor_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -326,13 +330,17 @@ CREATE TABLE "wishlist" (
 -- CreateTable
 CREATE TABLE "_FeatureFlagsToTenant" (
     "A" TEXT NOT NULL,
-    "B" TEXT NOT NULL
+    "B" TEXT NOT NULL,
+
+    CONSTRAINT "_FeatureFlagsToTenant_AB_pkey" PRIMARY KEY ("A","B")
 );
 
 -- CreateTable
 CREATE TABLE "_ProductToWishlist" (
     "A" TEXT NOT NULL,
-    "B" TEXT NOT NULL
+    "B" TEXT NOT NULL,
+
+    CONSTRAINT "_ProductToWishlist_AB_pkey" PRIMARY KEY ("A","B")
 );
 
 -- CreateIndex
@@ -342,19 +350,31 @@ CREATE UNIQUE INDEX "admin_email_key" ON "admin"("email");
 CREATE UNIQUE INDEX "admin_phone_key" ON "admin"("phone");
 
 -- CreateIndex
-CREATE INDEX "admin_tenant_id_idx" ON "admin" USING HASH ("tenant_id");
+CREATE INDEX "admin_tenant_id_idx" ON "admin"("tenant_id");
+
+-- CreateIndex
+CREATE INDEX "brand_tenant_id_idx" ON "brand"("tenant_id");
+
+-- CreateIndex
+CREATE INDEX "brand_name_idx" ON "brand"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "brand_tenant_id_slug_key" ON "brand"("tenant_id", "slug");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "cart_user_id_key" ON "cart"("user_id");
 
 -- CreateIndex
-CREATE INDEX "cart_tenant_id_idx" ON "cart" USING HASH ("tenant_id");
+CREATE INDEX "cart_tenant_id_idx" ON "cart"("tenant_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "category_slug_key" ON "category"("slug");
+CREATE INDEX "category_tenant_id_idx" ON "category"("tenant_id");
 
 -- CreateIndex
-CREATE INDEX "category_tenant_id_idx" ON "category" USING HASH ("tenant_id");
+CREATE INDEX "category_name_idx" ON "category"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "category_tenant_id_slug_key" ON "category"("tenant_id", "slug");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "feature_flags_name_key" ON "feature_flags"("name");
@@ -366,10 +386,13 @@ CREATE UNIQUE INDEX "invoice_order_id_key" ON "invoice"("order_id");
 CREATE UNIQUE INDEX "invoice_invoice_number_key" ON "invoice"("invoice_number");
 
 -- CreateIndex
-CREATE INDEX "invoice_tenant_id_idx" ON "invoice" USING HASH ("tenant_id");
+CREATE INDEX "invoice_tenant_id_idx" ON "invoice"("tenant_id");
 
 -- CreateIndex
-CREATE INDEX "notification_tenant_id_idx" ON "notification" USING HASH ("tenant_id");
+CREATE INDEX "invoice_order_id_idx" ON "invoice"("order_id");
+
+-- CreateIndex
+CREATE INDEX "notification_tenant_id_idx" ON "notification"("tenant_id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "order_order_no_key" ON "order"("order_no");
@@ -378,7 +401,13 @@ CREATE UNIQUE INDEX "order_order_no_key" ON "order"("order_no");
 CREATE UNIQUE INDEX "order_cart_id_key" ON "order"("cart_id");
 
 -- CreateIndex
-CREATE INDEX "order_tenant_id_idx" ON "order" USING HASH ("tenant_id");
+CREATE INDEX "order_tenant_id_idx" ON "order"("tenant_id");
+
+-- CreateIndex
+CREATE INDEX "order_order_status_idx" ON "order"("order_status");
+
+-- CreateIndex
+CREATE INDEX "order_order_date_idx" ON "order"("order_date");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "payment_transaction_id_key" ON "payment"("transaction_id");
@@ -387,28 +416,37 @@ CREATE UNIQUE INDEX "payment_transaction_id_key" ON "payment"("transaction_id");
 CREATE UNIQUE INDEX "payment_order_id_key" ON "payment"("order_id");
 
 -- CreateIndex
-CREATE INDEX "payment_tenant_id_idx" ON "payment" USING HASH ("tenant_id");
+CREATE INDEX "payment_tenant_id_idx" ON "payment"("tenant_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "product_slug_key" ON "product"("slug");
+CREATE INDEX "payment_payment_date_idx" ON "payment"("payment_date");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "product_sku_key" ON "product"("sku");
 
 -- CreateIndex
-CREATE INDEX "product_tenant_id_idx" ON "product" USING HASH ("tenant_id");
+CREATE INDEX "product_tenant_id_idx" ON "product"("tenant_id");
+
+-- CreateIndex
+CREATE INDEX "product_name_idx" ON "product"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "product_tenant_id_slug_key" ON "product"("tenant_id", "slug");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "product_variant_sku_key" ON "product_variant"("sku");
 
 -- CreateIndex
+CREATE INDEX "product_variant_product_id_idx" ON "product_variant"("product_id");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "subscription_tenant_id_key" ON "subscription"("tenant_id");
 
 -- CreateIndex
-CREATE INDEX "subscription_tenant_id_idx" ON "subscription" USING HASH ("tenant_id");
+CREATE INDEX "subscription_tenant_id_idx" ON "subscription"("tenant_id");
 
 -- CreateIndex
-CREATE INDEX "system_config_tenant_id_idx" ON "system_config" USING HASH ("tenant_id");
+CREATE INDEX "system_config_tenant_id_idx" ON "system_config"("tenant_id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "tenant_domain_key" ON "tenant"("domain");
@@ -420,37 +458,40 @@ CREATE UNIQUE INDEX "tenant_phone_key" ON "tenant"("phone");
 CREATE UNIQUE INDEX "tenant_email_key" ON "tenant"("email");
 
 -- CreateIndex
+CREATE INDEX "tenant_domain_idx" ON "tenant"("domain");
+
+-- CreateIndex
+CREATE INDEX "tenant_name_idx" ON "tenant"("name");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "user_phone_key" ON "user"("phone");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
 
 -- CreateIndex
-CREATE INDEX "user_tenant_id_idx" ON "user" USING HASH ("tenant_id");
+CREATE UNIQUE INDEX "user_reset_token_key" ON "user"("reset_token");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "vendor_slug_key" ON "vendor"("slug");
+CREATE INDEX "user_tenant_id_idx" ON "user"("tenant_id");
 
 -- CreateIndex
-CREATE INDEX "vendor_tenant_id_idx" ON "vendor" USING HASH ("tenant_id");
+CREATE INDEX "user_username_idx" ON "user"("username");
 
 -- CreateIndex
-CREATE INDEX "wishlist_tenant_id_idx" ON "wishlist" USING HASH ("tenant_id");
-
--- CreateIndex
-CREATE UNIQUE INDEX "_FeatureFlagsToTenant_AB_unique" ON "_FeatureFlagsToTenant"("A", "B");
+CREATE INDEX "wishlist_tenant_id_idx" ON "wishlist"("tenant_id");
 
 -- CreateIndex
 CREATE INDEX "_FeatureFlagsToTenant_B_index" ON "_FeatureFlagsToTenant"("B");
-
--- CreateIndex
-CREATE UNIQUE INDEX "_ProductToWishlist_AB_unique" ON "_ProductToWishlist"("A", "B");
 
 -- CreateIndex
 CREATE INDEX "_ProductToWishlist_B_index" ON "_ProductToWishlist"("B");
 
 -- AddForeignKey
 ALTER TABLE "admin" ADD CONSTRAINT "admin_tenant_id_fkey" FOREIGN KEY ("tenant_id") REFERENCES "tenant"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "brand" ADD CONSTRAINT "brand_tenant_id_fkey" FOREIGN KEY ("tenant_id") REFERENCES "tenant"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "cart" ADD CONSTRAINT "cart_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -501,19 +542,22 @@ ALTER TABLE "payment" ADD CONSTRAINT "payment_order_id_fkey" FOREIGN KEY ("order
 ALTER TABLE "payment" ADD CONSTRAINT "payment_tenant_id_fkey" FOREIGN KEY ("tenant_id") REFERENCES "tenant"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "product" ADD CONSTRAINT "product_vendor_id_fkey" FOREIGN KEY ("vendor_id") REFERENCES "vendor"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "product" ADD CONSTRAINT "product_brand_id_fkey" FOREIGN KEY ("brand_id") REFERENCES "brand"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "product" ADD CONSTRAINT "product_category_id_fkey" FOREIGN KEY ("category_id") REFERENCES "category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "product" ADD CONSTRAINT "product_cart_id_fkey" FOREIGN KEY ("cart_id") REFERENCES "cart"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "product" ADD CONSTRAINT "product_cart_id_fkey" FOREIGN KEY ("cart_id") REFERENCES "cart"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "product" ADD CONSTRAINT "product_tenant_id_fkey" FOREIGN KEY ("tenant_id") REFERENCES "tenant"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "product_variant" ADD CONSTRAINT "product_variant_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "product"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "product_variant" ADD CONSTRAINT "product_variant_tenant_id_fkey" FOREIGN KEY ("tenant_id") REFERENCES "tenant"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "subscription" ADD CONSTRAINT "subscription_tenant_id_fkey" FOREIGN KEY ("tenant_id") REFERENCES "tenant"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -523,9 +567,6 @@ ALTER TABLE "system_config" ADD CONSTRAINT "system_config_tenant_id_fkey" FOREIG
 
 -- AddForeignKey
 ALTER TABLE "user" ADD CONSTRAINT "user_tenant_id_fkey" FOREIGN KEY ("tenant_id") REFERENCES "tenant"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "vendor" ADD CONSTRAINT "vendor_tenant_id_fkey" FOREIGN KEY ("tenant_id") REFERENCES "tenant"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "wishlist" ADD CONSTRAINT "wishlist_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
