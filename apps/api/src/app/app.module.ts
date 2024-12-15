@@ -9,6 +9,7 @@ import { S3Module } from "src/services/s3/s3.module";
 import { AdminModule } from "./admin/admin.module";
 import { BrandModule } from "./brand/brand.module";
 import { CategoryModule } from "./category/category.module";
+import { ProductModule } from "./product/product.module";
 import { TenantModule } from "./tenant/tenant.module";
 import { UserModule } from "./user/user.module";
 
@@ -21,6 +22,7 @@ import { UserModule } from "./user/user.module";
     UserModule,
     BrandModule,
     CategoryModule,
+    ProductModule,
     PrismaModule,
     ConfigModule.forRoot({
       cache: true,
