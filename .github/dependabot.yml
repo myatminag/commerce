@@ -9,8 +9,6 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    ignore:
-      - dependency-name: "eslint"
     versioning-strategy: "increase"
     target-branch: main
     groups:
