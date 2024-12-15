@@ -10,7 +10,7 @@ updates:
     schedule:
       interval: "weekly"
     versioning-strategy: "increase"
-    target-branch: main
+    target-branch: develop
     groups:
       root-dependencies:
         patterns:
