@@ -4,36 +4,26 @@ import tseslint from "typescript-eslint";
 import pluginReactHooks from "eslint-plugin-react-hooks";
 import pluginReact from "eslint-plugin-react";
 import globals from "globals";
-import pluginNext from "@next/eslint-plugin-next";
 
 import { config as baseConfig } from "./base.js";
 
 /**
- * A custom ESLint configuration for libraries that use Next.js.
+ * A custom ESLint configuration for libraries that use React.
  *
- * @type {import("eslint").Linter.Config}
- * */
-export const nextJsConfig = [
+ * @type {import("eslint").Linter.Config} */
+export const config = [
   ...baseConfig,
   js.configs.recommended,
   eslintConfigPrettier,
   ...tseslint.configs.recommended,
+  pluginReact.configs.flat.recommended,
   {
-    ...pluginReact.configs.flat.recommended,
     languageOptions: {
       ...pluginReact.configs.flat.recommended.languageOptions,
       globals: {
         ...globals.serviceworker,
+        ...globals.browser,
       },
-    },
-  },
-  {
-    plugins: {
-      "@next/next": pluginNext,
-    },
-    rules: {
-      ...pluginNext.configs.recommended.rules,
-      ...pluginNext.configs["core-web-vitals"].rules,
     },
   },
   {
@@ -54,8 +44,8 @@ export const nextJsConfig = [
 // const project = resolve(process.cwd(), "tsconfig.json");
 
 // /*
-//  * This is a custom ESLint configuration for use with
-//  * Next.js apps.
+//  * This is a custom ESLint configuration for use a library
+//  * that utilizes React.
 //  *
 //  * This config extends the Vercel Engineering Style Guide.
 //  * For more information, see https://github.com/vercel/style-guide
@@ -64,18 +54,14 @@ export const nextJsConfig = [
 
 // module.exports = {
 //   extends: [
-//     "@vercel/style-guide/eslint/node",
-//     "@vercel/style-guide/eslint/typescript",
 //     "@vercel/style-guide/eslint/browser",
+//     "@vercel/style-guide/eslint/typescript",
 //     "@vercel/style-guide/eslint/react",
-//     "@vercel/style-guide/eslint/next",
-//     "eslint-config-turbo",
 //   ].map(require.resolve),
 //   parserOptions: {
 //     project,
 //   },
 //   globals: {
-//     React: true,
 //     JSX: true,
 //   },
 //   settings: {
@@ -88,7 +74,7 @@ export const nextJsConfig = [
 //       },
 //     },
 //   },
-//   ignorePatterns: ["node_modules/", "dist/"],
+//   ignorePatterns: ["node_modules/", "dist/", ".eslintrc.js", "**/*.css"],
 //   /**
 //    * Add rules configurations here
 //    *
@@ -97,9 +83,8 @@ export const nextJsConfig = [
 //    * Value => 2, Severity Level => error
 //    */
 //   rules: {
-//     "no-nested-ternary": "off",
-//     "dot-notation": "off",
-//     "no-console": "warn",
+//     "import/no-default-export": "off",
+//     "import/no-extraneous-dependencies": "off",
 //     "import/order": "off",
 //     "react/jsx-sort-props": [
 //       2,
@@ -115,6 +100,8 @@ export const nextJsConfig = [
 //         unnamedComponents: "arrow-function",
 //       },
 //     ],
+//     "react/self-closing-comp": "off",
+//     "react/jsx-no-leaked-render": "off",
 //     "react/jsx-key": [
 //       2,
 //       {
@@ -122,19 +109,32 @@ export const nextJsConfig = [
 //         checkFragmentShorthand: true,
 //       },
 //     ],
-//     "import/no-default-export": "off",
-//     "import/no-named-as-default": "off",
-//     "jsx-a11y/click-events-have-key-events": "off",
-//     "jsx-a11y/no-noninteractive-element-interactions": "off",
-//     "@typescript-eslint/no-explicit-any": "off",
-//     "@typescript-eslint/no-unsafe-return": "off",
+//     "unicorn/filename-case": [
+//       "error",
+//       {
+//         cases: {
+//           camelCase: true,
+//           kebabCase: true,
+//         },
+//       },
+//     ],
+//     "@typescript-eslint/restrict-template-expressions": "off",
 //     "@typescript-eslint/explicit-function-return-type": "off",
-//     "@typescript-eslint/dot-notation": "off",
-//     "@typescript-eslint/no-misused-promises": "off",
+//     "@typescript-eslint/no-empty-interface": "off",
+//     "@typescript-eslint/consistent-type-imports": "off",
 //     "@typescript-eslint/no-confusing-void-expression": "off",
 //     "@typescript-eslint/no-unnecessary-condition": "off",
-//     "@typescript-eslint/prefer-nullish-coalescing": "off",
-//     "@typescript-eslint/restrict-template-expressions": "off",
-//     "@typescript-eslint/prefer-promise-reject-errors": "off",
+//     "@typescript-eslint/no-explicit-any": "off",
+//     "@typescript-eslint/no-unsafe-assignment": "off",
+//     "@typescript-eslint/no-unsafe-argument": "off",
+//     "@typescript-eslint/no-shadow": "off",
 //   },
+//   overrides: [
+//     {
+//       files: ["*.config.js"],
+//       env: {
+//         node: true,
+//       },
+//     },
+//   ],
 // };
