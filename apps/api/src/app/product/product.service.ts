@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { PrismaService } from "src/services/prisma/prisma.service";
 import { slugify } from "src/utils/slugify";
 import { CreateProductDto, ProductVariantDto } from "./dto/create-product.dto";
+import { QueryParamsDto } from "./dto/query-params.dto";
 
 @Injectable()
 export class ProductService {
@@ -46,6 +47,39 @@ export class ProductService {
         product_variant: true,
       },
     });
+  }
+
+  async productLists({ limit, offset, search }: QueryParamsDto) {
+    const searchQuery: Prisma.ProductWhereInput[] = [];
+
+    if (search) {
+      searchQuery.push({
+        OR: [
+          {
+            name: {
+              contains: search,
+              mode: "insensitive",
+            },
+          },
+        ],
+      });
+    }
+
+    const [count, products] = await this.prismaService.$transaction([
+      this.prismaService.product.count(),
+      this.prismaService.product.findMany({
+        take: limit,
+        skip: (offset - 1) * limit,
+        where: {
+          AND: searchQuery,
+        },
+      }),
+    ]);
+
+    return {
+      count,
+      products,
+    };
   }
 
   async productDetails(slug: string) {
