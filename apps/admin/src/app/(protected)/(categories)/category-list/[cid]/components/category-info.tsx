@@ -6,8 +6,8 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@collex/ui/components/tab";
-import { Separator } from "@collex/ui/components/separator";
+} from "@commerce/ui/components/tab";
+import { Separator } from "@commerce/ui/components/separator";
 
 import SubCategoryList from "./sub-category-list";
 import RelatedProducts from "./related-products";

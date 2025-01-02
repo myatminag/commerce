@@ -11,10 +11,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogClose,
-} from "@collex/ui/components/dialog/dialog";
-import { Button } from "@collex/ui/components/button";
-import { Input } from "@collex/ui/components/inputs/input";
-import { Label } from "@collex/ui/components/inputs/label";
+} from "@commerce/ui/components/dialog/dialog";
+import { Button } from "@commerce/ui/components/button";
+import { Input } from "@commerce/ui/components/inputs/input";
+import { Label } from "@commerce/ui/components/inputs/label";
 
 import { PlusIcon } from "@components/icons/plus-icon";
 import { SubCategoryUploadIcon } from "@components/icons/subcategory-upload-icon";

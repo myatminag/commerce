@@ -1,7 +1,7 @@
 // Tailwind config is required for editor support
 
 import type { Config } from "tailwindcss";
-import sharedConfig from "@collex/tailwind-config";
+import sharedConfig from "@commerce/tailwind-config";
 
 const config = {
   darkMode: "class",

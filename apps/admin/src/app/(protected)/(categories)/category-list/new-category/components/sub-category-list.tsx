@@ -5,7 +5,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@collex/ui/components/accordion";
+} from "@commerce/ui/components/accordion";
 import {
   Dialog,
   DialogClose,
@@ -15,8 +15,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@collex/ui/components/dialog/dialog";
-import { Button } from "@collex/ui/components/button";
+} from "@commerce/ui/components/dialog/dialog";
+import { Button } from "@commerce/ui/components/button";
 
 import { EditIcon } from "@components/icons/edit-icon";
 import { DeleteIcon } from "@components/icons/delete-icon";

@@ -21,9 +21,9 @@ import {
 } from "@lexical/utils";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 
-import { Toggle } from "@collex/ui/components/toggle";
-import { Button } from "@collex/ui/components/button";
-import { Separator } from "@collex/ui/components/separator";
+import { Toggle } from "@commerce/ui/components/toggle";
+import { Button } from "@commerce/ui/components/button";
+import { Separator } from "@commerce/ui/components/separator";
 
 import { blockTypeToBlockName } from "@/types/block-name";
 

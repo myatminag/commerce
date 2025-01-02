@@ -4,9 +4,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-import { cn } from "@collex/ui/libs/utils";
-import { CdsIcon } from "@collex/ui/icons/cds-icon";
-import { Separator } from "@collex/ui/components/separator";
+import { cn } from "@commerce/ui/libs/utils";
+import { CdsIcon } from "@commerce/ui/icons/cds-icon";
+import { Separator } from "@commerce/ui/components/separator";
 
 import { NavMenu } from "@lib/pathnames";
 

@@ -4,8 +4,8 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@collex/ui/components/dropdown-menu";
-import { Button } from "@collex/ui/components/button";
+} from "@commerce/ui/components/dropdown-menu";
+import { Button } from "@commerce/ui/components/button";
 
 import { ThreeDotsIcon } from "@components/icons/three-dots-icon";
 

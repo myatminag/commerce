@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@collex/ui/components/button";
+import { Button } from "@commerce/ui/components/button";
 
 const ActionButton = () => {
   return (

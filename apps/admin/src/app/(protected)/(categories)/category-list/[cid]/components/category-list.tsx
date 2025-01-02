@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@collex/ui/libs/utils";
+import { cn } from "@commerce/ui/libs/utils";
 import Link from "next/link";
 
 import { useCategoryDetail } from "../use-category-detail";
