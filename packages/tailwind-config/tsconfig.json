@@ -1,5 +1,5 @@
 {
-  "extends": "@collex/typescript-config/base.json",
+  "extends": "@commerce/typescript-config/base.json",
   "include": ["."],
   "exclude": ["dist", "build", "node_modules"]
 }

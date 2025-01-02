@@ -1,10 +1,15 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { Prisma } from "@prisma/client";
 
 import { PrismaService } from "src/services/prisma/prisma.service";
 import { slugify } from "src/utils/slugify";
 import { CreateProductDto, ProductVariantDto } from "./dto/create-product.dto";
 import { QueryParamsDto } from "./dto/query-params.dto";
+import { UpdateProductDto } from "./dto/update-product.dto";
 
 @Injectable()
 export class ProductService {
@@ -124,7 +129,65 @@ export class ProductService {
     };
   }
 
-  private discount(dto: CreateProductDto) {
+  async updateProduct(id: string, dto: UpdateProductDto) {
+    const [product, isSkuExist] = await Promise.all([
+      this.prismaService.instance.product.findUnique({
+        where: {
+          id,
+        },
+        select: { id: true, sku: true },
+      }),
+      this.prismaService.instance.product.findUnique({
+        where: { sku: dto.sku },
+        select: { sku: true },
+      }),
+    ]);
+
+    if (!product) {
+      throw new NotFoundException("Product not found!");
+    }
+
+    if (isSkuExist) {
+      throw new ConflictException("Sku already exits!");
+    }
+
+    return await this.prismaService.instance.product.update({
+      where: { id: product.id },
+      data: {
+        ...dto,
+        slug: slugify(dto.name),
+        options: JSON.stringify(dto.options || []),
+        images: JSON.stringify(dto.images || []),
+        profit: this.calculateProfit(dto.price, dto.cost),
+        ...this.discount(dto),
+        product_variant: this.variants(dto.product_variant),
+      },
+      include: {
+        product_variant: true,
+      },
+    });
+  }
+
+  async deleteProduct(id: string) {
+    const product = await this.prismaService.instance.product.findUnique({
+      where: { id },
+      select: { id: true },
+    });
+
+    if (!product) {
+      throw new NotFoundException("Product is not found!");
+    }
+
+    await this.prismaService.instance.product.delete({
+      where: { id: product.id },
+    });
+
+    return {
+      message: "Product has been successfully deleted!",
+    };
+  }
+
+  private discount(dto: CreateProductDto | UpdateProductDto) {
     if (!dto.discount_type) return {};
 
     return {

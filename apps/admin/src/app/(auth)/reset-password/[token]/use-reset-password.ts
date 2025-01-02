@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useSetNewPassword } from "../../../../services/auth/reset-password";
 
-import { useToast } from "@collex/ui/components/toast/use-toast";
+import { useToast } from "@commerce/ui/components/toast/use-toast";
 
 const schema = z
   .object({

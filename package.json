@@ -27,7 +27,7 @@
   "devDependencies": {
     "@commitlint/cli": "^19.6.1",
     "@commitlint/config-conventional": "^19.6.0",
-    "@collex/typescript-config": "workspace:*",
+    "@commerce/typescript-config": "workspace:*",
     "lint-staged": "^15.3.0",
     "prettier": "^3.4.1",
     "prettier-plugin-tailwindcss": "^0.6.9",

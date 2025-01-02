@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Suspense } from "react";
 
-import { CdsIcon } from "@collex/ui/icons/cds-icon";
+import { CdsIcon } from "@commerce/ui/icons/cds-icon";
 
 import SignInForm from "./components/sign-in-form";
 import {

@@ -1,5 +1,5 @@
 {
-  "extends": "@collex/typescript-config/nextjs.json",
+  "extends": "@commerce/typescript-config/nextjs.json",
   "compilerOptions": {
     "plugins": [{ "name": "next" }],
     "paths": {

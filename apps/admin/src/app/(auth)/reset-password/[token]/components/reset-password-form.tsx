@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@collex/ui/components/button";
-import { PasswordInput } from "@collex/ui/components/inputs/password-input";
+import { Button } from "@commerce/ui/components/button";
+import { PasswordInput } from "@commerce/ui/components/inputs/password-input";
 
 import { useResetPassword } from "../use-reset-password";
 

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { SearchInput } from "@collex/ui/components/inputs/search-input";
+import { SearchInput } from "@commerce/ui/components/inputs/search-input";
 
 import { useBrandList } from "../use-brand-list";
 import { PlusIcon } from "@components/icons/plus-icon";

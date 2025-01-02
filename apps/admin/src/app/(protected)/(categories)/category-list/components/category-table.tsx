@@ -1,6 +1,6 @@
 "use client";
 
-import { DataTable } from "@collex/ui/components/table/data-table";
+import { DataTable } from "@commerce/ui/components/table/data-table";
 
 import column from "./columns";
 import Filter from "./filter";

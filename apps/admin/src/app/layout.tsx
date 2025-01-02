@@ -1,9 +1,9 @@
 import "./globals.css";
-import "@collex/ui/style.css";
+import "@commerce/ui/style.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import { Toaster } from "@collex/ui/components/toast/toaster";
+import { Toaster } from "@commerce/ui/components/toast/toaster";
 
 import AppProvider from "@components/provider";
 

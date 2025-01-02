@@ -7,10 +7,10 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@collex/ui/components/dialog/dialog";
+} from "@commerce/ui/components/dialog/dialog";
 
-import { Button } from "@collex/ui/components/button";
-import { TrashIcon } from "@collex/ui/icons/trash-icon";
+import { Button } from "@commerce/ui/components/button";
+import { TrashIcon } from "@commerce/ui/icons/trash-icon";
 
 const ActionButton = () => {
   return (

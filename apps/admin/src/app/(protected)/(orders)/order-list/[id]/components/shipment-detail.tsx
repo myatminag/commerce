@@ -1,5 +1,5 @@
-import { DeliveringIcon } from "@collex/ui/icons/delivering-icon";
-import { DeliveredIcon } from "@collex/ui/icons/delivered-icon";
+import { DeliveringIcon } from "@commerce/ui/icons/delivering-icon";
+import { DeliveredIcon } from "@commerce/ui/icons/delivered-icon";
 
 import { OrderIcon } from "@components/icons/order-icon";
 

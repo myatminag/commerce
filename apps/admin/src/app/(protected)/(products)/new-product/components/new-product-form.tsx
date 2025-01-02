@@ -2,11 +2,11 @@
 
 import { useForm } from "react-hook-form";
 
-import { Button } from "@collex/ui/components/button";
-import { Input } from "@collex/ui/components/inputs/input";
+import { Button } from "@commerce/ui/components/button";
+import { Input } from "@commerce/ui/components/inputs/input";
 
 import { PlusIcon } from "@components/icons/plus-icon";
-import { Label } from "@collex/ui/components/inputs/label";
+import { Label } from "@commerce/ui/components/inputs/label";
 
 const NewProductForm = () => {
   const { register } = useForm();

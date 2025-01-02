@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 import type { Libraries } from "@react-google-maps/api";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 
-import { LocationIcon } from "@collex/ui/icons/location-icon";
+import { LocationIcon } from "@commerce/ui/icons/location-icon";
 
 const libraries = ["places", "drawing", "geometry"];
 

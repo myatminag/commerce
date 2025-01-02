@@ -6,8 +6,8 @@ import {
   DialogClose,
   DialogContent,
   DialogHeader,
-} from "@collex/ui/components/dialog/dialog";
-import { Button } from "@collex/ui/components/button";
+} from "@commerce/ui/components/dialog/dialog";
+import { Button } from "@commerce/ui/components/button";
 
 import { SuccessIcon } from "@components/icons/status-icon";
 

@@ -15,7 +15,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@collex/ui/components/select";
+} from "@commerce/ui/components/select";
 
 import { blockTypeToBlockName } from "@/types/block-name";
 

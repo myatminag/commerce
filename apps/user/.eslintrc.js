@@ -1,3 +1,3 @@
 module.exports = {
-  extends: ["@collex/eslint-config/next.js"],
+  extends: ["@commerce/eslint-config/next.js"],
 };

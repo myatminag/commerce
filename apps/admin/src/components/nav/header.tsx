@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 
-import { NotiIcon } from "@collex/ui/icons/noti-icon";
-import { SearchInput } from "@collex/ui/components/inputs/search-input";
+import { NotiIcon } from "@commerce/ui/icons/noti-icon";
+import { SearchInput } from "@commerce/ui/components/inputs/search-input";
 
 import { CreateIcon } from "@components/icons/create-icon";
 import { TranslationIcon } from "@components/icons/translation-icon";

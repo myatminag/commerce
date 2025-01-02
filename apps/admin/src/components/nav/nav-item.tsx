@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 
-import { cn } from "@collex/ui/libs/utils";
+import { cn } from "@commerce/ui/libs/utils";
 
 import { useAppSelector } from "@store/hook";
 
