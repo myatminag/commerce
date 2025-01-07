@@ -17,6 +17,6 @@
     "typescript": "^5.3.3",
     "typescript-eslint": "^8.18.1",
     "@vercel/style-guide": "^6.0.0",
-    "@tanstack/eslint-plugin-query": "^5.62.9"
+    "@tanstack/eslint-plugin-query": "^5.62.15"
   }
 }
