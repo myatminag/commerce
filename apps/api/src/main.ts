@@ -31,7 +31,7 @@ async function bootstrap() {
 
   // swagger docs username and password
   app.use(
-    "/api/*",
+    "/api/*splat",
     expressBasicAuth({ challenge: true, users: { atx: "atx@123!@#" } }),
   );
 

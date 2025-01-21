@@ -8,6 +8,14 @@ import {
 import { PrismaClient } from "@prisma/client";
 import { ClsService } from "nestjs-cls";
 
+type CreateInputWithTenant<T> = T & {
+  tenant?: { connect: { id: string } };
+};
+
+type WhereInputWithTenant<T> = T & {
+  tenant_id: string;
+};
+
 @Injectable()
 export class PrismaService
   extends PrismaClient
@@ -31,7 +39,7 @@ export class PrismaService
     await this.$disconnect();
   }
 
-  public get instance(): PrismaService {
+  public get extend(): PrismaService {
     const tenantId = this.clsService.get("tenant-id");
 
     if (!tenantId) {
@@ -44,8 +52,8 @@ export class PrismaService
           create: function ({ args, query }) {
             args.data = {
               ...args.data,
-              tenant_id: tenantId,
-            } as any;
+              tenant: { connect: { id: tenantId } },
+            } as CreateInputWithTenant<typeof args.data>;
 
             return query(args);
           },
@@ -55,14 +63,14 @@ export class PrismaService
                 (d) =>
                   ({
                     ...d,
-                    tenant_id: tenantId,
-                  }) as any,
+                    tenant: { connect: { id: tenantId } },
+                  }) as CreateInputWithTenant<typeof d>,
               );
             } else {
               args.data = {
                 ...args.data,
                 tenant_id: tenantId,
-              } as any;
+              } as CreateInputWithTenant<typeof args.data>;
             }
 
             return query(args);
@@ -71,7 +79,7 @@ export class PrismaService
             args.where = {
               ...args.where,
               tenant_id: tenantId,
-            } as unknown;
+            } as WhereInputWithTenant<typeof args.where>;
 
             return query(args);
           },
@@ -79,7 +87,7 @@ export class PrismaService
             args.where = {
               ...args.where,
               tenant_id: tenantId,
-            } as any;
+            } as WhereInputWithTenant<typeof args.where>;
 
             return query(args);
           },
@@ -87,7 +95,7 @@ export class PrismaService
             args.where = {
               ...args.where,
               tenant_id: tenantId,
-            } as unknown;
+            } as WhereInputWithTenant<typeof args.where>;
 
             return query(args);
           },
@@ -95,7 +103,7 @@ export class PrismaService
             args.where = {
               ...args.where,
               tenant_id: tenantId,
-            } as unknown;
+            } as WhereInputWithTenant<typeof args.where>;
 
             return query(args);
           },
