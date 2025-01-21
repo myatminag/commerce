@@ -95,7 +95,7 @@ export class AuthService {
     const hashToken = await hash(token, salt);
     const expiredAt = new Date(Date.now() + ms("1h"));
 
-    await this.prismaService.instance.user.update({
+    await this.prismaService.extend.user.update({
       where: { id: user.id },
       data: {
         reset_token: hashToken,
@@ -108,7 +108,7 @@ export class AuthService {
   }
 
   async resetPassword(dto: ResetPasswordDto) {
-    const user = await this.prismaService.instance.user.findFirst({
+    const user = await this.prismaService.extend.user.findFirst({
       where: { reset_token: { not: null } },
     });
 
@@ -129,7 +129,7 @@ export class AuthService {
     const salt = await genSalt();
     const hashPassword = await hash(dto.password, salt);
 
-    await this.prismaService.instance.user.update({
+    await this.prismaService.extend.user.update({
       where: { id: user.id },
       data: {
         password: hashPassword,

@@ -19,7 +19,7 @@ export class UserService {
   constructor(private prismaService: PrismaService) {}
 
   async create(dto: CreateUserDto) {
-    const user = await this.prismaService.instance.user.findUnique({
+    const user = await this.prismaService.extend.user.findUnique({
       where: { email: dto.email },
     });
 
@@ -27,7 +27,7 @@ export class UserService {
       throw new ConflictException("User already exits!");
     }
 
-    return await this.prismaService.instance.user.create({
+    return await this.prismaService.extend.user.create({
       data: { ...dto } as Prisma.UserCreateInput,
       omit: { password: true },
     });
@@ -36,7 +36,7 @@ export class UserService {
   async update(id: string, dto: UpdateUserDto) {
     const user = await this.findById(id);
 
-    return this.prismaService.instance.user.update({
+    return this.prismaService.extend.user.update({
       where: { id: user.id },
       data: { ...dto },
       omit: { password: true },
@@ -55,7 +55,7 @@ export class UserService {
     const salt = await genSalt();
     const newPassword = await hash(dto.new_password, salt);
 
-    await this.prismaService.instance.user.update({
+    await this.prismaService.extend.user.update({
       where: { id: user.id },
       data: { password: newPassword },
     });
@@ -66,7 +66,7 @@ export class UserService {
   }
 
   async findById(id: string) {
-    const user = await this.prismaService.instance.user.findUnique({
+    const user = await this.prismaService.extend.user.findUnique({
       where: { id },
     });
 
@@ -78,7 +78,7 @@ export class UserService {
   }
 
   async findByEmail(email: string) {
-    const user = await this.prismaService.instance.user.findUnique({
+    const user = await this.prismaService.extend.user.findUnique({
       where: { email },
     });
 
@@ -106,8 +106,8 @@ export class UserService {
     }
 
     const [count, users] = await this.prismaService.$transaction([
-      this.prismaService.instance.user.count(),
-      this.prismaService.instance.user.findMany({
+      this.prismaService.extend.user.count(),
+      this.prismaService.extend.user.findMany({
         take: limit,
         skip: (offset - 1) * limit,
         omit: { password: true },
@@ -127,7 +127,7 @@ export class UserService {
   async deleteUser(id: string) {
     const user = await this.findById(id);
 
-    await this.prismaService.instance.user.delete({
+    await this.prismaService.extend.user.delete({
       where: { id: user.id },
     });
 
@@ -137,7 +137,7 @@ export class UserService {
   }
 
   async deleteUsers(dto: DeleteUsersDto) {
-    const existingUsers = await this.prismaService.instance.user.findMany({
+    const existingUsers = await this.prismaService.extend.user.findMany({
       where: { id: { in: dto.ids } },
       select: { id: true },
     });
@@ -148,7 +148,7 @@ export class UserService {
       throw new NotFoundException("There is no matching user ids!");
     }
 
-    await this.prismaService.instance.user.deleteMany({
+    await this.prismaService.extend.user.deleteMany({
       where: { id: { in: validIds } },
     });
 

@@ -1,4 +1,3 @@
-import { CacheInterceptor, CacheTTL } from "@nestjs/cache-manager";
 import {
   Body,
   Controller,
@@ -30,14 +29,13 @@ export class ProductController {
   }
 
   @Get(":slug")
-  @UseInterceptors(CacheInterceptor, ExcludeNullValueInterceptor)
+  @UseInterceptors(ExcludeNullValueInterceptor)
   async productDetails(@Param("slug") slug: string) {
     return this.productService.productDetails(slug);
   }
 
   @Get()
-  @CacheTTL(3000)
-  @UseInterceptors(CacheInterceptor, ExcludeNullValueInterceptor)
+  @UseInterceptors(ExcludeNullValueInterceptor)
   async productLists(@Query() dto: QueryParamsDto) {
     return this.productService.productLists(dto);
   }

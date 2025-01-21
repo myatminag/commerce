@@ -4,6 +4,7 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import { Prisma } from "@prisma/client";
+import { ClsService } from "nestjs-cls";
 
 import { PrismaService } from "src/services/prisma/prisma.service";
 import { slugify } from "src/utils/slugify";
@@ -13,41 +14,57 @@ import { UpdateProductDto } from "./dto/update-product.dto";
 
 @Injectable()
 export class ProductService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(
+    private clsService: ClsService,
+    private prismaService: PrismaService,
+  ) {}
 
   async createProduct(dto: CreateProductDto) {
-    const slug = slugify(dto.name);
+    const tenantId = this.clsService.get("tenant-id");
 
-    const [isProductExist, isSkuExist] = await Promise.all([
-      this.prismaService.instance.product.findFirst({
-        where: { slug },
+    const [isProductExit, isProductVariantExit] = await Promise.all([
+      this.prismaService.extend.product.findUnique({
+        where: {
+          sku: dto.sku,
+        },
       }),
-      this.prismaService.instance.product.findUnique({
-        where: { sku: dto.sku },
+      this.prismaService.extend.productVariant.findMany({
+        where: {
+          sku: {
+            in: dto.product_variant.map((variant) => variant.sku),
+          },
+        },
       }),
     ]);
 
-    if (isProductExist) {
-      throw new NotFoundException("Product already exists!");
+    if (isProductExit) {
+      throw new ConflictException("A product sku already exists!");
     }
 
-    if (isSkuExist) {
-      throw new NotFoundException("SKU already exists!");
+    if (isProductVariantExit) {
+      throw new ConflictException("Variants sku already exists!");
     }
 
-    return await this.prismaService.instance.product.create({
+    return await this.prismaService.extend.product.create({
       data: {
-        ...dto,
-        slug,
+        name: dto.name,
+        slug: slugify(dto.name),
+        description: dto.description,
+        feature_image: dto.feature_image,
+        cost: dto.cost,
+        price: dto.price,
+        price_max: dto.price_max,
+        price_min: dto.price_min,
+        sku: dto.sku,
+        stock: dto.stock,
+        brand: { connect: { id: dto.brand_id } },
+        category: { connect: { id: dto.category_id } },
         options: JSON.stringify(dto.options || []),
         images: JSON.stringify(dto.images || []),
-        profit: this.calculateProfit(dto.price, dto.cost),
         ...this.discount(dto),
-        product_variant: this.variants(dto.product_variant),
-      } as Prisma.XOR<
-        Prisma.ProductCreateInput,
-        Prisma.ProductUncheckedCreateInput
-      >,
+        profit: this.calculateProfit(dto.price, dto.cost),
+        product_variant: this.variants(tenantId, dto.product_variant),
+      } as Prisma.ProductCreateInput,
       include: {
         product_variant: true,
       },
@@ -71,8 +88,8 @@ export class ProductService {
     }
 
     const [count, products] = await this.prismaService.$transaction([
-      this.prismaService.product.count(),
-      this.prismaService.product.findMany({
+      this.prismaService.extend.product.count(),
+      this.prismaService.extend.product.findMany({
         take: limit,
         skip: (offset - 1) * limit,
         where: {
@@ -88,9 +105,14 @@ export class ProductService {
   }
 
   async productDetails(slug: string) {
-    const product = await this.prismaService.instance.product.findFirst({
+    const tenantId = this.clsService.get("tenant-id");
+
+    const product = await this.prismaService.extend.product.findUnique({
       where: {
-        slug,
+        tenant_id_slug: {
+          tenant_id: tenantId,
+          slug,
+        },
       },
       omit: {
         cart_id: true,
@@ -130,14 +152,14 @@ export class ProductService {
   }
 
   async updateProduct(id: string, dto: UpdateProductDto) {
+    const slug = slugify(dto.name);
+
     const [product, isSkuExist] = await Promise.all([
-      this.prismaService.instance.product.findUnique({
-        where: {
-          id,
-        },
-        select: { id: true, sku: true },
+      this.prismaService.extend.product.findUnique({
+        where: { id },
+        select: { id: true },
       }),
-      this.prismaService.instance.product.findUnique({
+      this.prismaService.extend.product.findUnique({
         where: { sku: dto.sku },
         select: { sku: true },
       }),
@@ -151,17 +173,20 @@ export class ProductService {
       throw new ConflictException("Sku already exits!");
     }
 
-    return await this.prismaService.instance.product.update({
+    return await this.prismaService.extend.product.update({
       where: { id: product.id },
       data: {
         ...dto,
-        slug: slugify(dto.name),
+        slug,
         options: JSON.stringify(dto.options || []),
         images: JSON.stringify(dto.images || []),
         profit: this.calculateProfit(dto.price, dto.cost),
         ...this.discount(dto),
-        product_variant: this.variants(dto.product_variant),
-      },
+        product_variant: this.variants("", dto.product_variant),
+      } as Prisma.XOR<
+        Prisma.ProductCreateInput,
+        Prisma.ProductUncheckedCreateInput
+      >,
       include: {
         product_variant: true,
       },
@@ -169,7 +194,7 @@ export class ProductService {
   }
 
   async deleteProduct(id: string) {
-    const product = await this.prismaService.instance.product.findUnique({
+    const product = await this.prismaService.extend.product.findUnique({
       where: { id },
       select: { id: true },
     });
@@ -178,7 +203,7 @@ export class ProductService {
       throw new NotFoundException("Product is not found!");
     }
 
-    await this.prismaService.instance.product.delete({
+    await this.prismaService.extend.product.delete({
       where: { id: product.id },
     });
 
@@ -198,12 +223,13 @@ export class ProductService {
     };
   }
 
-  private variants(variants?: ProductVariantDto[]) {
+  private variants(tenantId: string, variants?: ProductVariantDto[]) {
     if (!variants?.length) return undefined;
 
     return {
       create: variants.map((variant) => ({
         ...variant,
+        tenant: { connect: { id: tenantId } },
         options: JSON.stringify(variant.options || []),
         profit: this.calculateProfit(variant.price, variant.cost),
       })),

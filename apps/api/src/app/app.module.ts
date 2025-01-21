@@ -2,7 +2,7 @@ import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { ClsModule } from "nestjs-cls";
 
-import configuration from "src/config/app";
+import configuration from "src/config/config";
 import { AuthModule } from "src/services/auth/auth.module";
 import { PrismaModule } from "src/services/prisma/prisma.module";
 import { RedisCacheModule } from "src/services/redis-cache/redis-cache.module";
