@@ -17,7 +17,7 @@ export class BrandService {
   async create(dto: CreateBrandDto) {
     const slug = slugify(dto.name);
 
-    const isBrandExist = await this.prismaService.extend.brand.findFirst({
+    const isBrandExist = await this.prismaService.brand.findFirst({
       where: {
         slug,
       },
@@ -27,7 +27,7 @@ export class BrandService {
       throw new ConflictException("This brand already exists!");
     }
 
-    return await this.prismaService.extend.brand.create({
+    return await this.prismaService.brand.create({
       data: {
         ...dto,
         slug,
@@ -52,8 +52,8 @@ export class BrandService {
     }
 
     const [count, brands] = await this.prismaService.$transaction([
-      this.prismaService.extend.brand.count(),
-      this.prismaService.extend.brand.findMany({
+      this.prismaService.brand.count(),
+      this.prismaService.brand.findMany({
         take: limit,
         skip: (offset - 1) * limit,
         where: {
@@ -69,7 +69,7 @@ export class BrandService {
   }
 
   async findBySlug(slug: string) {
-    const brand = await this.prismaService.extend.brand.findFirst({
+    const brand = await this.prismaService.brand.findFirst({
       where: { slug },
       include: {
         product: true,
@@ -86,7 +86,7 @@ export class BrandService {
   async delete(slug: string) {
     const isBrandExist = await this.findBySlug(slug);
 
-    await this.prismaService.extend.brand.delete({
+    await this.prismaService.brand.delete({
       where: { id: isBrandExist.id },
     });
 

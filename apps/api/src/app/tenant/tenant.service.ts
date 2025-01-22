@@ -7,6 +7,7 @@ import {
 import { CreateTenantDto } from "./dto/create-tenant.dto";
 import { UpdateTenantDto } from "./dto/update-tenant.dto";
 import { PrismaService } from "src/services/prisma/prisma.service";
+import { Prisma } from "@prisma/client";
 
 @Injectable()
 export class TenantService {
@@ -21,10 +22,16 @@ export class TenantService {
       throw new ConflictException("Tenant already exists!");
     }
 
-    const tenant = await this.prismaService.tenant.create({
-      data: {
-        ...dto,
-      },
+    const tenant = await this.prismaService.$transaction(async (prisma) => {
+      const createdTenant = await prisma.tenant.create({
+        data: {
+          ...dto,
+        },
+      });
+
+      await prisma.$executeRaw`CREATE SCHEMA IF NOT EXISTS "${Prisma.raw(dto.domain)}"`;
+
+      return createdTenant;
     });
 
     return tenant;

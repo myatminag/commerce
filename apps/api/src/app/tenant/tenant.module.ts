@@ -1,19 +1,11 @@
-import { APP_GUARD } from "@nestjs/core";
 import { Module } from "@nestjs/common";
 
-import { TenantService } from "./tenant.service";
-import { TenantGuard } from "src/guards/tenant.guard";
-import { TenantController } from "./tenant.controller";
 import { PrismaModule } from "src/services/prisma/prisma.module";
+import { TenantController } from "./tenant.controller";
+import { TenantService } from "./tenant.service";
 
 @Module({
-  providers: [
-    TenantService,
-    {
-      provide: APP_GUARD,
-      useClass: TenantGuard,
-    },
-  ],
+  providers: [TenantService],
   controllers: [TenantController],
   imports: [PrismaModule],
 })
