@@ -6,21 +6,19 @@ import {
   Scope,
 } from "@nestjs/common";
 import { Prisma } from "@prisma/client";
-import { ClsService } from "nestjs-cls";
 
+import { REQUEST } from "@nestjs/core";
+import { Request } from "express";
 import { PrismaService } from "src/services/prisma/prisma.service";
 import { slugify } from "src/utils/slugify";
 import { CreateProductDto, ProductVariantDto } from "./dto/create-product.dto";
 import { QueryParamsDto } from "./dto/query-params.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
-import { REQUEST } from "@nestjs/core";
-import { Request } from "express";
 
 @Injectable({ scope: Scope.REQUEST, durable: true })
 export class ProductService {
   constructor(
     @Inject(REQUEST) private request: Request,
-    private clsService: ClsService,
     private prismaService: PrismaService,
   ) {}
 
@@ -110,18 +108,12 @@ export class ProductService {
   }
 
   async productDetails(slug: string) {
-    const tenantId = this.clsService.get("tenant-id");
-
     const product = await this.prismaService.product.findUnique({
       where: {
-        tenant_id_slug: {
-          tenant_id: tenantId,
-          slug,
-        },
+        slug: slug,
       },
       omit: {
         cart_id: true,
-        tenant_id: true,
       },
       include: {
         product_variant: {

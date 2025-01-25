@@ -11,10 +11,7 @@ model Subscription {
   end_date       DateTime
   created_at     DateTime       @default(now())
   updated_at     DateTime       @updatedAt
-  tenant_id      String         @unique
-  tenant         Tenant         @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
 
-  @@index([tenant_id])
   @@map("subscription")
 }
 

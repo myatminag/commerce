@@ -1,21 +1,17 @@
 model Category {
   id              String     @id @default(cuid())
   name            String     @db.VarChar(255)
-  slug            String     @db.VarChar(255)
+  slug            String     @unique @db.VarChar(255)
   description     String?
   banner_image    Json?
   thumbnail_image Json?
   parent_id       String?
   parent          Category?  @relation("parent_category", fields: [parent_id], references: [id], onDelete: Cascade)
   children        Category[] @relation("parent_category")
-  tenant_id       String
-  tenant          Tenant     @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
   created_at      DateTime   @default(now())
   updated_at      DateTime   @updatedAt
   product         Product[]
 
-  @@unique([tenant_id, slug])
-  @@index([tenant_id])
   @@index([name])
   @@map("category")
 }

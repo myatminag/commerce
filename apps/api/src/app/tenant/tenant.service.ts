@@ -7,7 +7,6 @@ import {
 import { CreateTenantDto } from "./dto/create-tenant.dto";
 import { UpdateTenantDto } from "./dto/update-tenant.dto";
 import { PrismaService } from "src/services/prisma/prisma.service";
-import { Prisma } from "@prisma/client";
 
 @Injectable()
 export class TenantService {
@@ -22,19 +21,29 @@ export class TenantService {
       throw new ConflictException("Tenant already exists!");
     }
 
-    const tenant = await this.prismaService.$transaction(async (prisma) => {
-      const createdTenant = await prisma.tenant.create({
+    return await this.prismaService.$transaction(async (prisma) => {
+      await prisma.$executeRawUnsafe(
+        `CREATE SCHEMA IF NOT EXISTS "${dto.domain}"`,
+      );
+
+      const tables = await prisma.$queryRaw<{ table_name: string }[]>`
+        SELECT table_name
+        FROM information_schema.tables
+        WHERE table_schema = 'public'
+      `;
+
+      for (const table of tables) {
+        await prisma.$executeRawUnsafe(
+          `CREATE TABLE "${dto.domain}"."${table.table_name}" AS TABLE "public"."${table.table_name}" WITH NO DATA`,
+        );
+      }
+
+      return await prisma.tenant.create({
         data: {
           ...dto,
         },
       });
-
-      await prisma.$executeRaw`CREATE SCHEMA IF NOT EXISTS "${Prisma.raw(dto.domain)}"`;
-
-      return createdTenant;
     });
-
-    return tenant;
   }
 
   async update(id: string, dto: UpdateTenantDto) {
@@ -58,9 +67,9 @@ export class TenantService {
     return await this.prismaService.tenant.delete({ where: { id } });
   }
 
-  async findById(id: string) {
+  async findById(domain: string) {
     const tenant = await this.prismaService.tenant.findUnique({
-      where: { id },
+      where: { domain },
     });
 
     if (!tenant) {

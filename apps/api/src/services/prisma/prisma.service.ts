@@ -1,25 +1,29 @@
-import { Injectable, Scope, Inject } from "@nestjs/common";
+import { Inject, OnModuleDestroy, OnModuleInit } from "@nestjs/common";
 import { REQUEST } from "@nestjs/core";
 import { PrismaClient } from "@prisma/client";
 import { Request } from "express";
 
-export interface ContextPayload extends Request {
-  tenantId: string;
-}
+export class PrismaService
+  extends PrismaClient
+  implements OnModuleInit, OnModuleDestroy
+{
+  constructor(@Inject(REQUEST) private request: Request) {
+    const tenantId = request?.headers?.["tenant-id"] || "public";
 
-@Injectable({ scope: Scope.REQUEST, durable: true })
-export class PrismaService extends PrismaClient {
-  constructor(@Inject(REQUEST) private request: ContextPayload) {
     super({
       datasources: {
         db: {
-          url: `${process.env.DATABASE_URL}${"public"}`,
+          url: `${process.env.DATABASE_URL}?schema=${tenantId}`,
         },
       },
     });
   }
 
-  async connect() {
+  async onModuleInit() {
     await this.$connect();
+  }
+
+  async onModuleDestroy() {
+    await this.$disconnect();
   }
 }

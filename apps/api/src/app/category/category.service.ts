@@ -109,7 +109,6 @@ export class CategoryService {
         },
         omit: {
           parent_id: true,
-          tenant_id: true,
         },
         include: {
           children: {
@@ -149,7 +148,6 @@ export class CategoryService {
       where: { slug },
       omit: {
         parent_id: true,
-        tenant_id: true,
       },
       include: {
         product: true,

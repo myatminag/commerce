@@ -2,6 +2,7 @@ import {
   ConflictException,
   Injectable,
   NotFoundException,
+  Scope,
 } from "@nestjs/common";
 import { Prisma } from "@prisma/client";
 
@@ -10,7 +11,7 @@ import { slugify } from "src/utils/slugify";
 import { CreateBrandDto } from "./dto/create-brand.dto";
 import { QueryParamsDto } from "./dto/query-params.dto";
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST, durable: true })
 export class BrandService {
   constructor(private prismaService: PrismaService) {}
 

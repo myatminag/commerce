@@ -1,45 +1,30 @@
-// import {
-//   BadRequestException,
-//   CanActivate,
-//   ExecutionContext,
-//   ForbiddenException,
-//   Injectable,
-// } from "@nestjs/common";
-// import { Reflector } from "@nestjs/core";
+import {
+  BadRequestException,
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
+import { TenantService } from "src/app/tenant/tenant.service";
 
-// import { TenantService } from "src/app/tenant/tenant.service";
-// import { NO_TENANT_GAURD } from "../decorators/no-tenant.decorator";
+@Injectable()
+export class TenantGuard implements CanActivate {
+  constructor(private tenantService: TenantService) {}
 
-// @Injectable()
-// export class TenantGuard implements CanActivate {
-//   constructor(
-//     private reflector: Reflector,
-//     private tenantService: TenantService,
-//   ) {}
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    const request = context.switchToHttp().getRequest();
+    const domain = request.headers["tenant-id"] || request.params.id;
 
-//   async canActivate(context: ExecutionContext): Promise<boolean> {
-//     const request = context.switchToHttp().getRequest();
-//     const tenantId = request.headers["tenant-id"] || request.params.id;
+    if (!domain) {
+      throw new BadRequestException("Tenant id is missing in request headers!");
+    }
 
-//     const skipTenantGuard = this.reflector.get(
-//       NO_TENANT_GAURD,
-//       context.getHandler(),
-//     );
+    const isTenantExist = await this.tenantService.findById(domain);
 
-//     if (skipTenantGuard) {
-//       return true;
-//     }
+    if (!isTenantExist) {
+      throw new NotFoundException("Tenant not found!");
+    }
 
-//     if (!tenantId) {
-//       throw new BadRequestException("Tenant id is missing in request headers!");
-//     }
-
-//     const tenant = await this.tenantService.findById(tenantId);
-
-//     if (!tenant.is_active) {
-//       throw new ForbiddenException("Tenant is inactive!");
-//     }
-
-//     return true;
-//   }
-// }
+    return true;
+  }
+}

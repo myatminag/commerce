@@ -8,5 +8,6 @@ import { TenantService } from "./tenant.service";
   providers: [TenantService],
   controllers: [TenantController],
   imports: [PrismaModule],
+  exports: [TenantService],
 })
 export class TenantModule {}
