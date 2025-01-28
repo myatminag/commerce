@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  Inject,
   Injectable,
   UnauthorizedException,
 } from "@nestjs/common";
@@ -9,17 +10,17 @@ import { compare, genSalt, hash } from "bcrypt";
 import { randomBytes } from "crypto";
 import * as ms from "ms";
 
+import { PrismaClient } from "@prisma/client/extension";
 import { AdminService } from "src/app/admin/admin.service";
 import { UserService } from "src/app/user/user.service";
 import { AppConfig } from "src/config/type";
-import { PrismaService } from "../prisma/prisma.service";
+import { Role } from "src/types/roles.enum";
 import { AdminLoginDto } from "./dto/admin-login.dto";
 import { AdminRegisterDto } from "./dto/admin-register.dto";
 import { ForgotPasswordDto } from "./dto/forgot-password.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 import { UserLoginDto } from "./dto/user-login.dto";
 import { UserRegisterDto } from "./dto/user-register.dto";
-import { Role } from "src/types/roles.enum";
 
 @Injectable()
 export class AuthService {
@@ -27,8 +28,8 @@ export class AuthService {
     private jwtService: JwtService,
     private userService: UserService,
     private adminService: AdminService,
-    private prismaService: PrismaService,
     private configService: ConfigService<AppConfig>,
+    @Inject("CONNECTION") private prismaClient: PrismaClient,
   ) {}
 
   async register(dto: UserRegisterDto) {
@@ -95,7 +96,7 @@ export class AuthService {
     const hashToken = await hash(token, salt);
     const expiredAt = new Date(Date.now() + ms("1h"));
 
-    await this.prismaService.user.update({
+    await this.prismaClient.user.update({
       where: { id: user.id },
       data: {
         reset_token: hashToken,
@@ -108,7 +109,7 @@ export class AuthService {
   }
 
   async resetPassword(dto: ResetPasswordDto) {
-    const user = await this.prismaService.user.findFirst({
+    const user = await this.prismaClient.user.findFirst({
       where: { reset_token: { not: null } },
     });
 
@@ -129,7 +130,7 @@ export class AuthService {
     const salt = await genSalt();
     const hashPassword = await hash(dto.password, salt);
 
-    await this.prismaService.user.update({
+    await this.prismaClient.user.update({
       where: { id: user.id },
       data: {
         password: hashPassword,

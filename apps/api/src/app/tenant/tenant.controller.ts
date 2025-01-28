@@ -9,11 +9,11 @@ import {
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 
-import { TenantService } from "./tenant.service";
+import { IsPublic } from "src/decorators/is-public.decorator";
+import { NoTenantGuard } from "src/decorators/no-tenant.decorator";
 import { CreateTenantDto } from "./dto/create-tenant.dto";
 import { UpdateTenantDto } from "./dto/update-tenant.dto";
-import { NoTenantGuard } from "src/decorators/no-tenant.decorator";
-import { IsPublic } from "src/decorators/is-public.decorator";
+import { TenantService } from "./tenant.service";
 
 @ApiTags("tenants")
 @Controller("tenants")

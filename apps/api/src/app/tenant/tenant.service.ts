@@ -1,30 +1,29 @@
 import {
   ConflictException,
+  Inject,
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
+import { Prisma, PrismaClient } from "@prisma/client";
 
 import { CreateTenantDto } from "./dto/create-tenant.dto";
 import { UpdateTenantDto } from "./dto/update-tenant.dto";
-import { PrismaService } from "src/services/prisma/prisma.service";
 
 @Injectable()
 export class TenantService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(@Inject("CONNECTION") private prismaClient: PrismaClient) {}
 
   async create(dto: CreateTenantDto) {
-    const existingTenant = await this.prismaService.tenant.findUnique({
-      where: { phone: dto.phone },
+    const existingTenant = await this.prismaClient.tenant.findUnique({
+      where: { domain: dto.domain },
     });
 
     if (existingTenant) {
       throw new ConflictException("Tenant already exists!");
     }
 
-    return await this.prismaService.$transaction(async (prisma) => {
-      await prisma.$executeRawUnsafe(
-        `CREATE SCHEMA IF NOT EXISTS "${dto.domain}"`,
-      );
+    return await this.prismaClient.$transaction(async (prisma) => {
+      await prisma.$executeRaw`CREATE SCHEMA IF NOT EXISTS "${Prisma.raw(dto.domain)}";`;
 
       const tables = await prisma.$queryRaw<{ table_name: string }[]>`
         SELECT table_name
@@ -33,14 +32,20 @@ export class TenantService {
       `;
 
       for (const table of tables) {
-        await prisma.$executeRawUnsafe(
-          `CREATE TABLE "${dto.domain}"."${table.table_name}" AS TABLE "public"."${table.table_name}" WITH NO DATA`,
-        );
+        await prisma.$executeRaw`
+          CREATE TABLE "${Prisma.raw(dto.domain)}"."${Prisma.raw(table.table_name)}" 
+          AS TABLE "public"."${Prisma.raw(table.table_name)}" WITH NO DATA;
+        `;
       }
 
       return await prisma.tenant.create({
         data: {
-          ...dto,
+          domain: dto.domain,
+          name: dto.name,
+          phone: dto.phone,
+          email: dto.email,
+          is_active: dto.is_active,
+          metadata: dto.metadata,
         },
       });
     });
@@ -49,7 +54,7 @@ export class TenantService {
   async update(id: string, dto: UpdateTenantDto) {
     await this.findById(id);
 
-    const tenant = await this.prismaService.tenant.update({
+    const tenant = await this.prismaClient.tenant.update({
       where: {
         id,
       },
@@ -64,11 +69,11 @@ export class TenantService {
   async delete(id: string) {
     await this.findById(id);
 
-    return await this.prismaService.tenant.delete({ where: { id } });
+    return await this.prismaClient.tenant.delete({ where: { id } });
   }
 
   async findById(domain: string) {
-    const tenant = await this.prismaService.tenant.findUnique({
+    const tenant = await this.prismaClient.tenant.findUnique({
       where: { domain },
     });
 
