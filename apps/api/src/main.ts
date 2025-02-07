@@ -2,6 +2,7 @@ import { ValidationPipe, VersioningType } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { ContextIdFactory, NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import { CommandFactory } from "nest-commander";
 import * as expressBasicAuth from "express-basic-auth";
 
 import { AppModule } from "./app/app.module";
@@ -50,6 +51,7 @@ async function bootstrap() {
   SwaggerModule.setup("api", app, document);
 
   const port = configService.get("PORT");
+  await CommandFactory.run(AppModule);
   await app.listen(port);
 }
 

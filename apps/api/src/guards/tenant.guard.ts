@@ -5,12 +5,15 @@ import {
   Inject,
   Injectable,
   NotFoundException,
+  Scope,
 } from "@nestjs/common";
 import { PrismaClient } from "@prisma/client";
 
-@Injectable()
+import { CONNECTION } from "src/utils/constant";
+
+@Injectable({ scope: Scope.REQUEST, durable: true })
 export class TenantGuard implements CanActivate {
-  constructor(@Inject("CONNECTION") private prismaClient: PrismaClient) {}
+  constructor(@Inject(CONNECTION) private prismaClient: PrismaClient) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();

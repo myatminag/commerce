@@ -7,13 +7,14 @@ import {
 } from "@nestjs/common";
 import { Prisma, PrismaClient } from "@prisma/client";
 
+import { CONNECTION } from "src/utils/constant";
 import { slugify } from "src/utils/slugify";
 import { CreateBrandDto } from "./dto/create-brand.dto";
 import { QueryParamsDto } from "./dto/query-params.dto";
 
 @Injectable({ scope: Scope.REQUEST, durable: true })
 export class BrandService {
-  constructor(@Inject("CONNECTION") private prismaClient: PrismaClient) {}
+  constructor(@Inject(CONNECTION) private prismaClient: PrismaClient) {}
 
   async create(dto: CreateBrandDto) {
     const slug = slugify(dto.name);
@@ -30,8 +31,11 @@ export class BrandService {
 
     return await this.prismaClient.brand.create({
       data: {
-        ...dto,
+        banner_image: dto.banner_image,
+        description: dto.description,
+        name: dto.name,
         slug,
+        thumbnail_image: dto.thumbnail_image,
       },
     });
   }

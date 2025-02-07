@@ -22,7 +22,8 @@
     "type-check": "turbo type-check",
     "clean": "turbo clean",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "prepare": "husky"
+    "prepare": "husky",
+    "remove": "rm -rf .turbo && rm -rf node_modules"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.6.1",

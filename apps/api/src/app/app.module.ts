@@ -16,16 +16,16 @@ import { UserModule } from "./user/user.module";
 
 @Module({
   imports: [
-    AuthModule,
-    AdminModule,
+    // AuthModule,
+    // AdminModule,
     BrandModule,
-    CategoryModule,
-    ProductModule,
-    PrismaModule,
+    // CategoryModule,
+    // ProductModule,
+    // PrismaModule,
     S3Module,
     RedisCacheModule,
     TenantModule,
-    UserModule,
+    // UserModule,
     ConfigModule.forRoot({
       cache: true,
       isGlobal: true,

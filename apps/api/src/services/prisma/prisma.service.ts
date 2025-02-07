@@ -5,7 +5,7 @@ import { PrismaClient } from "@prisma/client";
 export class PrismaService implements OnModuleDestroy {
   private clients: Map<string, PrismaClient> = new Map();
 
-  getClient(tenantId: string): PrismaClient {
+  async connect(tenantId: string): Promise<PrismaClient> {
     if (!this.clients.has(tenantId)) {
       const prismaClient = new PrismaClient({
         datasources: {
@@ -14,6 +14,7 @@ export class PrismaService implements OnModuleDestroy {
           },
         },
       });
+      await prismaClient.$connect();
       this.clients.set(tenantId, prismaClient);
     }
     return this.clients.get(tenantId);

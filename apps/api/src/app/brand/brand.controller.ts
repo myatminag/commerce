@@ -6,7 +6,6 @@ import {
   Param,
   Post,
   Query,
-  Scope,
   UseGuards,
 } from "@nestjs/common";
 import { ApiHeader, ApiTags } from "@nestjs/swagger";
@@ -19,10 +18,7 @@ import { QueryParamsDto } from "./dto/query-params.dto";
 @ApiTags("brands")
 @ApiHeader({ name: "tenant-id", required: true })
 @UseGuards(TenantGuard)
-@Controller({
-  path: "brands",
-  scope: Scope.REQUEST,
-})
+@Controller("brands")
 export class BrandController {
   constructor(private brandService: BrandService) {}
 
