@@ -8,11 +8,9 @@ import {
   Put,
   Query,
   Scope,
-  UseInterceptors,
 } from "@nestjs/common";
 import { ApiHeader, ApiTags } from "@nestjs/swagger";
 
-import { ExcludeNullValueInterceptor } from "src/interceptors/exclude-null.interceptor";
 import { QueryParamsDto } from "./dto/query-params.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 import { ProductService } from "./product.service";
@@ -32,13 +30,11 @@ export class ProductController {
   }
 
   @Get(":slug")
-  @UseInterceptors(ExcludeNullValueInterceptor)
   async productDetails(@Param("slug") slug: string) {
     return this.productService.productDetails(slug);
   }
 
   @Get()
-  @UseInterceptors(ExcludeNullValueInterceptor)
   async productLists(@Query() dto: QueryParamsDto) {
     return this.productService.productLists(dto);
   }

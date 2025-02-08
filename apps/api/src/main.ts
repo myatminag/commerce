@@ -6,6 +6,8 @@ import * as expressBasicAuth from "express-basic-auth";
 
 import { AppModule } from "./app/app.module";
 import { AppConfig } from "./config/type";
+import { ExcludeNullValueInterceptor } from "./interceptors/exclude-null.interceptor";
+import { TimeoutInterceptor } from "./interceptors/timeout.interceptor";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -27,6 +29,11 @@ async function bootstrap() {
       whitelist: true,
       forbidNonWhitelisted: true,
     }),
+  );
+
+  app.useGlobalInterceptors(
+    new ExcludeNullValueInterceptor(),
+    new TimeoutInterceptor(),
   );
 
   // swagger docs username and password

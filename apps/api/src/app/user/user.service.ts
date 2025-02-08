@@ -29,7 +29,7 @@ export class UserService {
     }
 
     return await this.prismaService.user.create({
-      data: { ...dto } as Prisma.UserCreateInput,
+      data: { ...dto },
       omit: { password: true },
     });
   }
@@ -97,7 +97,7 @@ export class UserService {
       searchQuery.push({
         OR: [
           {
-            username: {
+            name: {
               contains: search,
               mode: "insensitive",
             },

@@ -11,7 +11,7 @@ import {
   Query,
   Req,
 } from "@nestjs/common";
-import { ApiHeader, ApiTags } from "@nestjs/swagger";
+import { ApiTags } from "@nestjs/swagger";
 
 import { Roles } from "src/decorators/roles.decorator";
 import { RequestUserType } from "src/types/request-user.type";
@@ -23,7 +23,6 @@ import { UpdateUserDto } from "./dto/update-user.dto";
 import { UserService } from "./user.service";
 
 @ApiTags("users")
-@ApiHeader({ name: "tenant-id", required: true })
 @Controller("users")
 export class UserController {
   constructor(private userService: UserService) {}
