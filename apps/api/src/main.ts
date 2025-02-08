@@ -1,13 +1,11 @@
 import { ValidationPipe, VersioningType } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { ContextIdFactory, NestFactory } from "@nestjs/core";
+import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-import { CommandFactory } from "nest-commander";
 import * as expressBasicAuth from "express-basic-auth";
 
 import { AppModule } from "./app/app.module";
 import { AppConfig } from "./config/type";
-import { AggregateByTenantContextIdStrategy } from "./strategies/tenant-strategy";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -22,8 +20,6 @@ async function bootstrap() {
   });
 
   app.enableVersioning({ defaultVersion: "1", type: VersioningType.URI });
-
-  ContextIdFactory.apply(new AggregateByTenantContextIdStrategy());
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -51,7 +47,6 @@ async function bootstrap() {
   SwaggerModule.setup("api", app, document);
 
   const port = configService.get("PORT");
-  await CommandFactory.run(AppModule);
   await app.listen(port);
 }
 

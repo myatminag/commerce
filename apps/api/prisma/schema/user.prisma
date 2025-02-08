@@ -1,7 +1,7 @@
 model User {
   id           String         @id @default(cuid())
   avatar       String?
-  username     String         @db.VarChar(255)
+  name         String         @db.VarChar(255)
   phone        String         @unique @db.VarChar(15)
   password     String         @db.VarChar(255)
   email        String         @unique @db.VarChar(255)
@@ -17,6 +17,6 @@ model User {
   wishlist     Wishlist[]
   notification Notification[]
 
-  @@index([username])
+  @@index([name])
   @@map("user")
 }

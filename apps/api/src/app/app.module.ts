@@ -11,21 +11,19 @@ import { AdminModule } from "./admin/admin.module";
 import { BrandModule } from "./brand/brand.module";
 import { CategoryModule } from "./category/category.module";
 import { ProductModule } from "./product/product.module";
-import { TenantModule } from "./tenant/tenant.module";
 import { UserModule } from "./user/user.module";
 
 @Module({
   imports: [
-    // AuthModule,
-    // AdminModule,
+    AuthModule,
+    AdminModule,
     BrandModule,
-    // CategoryModule,
-    // ProductModule,
-    // PrismaModule,
+    CategoryModule,
+    ProductModule,
+    PrismaModule,
     S3Module,
     RedisCacheModule,
-    TenantModule,
-    // UserModule,
+    UserModule,
     ConfigModule.forRoot({
       cache: true,
       isGlobal: true,

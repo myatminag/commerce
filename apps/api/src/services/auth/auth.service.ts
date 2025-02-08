@@ -1,6 +1,5 @@
 import {
   BadRequestException,
-  Inject,
   Injectable,
   UnauthorizedException,
 } from "@nestjs/common";
@@ -10,11 +9,12 @@ import { compare, genSalt, hash } from "bcrypt";
 import { randomBytes } from "crypto";
 import * as ms from "ms";
 
-import { PrismaClient } from "@prisma/client/extension";
 import { AdminService } from "src/app/admin/admin.service";
 import { UserService } from "src/app/user/user.service";
 import { AppConfig } from "src/config/type";
 import { Role } from "src/types/roles.enum";
+
+import { PrismaService } from "../prisma/prisma.service";
 import { AdminLoginDto } from "./dto/admin-login.dto";
 import { AdminRegisterDto } from "./dto/admin-register.dto";
 import { ForgotPasswordDto } from "./dto/forgot-password.dto";
@@ -29,7 +29,7 @@ export class AuthService {
     private userService: UserService,
     private adminService: AdminService,
     private configService: ConfigService<AppConfig>,
-    @Inject("CONNECTION") private prismaClient: PrismaClient,
+    private prismaService: PrismaService,
   ) {}
 
   async register(dto: UserRegisterDto) {
@@ -96,7 +96,7 @@ export class AuthService {
     const hashToken = await hash(token, salt);
     const expiredAt = new Date(Date.now() + ms("1h"));
 
-    await this.prismaClient.user.update({
+    await this.prismaService.user.update({
       where: { id: user.id },
       data: {
         reset_token: hashToken,
@@ -109,7 +109,7 @@ export class AuthService {
   }
 
   async resetPassword(dto: ResetPasswordDto) {
-    const user = await this.prismaClient.user.findFirst({
+    const user = await this.prismaService.user.findFirst({
       where: { reset_token: { not: null } },
     });
 
@@ -130,7 +130,7 @@ export class AuthService {
     const salt = await genSalt();
     const hashPassword = await hash(dto.password, salt);
 
-    await this.prismaClient.user.update({
+    await this.prismaService.user.update({
       where: { id: user.id },
       data: {
         password: hashPassword,

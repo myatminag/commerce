@@ -1,12 +1,13 @@
 import {
   ConflictException,
-  Inject,
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
+import { PrismaService } from "src/services/prisma/prisma.service";
 import { slugify } from "src/utils/slugify";
+
 import { CreateMainCategoryDto } from "./dto/create-category.dto";
 import { CreateSubCategoryDto } from "./dto/create-subcategory.dto";
 import { DeleteCategoriesDto } from "./dto/delete-categories.dto";
@@ -16,12 +17,12 @@ import { UpdateSubCategoryDto } from "./dto/update-subcategory.dto";
 
 @Injectable()
 export class CategoryService {
-  constructor(@Inject("CONNECTION") private prismaClient: PrismaClient) {}
+  constructor(private prismaService: PrismaService) {}
 
   async createMainCategory(dto: CreateMainCategoryDto) {
     const slug = slugify(dto.name);
 
-    const category = await this.prismaClient.category.findFirst({
+    const category = await this.prismaService.category.findFirst({
       where: {
         slug,
       },
@@ -31,7 +32,7 @@ export class CategoryService {
       throw new ConflictException("This category already exists!");
     }
 
-    return await this.prismaClient.category.create({
+    return await this.prismaService.category.create({
       data: {
         ...dto,
         slug,
@@ -46,11 +47,11 @@ export class CategoryService {
     const slugs = dto.names.map(slugify);
 
     const [mainCategory, existingSlugs] = await Promise.all([
-      this.prismaClient.category.findUnique({
+      this.prismaService.category.findUnique({
         where: { id: dto.parent_id },
         select: { id: true },
       }),
-      this.prismaClient.category.findMany({
+      this.prismaService.category.findMany({
         where: { slug: { in: slugs } },
         select: { name: true },
       }),
@@ -74,7 +75,7 @@ export class CategoryService {
       parent_id: dto.parent_id,
     })) as Prisma.CategoryCreateManyInput[];
 
-    return await this.prismaClient.category.createMany({
+    return await this.prismaService.category.createMany({
       data: subCategories,
       skipDuplicates: true,
     });
@@ -96,11 +97,11 @@ export class CategoryService {
       });
     }
 
-    const [count, categories] = await this.prismaClient.$transaction([
-      this.prismaClient.category.count({
+    const [count, categories] = await this.prismaService.$transaction([
+      this.prismaService.category.count({
         where: { parent_id: null },
       }),
-      this.prismaClient.category.findMany({
+      this.prismaService.category.findMany({
         take: limit,
         skip: (offset - 1) * limit,
         where: {
@@ -144,7 +145,7 @@ export class CategoryService {
   }
 
   async getDetailsBySlug(slug: string) {
-    const category = await this.prismaClient.category.findFirst({
+    const category = await this.prismaService.category.findFirst({
       where: { slug },
       omit: {
         parent_id: true,
@@ -180,7 +181,7 @@ export class CategoryService {
   }
 
   async updateMainCategory(slug: string, dto: UpdateMainCategoryDto) {
-    const category = await this.prismaClient.category.findFirst({
+    const category = await this.prismaService.category.findFirst({
       where: { slug },
       select: { id: true },
     });
@@ -189,7 +190,7 @@ export class CategoryService {
       throw new NotFoundException("Category not found!");
     }
 
-    return await this.prismaClient.category.update({
+    return await this.prismaService.category.update({
       where: { id: category.id },
       data: {
         ...dto,
@@ -203,11 +204,11 @@ export class CategoryService {
 
   async updateSubCategory(slug: string, dto: UpdateSubCategoryDto) {
     const [subCategory, mainCategory] = await Promise.all([
-      this.prismaClient.category.findFirst({
+      this.prismaService.category.findFirst({
         where: { slug },
         select: { id: true },
       }),
-      this.prismaClient.category.findUnique({
+      this.prismaService.category.findUnique({
         where: { id: dto.parent_id },
         select: { id: true },
       }),
@@ -221,7 +222,7 @@ export class CategoryService {
       throw new NotFoundException("Main category not found!");
     }
 
-    return await this.prismaClient.category.update({
+    return await this.prismaService.category.update({
       where: { id: subCategory.id },
       data: {
         ...dto,
@@ -238,7 +239,7 @@ export class CategoryService {
   }
 
   async deleteCategory(slug: string) {
-    const category = await this.prismaClient.category.findFirst({
+    const category = await this.prismaService.category.findFirst({
       where: { slug },
       select: { id: true },
     });
@@ -247,7 +248,7 @@ export class CategoryService {
       throw new NotFoundException("Category is not found!");
     }
 
-    await this.prismaClient.category.delete({
+    await this.prismaService.category.delete({
       where: { id: category.id },
     });
 
@@ -257,7 +258,7 @@ export class CategoryService {
   }
 
   async deleteMainCategories(dto: DeleteCategoriesDto) {
-    const categories = await this.prismaClient.category.deleteMany({
+    const categories = await this.prismaService.category.deleteMany({
       where: {
         slug: { in: dto.slugs },
         parent_id: null,

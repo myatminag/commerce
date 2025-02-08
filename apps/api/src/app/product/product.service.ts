@@ -1,29 +1,29 @@
 import {
   ConflictException,
-  Inject,
   Injectable,
   NotFoundException,
-  Scope,
 } from "@nestjs/common";
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
+import { PrismaService } from "src/services/prisma/prisma.service";
 import { slugify } from "src/utils/slugify";
+
 import { CreateProductDto, ProductVariantDto } from "./dto/create-product.dto";
 import { QueryParamsDto } from "./dto/query-params.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 
-@Injectable({ scope: Scope.REQUEST, durable: true })
+@Injectable()
 export class ProductService {
-  constructor(@Inject("CONNECTION") private prismaClient: PrismaClient) {}
+  constructor(private prismaService: PrismaService) {}
 
   async createProduct(dto: any) {
     const [isProductExit, isProductVariantExit] = await Promise.all([
-      this.prismaClient.product.findUnique({
+      this.prismaService.product.findUnique({
         where: {
           sku: dto.sku,
         },
       }),
-      this.prismaClient.productVariant.findMany({
+      this.prismaService.productVariant.findMany({
         where: {
           sku: {
             in: dto.product_variant.map((variant) => variant.sku),
@@ -40,7 +40,7 @@ export class ProductService {
       throw new ConflictException("Variants sku already exists!");
     }
 
-    return await this.prismaClient.product.create({
+    return await this.prismaService.product.create({
       data: {
         name: dto.name,
         slug: slugify(dto.name),
@@ -82,9 +82,9 @@ export class ProductService {
       });
     }
 
-    const [count, products] = await this.prismaClient.$transaction([
-      this.prismaClient.product.count(),
-      this.prismaClient.product.findMany({
+    const [count, products] = await this.prismaService.$transaction([
+      this.prismaService.product.count(),
+      this.prismaService.product.findMany({
         take: limit,
         skip: (offset - 1) * limit,
         where: {
@@ -100,7 +100,7 @@ export class ProductService {
   }
 
   async productDetails(slug: string) {
-    const product = await this.prismaClient.product.findUnique({
+    const product = await this.prismaService.product.findUnique({
       where: {
         slug: slug,
       },
@@ -144,11 +144,11 @@ export class ProductService {
     const slug = slugify(dto.name);
 
     const [product, isSkuExist] = await Promise.all([
-      this.prismaClient.product.findUnique({
+      this.prismaService.product.findUnique({
         where: { id },
         select: { id: true },
       }),
-      this.prismaClient.product.findUnique({
+      this.prismaService.product.findUnique({
         where: { sku: dto.sku },
         select: { sku: true },
       }),
@@ -162,7 +162,7 @@ export class ProductService {
       throw new ConflictException("Sku already exits!");
     }
 
-    return await this.prismaClient.product.update({
+    return await this.prismaService.product.update({
       where: { id: product.id },
       data: {
         ...dto,
@@ -180,7 +180,7 @@ export class ProductService {
   }
 
   async deleteProduct(id: string) {
-    const product = await this.prismaClient.product.findUnique({
+    const product = await this.prismaService.product.findUnique({
       where: { id },
       select: { id: true },
     });
@@ -189,7 +189,7 @@ export class ProductService {
       throw new NotFoundException("Product is not found!");
     }
 
-    await this.prismaClient.product.delete({
+    await this.prismaService.product.delete({
       where: { id: product.id },
     });
 

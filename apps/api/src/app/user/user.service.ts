@@ -1,6 +1,5 @@
 import {
   ConflictException,
-  Inject,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -8,7 +7,8 @@ import {
 import { Prisma } from "@prisma/client";
 import { compare, genSalt, hash } from "bcrypt";
 
-import { PrismaClient } from "@prisma/client/extension";
+import { PrismaService } from "src/services/prisma/prisma.service";
+
 import { CreateUserDto } from "./dto/create-user.dto";
 import { DeleteUsersDto } from "./dto/delete-users.dto";
 import { QueryParamsDto } from "./dto/query-params.dto";
@@ -17,10 +17,10 @@ import { UpdateUserDto } from "./dto/update-user.dto";
 
 @Injectable()
 export class UserService {
-  constructor(@Inject("CONNECTION") private prismaClient: PrismaClient) {}
+  constructor(private prismaService: PrismaService) {}
 
   async create(dto: CreateUserDto) {
-    const user = await this.prismaClient.user.findUnique({
+    const user = await this.prismaService.user.findUnique({
       where: { email: dto.email },
     });
 
@@ -28,7 +28,7 @@ export class UserService {
       throw new ConflictException("User already exits!");
     }
 
-    return await this.prismaClient.user.create({
+    return await this.prismaService.user.create({
       data: { ...dto } as Prisma.UserCreateInput,
       omit: { password: true },
     });
@@ -37,7 +37,7 @@ export class UserService {
   async update(id: string, dto: UpdateUserDto) {
     const user = await this.findById(id);
 
-    return this.prismaClient.user.update({
+    return this.prismaService.user.update({
       where: { id: user.id },
       data: { ...dto },
       omit: { password: true },
@@ -56,7 +56,7 @@ export class UserService {
     const salt = await genSalt();
     const newPassword = await hash(dto.new_password, salt);
 
-    await this.prismaClient.user.update({
+    await this.prismaService.user.update({
       where: { id: user.id },
       data: { password: newPassword },
     });
@@ -67,7 +67,7 @@ export class UserService {
   }
 
   async findById(id: string) {
-    const user = await this.prismaClient.user.findUnique({
+    const user = await this.prismaService.user.findUnique({
       where: { id },
     });
 
@@ -79,7 +79,7 @@ export class UserService {
   }
 
   async findByEmail(email: string) {
-    const user = await this.prismaClient.user.findUnique({
+    const user = await this.prismaService.user.findUnique({
       where: { email },
     });
 
@@ -106,9 +106,9 @@ export class UserService {
       });
     }
 
-    const [count, users] = await this.prismaClient.$transaction([
-      this.prismaClient.user.count(),
-      this.prismaClient.user.findMany({
+    const [count, users] = await this.prismaService.$transaction([
+      this.prismaService.user.count(),
+      this.prismaService.user.findMany({
         take: limit,
         skip: (offset - 1) * limit,
         omit: { password: true },
@@ -128,7 +128,7 @@ export class UserService {
   async deleteUser(id: string) {
     const user = await this.findById(id);
 
-    await this.prismaClient.user.delete({
+    await this.prismaService.user.delete({
       where: { id: user.id },
     });
 
@@ -138,7 +138,7 @@ export class UserService {
   }
 
   async deleteUsers(dto: DeleteUsersDto) {
-    const existingUsers = await this.prismaClient.user.findMany({
+    const existingUsers = await this.prismaService.user.findMany({
       where: { id: { in: dto.ids } },
       select: { id: true },
     });
@@ -149,7 +149,7 @@ export class UserService {
       throw new NotFoundException("There is no matching user ids!");
     }
 
-    await this.prismaClient.user.deleteMany({
+    await this.prismaService.user.deleteMany({
       where: { id: { in: validIds } },
     });
 

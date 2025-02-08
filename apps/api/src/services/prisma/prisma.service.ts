@@ -1,28 +1,16 @@
-import { Injectable, OnModuleDestroy } from "@nestjs/common";
+import { Injectable, OnModuleDestroy, OnModuleInit } from "@nestjs/common";
 import { PrismaClient } from "@prisma/client";
 
 @Injectable()
-export class PrismaService implements OnModuleDestroy {
-  private clients: Map<string, PrismaClient> = new Map();
-
-  async connect(tenantId: string): Promise<PrismaClient> {
-    if (!this.clients.has(tenantId)) {
-      const prismaClient = new PrismaClient({
-        datasources: {
-          db: {
-            url: `${process.env.DATABASE_URL}?schema=${tenantId}`,
-          },
-        },
-      });
-      await prismaClient.$connect();
-      this.clients.set(tenantId, prismaClient);
-    }
-    return this.clients.get(tenantId);
+export class PrismaService
+  extends PrismaClient
+  implements OnModuleInit, OnModuleDestroy
+{
+  async onModuleInit() {
+    await this.$connect();
   }
 
   async onModuleDestroy() {
-    for (const client of this.clients.values()) {
-      await client.$disconnect();
-    }
+    await this.$disconnect();
   }
 }

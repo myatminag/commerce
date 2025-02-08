@@ -1,25 +1,18 @@
-import {
-  ConflictException,
-  Inject,
-  Injectable,
-  NotFoundException,
-  Scope,
-} from "@nestjs/common";
-import { Prisma, PrismaClient } from "@prisma/client";
+import { ConflictException, NotFoundException } from "@nestjs/common";
+import { Prisma } from "@prisma/client";
 
-import { CONNECTION } from "src/utils/constant";
+import { PrismaService } from "src/services/prisma/prisma.service";
 import { slugify } from "src/utils/slugify";
 import { CreateBrandDto } from "./dto/create-brand.dto";
 import { QueryParamsDto } from "./dto/query-params.dto";
 
-@Injectable({ scope: Scope.REQUEST, durable: true })
 export class BrandService {
-  constructor(@Inject(CONNECTION) private prismaClient: PrismaClient) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(dto: CreateBrandDto) {
     const slug = slugify(dto.name);
 
-    const isBrandExist = await this.prismaClient.brand.findFirst({
+    const isBrandExist = await this.prismaService.brand.findFirst({
       where: {
         slug,
       },
@@ -29,7 +22,7 @@ export class BrandService {
       throw new ConflictException("This brand already exists!");
     }
 
-    return await this.prismaClient.brand.create({
+    return await this.prismaService.brand.create({
       data: {
         banner_image: dto.banner_image,
         description: dto.description,
@@ -56,9 +49,9 @@ export class BrandService {
       });
     }
 
-    const [count, brands] = await this.prismaClient.$transaction([
-      this.prismaClient.brand.count(),
-      this.prismaClient.brand.findMany({
+    const [count, brands] = await this.prismaService.$transaction([
+      this.prismaService.brand.count(),
+      this.prismaService.brand.findMany({
         take: limit,
         skip: (offset - 1) * limit,
         where: {
@@ -74,7 +67,7 @@ export class BrandService {
   }
 
   async findBySlug(slug: string) {
-    const brand = await this.prismaClient.brand.findFirst({
+    const brand = await this.prismaService.brand.findFirst({
       where: { slug },
       include: {
         product: true,
@@ -91,7 +84,7 @@ export class BrandService {
   async delete(slug: string) {
     const isBrandExist = await this.findBySlug(slug);
 
-    await this.prismaClient.brand.delete({
+    await this.prismaService.brand.delete({
       where: { id: isBrandExist.id },
     });
 
