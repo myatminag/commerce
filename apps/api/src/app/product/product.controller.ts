@@ -7,24 +7,27 @@ import {
   Post,
   Put,
   Query,
+  Scope,
   UseInterceptors,
 } from "@nestjs/common";
 import { ApiHeader, ApiTags } from "@nestjs/swagger";
 
 import { ExcludeNullValueInterceptor } from "src/interceptors/exclude-null.interceptor";
-import { CreateProductDto } from "./dto/create-product.dto";
 import { QueryParamsDto } from "./dto/query-params.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 import { ProductService } from "./product.service";
 
 @ApiTags("products")
 @ApiHeader({ name: "tenant-id", required: true })
-@Controller("products")
+@Controller({
+  path: "products",
+  scope: Scope.REQUEST,
+})
 export class ProductController {
   constructor(private productService: ProductService) {}
 
   @Post()
-  async createProduct(@Body() dto: CreateProductDto) {
+  async createProduct(@Body() dto: any) {
     return this.productService.createProduct(dto);
   }
 

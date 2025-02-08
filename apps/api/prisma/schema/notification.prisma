@@ -10,10 +10,7 @@ model Notification {
   user           User               @relation(fields: [user_id], references: [id], onDelete: Cascade)
   admin_id       String
   admin          Admin              @relation(fields: [admin_id], references: [id], onDelete: Cascade)
-  tenant_id      String
-  tenant         Tenant             @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
 
-  @@index([tenant_id])
   @@map("notification")
 }
 

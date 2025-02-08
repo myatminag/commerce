@@ -1,7 +1,7 @@
 model Product {
   id                  String           @id @default(cuid())
   name                String           @db.VarChar(255)
-  slug                String           @db.VarChar(255)
+  slug                String           @unique @db.VarChar(255)
   sku                 String           @unique @db.VarChar(255)
   options             Json?
   description         String
@@ -31,11 +31,7 @@ model Product {
   cart                Cart?            @relation(fields: [cart_id], references: [id])
   wishlist            Wishlist[]
   order_item          OrderItems[]
-  tenant_id           String
-  tenant              Tenant           @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
 
-  @@unique([tenant_id, slug])
-  @@index([tenant_id])
   @@index([name])
   @@map("product")
 }
@@ -55,8 +51,6 @@ model ProductVariant {
   weight        Int      @default(0)
   created_at    DateTime @default(now())
   updated_at    DateTime @updatedAt
-  tenant_id     String
-  tenant        Tenant   @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
 
   @@index([product_id])
   @@map("product_variant")

@@ -6,6 +6,7 @@ import {
 import { Prisma } from "@prisma/client";
 
 import { PrismaService } from "src/services/prisma/prisma.service";
+
 import { CreateAdminDto } from "./dto/create-admin.dto";
 
 @Injectable()
@@ -13,7 +14,7 @@ export class AdminService {
   constructor(private prismaService: PrismaService) {}
 
   async create(dto: CreateAdminDto) {
-    const existingUser = await this.prismaService.extend.admin.findUnique({
+    const existingUser = await this.prismaService.admin.findUnique({
       where: { email: dto.email },
     });
 
@@ -21,14 +22,14 @@ export class AdminService {
       throw new ConflictException("Admin already exits!");
     }
 
-    return await this.prismaService.extend.admin.create({
+    return await this.prismaService.admin.create({
       data: { ...dto } as Prisma.AdminCreateInput,
       omit: { password: true },
     });
   }
 
   async findById(id: string) {
-    const admin = await this.prismaService.extend.admin.findUnique({
+    const admin = await this.prismaService.admin.findUnique({
       where: { id },
       omit: { password: true },
     });
@@ -41,7 +42,7 @@ export class AdminService {
   }
 
   async findByEmail(email: string) {
-    const admin = await this.prismaService.extend.admin.findUnique({
+    const admin = await this.prismaService.admin.findUnique({
       where: { email },
     });
 

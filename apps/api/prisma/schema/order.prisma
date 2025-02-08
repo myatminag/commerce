@@ -21,10 +21,7 @@ model Order {
   created_at      DateTime     @default(now())
   updated_at      DateTime     @updatedAt
   payment         Payment?
-  tenant_id       String
-  tenant          Tenant       @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
 
-  @@index([tenant_id])
   @@index([order_status])
   @@index([order_date])
   @@map("order")

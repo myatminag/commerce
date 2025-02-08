@@ -1,8 +1,6 @@
-version: "3.8"
-
 services:
   db:
-    container_name: atx-commerce-db
+    container_name: postgres-db
     image: postgres:16
     restart: always
     ports:
@@ -12,15 +10,30 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
     volumes:
-      - atx-ecommerce:/var/lib/postgresql/data
+      - ecommerce-db:/var/lib/postgresql/data
+
+  pgadmin:
+    container_name: pgadmin4
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - 5050:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+    volumes:
+      - ecommerce-pgadmin:/var/lib/pgadmin
 
   redis:
-    container_name: atx-commerce-cache
+    container_name: redis-cache
     image: redis
+    restart: always
     ports:
       - 6379:6379
     volumes:
-      - atx-ecommerce:/var/lib/redis/data
+      - ecommerce-redis:/var/lib/redis/data
 
 volumes:
-  atx-ecommerce:
+  ecommerce-db:
+  ecommerce-pgadmin:
+  ecommerce-redis:

@@ -13,12 +13,10 @@ model Cart {
   currency        Currency
   note            String?
   tenant_id       String
-  tenant          Tenant    @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
   created_at      DateTime  @default(now())
   updated_at      DateTime  @updatedAt
   product         Product[]
   order           Order?
 
-  @@index([tenant_id])
   @@map("cart")
 }
