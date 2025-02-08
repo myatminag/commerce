@@ -26,13 +26,13 @@
     "remove": "rm -rf .turbo && rm -rf node_modules"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.6.1",
-    "@commitlint/config-conventional": "^19.6.0",
     "@commerce/typescript-config": "workspace:*",
-    "lint-staged": "^15.3.0",
-    "prettier": "^3.4.1",
-    "prettier-plugin-tailwindcss": "^0.6.10",
-    "turbo": "^2.3.3"
+    "@commitlint/cli": "^19.7.1",
+    "@commitlint/config-conventional": "^19.7.1",
+    "lint-staged": "^15.4.3",
+    "prettier": "^3.4.2",
+    "prettier-plugin-tailwindcss": "^0.6.11",
+    "turbo": "^2.4.0"
   },
   "packageManager": "pnpm@9.1.2",
   "engines": {
