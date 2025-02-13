@@ -1,4 +1,8 @@
-import { ConflictException, NotFoundException } from "@nestjs/common";
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { Prisma } from "@prisma/client";
 
 import { PrismaService } from "src/services/prisma/prisma.service";
@@ -6,6 +10,7 @@ import { slugify } from "src/utils/slugify";
 import { CreateBrandDto } from "./dto/create-brand.dto";
 import { QueryParamsDto } from "./dto/query-params.dto";
 
+@Injectable()
 export class BrandService {
   constructor(private readonly prismaService: PrismaService) {}
 
@@ -50,7 +55,11 @@ export class BrandService {
     }
 
     const [count, brands] = await this.prismaService.$transaction([
-      this.prismaService.brand.count(),
+      this.prismaService.brand.count({
+        where: {
+          AND: searchQuery,
+        },
+      }),
       this.prismaService.brand.findMany({
         take: limit,
         skip: (offset - 1) * limit,

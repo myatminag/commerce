@@ -7,14 +7,13 @@ import {
   Post,
   Query,
 } from "@nestjs/common";
-import { ApiHeader, ApiTags } from "@nestjs/swagger";
+import { ApiTags } from "@nestjs/swagger";
 
 import { BrandService } from "./brand.service";
 import { CreateBrandDto } from "./dto/create-brand.dto";
 import { QueryParamsDto } from "./dto/query-params.dto";
 
 @ApiTags("brands")
-@ApiHeader({ name: "tenant-id", required: true })
 @Controller("brands")
 export class BrandController {
   constructor(private brandService: BrandService) {}
