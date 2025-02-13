@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsString, IsUUID } from "class-validator";
 
 export class CreateBrandDto {
   @IsString()
@@ -9,11 +9,9 @@ export class CreateBrandDto {
   @IsNotEmpty()
   description: string;
 
-  @IsString()
-  @IsNotEmpty()
+  @IsUUID()
   banner_image: string;
 
-  @IsString()
-  @IsNotEmpty()
+  @IsUUID()
   thumbnail_image: string;
 }

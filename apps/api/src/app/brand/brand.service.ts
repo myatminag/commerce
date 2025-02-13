@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
@@ -7,8 +8,9 @@ import { Prisma } from "@prisma/client";
 
 import { PrismaService } from "src/services/prisma/prisma.service";
 import { slugify } from "src/utils/slugify";
-import { CreateBrandDto } from "./dto/create-brand.dto";
-import { QueryParamsDto } from "./dto/query-params.dto";
+import { CreateBrandDto, QueryParamsDto, UpdateBrandDto } from "./dto";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { PrismaError } from "src/utils/constants";
 
 @Injectable()
 export class BrandService {
@@ -88,6 +90,23 @@ export class BrandService {
     }
 
     return brand;
+  }
+
+  async updateBySlug(slug: string, dto: UpdateBrandDto) {
+    try {
+      await this.prismaService.brand.update({
+        where: { slug },
+        data: dto,
+      });
+      return { status: "ok" };
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        if (error.code === PrismaError.RECORD_TO_UPDATE_NOT_FOUND) {
+          throw new BadRequestException(error.meta?.cause);
+        }
+      }
+      throw error;
+    }
   }
 
   async delete(slug: string) {

@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
 } from "@nestjs/common";
@@ -12,6 +13,7 @@ import { ApiTags } from "@nestjs/swagger";
 import { BrandService } from "./brand.service";
 import { CreateBrandDto } from "./dto/create-brand.dto";
 import { QueryParamsDto } from "./dto/query-params.dto";
+import { UpdateBrandDto } from "./dto/update-brand.dto";
 
 @ApiTags("brands")
 @Controller("brands")
@@ -31,6 +33,11 @@ export class BrandController {
   @Get(":slug")
   async findBySlug(@Param("slug") slug: string) {
     return this.brandService.findBySlug(slug);
+  }
+
+  @Patch(":slug")
+  async updateBySlug(@Param("slug") slug: string, @Body() dto: UpdateBrandDto) {
+    return this.brandService.updateBySlug(slug, dto);
   }
 
   @Delete(":slug")
