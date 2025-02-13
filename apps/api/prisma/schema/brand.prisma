@@ -1,7 +1,7 @@
 model Brand {
   id              String    @id @default(cuid())
   name            String    @db.VarChar(255)
-  slug            String    @db.VarChar(255)
+  slug            String    @unique @db.VarChar(255)
   banner_image    Json
   thumbnail_image Json
   description     String
