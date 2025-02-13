@@ -33,7 +33,7 @@ async function bootstrap() {
 
   app.useGlobalInterceptors(
     new ExcludeNullValueInterceptor(),
-    new TimeoutInterceptor(),
+    // new TimeoutInterceptor(),
   );
 
   // swagger docs username and password
