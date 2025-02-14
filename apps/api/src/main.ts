@@ -33,7 +33,7 @@ async function bootstrap() {
 
   app.useGlobalInterceptors(
     new ExcludeNullValueInterceptor(),
-    new TimeoutInterceptor(),
+    // new TimeoutInterceptor(),
   );
 
   // swagger docs username and password
@@ -51,7 +51,11 @@ async function bootstrap() {
     .build();
 
   const document = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup("api", app, document);
+  SwaggerModule.setup("api", app, document, {
+    swaggerOptions: {
+      persistAuthorization: true,
+    },
+  });
 
   const port = configService.get("PORT");
   await app.listen(port);

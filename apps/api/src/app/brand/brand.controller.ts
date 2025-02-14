@@ -4,17 +4,18 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
 } from "@nestjs/common";
-import { ApiHeader, ApiTags } from "@nestjs/swagger";
+import { ApiTags } from "@nestjs/swagger";
 
 import { BrandService } from "./brand.service";
 import { CreateBrandDto } from "./dto/create-brand.dto";
 import { QueryParamsDto } from "./dto/query-params.dto";
+import { UpdateBrandDto } from "./dto/update-brand.dto";
 
 @ApiTags("brands")
-@ApiHeader({ name: "tenant-id", required: true })
 @Controller("brands")
 export class BrandController {
   constructor(private brandService: BrandService) {}
@@ -32,6 +33,11 @@ export class BrandController {
   @Get(":slug")
   async findBySlug(@Param("slug") slug: string) {
     return this.brandService.findBySlug(slug);
+  }
+
+  @Patch(":slug")
+  async updateBySlug(@Param("slug") slug: string, @Body() dto: UpdateBrandDto) {
+    return this.brandService.updateBySlug(slug, dto);
   }
 
   @Delete(":slug")

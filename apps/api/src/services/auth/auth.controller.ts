@@ -7,7 +7,7 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiHeader, ApiTags } from "@nestjs/swagger";
+import { ApiTags } from "@nestjs/swagger";
 
 import { IsPublic } from "src/decorators/is-public.decorator";
 import { RolesGuard } from "src/guards/roles.guard";
@@ -20,7 +20,6 @@ import { UserLoginDto } from "./dto/user-login.dto";
 import { UserRegisterDto } from "./dto/user-register.dto";
 
 @ApiTags("auth")
-@ApiHeader({ name: "tenant-id", required: true })
 @UseGuards(RolesGuard)
 @Controller("auth")
 export class AuthController {
