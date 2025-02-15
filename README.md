@@ -3,15 +3,15 @@ It aims to cater to businesses of all sizes by providing an efficient, customiza
 ## Tech Stacks
 
 - [Next.js](https://nextjs.org/)
-- [Nest.js] (https://docs.nestjs.com/)
-- [Prisma] (https://www.prisma.io/)
+- [Nest.js](https://docs.nestjs.com/)
+- [Prisma](https://www.prisma.io/)
 - [Turborepo](https://turbo.build/repo/docs)
 - [TailwindCss](https://tailwindcss.com/)
 - [Shadcn UI](https://ui.shadcn.com/)
 - [TanStack Query](https://tanstack.com/query/latest)
 - [TanStack Table](https://tanstack.com/table/latest)
 - [React Hook Form](https://react-hook-form.com/)
-- [Zustand] (https://zustand.docs.pmnd.rs/getting-started/introduction)
+- [Zustand](https://zustand.docs.pmnd.rs/getting-started/introduction)
 
 ## Getting Start
 
