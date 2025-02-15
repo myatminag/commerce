@@ -11,6 +11,9 @@ updates:
       interval: "weekly"
     versioning-strategy: "increase"
     target-branch: develop
+    ignore:
+      - dependency-name: "tailwindcss"
+        versions: ["*"]
     groups:
       root-dependencies:
         patterns:
