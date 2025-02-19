@@ -49,7 +49,7 @@ export class ProductVariantDto {
 
   @IsString()
   @IsNotEmpty()
-  feature_image: string;
+  featureImage: string;
 
   @IsString()
   @IsNotEmpty()
@@ -70,7 +70,7 @@ export class ProductVariantDto {
 
   @IsBoolean()
   @IsNotEmpty()
-  is_available: boolean;
+  isAvailable: boolean;
 
   @IsNumber()
   @IsNotEmpty()

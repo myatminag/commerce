@@ -21,13 +21,11 @@ export class RefreshTokenStrategy extends PassportStrategy(
   constructor(configService: ConfigService<AppConfig>) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: configService.get("REFRESH_TOKEN_KEY"),
+      secretOrKey: configService.get("ACCESS_TOKEN_KEY"),
     });
   }
 
   async validate(payload: Payload) {
-    console.log("refreshPayload", payload);
-
     return payload;
   }
 }

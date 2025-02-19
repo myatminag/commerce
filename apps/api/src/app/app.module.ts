@@ -27,7 +27,6 @@ import { UserModule } from "./user/user.module";
     ConfigModule.forRoot({
       cache: true,
       isGlobal: true,
-      load: [configuration],
     }),
   ],
 })

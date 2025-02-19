@@ -7,5 +7,5 @@ export class UpdateSubCategoryDto {
 
   @IsString()
   @IsNotEmpty()
-  parent_id: string;
+  parentId: string;
 }

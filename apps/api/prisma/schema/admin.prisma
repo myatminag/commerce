@@ -1,11 +1,11 @@
 model Admin {
   id           String         @id @default(cuid())
-  username     String         @db.VarChar(255)
+  name         String         @db.VarChar(255)
   email        String         @unique @db.VarChar(255)
   phone        String         @unique @db.VarChar(15)
   password     String         @db.VarChar(255)
-  created_at   DateTime       @default(now())
-  updated_at   DateTime       @updatedAt
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
   notification Notification[]
 
   @@map("admin")

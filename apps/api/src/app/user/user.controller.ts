@@ -14,7 +14,7 @@ import {
 import { ApiTags } from "@nestjs/swagger";
 
 import { Roles } from "src/decorators/roles.decorator";
-import { RequestUserType } from "src/types/request-user.type";
+import { ActiveUserType, ActiveAdminType } from "src/types/user.type";
 import { Role } from "src/types/roles.enum";
 import { DeleteUsersDto } from "./dto/delete-users.dto";
 import { QueryParamsDto } from "./dto/query-params.dto";
@@ -40,17 +40,17 @@ export class UserController {
   }
 
   @Put("/info")
-  async updateProfile(@Req() req: RequestUserType, @Body() dto: UpdateUserDto) {
-    return this.userService.update(req.user.id, dto);
+  async updateProfile(@Req() req: ActiveUserType, @Body() dto: UpdateUserDto) {
+    return this.userService.update(req.id, dto);
   }
 
   @Patch("/password")
   @HttpCode(HttpStatus.NO_CONTENT)
   async updatePassword(
-    @Req() req: RequestUserType,
+    @Req() req: ActiveUserType,
     @Body() dto: UpdatePasswordDto,
   ) {
-    return this.userService.updatePassword(req.user.id, dto);
+    return this.userService.updatePassword(req.id, dto);
   }
 
   @Delete(":id")

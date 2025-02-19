@@ -23,7 +23,7 @@ export class AdminService {
     }
 
     return await this.prismaService.admin.create({
-      data: { ...dto } as Prisma.AdminCreateInput,
+      data: { ...dto },
       omit: { password: true },
     });
   }

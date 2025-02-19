@@ -1,15 +1,15 @@
 model Notification {
-  id             String             @id @default(cuid())
-  message        String
-  type           NotificationType
-  status         NotificationStatus @default(UNREAD)
-  recipient_type RecipientType
-  created_at     DateTime           @default(now())
-  updated_at     DateTime           @updatedAt
-  user_id        String
-  user           User               @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  admin_id       String
-  admin          Admin              @relation(fields: [admin_id], references: [id], onDelete: Cascade)
+  id            String             @id @default(cuid())
+  message       String
+  type          NotificationType
+  status        NotificationStatus @default(UNREAD)
+  recipientType RecipientType
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+  userId        String
+  user          User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  adminId       String
+  admin         Admin              @relation(fields: [adminId], references: [id], onDelete: Cascade)
 
   @@map("notification")
 }

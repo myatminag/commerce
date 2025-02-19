@@ -10,14 +10,14 @@ import { AuthGuard } from "@nestjs/passport";
 import { ApiTags } from "@nestjs/swagger";
 
 import { IsPublic } from "src/decorators/is-public.decorator";
-import { RolesGuard } from "src/guards/roles.guard";
+import { RolesGuard } from "src/services/auth/guards/roles.guard";
 import { AuthService } from "./auth.service";
 import { AdminLoginDto } from "./dto/admin-login.dto";
 import { AdminRegisterDto } from "./dto/admin-register.dto";
 import { ForgotPasswordDto } from "./dto/forgot-password.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 import { UserLoginDto } from "./dto/user-login.dto";
-import { UserRegisterDto } from "./dto/user-register.dto";
+import { UserSignUpDto } from "./dto/user-signup.dto";
 
 @ApiTags("auth")
 @UseGuards(RolesGuard)
@@ -26,16 +26,15 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @IsPublic()
-  @Post("/register")
-  async register(@Body() dto: UserRegisterDto) {
-    return this.authService.register(dto);
+  @Post("/sign-up")
+  async signUp(@Body() dto: UserSignUpDto) {
+    return this.authService.signUp(dto);
   }
 
   @IsPublic()
-  @Post("/login")
-  @UseGuards(AuthGuard("user-jwt"))
-  async login(@Body() dto: UserLoginDto) {
-    return this.authService.login(dto);
+  @Post("/sign-in")
+  async signIn(@Body() dto: UserLoginDto) {
+    return this.authService.signIn(dto);
   }
 
   @IsPublic()
@@ -64,13 +63,13 @@ export class AuthController {
   }
 
   @IsPublic()
-  @Post("/register/admin")
+  @Post("/sign-up/admin")
   async adminRegister(@Body() dto: AdminRegisterDto) {
     return this.authService.adminRegister(dto);
   }
 
   @IsPublic()
-  @Post("/login/admin")
+  @Post("/sign-in/admin")
   @UseGuards(AuthGuard("admin-jwt"))
   async adminLogin(@Body() dto: AdminLoginDto) {
     return this.authService.adminLogin(dto);

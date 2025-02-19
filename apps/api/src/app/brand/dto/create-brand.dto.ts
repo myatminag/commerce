@@ -10,8 +10,8 @@ export class CreateBrandDto {
   description: string;
 
   @IsUUID()
-  banner_image: string;
+  bannerImage: string;
 
   @IsUUID()
-  thumbnail_image: string;
+  thumbnailImage: string;
 }

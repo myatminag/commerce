@@ -1,22 +1,21 @@
 model Cart {
-  id              String    @id @default(cuid())
-  user_id         String    @unique
-  user            User      @relation(fields: [user_id], references: [id])
-  quantity        Int       @default(1)
-  delivery_fee    Int
-  tax             Int
-  item_count      Int
-  sub_total_price Int
-  total_discount  Int
-  total_price     Int
-  total_weight    Int
-  currency        Currency
-  note            String?
-  tenant_id       String
-  created_at      DateTime  @default(now())
-  updated_at      DateTime  @updatedAt
-  product         Product[]
-  order           Order?
+  id            String    @id @default(cuid())
+  userId        String    @unique
+  user          User      @relation(fields: [userId], references: [id])
+  quantity      Int       @default(1)
+  deliveryFee   Int
+  tax           Int
+  itemCount     Int
+  subTotalPrice Int
+  totalDiscount Int
+  totalPrice    Int
+  totalWeight   Int
+  currency      Currency
+  note          String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  product       Product[]
+  order         Order?
 
   @@map("cart")
 }

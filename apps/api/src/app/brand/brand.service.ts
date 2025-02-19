@@ -31,11 +31,8 @@ export class BrandService {
 
     return await this.prismaService.brand.create({
       data: {
-        name: dto.name,
         slug,
-        description: dto.description,
-        banner_image: dto.banner_image,
-        thumbnail_image: dto.thumbnail_image,
+        ...dto,
       },
     });
   }
