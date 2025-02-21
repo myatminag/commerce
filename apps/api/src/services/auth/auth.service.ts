@@ -6,32 +6,28 @@ import {
 } from "@nestjs/common";
 import { ConfigType } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
-import { compare, genSalt, hash } from "bcrypt";
-import { randomBytes } from "crypto";
-import * as ms from "ms";
 import { Admin, User } from "@prisma/client";
+import { randomBytes } from "crypto";
 
-import { AdminService } from "src/app/admin/admin.service";
 import { UserService } from "src/app/user/user.service";
-import jwtConfig from "src/config/jwt.config";
-import { ActiveAdminType, ActiveUserType } from "src/types/user.type";
+import authConfig from "src/config/auth.config";
+import { UserType } from "src/types/user.type";
 import { PrismaService } from "../prisma/prisma.service";
-import { AdminLoginDto } from "./dto/admin-login.dto";
-import { AdminRegisterDto } from "./dto/admin-register.dto";
 import { ForgotPasswordDto } from "./dto/forgot-password.dto";
+import { RefreshTokenDto } from "./dto/refresh-token.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 import { UserLoginDto } from "./dto/user-login.dto";
 import { UserSignUpDto } from "./dto/user-signup.dto";
 import { HashingService } from "./hashing/hashing.service";
+import { ActiveUserData } from "./interfaces/active-user.interface";
 
 @Injectable()
 export class AuthService {
   constructor(
-    @Inject(jwtConfig.KEY)
-    private jwtConfiguration: ConfigType<typeof jwtConfig>,
+    @Inject(authConfig.KEY)
+    private authConfiguration: ConfigType<typeof authConfig>,
     private jwtService: JwtService,
     private userService: UserService,
-    private adminService: AdminService,
     private prismaService: PrismaService,
     private hashingService: HashingService,
   ) {}
@@ -44,7 +40,7 @@ export class AuthService {
       password: hashPassword,
     });
 
-    return await this.generateToken(user);
+    return await this.generateToken(user, "user");
   }
 
   async signIn(dto: UserLoginDto) {
@@ -54,35 +50,18 @@ export class AuthService {
       dto.password,
     );
 
-    return await this.generateToken(user);
+    return await this.generateToken(user, "user");
   }
-
-  async adminRegister(dto: AdminRegisterDto) {
-    const salt = await genSalt();
-    const hashPassword = await hash(dto.password, salt);
-
-    const admin = await this.adminService.create({
-      ...dto,
-      password: hashPassword,
-    });
-
-    const token = await this.generateToken(admin);
-
-    return {
-      admin,
-      token,
-    };
-  }
-
-  async adminLogin(dto: AdminLoginDto) {}
 
   async forgotPassword(dto: ForgotPasswordDto) {
     const user = await this.userService.findByEmail(dto.email);
 
     const token = randomBytes(32).toString("hex");
-    const salt = await genSalt();
-    const hashToken = await hash(token, salt);
-    const expiredAt = new Date(Date.now() + ms("1h"));
+    const hashToken = await this.hashingService.hash(token);
+
+    const expiredAt = new Date(
+      Date.now() + this.authConfiguration.resetTokenTtl,
+    ).toISOString();
 
     await this.prismaService.user.update({
       where: { id: user.id },
@@ -93,49 +72,65 @@ export class AuthService {
       omit: { password: true },
     });
 
-    return { token };
+    return { token, id: user.id };
   }
 
   async resetPassword(dto: ResetPasswordDto) {
-    const user = await this.prismaService.user.findFirst({
-      where: { token: { not: null } },
+    const user = await this.prismaService.user.findUnique({
+      where: { id: dto.id },
     });
 
     if (!user) {
-      throw new UnauthorizedException("Invalid or expired reset token!");
+      throw new UnauthorizedException("User not found!");
+    }
+
+    const isValid = await this.hashingService.compare(dto.token, user.token);
+
+    if (!isValid) {
+      throw new UnauthorizedException("Invalid token!");
     }
 
     if (user.tokenExpiry && user.tokenExpiry < new Date()) {
-      throw new BadRequestException("Reset token has expired!");
+      throw new BadRequestException("Token has expired!");
     }
 
-    const isValid = await compare(dto.token, user.token);
+    const hashedPassword = await this.hashingService.hash(dto.password);
 
-    if (!isValid) {
-      throw new UnauthorizedException("Invalid reset token!");
-    }
+    await this.prismaService.$transaction([
+      this.prismaService.user.update({
+        where: { id: user.id },
+        data: {
+          password: hashedPassword,
+        },
+      }),
+      this.prismaService.user.update({
+        where: { id: user.id },
+        data: {
+          token: null,
+          tokenExpiry: null,
+        },
+      }),
+    ]);
 
-    const salt = await genSalt();
-    const hashPassword = await hash(dto.password, salt);
-
-    await this.prismaService.user.update({
-      where: { id: user.id },
-      data: {
-        password: hashPassword,
-      },
-    });
-
-    return { message: "Password successfully reset!" };
+    return { message: "Password successfully updated!" };
   }
 
-  async refreshToken(token: string) {
-    const payload = await this.jwtService.verifyAsync(token, {
-      secret: this.jwtConfiguration.secret,
-    });
+  async refreshToken(dto: RefreshTokenDto) {
+    try {
+      const { sub } = await this.jwtService.verifyAsync<
+        Pick<ActiveUserData, "sub">
+      >(dto.refreshToken, {
+        secret: this.authConfiguration.secret,
+      });
 
-    // const { id, email, role } = payload;
+      const user = await this.prismaService.user.findUnique({
+        where: { id: sub },
+      });
 
-    // return await this.generateToken();
+      return await this.generateToken(user, "user");
+    } catch {
+      throw new UnauthorizedException("Access denied!");
+    }
   }
 
   async validateCredentials(
@@ -173,18 +168,18 @@ export class AuthService {
     return userOrAdmin;
   }
 
-  async generateToken(user: ActiveUserType | ActiveAdminType) {
+  async generateToken(user: User | Admin, type: UserType) {
     const [accessToken, refreskToken] = await Promise.all([
-      this.signToken<Partial<ActiveUserType & ActiveAdminType>>(
+      this.signToken<Partial<ActiveUserData>>(
         user.id,
-        this.jwtConfiguration.accessTokenTtl,
+        this.authConfiguration.accessTokenTtl,
         {
           name: user.name,
-          phone: user.phone,
           email: user.email,
+          type,
         },
       ),
-      this.signToken(user.id, this.jwtConfiguration.refreshTokenTtl),
+      this.signToken(user.id, this.authConfiguration.refreshTokenTtl),
     ]);
 
     return {
@@ -193,7 +188,7 @@ export class AuthService {
     };
   }
 
-  private signToken<T>(userId: string, expiresIn: string, payload?: T) {
+  private signToken<T>(userId: string, expiresIn: number, payload?: T) {
     return this.jwtService.signAsync(
       {
         sub: userId,
@@ -201,7 +196,7 @@ export class AuthService {
       },
       {
         algorithm: "HS512",
-        secret: this.jwtConfiguration.secret,
+        secret: this.authConfiguration.secret,
         expiresIn,
       },
     );

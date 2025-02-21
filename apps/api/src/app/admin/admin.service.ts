@@ -24,7 +24,6 @@ export class AdminService {
 
     return await this.prismaService.admin.create({
       data: { ...dto },
-      omit: { password: true },
     });
   }
 

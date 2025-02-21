@@ -14,7 +14,6 @@ import {
 import { ApiTags } from "@nestjs/swagger";
 
 import { Roles } from "src/decorators/roles.decorator";
-import { ActiveUserType, ActiveAdminType } from "src/types/user.type";
 import { Role } from "src/types/roles.enum";
 import { DeleteUsersDto } from "./dto/delete-users.dto";
 import { QueryParamsDto } from "./dto/query-params.dto";
@@ -39,17 +38,16 @@ export class UserController {
     return this.userService.findById(id);
   }
 
+  //!Fix: Req user type
   @Put("/info")
-  async updateProfile(@Req() req: ActiveUserType, @Body() dto: UpdateUserDto) {
+  async updateProfile(@Req() req: any, @Body() dto: UpdateUserDto) {
     return this.userService.update(req.id, dto);
   }
 
+  //!Fix: Req user type
   @Patch("/password")
   @HttpCode(HttpStatus.NO_CONTENT)
-  async updatePassword(
-    @Req() req: ActiveUserType,
-    @Body() dto: UpdatePasswordDto,
-  ) {
+  async updatePassword(@Req() req: any, @Body() dto: UpdatePasswordDto) {
     return this.userService.updatePassword(req.id, dto);
   }
 

@@ -30,7 +30,6 @@ export class UserService {
 
     return await this.prismaService.user.create({
       data: { ...dto },
-      omit: { password: true },
     });
   }
 
