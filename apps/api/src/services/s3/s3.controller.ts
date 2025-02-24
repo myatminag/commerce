@@ -13,7 +13,7 @@ import {
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiConsumes, ApiTags } from "@nestjs/swagger";
 
-import { ApiFile } from "src/decorators/api-file.decorator";
+import { ApiFile } from "src/services/s3/decorators/api-file.decorator";
 import { S3Service } from "./s3.service";
 
 export const MAX_FILE_SIZE = 1024 * 1024 * 10; // 10 MB

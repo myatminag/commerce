@@ -6,7 +6,7 @@ import {
 import { Prisma } from "@prisma/client";
 
 import { PrismaService } from "src/services/prisma/prisma.service";
-import { slugify } from "src/utils/slugify";
+import { slugify } from "src/lib/utils";
 
 import { CreateProductDto, ProductVariantDto } from "./dto/create-product.dto";
 import { QueryParamsDto } from "./dto/query-params.dto";

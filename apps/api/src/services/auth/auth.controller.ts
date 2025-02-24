@@ -8,7 +8,7 @@ import {
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 
-import { IsPublic } from "src/decorators/is-public.decorator";
+import { IsPublic } from "src/services/auth/decorators/is-public.decorator";
 import { AuthService } from "./auth.service";
 import { ForgotPasswordDto } from "./dto/forgot-password.dto";
 import { RefreshTokenDto } from "./dto/refresh-token.dto";

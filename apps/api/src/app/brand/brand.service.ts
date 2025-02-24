@@ -5,12 +5,12 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import { Prisma } from "@prisma/client";
-
-import { PrismaService } from "src/services/prisma/prisma.service";
-import { slugify } from "src/utils/slugify";
-import { CreateBrandDto, QueryParamsDto, UpdateBrandDto } from "./dto";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { PrismaError } from "src/utils/constants";
+
+import { PrismaError } from "src/lib/enum";
+import { slugify } from "src/lib/utils";
+import { PrismaService } from "src/services/prisma/prisma.service";
+import { CreateBrandDto, QueryParamsDto, UpdateBrandDto } from "./dto";
 
 @Injectable()
 export class BrandService {

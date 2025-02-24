@@ -11,7 +11,7 @@ import { randomBytes } from "crypto";
 
 import { UserService } from "src/app/user/user.service";
 import authConfig from "src/config/auth.config";
-import { UserType } from "src/types/user.type";
+import { UserType } from "src/lib/types";
 import { PrismaService } from "../prisma/prisma.service";
 import { ForgotPasswordDto } from "./dto/forgot-password.dto";
 import { RefreshTokenDto } from "./dto/refresh-token.dto";

@@ -6,7 +6,7 @@ import {
 import { Prisma } from "@prisma/client";
 
 import { PrismaService } from "src/services/prisma/prisma.service";
-import { slugify } from "src/utils/slugify";
+import { slugify } from "src/lib/utils";
 
 import { CreateMainCategoryDto } from "./dto/create-category.dto";
 import { CreateSubCategoryDto } from "./dto/create-subcategory.dto";

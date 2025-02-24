@@ -14,7 +14,7 @@ import {
 import { ApiTags } from "@nestjs/swagger";
 
 import { Roles } from "src/decorators/roles.decorator";
-import { Role } from "src/types/roles.enum";
+import { Role } from "src/lib/enum";
 import { DeleteUsersDto } from "./dto/delete-users.dto";
 import { QueryParamsDto } from "./dto/query-params.dto";
 import { UpdatePasswordDto } from "./dto/update-password.dto";
