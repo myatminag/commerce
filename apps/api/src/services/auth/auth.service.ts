@@ -8,6 +8,7 @@ import { ConfigType } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
 import { Admin, User } from "@prisma/client";
 import { randomBytes } from "crypto";
+import { EventEmitter2 } from "@nestjs/event-emitter";
 
 import { UserService } from "src/app/user/user.service";
 import authConfig from "src/config/auth.config";
@@ -30,6 +31,7 @@ export class AuthService {
     private userService: UserService,
     private prismaService: PrismaService,
     private hashingService: HashingService,
+    private eventEmitter: EventEmitter2,
   ) {}
 
   async signUp(dto: UserSignUpDto) {
@@ -38,6 +40,11 @@ export class AuthService {
     const user = await this.userService.create({
       ...dto,
       password: hashPassword,
+    });
+
+    this.eventEmitter.emit("user.welcome", {
+      name: user.name,
+      email: user.email,
     });
 
     return await this.generateToken(user, "user");
