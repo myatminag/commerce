@@ -1,19 +1,15 @@
-import { ExecutionContext, Injectable } from "@nestjs/common";
+import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { AuthGuard } from "@nestjs/passport";
-import { Observable } from "rxjs";
 
-import { IS_PUBLIC_KEY } from "src/services/auth/decorators/is-public.decorator";
+import { IS_ADMIN_KEY } from "../decorators/is-admin.decorator";
+import { IS_PUBLIC_KEY } from "../decorators/is-public.decorator";
 
 @Injectable()
-export class JwtAuthGuard extends AuthGuard("jwt") {
-  constructor(private reflector: Reflector) {
-    super();
-  }
+export class JwtAuthGuard implements CanActivate {
+  constructor(private reflector: Reflector) {}
 
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
       context.getClass(),
@@ -23,6 +19,15 @@ export class JwtAuthGuard extends AuthGuard("jwt") {
       return true;
     }
 
-    return super.canActivate(context);
+    const isAdminRoute = this.reflector.getAllAndOverride<boolean>(
+      IS_ADMIN_KEY,
+      [context.getHandler(), context.getClass()],
+    );
+
+    const guard = isAdminRoute
+      ? new (AuthGuard("admin-jwt"))()
+      : new (AuthGuard("user-jwt"))();
+
+    return guard.canActivate(context) as boolean;
   }
 }

@@ -7,9 +7,9 @@ import authConfig from "src/config/auth.config";
 import { ActiveUserData } from "../interfaces/active-user.interface";
 
 @Injectable()
-export class RefreshTokenStrategy extends PassportStrategy(
+export class UserRefreshTokenStrategy extends PassportStrategy(
   Strategy,
-  "refresh-token",
+  "user-refresh-token",
 ) {
   constructor(
     @Inject(authConfig.KEY)
@@ -18,6 +18,7 @@ export class RefreshTokenStrategy extends PassportStrategy(
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: authConfiguration.secret,
+      passReqToCallback: true,
     });
   }
 

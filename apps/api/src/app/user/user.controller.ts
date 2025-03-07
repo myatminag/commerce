@@ -14,7 +14,7 @@ import {
 import { ApiTags } from "@nestjs/swagger";
 
 import { Roles } from "src/decorators/roles.decorator";
-import { Role } from "src/lib/enum";
+import { Role } from "src/lib/constants";
 import { DeleteUsersDto } from "./dto/delete-users.dto";
 import { QueryParamsDto } from "./dto/query-params.dto";
 import { UpdatePasswordDto } from "./dto/update-password.dto";
@@ -27,13 +27,13 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @Get()
-  @Roles(Role.Admin)
+  @Roles(Role.ADMIN)
   async getUsers(@Query() dto: QueryParamsDto) {
     return this.userService.getUsers(dto);
   }
 
   @Get(":id")
-  @Roles(Role.Admin)
+  @Roles(Role.ADMIN)
   async findById(@Param("id") id: string) {
     return this.userService.findById(id);
   }
@@ -52,13 +52,13 @@ export class UserController {
   }
 
   @Delete(":id")
-  @Roles(Role.Admin)
+  @Roles(Role.ADMIN)
   async deleteUser(@Param("id") id: string) {
     return this.userService.deleteUser(id);
   }
 
   @Delete()
-  @Roles(Role.Admin)
+  @Roles(Role.ADMIN)
   async deleteUsers(@Body() dto: DeleteUsersDto) {
     return this.userService.deleteUsers(dto);
   }

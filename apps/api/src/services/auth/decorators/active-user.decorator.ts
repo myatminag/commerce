@@ -5,8 +5,8 @@ import { ActiveUserData } from "../interfaces/active-user.interface";
 export const ActiveUser = createParamDecorator(
   (field: keyof ActiveUserData | undefined, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
-    console.log("request", request.authorization);
     const user: ActiveUserData | undefined = request["user"];
+
     return field ? user?.[field] : user;
   },
 );

@@ -1,6 +1,7 @@
-import { OmitType } from "@nestjs/swagger";
-import { UserLoginDto } from "./user-login.dto";
+import { IsEmail, IsNotEmpty } from "class-validator";
 
-export class ForgotPasswordDto extends OmitType(UserLoginDto, [
-  "password",
-] as const) {}
+export class ForgotPasswordDto {
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
+}

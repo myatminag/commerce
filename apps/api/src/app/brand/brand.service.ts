@@ -7,7 +7,7 @@ import {
 import { Prisma } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
-import { PrismaError } from "src/lib/enum";
+import { PrismaError } from "src/lib/constants";
 import { slugify } from "src/lib/utils";
 import { PrismaService } from "src/services/prisma/prisma.service";
 import { CreateBrandDto, QueryParamsDto, UpdateBrandDto } from "./dto";

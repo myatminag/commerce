@@ -11,11 +11,12 @@ import { PrismaModule } from "../prisma/prisma.module";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 import { JwtAuthGuard } from "./guards/jwt-auth.guard";
-import { RolesGuard } from "./guards/roles.guard";
 import { BcryptService } from "./hashing/bcrypt.service";
 import { HashingService } from "./hashing/hashing.service";
-import { AccessTokenStrategy } from "./strategies/access-token.strategy";
-import { RefreshTokenStrategy } from "./strategies/refresh-token.strategy";
+import { AdminAccessTokenStrategy } from "./strategies/admin-access-token.strategy";
+import { AdminRefreshTokenStrategy } from "./strategies/admin-refresh-token.strategy";
+import { UserAccessTokenStrategy } from "./strategies/user-access-token.strategy";
+import { UserRefreshTokenStrategy } from "./strategies/user-refresh-token.strategy";
 
 @Module({
   imports: [
@@ -28,8 +29,10 @@ import { RefreshTokenStrategy } from "./strategies/refresh-token.strategy";
   ],
   providers: [
     AuthService,
-    AccessTokenStrategy,
-    RefreshTokenStrategy,
+    AdminAccessTokenStrategy,
+    AdminRefreshTokenStrategy,
+    UserAccessTokenStrategy,
+    UserRefreshTokenStrategy,
     {
       provide: HashingService,
       useClass: BcryptService,
@@ -37,10 +40,6 @@ import { RefreshTokenStrategy } from "./strategies/refresh-token.strategy";
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
-    },
-    {
-      provide: APP_GUARD,
-      useClass: RolesGuard,
     },
   ],
   controllers: [AuthController],

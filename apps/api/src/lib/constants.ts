@@ -6,8 +6,8 @@ export enum PrismaError {
 }
 
 export enum Role {
-  User = "user",
-  Admin = "admin",
+  USER = "user",
+  ADMIN = "admin",
 }
 
 export enum PaymentMethod {
