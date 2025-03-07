@@ -246,19 +246,25 @@ export class AuthService {
 
   private async refreshToken(dto: RefreshTokenDto, type: "user" | "admin") {
     try {
-      const { sub } = await this.jwtService.verifyAsync<
-        Pick<ActiveUserData, "sub">
-      >(dto.refreshToken, {
-        secret: this.authConfiguration.secret,
-      });
-
       let entity: User | Admin;
 
       if (type === "user") {
+        const { sub } = await this.jwtService.verifyAsync<
+          Pick<ActiveUserData, "sub">
+        >(dto.refreshToken, {
+          secret: this.authConfiguration.secret,
+        });
+
         entity = await this.prismaService.user.findUnique({
           where: { id: sub },
         });
       } else {
+        const { sub } = await this.jwtService.verifyAsync<
+          Pick<ActiveUserData, "sub">
+        >(dto.refreshToken, {
+          secret: this.authConfiguration.adminSecret,
+        });
+
         entity = await this.prismaService.admin.findUnique({
           where: { id: sub },
         });
@@ -319,7 +325,6 @@ export class AuthService {
         {
           name: entity.name,
           email: entity.email,
-          type,
         },
       ),
       this.signToken(entity.id, this.authConfiguration.refreshTokenTtl, secret),

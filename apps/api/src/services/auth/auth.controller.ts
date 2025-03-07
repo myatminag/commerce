@@ -10,6 +10,7 @@ import { ApiTags } from "@nestjs/swagger";
 
 import { IsPublic } from "src/services/auth/decorators/is-public.decorator";
 import { AuthService } from "./auth.service";
+import { IsAdmin } from "./decorators/is-admin.decorator";
 import { AdminSignInDto } from "./dto/admin-signin.dto";
 import { AdminSignUpDto } from "./dto/admin-signup.dto";
 import { ForgotPasswordDto } from "./dto/forgot-password.dto";
@@ -86,6 +87,7 @@ export class AuthController {
     return this.authService.adminResetPassword(dto);
   }
 
+  @IsAdmin()
   @HttpCode(HttpStatus.OK)
   @UseGuards(AdminRefreshTokenGuard)
   @Post("refresh-token/admin")
