@@ -12,26 +12,29 @@ export class MailService {
 
   @OnEvent(UserEvent.REGISTERED)
   async registration(dto: WelcomeMail) {
-    return;
+    //TODO: Later, it needs to add actual link for get started.
     await this.mailerService.sendMail({
       to: dto.email,
       subject: "Welcome Email",
       template: "./welcome-mail",
       context: {
         name: dto.name,
+        link: "https://example.com/",
       },
     });
   }
 
   @OnEvent(UserEvent.FORGOT_PASSWORD)
   async forgotPassword(dto: ForgotPasswordMail) {
-    return;
+    //TODO: Later, it needs to add actual link for get started.
     await this.mailerService.sendMail({
       to: dto.email,
       subject: "Forgot Password",
-      template: "./forgot-password-mail",
+      template: "./password-reset",
       context: {
         name: dto.name,
+        email: dto.email,
+        link: "https://example.com/",
       },
     });
   }

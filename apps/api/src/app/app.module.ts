@@ -25,7 +25,6 @@ import { UserModule } from "./user/user.module";
     S3Module,
     RedisCacheModule,
     UserModule,
-
     EventEmitterModule.forRoot(),
     ConfigModule.forRoot({
       cache: true,
