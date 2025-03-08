@@ -1,212 +1,357 @@
 import {
   BadRequestException,
+  ForbiddenException,
+  Inject,
   Injectable,
   UnauthorizedException,
 } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
+import { ConfigType } from "@nestjs/config";
+import { EventEmitter2 } from "@nestjs/event-emitter";
 import { JwtService } from "@nestjs/jwt";
-import { compare, genSalt, hash } from "bcrypt";
+import { Admin, User } from "@prisma/client";
 import { randomBytes } from "crypto";
-import * as ms from "ms";
 
 import { AdminService } from "src/app/admin/admin.service";
 import { UserService } from "src/app/user/user.service";
-import { AppConfig } from "src/config/type";
-import { Role } from "src/types/roles.enum";
-
+import authConfig from "src/config/auth.config";
+import { UserType } from "src/lib/types";
 import { PrismaService } from "../prisma/prisma.service";
-import { AdminLoginDto } from "./dto/admin-login.dto";
-import { AdminRegisterDto } from "./dto/admin-register.dto";
+import { AdminSignInDto } from "./dto/admin-signin.dto";
+import { AdminSignUpDto } from "./dto/admin-signup.dto";
 import { ForgotPasswordDto } from "./dto/forgot-password.dto";
+import { RefreshTokenDto } from "./dto/refresh-token.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
-import { UserLoginDto } from "./dto/user-login.dto";
-import { UserRegisterDto } from "./dto/user-register.dto";
+import { UserSignInDto } from "./dto/user-signin.dto";
+import { UserSignUpDto } from "./dto/user-signup.dto";
+import { AdminEvent } from "./events/admin.event";
+import { UserEvent } from "./events/user.event";
+import { HashingService } from "./hashing/hashing.service";
+import { ActiveUserData } from "./interfaces/active-user.interface";
 
 @Injectable()
 export class AuthService {
   constructor(
+    @Inject(authConfig.KEY)
+    private authConfiguration: ConfigType<typeof authConfig>,
     private jwtService: JwtService,
     private userService: UserService,
     private adminService: AdminService,
-    private configService: ConfigService<AppConfig>,
     private prismaService: PrismaService,
+    private hashingService: HashingService,
+    private eventEmitter: EventEmitter2,
   ) {}
 
-  async register(dto: UserRegisterDto) {
-    const salt = await genSalt();
-    const hashPassword = await hash(dto.password, salt);
-
-    const user = await this.userService.create({
-      ...dto,
-      password: hashPassword,
-    });
-
-    const token = await this.generateToken(user.id, user.email, Role.User);
-
-    return {
-      user,
-      token,
-    };
+  async userSignUp(dto: UserSignUpDto) {
+    return this.signUp(dto, "user");
   }
 
-  async adminRegister(dto: AdminRegisterDto) {
-    const salt = await genSalt();
-    const hashPassword = await hash(dto.password, salt);
-
-    const admin = await this.adminService.create({
-      ...dto,
-      password: hashPassword,
-    });
-
-    const token = await this.generateToken(admin.id, admin.email, Role.Admin);
-
-    return {
-      admin,
-      token,
-    };
+  async userSignIn(dto: UserSignInDto) {
+    return this.signIn(dto, "user");
   }
 
-  async login(dto: UserLoginDto) {
-    const user = await this.validateUserCredentials(dto.email, dto.password);
-
-    const token = await this.generateToken(user.id, user.email, Role.User);
-
-    return {
-      user,
-      token,
-    };
+  async userForgotPassword(dto: ForgotPasswordDto) {
+    return this.forgotPassword(dto, "user");
   }
 
-  async adminLogin(dto: AdminLoginDto) {
-    const admin = await this.validateAdminCredentials(dto.email, dto.password);
-
-    const token = await this.generateToken(admin.id, admin.email, Role.Admin);
-
-    return {
-      admin,
-      token,
-    };
+  async userResetPassword(dto: ResetPasswordDto) {
+    return this.resetPassword(dto, "user");
   }
 
-  async forgotPassword(dto: ForgotPasswordDto) {
-    const user = await this.userService.findByEmail(dto.email);
+  async userRefreshToken(dto: RefreshTokenDto) {
+    return this.refreshToken(dto, "user");
+  }
+
+  async adminSignUp(dto: AdminSignUpDto) {
+    return this.signUp(dto, "admin");
+  }
+
+  async adminSignIn(dto: AdminSignInDto) {
+    return this.signIn(dto, "admin");
+  }
+
+  async adminForgotPassword(dto: ForgotPasswordDto) {
+    return this.forgotPassword(dto, "admin");
+  }
+
+  async adminResetPassword(dto: ResetPasswordDto) {
+    return this.resetPassword(dto, "admin");
+  }
+
+  async adminRefreshToken(dto: RefreshTokenDto) {
+    return this.refreshToken(dto, "admin");
+  }
+
+  private async signUp(
+    dto: UserSignUpDto | AdminSignUpDto,
+    type: "user" | "admin",
+  ) {
+    try {
+      const hashPassword = await this.hashingService.hash(dto.password);
+
+      let entity: User | Admin;
+
+      if (type === "user") {
+        entity = await this.userService.create({
+          ...(dto as UserSignUpDto),
+          password: hashPassword,
+        });
+
+        this.eventEmitter.emit(UserEvent.REGISTERED, {
+          name: entity.name,
+          email: entity.email,
+        });
+      } else {
+        entity = await this.adminService.create({
+          ...(dto as AdminSignUpDto),
+          password: hashPassword,
+        });
+      }
+
+      return await this.generateToken(entity, type);
+    } catch (err) {
+      console.error(err);
+      throw new ForbiddenException("Something went wrong!");
+    }
+  }
+
+  private async signIn(
+    dto: UserSignInDto | AdminSignInDto,
+    type: "user" | "admin",
+  ) {
+    let entity: User | Admin;
+
+    if (type === "user") {
+      entity = await this.validateCredentials("user", dto.email, dto.password);
+    } else {
+      entity = await this.validateCredentials("admin", dto.email, dto.password);
+    }
+
+    return await this.generateToken(entity, type);
+  }
+
+  private async forgotPassword(dto: ForgotPasswordDto, type: "user" | "admin") {
+    let entity: User | Admin;
 
     const token = randomBytes(32).toString("hex");
-    const salt = await genSalt();
-    const hashToken = await hash(token, salt);
-    const expiredAt = new Date(Date.now() + ms("1h"));
+    const hashToken = await this.hashingService.hash(token);
 
-    await this.prismaService.user.update({
-      where: { id: user.id },
-      data: {
-        reset_token: hashToken,
-        expired_at: expiredAt,
-      },
-      omit: { password: true },
-    });
+    const expiredAt = new Date(
+      Date.now() + this.authConfiguration.resetTokenTtl,
+    ).toISOString();
 
-    return { token };
+    if (type === "user") {
+      entity = await this.userService.findByEmail(dto.email);
+
+      await this.prismaService.user.update({
+        where: { id: entity.id },
+        data: {
+          token: hashToken,
+          tokenExpiry: expiredAt,
+        },
+        omit: { password: true },
+      });
+
+      this.eventEmitter.emit(UserEvent.FORGOT_PASSWORD, {
+        email: entity.email,
+        name: entity.name,
+      });
+    } else {
+      entity = await this.adminService.findByEmail(dto.email);
+
+      await this.prismaService.admin.update({
+        where: { id: entity.id },
+        data: {
+          token: hashToken,
+          tokenExpiry: expiredAt,
+        },
+        omit: { password: true },
+      });
+
+      this.eventEmitter.emit(AdminEvent.FORGOT_PASSWORD, {
+        email: entity.email,
+        name: entity.name,
+      });
+    }
+
+    return { token, id: entity.id };
   }
 
-  async resetPassword(dto: ResetPasswordDto) {
-    const user = await this.prismaService.user.findFirst({
-      where: { reset_token: { not: null } },
-    });
+  private async resetPassword(dto: ResetPasswordDto, type: "user" | "admin") {
+    let entity: User | Admin;
 
-    if (!user) {
-      throw new UnauthorizedException("Invalid or expired reset token!");
+    if (type === "user") {
+      entity = await this.prismaService.user.findUnique({
+        where: { id: dto.id },
+      });
+    } else {
+      entity = await this.prismaService.admin.findUnique({
+        where: { id: dto.id },
+      });
     }
 
-    if (user.expired_at && user.expired_at < new Date()) {
-      throw new BadRequestException("Reset token has expired!");
+    if (!entity) {
+      throw new UnauthorizedException(
+        `${type === "user" ? "User" : "Admin"} not found!`,
+      );
     }
 
-    const isValid = await compare(dto.token, user.reset_token);
+    const isValid = await this.hashingService.compare(dto.token, entity.token);
 
     if (!isValid) {
-      throw new UnauthorizedException("Invalid reset token!");
+      throw new UnauthorizedException("Invalid token!");
     }
 
-    const salt = await genSalt();
-    const hashPassword = await hash(dto.password, salt);
-
-    await this.prismaService.user.update({
-      where: { id: user.id },
-      data: {
-        password: hashPassword,
-        reset_token: null,
-        expired_at: null,
-      },
-    });
-
-    return { message: "Password successfully reset!" };
-  }
-
-  async validateUserCredentials(email: string, password: string) {
-    const user = await this.userService.findByEmail(email);
-
-    const isValid = await compare(password, user.password);
-
-    if (!isValid) {
-      throw new UnauthorizedException("Invalid credentials!");
+    if (entity.tokenExpiry && entity.tokenExpiry < new Date()) {
+      throw new BadRequestException("Token has expired!");
     }
 
-    delete user.password;
+    const hashedPassword = await this.hashingService.hash(dto.password);
 
-    return user;
-  }
-
-  async validateAdminCredentials(email: string, password: string) {
-    const admin = await this.adminService.findByEmail(email);
-
-    const isValid = await compare(password, admin.password);
-
-    if (!isValid) {
-      throw new UnauthorizedException("Invalid credentials!");
+    if (type === "user") {
+      await this.prismaService.$transaction([
+        this.prismaService.user.update({
+          where: { id: entity.id },
+          data: {
+            password: hashedPassword,
+          },
+        }),
+        this.prismaService.user.update({
+          where: { id: entity.id },
+          data: {
+            token: null,
+            tokenExpiry: null,
+          },
+        }),
+      ]);
+    } else {
+      await this.prismaService.$transaction([
+        this.prismaService.admin.update({
+          where: { id: entity.id },
+          data: {
+            password: hashedPassword,
+          },
+        }),
+        this.prismaService.admin.update({
+          where: { id: entity.id },
+          data: {
+            token: null,
+            tokenExpiry: null,
+          },
+        }),
+      ]);
     }
 
-    delete admin.password;
-
-    return admin;
+    return { message: "Password successfully updated!" };
   }
 
-  async refreshToken(token: string) {
-    const payload = await this.jwtService.verifyAsync(token, {
-      secret: this.configService.get("REFRESH_TOKEN_KEY"),
-    });
+  private async refreshToken(dto: RefreshTokenDto, type: "user" | "admin") {
+    try {
+      let entity: User | Admin;
 
-    const { id, email, role } = payload;
+      if (type === "user") {
+        const { sub } = await this.jwtService.verifyAsync<
+          Pick<ActiveUserData, "sub">
+        >(dto.refreshToken, {
+          secret: this.authConfiguration.secret,
+        });
 
-    return await this.generateToken(id, email, role);
+        entity = await this.prismaService.user.findUnique({
+          where: { id: sub },
+        });
+      } else {
+        const { sub } = await this.jwtService.verifyAsync<
+          Pick<ActiveUserData, "sub">
+        >(dto.refreshToken, {
+          secret: this.authConfiguration.adminSecret,
+        });
+
+        entity = await this.prismaService.admin.findUnique({
+          where: { id: sub },
+        });
+      }
+
+      return await this.generateToken(entity, type);
+    } catch {
+      throw new UnauthorizedException("Access denied!");
+    }
   }
 
-  async generateToken(id: string, email: string, role: Role) {
-    const tokenExpiresIn = this.configService.get("ACCESS_TOKEN_EXPIRES_IN");
+  private async validateCredentials(
+    type: "user" | "admin",
+    email: string,
+    password: string,
+  ) {
+    let entity: User | Admin;
 
-    const expiresIn = Date.now() + ms(tokenExpiresIn);
+    if (type === "user") {
+      entity = await this.prismaService.user.findUnique({
+        where: { email },
+      });
+    } else {
+      entity = await this.prismaService.admin.findUnique({
+        where: { email },
+      });
+    }
 
-    const [access_token, refresh_token] = await Promise.all([
-      await this.jwtService.signAsync(
-        { id, email, role },
+    if (!entity) {
+      throw new UnauthorizedException(
+        `${type === "user" ? "User" : "Admin"} not found!`,
+      );
+    }
+
+    const isEqual = await this.hashingService.compare(
+      password,
+      entity.password,
+    );
+
+    if (!isEqual) {
+      throw new UnauthorizedException("Password does not match!");
+    }
+
+    return entity;
+  }
+
+  private async generateToken(entity: User | Admin, type: UserType) {
+    const secret =
+      type === "user"
+        ? this.authConfiguration.secret
+        : this.authConfiguration.adminSecret;
+
+    const [accessToken, refreskToken] = await Promise.all([
+      this.signToken<Partial<ActiveUserData>>(
+        entity.id,
+        this.authConfiguration.accessTokenTtl,
+        secret,
         {
-          secret: this.configService.get("ACCESS_TOKEN_KEY"),
-          expiresIn: tokenExpiresIn,
+          name: entity.name,
+          email: entity.email,
         },
       ),
-      await this.jwtService.signAsync(
-        { id, email },
-        {
-          algorithm: "HS512",
-          secret: this.configService.get("REFRESH_TOKEN_KEY"),
-          expiresIn: this.configService.get("REFRESH_TOKEN_EXPIRES_IN"),
-        },
-      ),
+      this.signToken(entity.id, this.authConfiguration.refreshTokenTtl, secret),
     ]);
 
     return {
-      access_token,
-      refresh_token,
-      expires_in: expiresIn,
+      accessToken,
+      refreskToken,
     };
+  }
+
+  private signToken<T>(
+    userId: string,
+    expiresIn: number,
+    secret: string,
+    payload?: T,
+  ) {
+    return this.jwtService.signAsync(
+      {
+        sub: userId,
+        ...payload,
+      },
+      {
+        algorithm: "HS512",
+        secret,
+        expiresIn,
+      },
+    );
   }
 }

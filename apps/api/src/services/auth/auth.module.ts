@@ -1,19 +1,22 @@
 import { Module } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
 import { APP_GUARD } from "@nestjs/core";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
 
 import { AdminModule } from "src/app/admin/admin.module";
 import { UserModule } from "src/app/user/user.module";
-import { JwtAuthGuard } from "src/guards/jwt-auth.guard";
-import { RolesGuard } from "src/guards/roles.guard";
-import { AdminLocalStrategy } from "src/strategies/admin-local.strategy";
-import { JwtTokenStrategy } from "src/strategies/jwt-token.strategy";
-import { RefreshTokenStrategy } from "src/strategies/refresh-token.strategy";
-import { UserLocalStrategy } from "src/strategies/user-local.strategy";
+import authConfig from "src/config/auth.config";
 import { PrismaModule } from "../prisma/prisma.module";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
+import { JwtAuthGuard } from "./guards/jwt-auth.guard";
+import { BcryptService } from "./hashing/bcrypt.service";
+import { HashingService } from "./hashing/hashing.service";
+import { AdminAccessTokenStrategy } from "./strategies/admin-access-token.strategy";
+import { AdminRefreshTokenStrategy } from "./strategies/admin-refresh-token.strategy";
+import { UserAccessTokenStrategy } from "./strategies/user-access-token.strategy";
+import { UserRefreshTokenStrategy } from "./strategies/user-refresh-token.strategy";
 
 @Module({
   imports: [
@@ -21,29 +24,24 @@ import { AuthService } from "./auth.service";
     AdminModule,
     PrismaModule,
     PassportModule,
-    JwtModule.register({
-      global: true,
-      secret: process.env.ACCESS_TOKEN_KEY,
-      signOptions: {
-        expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN,
-      },
-    }),
+    ConfigModule.forFeature(authConfig),
+    JwtModule.registerAsync(authConfig.asProvider()),
   ],
-  controllers: [AuthController],
   providers: [
     AuthService,
-    UserLocalStrategy,
-    AdminLocalStrategy,
-    JwtTokenStrategy,
-    RefreshTokenStrategy,
+    AdminAccessTokenStrategy,
+    AdminRefreshTokenStrategy,
+    UserAccessTokenStrategy,
+    UserRefreshTokenStrategy,
+    {
+      provide: HashingService,
+      useClass: BcryptService,
+    },
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
     },
-    {
-      provide: APP_GUARD,
-      useClass: RolesGuard,
-    },
   ],
+  controllers: [AuthController],
 })
 export class AuthModule {}

@@ -6,7 +6,7 @@ import {
 import { Prisma } from "@prisma/client";
 
 import { PrismaService } from "src/services/prisma/prisma.service";
-import { slugify } from "src/utils/slugify";
+import { slugify } from "src/lib/utils";
 
 import { CreateMainCategoryDto } from "./dto/create-category.dto";
 import { CreateSubCategoryDto } from "./dto/create-subcategory.dto";
@@ -38,7 +38,7 @@ export class CategoryService {
         slug,
       } as Prisma.CategoryCreateInput,
       omit: {
-        parent_id: true,
+        parentId: true,
       },
     });
   }
@@ -99,17 +99,17 @@ export class CategoryService {
 
     const [count, categories] = await this.prismaService.$transaction([
       this.prismaService.category.count({
-        where: { parent_id: null },
+        where: { parentId: null },
       }),
       this.prismaService.category.findMany({
         take: limit,
         skip: (offset - 1) * limit,
         where: {
           AND: searchQuery,
-          parent_id: null,
+          parentId: null,
         },
         omit: {
-          parent_id: true,
+          parentId: true,
         },
         include: {
           children: {
@@ -148,7 +148,7 @@ export class CategoryService {
     const category = await this.prismaService.category.findFirst({
       where: { slug },
       omit: {
-        parent_id: true,
+        parentId: true,
       },
       include: {
         product: true,
@@ -197,7 +197,7 @@ export class CategoryService {
         slug: slugify(dto.name),
       },
       omit: {
-        parent_id: true,
+        parentId: true,
       },
     });
   }
@@ -209,7 +209,7 @@ export class CategoryService {
         select: { id: true },
       }),
       this.prismaService.category.findUnique({
-        where: { id: dto.parent_id },
+        where: { id: dto.parentId },
         select: { id: true },
       }),
     ]);
@@ -232,8 +232,8 @@ export class CategoryService {
         id: true,
         name: true,
         slug: true,
-        created_at: true,
-        updated_at: true,
+        createdAt: true,
+        updatedAt: true,
       },
     });
   }
@@ -261,7 +261,7 @@ export class CategoryService {
     const categories = await this.prismaService.category.deleteMany({
       where: {
         slug: { in: dto.slugs },
-        parent_id: null,
+        parentId: null,
       },
     });
 

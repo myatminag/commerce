@@ -3,7 +3,6 @@ import {
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
-import { Prisma } from "@prisma/client";
 
 import { PrismaService } from "src/services/prisma/prisma.service";
 
@@ -23,8 +22,7 @@ export class AdminService {
     }
 
     return await this.prismaService.admin.create({
-      data: { ...dto } as Prisma.AdminCreateInput,
-      omit: { password: true },
+      data: { ...dto },
     });
   }
 

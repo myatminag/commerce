@@ -24,13 +24,13 @@ export class CreateUserDto {
 
   @IsString()
   @IsNotEmpty()
-  address?: string;
+  address: string;
 
   @IsString()
   @IsNotEmpty()
-  township?: string;
+  township: string;
 
   @IsString()
   @IsNotEmpty()
-  city?: string;
+  city: string;
 }

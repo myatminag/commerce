@@ -1,10 +1,10 @@
 model Wishlist {
-  id         String    @id @default(cuid())
-  user_id    String
-  user       User      @relation(fields: [user_id], references: [id])
-  product    Product[]
-  created_at DateTime  @default(now())
-  updated_at DateTime  @updatedAt
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id])
+  product   Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   @@map("wishlist")
 }

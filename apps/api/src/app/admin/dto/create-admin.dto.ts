@@ -3,7 +3,7 @@ import { IsEmail, IsNotEmpty, IsString, MaxLength } from "class-validator";
 export class CreateAdminDto {
   @IsString()
   @IsNotEmpty()
-  username: string;
+  name: string;
 
   @IsEmail()
   @IsNotEmpty()

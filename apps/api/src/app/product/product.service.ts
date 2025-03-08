@@ -6,7 +6,7 @@ import {
 import { Prisma } from "@prisma/client";
 
 import { PrismaService } from "src/services/prisma/prisma.service";
-import { slugify } from "src/utils/slugify";
+import { slugify } from "src/lib/utils";
 
 import { CreateProductDto, ProductVariantDto } from "./dto/create-product.dto";
 import { QueryParamsDto } from "./dto/query-params.dto";
@@ -45,11 +45,11 @@ export class ProductService {
         name: dto.name,
         slug: slugify(dto.name),
         description: dto.description,
-        feature_image: dto.feature_image,
+        featureImage: dto.feature_image,
         cost: dto.cost,
         price: dto.price,
-        price_max: dto.price_max,
-        price_min: dto.price_min,
+        priceMax: dto.price_max,
+        priceMin: dto.price_min,
         sku: dto.sku,
         stock: dto.stock,
         brand: { connect: { id: dto.brand_id } },
@@ -58,10 +58,10 @@ export class ProductService {
         images: JSON.stringify(dto.images || []),
         ...this.discount(dto),
         profit: this.calculateProfit(dto.price, dto.cost),
-        product_variant: this.variants(dto.product_variant),
+        productVariant: this.variants(dto.product_variant),
       },
       include: {
-        product_variant: true,
+        productVariant: true,
       },
     });
   }
@@ -105,13 +105,13 @@ export class ProductService {
         slug: slug,
       },
       omit: {
-        cart_id: true,
+        cartId: true,
       },
       include: {
-        product_variant: {
+        productVariant: {
           omit: {
-            created_at: true,
-            updated_at: true,
+            createdAt: true,
+            updatedAt: true,
           },
         },
         brand: {
@@ -171,10 +171,10 @@ export class ProductService {
         images: JSON.stringify(dto.images || []),
         profit: this.calculateProfit(dto.price, dto.cost),
         ...this.discount(dto),
-        product_variant: this.variants("", dto.product_variant),
+        productVariant: this.variants("", dto.product_variant),
       },
       include: {
-        product_variant: true,
+        productVariant: true,
       },
     });
   }

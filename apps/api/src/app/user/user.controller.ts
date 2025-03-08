@@ -14,8 +14,7 @@ import {
 import { ApiTags } from "@nestjs/swagger";
 
 import { Roles } from "src/decorators/roles.decorator";
-import { RequestUserType } from "src/types/request-user.type";
-import { Role } from "src/types/roles.enum";
+import { Role } from "src/lib/constants";
 import { DeleteUsersDto } from "./dto/delete-users.dto";
 import { QueryParamsDto } from "./dto/query-params.dto";
 import { UpdatePasswordDto } from "./dto/update-password.dto";
@@ -28,39 +27,38 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @Get()
-  @Roles(Role.Admin)
+  @Roles(Role.ADMIN)
   async getUsers(@Query() dto: QueryParamsDto) {
     return this.userService.getUsers(dto);
   }
 
   @Get(":id")
-  @Roles(Role.Admin)
+  @Roles(Role.ADMIN)
   async findById(@Param("id") id: string) {
     return this.userService.findById(id);
   }
 
+  //!Fix: Req user type
   @Put("/info")
-  async updateProfile(@Req() req: RequestUserType, @Body() dto: UpdateUserDto) {
-    return this.userService.update(req.user.id, dto);
+  async updateProfile(@Req() req: any, @Body() dto: UpdateUserDto) {
+    return this.userService.update(req.id, dto);
   }
 
+  //!Fix: Req user type
   @Patch("/password")
   @HttpCode(HttpStatus.NO_CONTENT)
-  async updatePassword(
-    @Req() req: RequestUserType,
-    @Body() dto: UpdatePasswordDto,
-  ) {
-    return this.userService.updatePassword(req.user.id, dto);
+  async updatePassword(@Req() req: any, @Body() dto: UpdatePasswordDto) {
+    return this.userService.updatePassword(req.id, dto);
   }
 
   @Delete(":id")
-  @Roles(Role.Admin)
+  @Roles(Role.ADMIN)
   async deleteUser(@Param("id") id: string) {
     return this.userService.deleteUser(id);
   }
 
   @Delete()
-  @Roles(Role.Admin)
+  @Roles(Role.ADMIN)
   async deleteUsers(@Body() dto: DeleteUsersDto) {
     return this.userService.deleteUsers(dto);
   }

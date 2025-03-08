@@ -1,58 +1,58 @@
 model Product {
-  id                  String           @id @default(cuid())
-  name                String           @db.VarChar(255)
-  slug                String           @unique @db.VarChar(255)
-  sku                 String           @unique @db.VarChar(255)
-  options             Json?
-  description         String
-  feature_image       String
-  images              Json
-  price               Int
-  price_max           Int
-  price_min           Int
-  cost                Int
-  profit              Int
-  brand_id            String
-  brand               Brand            @relation(fields: [brand_id], references: [id])
-  category_id         String
-  category            Category         @relation(fields: [category_id], references: [id])
-  stock               Int
-  is_available        Boolean          @default(true)
-  weight              Int              @default(0)
-  weight_unit         Weight           @default(KG)
-  discount_type       Discount?
-  discount_amount     Int?             @default(0)
-  discount_start_date DateTime?
-  discount_end_date   DateTime?
-  created_at          DateTime         @default(now())
-  updated_at          DateTime         @default(now())
-  product_variant     ProductVariant[]
-  cart_id             String?
-  cart                Cart?            @relation(fields: [cart_id], references: [id])
-  wishlist            Wishlist[]
-  order_item          OrderItems[]
+  id                String           @id @default(cuid())
+  name              String           @db.VarChar(255)
+  slug              String           @unique @db.VarChar(255)
+  sku               String           @unique @db.VarChar(255)
+  options           Json?
+  description       String
+  featureImage      String
+  images            Json
+  price             Int
+  priceMax          Int
+  priceMin          Int
+  cost              Int
+  profit            Int
+  brandId           String
+  brand             Brand            @relation(fields: [brandId], references: [id])
+  categoryId        String
+  category          Category         @relation(fields: [categoryId], references: [id])
+  stock             Int
+  isAvailable       Boolean          @default(true)
+  weight            Int              @default(0)
+  weightUnit        Weight           @default(KG)
+  discountType      Discount?
+  discountAmount    Int?             @default(0)
+  discountStartDate DateTime?
+  discountEndDate   DateTime?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @default(now())
+  productVariant    ProductVariant[]
+  cartId            String?
+  cart              Cart?            @relation(fields: [cartId], references: [id])
+  wishlist          Wishlist[]
+  orderItem         OrderItems[]
 
   @@index([name])
   @@map("product")
 }
 
 model ProductVariant {
-  id            String   @id @default(cuid())
-  name          String   @db.VarChar(255)
-  product_id    String?
-  product       Product? @relation(fields: [product_id], references: [id], onDelete: Cascade)
-  options       Json
-  feature_image String
-  sku           String   @unique @db.VarChar(255)
-  price         Int
-  cost          Int
-  profit        Int
-  is_available  Boolean  @default(true)
-  weight        Int      @default(0)
-  created_at    DateTime @default(now())
-  updated_at    DateTime @updatedAt
+  id           String   @id @default(cuid())
+  name         String   @db.VarChar(255)
+  productId    String?
+  product      Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  options      Json
+  featureImage String
+  sku          String   @unique @db.VarChar(255)
+  price        Int
+  cost         Int
+  profit       Int
+  isAvailable  Boolean  @default(true)
+  weight       Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
-  @@index([product_id])
+  @@index([productId])
   @@map("product_variant")
 }
 

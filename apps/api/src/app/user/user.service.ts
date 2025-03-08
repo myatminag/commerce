@@ -30,7 +30,6 @@ export class UserService {
 
     return await this.prismaService.user.create({
       data: { ...dto },
-      omit: { password: true },
     });
   }
 
@@ -112,7 +111,7 @@ export class UserService {
         take: limit,
         skip: (offset - 1) * limit,
         omit: { password: true },
-        orderBy: { created_at: "asc" },
+        orderBy: { createdAt: "asc" },
         where: {
           AND: searchQuery,
         },

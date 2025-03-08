@@ -1,16 +1,16 @@
 model Payment {
-  id             String         @id @default(cuid())
-  total_amount   Int
-  payment_date   DateTime
-  payment_status PaymentStatus?
-  payment_method PaymentMethod
-  transaction_id String         @unique
-  created_at     DateTime       @default(now())
-  updated_at     DateTime       @updatedAt
-  order_id       String         @unique
-  order          Order          @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  id            String         @id @default(cuid())
+  totalAmount   Int
+  paymentDate   DateTime
+  paymentStatus PaymentStatus?
+  paymentMethod PaymentMethod
+  transactionId String         @unique
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  orderId       String         @unique
+  order         Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
 
-  @@index([payment_date])
+  @@index([paymentDate])
   @@map("payment")
 }
 

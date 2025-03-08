@@ -1,0 +1,168 @@
+<html lang="en">
+  <%- include("./shared/header.ejs") %>
+  <body>
+    <table
+      role="presentation"
+      cellspacing="0"
+      cellpadding="0"
+      border="0"
+      width="100%"
+      style="max-width: 600px; margin: 0 auto"
+    >
+      <tr>
+        <td align="center">
+          <table
+            role="presentation"
+            cellspacing="0"
+            cellpadding="0"
+            border="0"
+            width="100%"
+          >
+            <tr>
+              <td align="right" style="background-color: #ffffff; width: 37%">
+                <a href="https://imgbb.com/"
+                  ><img
+                    src="https://i.ibb.co/kgBvfcn1/logo.png"
+                    alt="logo"
+                    style="width: 42px"
+                /></a>
+              </td>
+              <td
+                align="left"
+                style="
+                  padding: 0px 0 0px 10px;
+                  background-color: #ffffff;
+                  width: 63%;
+                "
+              >
+                <p style="color: #01322d; font-size: 22px; font-weight: 600">
+                  ATX ecommerce
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" style="background-color: #f4f8fe">
+          <table
+            role="presentation"
+            cellspacing="0"
+            cellpadding="0"
+            border="0"
+            width="100%"
+            style="padding: 24px"
+          >
+            <tr>
+              <td
+                align="left"
+                style="
+                  background-color: #ffffff;
+                  border-top-left-radius: 20px;
+                  border-top-right-radius: 20px;
+                "
+              >
+                <a href="https://ibb.co/5h3RvfVd"
+                  ><img
+                    src="https://i.ibb.co/WvX2FY1Q/Component-1-from-Figma-1.png"
+                    alt="Component-1-from-Figma-1"
+                    border="0"
+                    style="
+                      width: 100%;
+                      border-top-left-radius: 20px;
+                      border-top-right-radius: 20px;
+                    "
+                /></a>
+              </td>
+            </tr>
+            <tr>
+              <td
+                align="left"
+                style="background-color: #ffffff; padding: 0px 24px 0px 24px"
+              >
+                <p style="font-size: 22px; font-weight: 700; margin-top: 20px">
+                  Welcome to ATX eCommerce
+                </p>
+
+                <p style="font-size: 20px; font-weight: 400; margin-top: 20px">
+                  Hi <%= locals.name %>,
+                </p>
+
+                <p
+                  style="
+                    margin-top: 24px;
+                    text-align: justify;
+                    color: #7e7979;
+                    line-height: 26px;
+                  "
+                >
+                  We're excited to have you onboard. At the ATX eCommerce, we're
+                  committed to providing you with an exceptional experience.
+                  Whether you're here to shop the latest products, explore our
+                  services, or stay updated with industry trends, we’re here to
+                  support you every step of the way.
+                </p>
+
+                <p
+                  style="
+                    margin-top: 24px;
+                    text-align: justify;
+                    color: #7e7979;
+                    line-height: 26px;
+                  "
+                >
+                  We are looking forward to serving you! Get ready to discover
+                  everything we have to offer. Thank you for joining ATX
+                  eCommerce! 🎉
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td
+                align="center"
+                style="
+                  background-color: #ffffff;
+                  border-bottom-left-radius: 20px;
+                  border-bottom-right-radius: 20px;
+                  padding-bottom: 48px;
+                "
+              >
+                <a
+                  href="<%= locals.link %>"
+                  target="_blank"
+                  style="
+                    line-height: 100%;
+                    text-decoration: none;
+                    display: block;
+                    max-width: 100%;
+                    background-color: #048972;
+                    border-radius: 8px;
+                    color: #ffffff;
+                    font-size: 15px;
+                    text-align: center;
+                    width: 210px;
+                    padding: 14px 0px;
+                    margin-top: 36px;
+                  "
+                >
+                  <span
+                    style="
+                      max-width: 100%;
+                      display: inline-block;
+                      line-height: 120%;
+                    "
+                  >
+                    Get Started
+                  </span>
+                </a>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td><%- include("./shared/footer.ejs") %></td>
+      </tr>
+    </table>
+  </body>
+</html>
