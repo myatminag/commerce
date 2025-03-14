@@ -5,19 +5,22 @@ import {
   UnauthorizedException,
 } from "@nestjs/common";
 import { Prisma } from "@prisma/client";
-import { compare, genSalt, hash } from "bcrypt";
 
 import { PrismaService } from "src/services/prisma/prisma.service";
 
+import { Pagination } from "src/decorators/pagination.decorator";
+import { HashingService } from "src/services/auth/hashing/hashing.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { DeleteUsersDto } from "./dto/delete-users.dto";
-import { QueryParamsDto } from "./dto/query-params.dto";
 import { UpdatePasswordDto } from "./dto/update-password.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 
 @Injectable()
 export class UserService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(
+    private prismaService: PrismaService,
+    private hashingService: HashingService,
+  ) {}
 
   async create(dto: CreateUserDto) {
     const user = await this.prismaService.user.findUnique({
@@ -44,16 +47,20 @@ export class UserService {
   }
 
   async updatePassword(id: string, dto: UpdatePasswordDto) {
-    const user = await this.findById(id);
+    const user = await this.prismaService.user.findUnique({
+      where: { id },
+    });
 
-    const isValid = await compare(dto.old_password, user.password);
+    const isValid = await this.hashingService.compare(
+      dto.old_password,
+      user.password,
+    );
 
     if (!isValid) {
       throw new UnauthorizedException("Invalid credentials!");
     }
 
-    const salt = await genSalt();
-    const newPassword = await hash(dto.new_password, salt);
+    const newPassword = await this.hashingService.hash(dto.new_password);
 
     await this.prismaService.user.update({
       where: { id: user.id },
@@ -68,6 +75,11 @@ export class UserService {
   async findById(id: string) {
     const user = await this.prismaService.user.findUnique({
       where: { id },
+      omit: {
+        password: true,
+        token: true,
+        tokenExpiry: true,
+      },
     });
 
     if (!user) {
@@ -89,7 +101,7 @@ export class UserService {
     return user;
   }
 
-  async getUsers({ limit, offset, search }: QueryParamsDto) {
+  async getUsers({ page, size, limit, offset }: Pagination, search: string) {
     const searchQuery: Prisma.UserWhereInput[] = [];
 
     if (search) {
@@ -106,10 +118,14 @@ export class UserService {
     }
 
     const [count, users] = await this.prismaService.$transaction([
-      this.prismaService.user.count(),
+      this.prismaService.user.count({
+        where: {
+          AND: searchQuery,
+        },
+      }),
       this.prismaService.user.findMany({
         take: limit,
-        skip: (offset - 1) * limit,
+        skip: offset,
         omit: { password: true },
         orderBy: { createdAt: "asc" },
         where: {
@@ -119,13 +135,18 @@ export class UserService {
     ]);
 
     return {
+      page,
+      size,
       count,
       users,
     };
   }
 
   async deleteUser(id: string) {
-    const user = await this.findById(id);
+    const user = await this.prismaService.user.findUnique({
+      where: { id },
+      select: { id: true },
+    });
 
     await this.prismaService.user.delete({
       where: { id: user.id },
@@ -145,7 +166,7 @@ export class UserService {
     const validIds = existingUsers.map((user) => user.id);
 
     if (validIds.length === 0) {
-      throw new NotFoundException("There is no matching user ids!");
+      throw new NotFoundException("There is no matching users id!");
     }
 
     await this.prismaService.user.deleteMany({
