@@ -12,7 +12,11 @@ import {
 } from "@nestjs/common";
 import { ApiOperation, ApiQuery, ApiTags } from "@nestjs/swagger";
 
-import { ApiPagination, Pagination } from "src/decorators/pagination.decorator";
+import {
+  ApiPagination,
+  Pagination,
+  PaginationParams,
+} from "src/decorators/pagination.decorator";
 import { ActiveUser } from "src/services/auth/decorators/active-user.decorator";
 import { IsAdmin } from "src/services/auth/decorators/is-admin.decorator";
 import { ActiveUserData } from "src/services/auth/interfaces/active-user.interface";
@@ -34,7 +38,7 @@ export class UserController {
   @ApiQuery({ name: "search", required: false, type: String })
   @Get()
   async getUsers(
-    @Pagination() pagination: Pagination,
+    @PaginationParams() pagination: Pagination,
     @Query("search") search?: string,
   ) {
     return this.userService.getUsers(pagination, search);
