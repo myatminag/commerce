@@ -14,7 +14,7 @@ export interface Pagination {
   size: number;
 }
 
-export const Pagination = createParamDecorator(
+export const PaginationParams = createParamDecorator(
   (data: unknown, ctx: ExecutionContext): Pagination => {
     const req: Request = ctx.switchToHttp().getRequest();
     const page = parseInt(req.query.page as string) || 1;

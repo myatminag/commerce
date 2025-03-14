@@ -138,7 +138,7 @@ export class UserService {
       page,
       size,
       count,
-      users,
+      data: users,
     };
   }
 
