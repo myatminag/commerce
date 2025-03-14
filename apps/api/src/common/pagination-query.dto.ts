@@ -1,11 +1,20 @@
+import { Transform } from "class-transformer";
 import { IsNumber, IsOptional } from "class-validator";
 
 export class PaginationQueryDto {
-  @IsOptional()
   @IsNumber()
-  offset: number;
+  page: number = 1;
+
+  @IsNumber()
+  size: number = 10;
 
   @IsOptional()
+  @Transform(({ value }) => (value ? Number(value) : 1))
   @IsNumber()
-  limit: number;
+  offset: number = 1;
+
+  @IsOptional()
+  @Transform(({ value }) => (value ? Number(value) : 10))
+  @IsNumber()
+  limit: number = 10;
 }

@@ -9,14 +9,14 @@ import {
   Patch,
   Put,
   Query,
-  Req,
 } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiQuery, ApiTags } from "@nestjs/swagger";
 
-import { Roles } from "src/decorators/roles.decorator";
-import { Role } from "src/lib/constants";
+import { ApiPagination, Pagination } from "src/decorators/pagination.decorator";
+import { ActiveUser } from "src/services/auth/decorators/active-user.decorator";
+import { IsAdmin } from "src/services/auth/decorators/is-admin.decorator";
+import { ActiveUserData } from "src/services/auth/interfaces/active-user.interface";
 import { DeleteUsersDto } from "./dto/delete-users.dto";
-import { QueryParamsDto } from "./dto/query-params.dto";
 import { UpdatePasswordDto } from "./dto/update-password.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { UserService } from "./user.service";
@@ -26,40 +26,69 @@ import { UserService } from "./user.service";
 export class UserController {
   constructor(private userService: UserService) {}
 
+  @IsAdmin()
+  @ApiPagination()
+  @ApiOperation({
+    summary: "Accessible only with admin credentials.",
+  })
+  @ApiQuery({ name: "search", required: false, type: String })
   @Get()
-  @Roles(Role.ADMIN)
-  async getUsers(@Query() dto: QueryParamsDto) {
-    return this.userService.getUsers(dto);
+  async getUsers(
+    @Pagination() pagination: Pagination,
+    @Query("search") search?: string,
+  ) {
+    return this.userService.getUsers(pagination, search);
   }
 
+  @Get("profile")
+  async getProfile(@ActiveUser() activeUser: ActiveUserData) {
+    return this.userService.findById(activeUser.sub);
+  }
+
+  @HttpCode(HttpStatus.CREATED)
+  @Put("profile")
+  async updateProfile(
+    @ActiveUser() activeUser: ActiveUserData,
+    @Body() dto: UpdateUserDto,
+  ) {
+    return this.userService.update(activeUser.sub, dto);
+  }
+
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Patch("password")
+  async updatePassword(
+    @ActiveUser() activeUser: ActiveUserData,
+    @Body() dto: UpdatePasswordDto,
+  ) {
+    return this.userService.updatePassword(activeUser.sub, dto);
+  }
+
+  @IsAdmin()
+  @ApiOperation({
+    summary: "Accessible only with admin credentials.",
+  })
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Delete()
+  async deleteUsers(@Body() dto: DeleteUsersDto) {
+    return this.userService.deleteUsers(dto);
+  }
+
+  @IsAdmin()
+  @ApiOperation({
+    summary: "Accessible only with admin credentials.",
+  })
   @Get(":id")
-  @Roles(Role.ADMIN)
   async findById(@Param("id") id: string) {
     return this.userService.findById(id);
   }
 
-  //!Fix: Req user type
-  @Put("/info")
-  async updateProfile(@Req() req: any, @Body() dto: UpdateUserDto) {
-    return this.userService.update(req.id, dto);
-  }
-
-  //!Fix: Req user type
-  @Patch("/password")
+  @IsAdmin()
+  @ApiOperation({
+    summary: "Accessible only with admin credentials.",
+  })
   @HttpCode(HttpStatus.NO_CONTENT)
-  async updatePassword(@Req() req: any, @Body() dto: UpdatePasswordDto) {
-    return this.userService.updatePassword(req.id, dto);
-  }
-
   @Delete(":id")
-  @Roles(Role.ADMIN)
   async deleteUser(@Param("id") id: string) {
     return this.userService.deleteUser(id);
-  }
-
-  @Delete()
-  @Roles(Role.ADMIN)
-  async deleteUsers(@Body() dto: DeleteUsersDto) {
-    return this.userService.deleteUsers(dto);
   }
 }
