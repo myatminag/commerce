@@ -7,10 +7,11 @@ import {
 import { Prisma } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
+import { Pagination } from "src/decorators/pagination.decorator";
 import { PrismaError } from "src/lib/constants";
 import { slugify } from "src/lib/utils";
 import { PrismaService } from "src/services/prisma/prisma.service";
-import { CreateBrandDto, QueryParamsDto, UpdateBrandDto } from "./dto";
+import { CreateBrandDto, UpdateBrandDto } from "./dto";
 
 @Injectable()
 export class BrandService {
@@ -37,7 +38,7 @@ export class BrandService {
     });
   }
 
-  async getAll({ limit, offset, search }: QueryParamsDto) {
+  async getBrands({ limit, offset, page, size }: Pagination, search: string) {
     const searchQuery: Prisma.BrandWhereInput[] = [];
 
     if (search) {
@@ -61,7 +62,7 @@ export class BrandService {
       }),
       this.prismaService.brand.findMany({
         take: limit,
-        skip: (offset - 1) * limit,
+        skip: offset,
         where: {
           AND: searchQuery,
         },
@@ -69,8 +70,10 @@ export class BrandService {
     ]);
 
     return {
+      page,
+      size,
       total: count,
-      brands,
+      data: brands,
     };
   }
 
@@ -89,12 +92,13 @@ export class BrandService {
     return brand;
   }
 
-  async updateBySlug(slug: string, dto: UpdateBrandDto) {
+  async update(id: string, dto: UpdateBrandDto) {
     try {
       await this.prismaService.brand.update({
-        where: { slug },
+        where: { id },
         data: dto,
       });
+
       return { status: "ok" };
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
@@ -106,11 +110,17 @@ export class BrandService {
     }
   }
 
-  async delete(slug: string) {
-    const isBrandExist = await this.findBySlug(slug);
+  async delete(id: string) {
+    const brand = await this.prismaService.brand.findUnique({
+      where: { id },
+    });
+
+    if (!brand) {
+      throw new NotFoundException("Brand not found!");
+    }
 
     await this.prismaService.brand.delete({
-      where: { id: isBrandExist.id },
+      where: { id: brand.id },
     });
 
     return {

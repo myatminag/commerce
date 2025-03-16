@@ -137,7 +137,7 @@ export class UserService {
     return {
       page,
       size,
-      count,
+      total: count,
       data: users,
     };
   }

@@ -5,8 +5,8 @@ import { CategoryController } from "./category.controller";
 import { CategoryService } from "./category.service";
 
 @Module({
+  imports: [PrismaModule],
   controllers: [CategoryController],
   providers: [CategoryService],
-  imports: [PrismaModule],
 })
 export class CategoryModule {}

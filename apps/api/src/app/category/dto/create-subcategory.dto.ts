@@ -8,5 +8,5 @@ export class CreateSubCategoryDto {
 
   @IsString()
   @IsNotEmpty()
-  parent_id: string;
+  parentId: string;
 }
