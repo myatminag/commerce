@@ -11,37 +11,32 @@ export enum Role {
 }
 
 export enum PaymentMethod {
-  AYAPAY,
-  KBZPAY,
-  WAVEPAY,
+  AYAPAY = "ayapay",
+  KBZPAY = "kbzpay",
+  WAVEPAY = "wavepay",
 }
 
 export enum PaymentStatus {
-  PENDING,
-  COMPLETED,
-  FAILED,
-}
-
-export enum PlanType {
-  MONTHLY,
-  ANNUALLY,
+  PENDING = "pending",
+  COMPLETED = "completed",
+  FAILED = "failed",
 }
 
 export enum Weight {
-  KG,
-  G,
-  LBS,
-}
-
-export enum Discount {
-  PERCENTAGE,
-  KYATS,
+  KG = "kg",
+  G = "g",
+  LBS = "lbs",
 }
 
 export enum NotificationStatus {
-  READ,
-  UNREAD,
-  ARCHIVE,
+  READ = "read",
+  UNREAD = "unread",
+  ARCHIVE = "archive",
+}
+
+export enum Discount {
+  PERCENTAGE = "percentage",
+  KYATS = "kyats",
 }
 
 export enum NotificationType {

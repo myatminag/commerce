@@ -11,7 +11,8 @@ import { Pagination } from "src/decorators/pagination.decorator";
 import { PrismaError } from "src/lib/constants";
 import { slugify } from "src/lib/utils";
 import { PrismaService } from "src/services/prisma/prisma.service";
-import { CreateBrandDto, UpdateBrandDto } from "./dto";
+import { CreateBrandDto } from "./dto/create-brand.dto";
+import { UpdateBrandDto } from "./dto/update-brand.dto";
 
 @Injectable()
 export class BrandService {
