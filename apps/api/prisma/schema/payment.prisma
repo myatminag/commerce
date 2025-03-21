@@ -15,13 +15,13 @@ model Payment {
 }
 
 enum PaymentMethod {
-  AYAPAY
-  KBZPAY
-  WAVEPAY
+  ayapay
+  kbzpay
+  wavepay
 }
 
 enum PaymentStatus {
-  PENDING
-  COMPLETED
-  FAILED
+  pending
+  completed
+  failed
 }

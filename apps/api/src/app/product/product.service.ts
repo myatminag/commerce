@@ -235,12 +235,13 @@ export class ProductService {
         select: { id: true, price: true },
       });
 
+      // As the docs, this query will run serially
       await Promise.all(
         products.map((product) => {
           return prisma.product.update({
             where: { id: product.id },
             data: {
-              price: this.discountPrice(dto, product.price),
+              discountPrice: this.discountPrice(dto, product.price),
             },
           });
         }),

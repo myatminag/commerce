@@ -50,7 +50,7 @@ export class ProductController {
 
   @AdminOnly()
   @Patch("discount")
-  @HttpCode(HttpStatus.NO_CONTENT)
+  @HttpCode(HttpStatus.CREATED)
   async discount(@Body() dto: DiscountProductDto) {
     return this.productService.discount(dto);
   }
