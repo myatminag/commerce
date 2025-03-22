@@ -1,38 +1,50 @@
+import { InjectQueue } from "@nestjs/bullmq";
 import {
   ConflictException,
   Injectable,
+  Logger,
   NotFoundException,
 } from "@nestjs/common";
 import { Prisma } from "@prisma/client";
+import { Queue } from "bullmq";
 
 import { Pagination } from "src/decorators/pagination.decorator";
+import { Discount, QueueProcessor } from "src/lib/constants";
 import { slugify } from "src/lib/utils";
 import { PrismaService } from "src/services/prisma/prisma.service";
 import { CreateProductDto } from "./dto/create-product.dto";
-import { UpdateProductDto } from "./dto/update-product.dto";
-import { DiscountProductDto } from "./dto/discount-product.dto";
 import { DeleteProductsDto } from "./dto/delete-products.dto";
-import { Discount } from "src/lib/constants";
+import { DiscountProductDto } from "./dto/discount-product.dto";
+import { UpdateProductDto } from "./dto/update-product.dto";
 
 @Injectable()
 export class ProductService {
-  constructor(private prismaService: PrismaService) {}
+  private readonly logger = new Logger(ProductService.name);
+
+  constructor(
+    private prismaService: PrismaService,
+    @InjectQueue(QueueProcessor.ProductQueue) private productQueue: Queue,
+  ) {}
 
   async create(dto: CreateProductDto) {
-    const [product, variant] = await Promise.all([
-      this.prismaService.product.findUnique({
-        where: {
-          sku: dto.sku,
-        },
-      }),
-      this.prismaService.productVariant.findMany({
-        where: {
-          sku: {
-            in: dto.productVariant.map((variant) => variant.sku),
+    const slug = slugify(dto.name);
+
+    const productQuery = this.prismaService.product.findUnique({
+      where: {
+        slug_sku: { slug, sku: dto.sku },
+      },
+      select: { sku: true, slug: true },
+    });
+
+    const variantQuery = dto.productVariant?.length
+      ? this.prismaService.productVariant.findMany({
+          where: {
+            sku: { in: dto.productVariant.map(({ sku }) => sku) },
           },
-        },
-      }),
-    ]);
+        })
+      : Promise.resolve([]);
+
+    const [product, variant] = await Promise.all([productQuery, variantQuery]);
 
     if (product) {
       throw new ConflictException("Product already exists!");
@@ -45,7 +57,7 @@ export class ProductService {
     return await this.prismaService.product.create({
       data: {
         name: dto.name,
-        slug: slugify(dto.name),
+        slug,
         description: dto.description,
         featureImage: dto.featureImage,
         cost: dto.cost,
@@ -64,7 +76,7 @@ export class ProductService {
         discountEndDate: dto.discountEndDate,
         profit: this.calculateProfit(dto.price, dto.cost),
         productVariant: {
-          create: dto.productVariant.map((variant) => ({
+          create: dto.productVariant?.map((variant) => ({
             ...variant,
             options: JSON.stringify(variant.options || []),
             profit: this.calculateProfit(variant.price, variant.cost),
@@ -122,7 +134,7 @@ export class ProductService {
   async findBySlug(slug: string) {
     const product = await this.prismaService.product.findUnique({
       where: {
-        slug: slug,
+        slug,
       },
       omit: {
         cartId: true,
@@ -214,45 +226,6 @@ export class ProductService {
     });
   }
 
-  async discount(dto: DiscountProductDto) {
-    return this.prismaService.$transaction(async (prisma) => {
-      const updateProducts = await prisma.product.updateMany({
-        where: { id: { in: dto.ids } },
-        data: {
-          discountType: dto.discountType,
-          discountAmount: dto.discountAmount,
-          discountStartDate: dto.discountStartDate,
-          discountEndDate: dto.discountEndDate,
-        },
-      });
-
-      if (updateProducts.count === 0) {
-        throw new NotFoundException("There is no matching id!");
-      }
-
-      const products = await prisma.product.findMany({
-        where: { id: { in: dto.ids } },
-        select: { id: true, price: true },
-      });
-
-      // As the docs, this query will run serially
-      await Promise.all(
-        products.map((product) => {
-          return prisma.product.update({
-            where: { id: product.id },
-            data: {
-              discountPrice: this.discountPrice(dto, product.price),
-            },
-          });
-        }),
-      );
-
-      return {
-        message: "Products have been successfully updated.",
-      };
-    });
-  }
-
   async delete(id: string) {
     const product = await this.prismaService.product.findUnique({
       where: { id },
@@ -288,12 +261,72 @@ export class ProductService {
     };
   }
 
+  async discount(dto: DiscountProductDto) {
+    const products = await this.prismaService.$transaction(async (prisma) => {
+      const products = await prisma.product.findMany({
+        where: { id: { in: dto.ids } },
+        select: { id: true, price: true, discountEndDate: true },
+      });
+
+      const existingIds = new Set(products.map((product) => product.id));
+      const missingIds = dto.ids.filter((id) => !existingIds.has(id));
+
+      if (missingIds.length > 0) {
+        throw new NotFoundException("Products not found!");
+      }
+
+      // As the docs, Promise.all inside a $transaction will run serially
+      // In this case, For-loop provides more readability and cleaner syntax
+      for (const product of products) {
+        await prisma.product.update({
+          where: { id: product.id },
+          data: {
+            discountType: dto.discountType,
+            discountAmount: dto.discountAmount,
+            discountStartDate: dto.discountStartDate,
+            discountEndDate: dto.discountEndDate,
+            discountPrice: this.discountPrice(dto, product.price),
+          },
+          select: { id: true, discountEndDate: true },
+        });
+      }
+
+      return products;
+    });
+
+    // Schedule a discount job in parallel after a successful transaction
+    await Promise.all(
+      products.map((product) => {
+        const delay = new Date(dto.discountEndDate).getTime() - Date.now();
+        this.scheduleDiscountJob(product.id, delay);
+      }),
+    );
+
+    return {
+      message: "Products have been successfully updated.",
+    };
+  }
+
+  private async scheduleDiscountJob(productId: string, delay: number) {
+    if (delay > 0) {
+      return await this.productQueue.add(
+        "remove-discount",
+        { productId },
+        { delay },
+      );
+    } else {
+      this.logger.warn(
+        `Skipping job for ${productId}. discountEndDate is in the past.`,
+      );
+    }
+  }
+
   private calculateProfit(price: number, cost: number) {
     return Number((price - cost).toFixed(2));
   }
 
   private discountPrice(dto: DiscountProductDto, price: number) {
-    if (dto.discountType === Discount.PERCENTAGE) {
+    if (dto.discountType === Discount.Percentage) {
       return price - (price * dto.discountAmount) / 100;
     } else {
       return price - dto.discountAmount;

@@ -33,6 +33,7 @@ model Product {
   wishlist          Wishlist[]
   orderItem         OrderItems[]
 
+  @@unique([slug, sku])
   @@index([name])
   @@map("product")
 }

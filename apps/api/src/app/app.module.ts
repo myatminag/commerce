@@ -1,7 +1,8 @@
 import { Module } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
+import { ConfigModule, ConfigType } from "@nestjs/config";
 import { EventEmitterModule } from "@nestjs/event-emitter";
 
+import { BullModule } from "@nestjs/bullmq";
 import { AuthModule } from "src/services/auth/auth.module";
 import { MailModule } from "src/services/mail/mail.module";
 import { PrismaModule } from "src/services/prisma/prisma.module";
@@ -12,6 +13,7 @@ import { BrandModule } from "./brand/brand.module";
 import { CategoryModule } from "./category/category.module";
 import { ProductModule } from "./product/product.module";
 import { UserModule } from "./user/user.module";
+import redisConfig from "src/config/redis.config";
 
 @Module({
   imports: [
@@ -25,10 +27,22 @@ import { UserModule } from "./user/user.module";
     S3Module,
     RedisCacheModule,
     UserModule,
-    EventEmitterModule.forRoot(),
     ConfigModule.forRoot({
       cache: true,
       isGlobal: true,
+    }),
+    EventEmitterModule.forRoot(),
+    BullModule.forRootAsync({
+      inject: [redisConfig.KEY],
+      imports: [ConfigModule.forFeature(redisConfig)],
+      useFactory: (redisConfiguration: ConfigType<typeof redisConfig>) => ({
+        connection: {
+          host: redisConfiguration.REDIS_HOST,
+          port: Number(redisConfiguration.REDIS_PORT),
+          username: redisConfiguration.REDIS_USERNAME,
+          password: redisConfiguration.REDIS_PASSWORD,
+        },
+      }),
     }),
   ],
 })

@@ -1,27 +1,27 @@
 import { createKeyv } from "@keyv/redis";
 import { CacheModule } from "@nestjs/cache-manager";
 import { Module } from "@nestjs/common";
-import { ConfigModule, ConfigService } from "@nestjs/config";
+import { ConfigModule, ConfigType } from "@nestjs/config";
 import { RedisClientOptions } from "redis";
 
-import { AppConfig } from "src/config/type";
+import redisConfig from "src/config/redis.config";
 import { RedisCacheService } from "./redis-cache.service";
 
 @Module({
   imports: [
     CacheModule.registerAsync<RedisClientOptions>({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService<AppConfig>) => {
+      inject: [redisConfig.KEY],
+      imports: [ConfigModule.forFeature(redisConfig)],
+      useFactory: (redisConfiguration: ConfigType<typeof redisConfig>) => {
         const url = new URL("redis://");
-        url.host = configService.get("REDIS_HOST");
-        url.port = configService.get("REDIS_PORT");
-        url.password = configService.get("REDIS_PASSWORD");
+        url.host = redisConfiguration.REDIS_HOST;
+        url.port = redisConfiguration.REDIS_PORT;
+        url.password = redisConfiguration.REDIS_PASSWORD;
 
         return {
           stores: [createKeyv(url.toString())],
         };
       },
-      inject: [ConfigService],
     }),
   ],
   providers: [RedisCacheService],
