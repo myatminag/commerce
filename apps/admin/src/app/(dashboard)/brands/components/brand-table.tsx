@@ -5,7 +5,7 @@ import { DataTable } from "@commerce/ui/components/table/data-table";
 import Filter from "./filter";
 import { columns } from "./columns";
 import { useBrandList } from "../use-brand-list";
-import { categories } from "../../../(categories)/category-list/components/data";
+import { categories } from "../../categories/components/data";
 
 const BrandTable = () => {
   const { viewType } = useBrandList();

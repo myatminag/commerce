@@ -5,7 +5,7 @@ import { Inter } from "next/font/google";
 
 import { Toaster } from "@commerce/ui/components/toast/toaster";
 
-import AppProvider from "@components/provider";
+import AppProvider from "./provider";
 
 const roboto = Inter({
   subsets: ["latin"],

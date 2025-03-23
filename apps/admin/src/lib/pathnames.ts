@@ -1,17 +1,72 @@
-import type { NavItemProps } from '@components/nav/side-nav';
+import { NavItems } from "@components/sidebar/nav-main";
 
-export const NavMenu: NavItemProps[] = [
-  { path: '/', name: 'Dashboard', iconKey: 'dashboard' },
-  { path: '/product-list', name: 'Products', iconKey: 'products' },
-  { path: '/category-list', name: 'Categories', iconKey: 'categories' },
-  { path: '/brand-list', name: 'Brands', iconKey: 'brands' },
-  { path: '/order-list', name: 'Orders', iconKey: 'orders' },
-  { path: '/customer-list', name: 'Customers', iconKey: 'customers' },
-  { separator: 'separator-before-personalization' }, // Unique key for the separator
+export const NavMenu: NavItems[] = [
   {
-    path: '/personalization',
-    name: 'Personalization',
-    iconKey: 'personalization',
+    title: "Dashboard",
+    url: "/",
+    icon: "dashboard",
   },
-  { path: '/setting', name: 'Settings', iconKey: 'settings' },
+  {
+    title: "Brand",
+    url: "#",
+    icon: "brands",
+    isCollapsible: true,
+    items: [
+      {
+        title: "Create Brand",
+        url: "/brands/create",
+      },
+      {
+        title: "Brand List",
+        url: "/brands",
+      },
+    ],
+  },
+  {
+    title: "Category",
+    url: "#",
+    icon: "categories",
+    isCollapsible: true,
+    items: [
+      {
+        title: "Create Category",
+        url: "/categories/create",
+      },
+      {
+        title: "Category List",
+        url: "/categories",
+      },
+    ],
+  },
+  {
+    title: "Product",
+    url: "#",
+    icon: "products",
+    isCollapsible: true,
+    items: [
+      {
+        title: "Create Product",
+        url: "/products/create",
+      },
+      {
+        title: "Product List",
+        url: "/products",
+      },
+    ],
+  },
+  {
+    title: "Orders",
+    url: "/orders",
+    icon: "orders",
+  },
+  {
+    title: "Customers",
+    url: "/customers",
+    icon: "customers",
+  },
+  {
+    title: "Setting",
+    url: "/settings",
+    icon: "settings",
+  },
 ];
