@@ -42,9 +42,9 @@ model OrderItems {
 }
 
 enum OrderStatus {
-  PENDING
-  CONFIRMED
-  SHIPPED
-  DELIVERED
-  CANCELLED
+  pending
+  confirmed
+  shipped
+  delivered
+  canceled
 }

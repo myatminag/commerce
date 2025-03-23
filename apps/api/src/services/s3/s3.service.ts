@@ -5,11 +5,11 @@ import {
   S3Client,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/cloudfront-signer";
-import { BadRequestException, Injectable } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
+import { BadRequestException, Inject, Injectable } from "@nestjs/common";
+import { ConfigType } from "@nestjs/config";
 import { v4 as uuidv4 } from "uuid";
 
-import { AppConfig } from "src/config/type";
+import s3Config from "src/config/s3.config";
 
 @Injectable()
 export class S3Service {
@@ -17,10 +17,12 @@ export class S3Service {
   private bucketName: string;
   private cloudFrontURL: string;
 
-  constructor(private configService: ConfigService<AppConfig>) {
-    const s3Region = this.configService.get("S3_REGION");
-    const s3AccessKeyId = this.configService.get("S3_ACCESS_KEY");
-    const s3SecretAccessKey = this.configService.get("S3_SECRET_ACCESS_KEY");
+  constructor(
+    @Inject(s3Config.KEY) private s3Configuration: ConfigType<typeof s3Config>,
+  ) {
+    const s3Region = this.s3Configuration.S3_REGION;
+    const s3AccessKeyId = this.s3Configuration.S3_ACCESS_KEY;
+    const s3SecretAccessKey = this.s3Configuration.S3_SECRET_ACCESS_KEY;
 
     if (!s3AccessKeyId || !s3SecretAccessKey || !s3Region) {
       throw new BadRequestException(
@@ -28,8 +30,8 @@ export class S3Service {
       );
     }
 
-    this.bucketName = this.configService.get("S3_BUCKET_NAME");
-    this.cloudFrontURL = this.configService.get("AWS_CLOUDFRONT_URL");
+    this.bucketName = this.s3Configuration.S3_BUCKET_NAME;
+    this.cloudFrontURL = this.s3Configuration.AWS_CLOUDFRONT_URL;
     this.s3Client = new S3Client({
       region: s3Region,
       credentials: {
@@ -70,8 +72,8 @@ export class S3Service {
     try {
       const { ContentType } = await this.s3Client.send(command);
 
-      const privateKey = this.configService.get("AWS_CLOUDFRONT_PRIVATE_KEY");
-      const keyPairId = this.configService.get("AWS_CLOUDFRONT_KEY_PAIR_ID");
+      const privateKey = this.s3Configuration.AWS_CLOUDFRONT_PRIVATE_KEY;
+      const keyPairId = this.s3Configuration.AWS_CLOUDFRONT_KEY_PAIR_ID;
       const dateLessThan = new Date();
       dateLessThan.setMinutes(dateLessThan.getMinutes() + 20);
 

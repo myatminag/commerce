@@ -6,18 +6,18 @@ import {
   HttpCode,
   HttpStatus,
   Param,
-  Patch,
   Post,
+  Put,
   Query,
 } from "@nestjs/common";
-import { ApiOperation, ApiQuery, ApiTags } from "@nestjs/swagger";
+import { ApiQuery, ApiTags } from "@nestjs/swagger";
 
+import { AdminOnly } from "src/decorators/admin-only.decorator";
 import {
   ApiPagination,
   Pagination,
   PaginationParams,
 } from "src/decorators/pagination.decorator";
-import { IsAdmin } from "src/services/auth/decorators/is-admin.decorator";
 import { BrandService } from "./brand.service";
 import { CreateBrandDto } from "./dto/create-brand.dto";
 import { UpdateBrandDto } from "./dto/update-brand.dto";
@@ -27,18 +27,15 @@ import { UpdateBrandDto } from "./dto/update-brand.dto";
 export class BrandController {
   constructor(private brandService: BrandService) {}
 
-  @IsAdmin()
-  @ApiOperation({
-    summary: "Accessible only with admin credentials.",
-  })
   @Post()
+  @AdminOnly()
   async create(@Body() dto: CreateBrandDto) {
     return this.brandService.create(dto);
   }
 
+  @Get()
   @ApiPagination()
   @ApiQuery({ name: "search", required: false, type: String })
-  @Get()
   async getBrands(
     @PaginationParams() pagination: Pagination,
     @Query("search") search?: string,
@@ -51,22 +48,16 @@ export class BrandController {
     return this.brandService.findBySlug(slug);
   }
 
-  @IsAdmin()
-  @ApiOperation({
-    summary: "Accessible only with admin credentials.",
-  })
+  @AdminOnly()
+  @Put(":id")
   @HttpCode(HttpStatus.CREATED)
-  @Patch(":id")
   async update(@Param("id") id: string, @Body() dto: UpdateBrandDto) {
     return this.brandService.update(id, dto);
   }
 
-  @IsAdmin()
-  @ApiOperation({
-    summary: "Accessible only with admin credentials.",
-  })
-  @HttpCode(HttpStatus.NO_CONTENT)
+  @AdminOnly()
   @Delete(":id")
+  @HttpCode(HttpStatus.NO_CONTENT)
   async delete(@Param("id") id: string) {
     return this.brandService.delete(id);
   }

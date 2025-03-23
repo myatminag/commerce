@@ -1,18 +1,16 @@
 import { ValidationPipe, VersioningType } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import * as expressBasicAuth from "express-basic-auth";
 
 import { AppModule } from "./app/app.module";
-import { AppConfig } from "./config/type";
+
 import { ExcludeNullValueInterceptor } from "./interceptors/exclude-null.interceptor";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: ["error", "warn", "log"],
   });
-  const configService = app.get(ConfigService<AppConfig, true>);
 
   app.enableCors({
     credentials: true,
@@ -53,8 +51,7 @@ async function bootstrap() {
     },
   });
 
-  const port = configService.get("PORT");
-  await app.listen(port);
+  await app.listen(8000);
 }
 
 bootstrap();

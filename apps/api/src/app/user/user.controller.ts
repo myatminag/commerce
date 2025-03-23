@@ -10,15 +10,15 @@ import {
   Put,
   Query,
 } from "@nestjs/common";
-import { ApiOperation, ApiQuery, ApiTags } from "@nestjs/swagger";
+import { ApiQuery, ApiTags } from "@nestjs/swagger";
 
+import { AdminOnly } from "src/decorators/admin-only.decorator";
 import {
   ApiPagination,
   Pagination,
   PaginationParams,
 } from "src/decorators/pagination.decorator";
 import { ActiveUser } from "src/services/auth/decorators/active-user.decorator";
-import { IsAdmin } from "src/services/auth/decorators/is-admin.decorator";
 import { ActiveUserData } from "src/services/auth/interfaces/active-user.interface";
 import { DeleteUsersDto } from "./dto/delete-users.dto";
 import { UpdatePasswordDto } from "./dto/update-password.dto";
@@ -30,13 +30,10 @@ import { UserService } from "./user.service";
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @IsAdmin()
-  @ApiPagination()
-  @ApiOperation({
-    summary: "Accessible only with admin credentials.",
-  })
-  @ApiQuery({ name: "search", required: false, type: String })
   @Get()
+  @AdminOnly()
+  @ApiPagination()
+  @ApiQuery({ name: "search", required: false, type: String })
   async getUsers(
     @PaginationParams() pagination: Pagination,
     @Query("search") search?: string,
@@ -67,31 +64,22 @@ export class UserController {
     return this.userService.updatePassword(activeUser.sub, dto);
   }
 
-  @IsAdmin()
-  @ApiOperation({
-    summary: "Accessible only with admin credentials.",
-  })
-  @HttpCode(HttpStatus.NO_CONTENT)
   @Delete()
+  @AdminOnly()
+  @HttpCode(HttpStatus.NO_CONTENT)
   async deleteUsers(@Body() dto: DeleteUsersDto) {
     return this.userService.deleteUsers(dto);
   }
 
-  @IsAdmin()
-  @ApiOperation({
-    summary: "Accessible only with admin credentials.",
-  })
   @Get(":id")
+  @AdminOnly()
   async findById(@Param("id") id: string) {
     return this.userService.findById(id);
   }
 
-  @IsAdmin()
-  @ApiOperation({
-    summary: "Accessible only with admin credentials.",
-  })
-  @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(":id")
+  @AdminOnly()
+  @HttpCode(HttpStatus.NO_CONTENT)
   async deleteUser(@Param("id") id: string) {
     return this.userService.deleteUser(id);
   }

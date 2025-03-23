@@ -2,7 +2,7 @@ model Notification {
   id            String             @id @default(cuid())
   message       String
   type          NotificationType
-  status        NotificationStatus @default(UNREAD)
+  status        NotificationStatus @default(unread)
   recipientType RecipientType
   createdAt     DateTime           @default(now())
   updatedAt     DateTime           @updatedAt
@@ -15,30 +15,30 @@ model Notification {
 }
 
 enum NotificationStatus {
-  READ
-  UNREAD
-  ARCHIVE
+  read
+  unread
+  archive
 }
 
 enum NotificationType {
-  ORDER_CONFIRMATION
-  ORDER_SHIPPED
-  ORDER_DELIVERED
-  ORDER_CACNELLED
-  NEW_ORDER_RECEIVED
-  OUT_OF_STOCK
-  LOW_STOCK_ALERT
-  NEW_PROMOTION
-  DISCOUNT_EXPIRY_ALERT
-  PAYMET_CONFIRMATION
-  PAYMENT_FAILED
-  PASSWORD_CHANGE_CONFIRMATION
-  SYSTEM_MAINTENANCE_ALERT
-  FEATURE_UPDATES
-  POLICY_UPDATES
+  order_confirmation
+  order_shipped
+  order_delivered
+  order_canceled
+  order_recevied
+  out_of_stock
+  low_stock
+  promotion
+  discount_expired
+  payment_confirmation
+  payment_failed
+  password_change_confirmation
+  system_maintenance
+  feature_updates
+  policy_updates
 }
 
 enum RecipientType {
-  USER
-  ADMIN
+  user
+  admin
 }

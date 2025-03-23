@@ -237,7 +237,7 @@ export class CategoryService {
   async deleteCategories(dto: DeleteCategoriesDto) {
     const categories = await this.prismaService.category.deleteMany({
       where: {
-        slug: { in: dto.slugs },
+        id: { in: dto.ids },
         parentId: null,
       },
     });

@@ -12,7 +12,8 @@ import {
   Min,
   ValidateNested,
 } from "class-validator";
-import { Discount, Weight } from "@prisma/client";
+
+import { Discount, Weight } from "src/lib/constants";
 
 export class ProductOptionDto {
   @IsString()
@@ -100,7 +101,7 @@ export class CreateProductDto {
 
   @IsString()
   @IsNotEmpty()
-  feature_image: string;
+  featureImage: string;
 
   @IsOptional()
   @IsArray()
@@ -114,11 +115,11 @@ export class CreateProductDto {
 
   @IsNumber()
   @IsNotEmpty()
-  price_max: number;
+  priceMax: number;
 
   @IsNumber()
   @IsNotEmpty()
-  price_min: number;
+  priceMin: number;
 
   @IsNumber()
   @IsNotEmpty()
@@ -135,7 +136,7 @@ export class CreateProductDto {
 
   @IsBoolean()
   @IsNotEmpty()
-  is_available: boolean;
+  isAvailable: boolean;
 
   @IsNumber()
   @IsOptional()
@@ -143,34 +144,39 @@ export class CreateProductDto {
 
   @IsEnum(Weight)
   @IsNotEmpty()
-  weight_unit: Weight;
+  weightUnit: Weight;
 
   @IsEnum(Discount)
   @IsOptional()
-  discount_type?: Discount;
+  discountType?: Discount;
 
   @IsNumber()
   @IsOptional()
-  discount_amount?: number;
+  discountAmount?: number;
+
+  @IsNumber()
+  @IsOptional()
+  discountPrice?: number;
 
   @IsDate()
   @IsOptional()
-  discount_start_date?: Date;
+  discountStartDate?: Date;
 
   @IsDate()
   @IsOptional()
-  discount_end_date?: Date;
+  discountEndDate?: Date;
 
   @IsString()
   @IsNotEmpty()
-  brand_id: string;
+  brandId: string;
 
   @IsString()
   @IsNotEmpty()
-  category_id: string;
+  categoryId: string;
 
   @IsOptional()
+  @IsArray()
   @ValidateNested({ each: true })
   @Type(() => ProductVariantDto)
-  product_variant: ProductVariantDto[];
+  productVariant: ProductVariantDto[];
 }

@@ -158,20 +158,13 @@ export class UserService {
   }
 
   async deleteUsers(dto: DeleteUsersDto) {
-    const existingUsers = await this.prismaService.user.findMany({
+    const users = await this.prismaService.user.deleteMany({
       where: { id: { in: dto.ids } },
-      select: { id: true },
     });
 
-    const validIds = existingUsers.map((user) => user.id);
-
-    if (validIds.length === 0) {
-      throw new NotFoundException("There is no matching users id!");
+    if (users.count === 0) {
+      throw new NotFoundException("There is no matching user id!");
     }
-
-    await this.prismaService.user.deleteMany({
-      where: { id: { in: validIds } },
-    });
 
     return {
       message: "Users have been successfully deleted.",

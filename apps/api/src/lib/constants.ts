@@ -5,43 +5,37 @@ export enum PrismaError {
   RECORD_NOT_FOUND = "P2005",
 }
 
-export enum Role {
-  USER = "user",
-  ADMIN = "admin",
+export enum QueueProcessor {
+  ProductQueue = "productQueue",
 }
 
 export enum PaymentMethod {
-  AYAPAY,
-  KBZPAY,
-  WAVEPAY,
+  AyaPay = "ayapay",
+  KbzPay = "kbzpay",
+  WavePay = "wavepay",
 }
 
 export enum PaymentStatus {
-  PENDING,
-  COMPLETED,
-  FAILED,
-}
-
-export enum PlanType {
-  MONTHLY,
-  ANNUALLY,
+  Pending = "pending",
+  Completed = "completed",
+  Failed = "failed",
 }
 
 export enum Weight {
-  KG,
-  G,
-  LBS,
-}
-
-export enum Discount {
-  PERCENTAGE,
-  KYATS,
+  Kg = "kg",
+  G = "g",
+  Lbs = "lbs",
 }
 
 export enum NotificationStatus {
-  READ,
-  UNREAD,
-  ARCHIVE,
+  Read = "read",
+  Unread = "unread",
+  Archive = "archive",
+}
+
+export enum Discount {
+  Percentage = "percentage",
+  Kyats = "kyats",
 }
 
 export enum NotificationType {

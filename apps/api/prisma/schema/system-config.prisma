@@ -2,7 +2,7 @@ model SystemConfig {
   id                String   @id @default(cuid())
   deliveryOptions   Json
   taxRate           Decimal  @db.Decimal(5, 2)
-  currency          Currency @default(MMK)
+  currency          Currency @default(mmk)
   bannerImage       Json?
   adsImage          Json?
   shoppingHours     Json
@@ -18,5 +18,5 @@ model SystemConfig {
 }
 
 enum Currency {
-  MMK
+  mmk
 }

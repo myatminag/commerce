@@ -19,9 +19,10 @@ model Product {
   stock             Int
   isAvailable       Boolean          @default(true)
   weight            Int              @default(0)
-  weightUnit        Weight           @default(KG)
+  weightUnit        Weight           @default(kg)
   discountType      Discount?
   discountAmount    Int?             @default(0)
+  discountPrice     Int?
   discountStartDate DateTime?
   discountEndDate   DateTime?
   createdAt         DateTime         @default(now())
@@ -32,6 +33,7 @@ model Product {
   wishlist          Wishlist[]
   orderItem         OrderItems[]
 
+  @@unique([slug, sku])
   @@index([name])
   @@map("product")
 }
@@ -57,12 +59,12 @@ model ProductVariant {
 }
 
 enum Weight {
-  KG
-  G
-  LBS
+  kg
+  g
+  lbs
 }
 
 enum Discount {
-  PERCENTAGE
-  KYATS
+  percentage
+  kyats
 }

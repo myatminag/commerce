@@ -1,64 +1,87 @@
+import { InjectQueue } from "@nestjs/bullmq";
 import {
   ConflictException,
   Injectable,
+  Logger,
   NotFoundException,
 } from "@nestjs/common";
 import { Prisma } from "@prisma/client";
+import { Queue } from "bullmq";
 
-import { PrismaService } from "src/services/prisma/prisma.service";
+import { Pagination } from "src/decorators/pagination.decorator";
+import { Discount, QueueProcessor } from "src/lib/constants";
 import { slugify } from "src/lib/utils";
-
-import { CreateProductDto, ProductVariantDto } from "./dto/create-product.dto";
-import { QueryParamsDto } from "./dto/query-params.dto";
+import { PrismaService } from "src/services/prisma/prisma.service";
+import { CreateProductDto } from "./dto/create-product.dto";
+import { DeleteProductsDto } from "./dto/delete-products.dto";
+import { DiscountProductDto } from "./dto/discount-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 
 @Injectable()
 export class ProductService {
-  constructor(private prismaService: PrismaService) {}
+  private readonly logger = new Logger(ProductService.name);
 
-  async createProduct(dto: any) {
-    const [isProductExit, isProductVariantExit] = await Promise.all([
-      this.prismaService.product.findUnique({
-        where: {
-          sku: dto.sku,
-        },
-      }),
-      this.prismaService.productVariant.findMany({
-        where: {
-          sku: {
-            in: dto.product_variant.map((variant) => variant.sku),
+  constructor(
+    private prismaService: PrismaService,
+    @InjectQueue(QueueProcessor.ProductQueue) private productQueue: Queue,
+  ) {}
+
+  async create(dto: CreateProductDto) {
+    const slug = slugify(dto.name);
+
+    const productQuery = this.prismaService.product.findUnique({
+      where: {
+        slug_sku: { slug, sku: dto.sku },
+      },
+      select: { sku: true, slug: true },
+    });
+
+    const variantQuery = dto.productVariant?.length
+      ? this.prismaService.productVariant.findMany({
+          where: {
+            sku: { in: dto.productVariant.map(({ sku }) => sku) },
           },
-        },
-      }),
-    ]);
+        })
+      : Promise.resolve([]);
 
-    if (isProductExit) {
-      throw new ConflictException("A product sku already exists!");
+    const [product, variant] = await Promise.all([productQuery, variantQuery]);
+
+    if (product) {
+      throw new ConflictException("Product already exists!");
     }
 
-    if (isProductVariantExit) {
-      throw new ConflictException("Variants sku already exists!");
+    if (variant.length) {
+      throw new ConflictException("Variant already exists!");
     }
 
     return await this.prismaService.product.create({
       data: {
         name: dto.name,
-        slug: slugify(dto.name),
+        slug,
         description: dto.description,
-        featureImage: dto.feature_image,
+        featureImage: dto.featureImage,
         cost: dto.cost,
         price: dto.price,
-        priceMax: dto.price_max,
-        priceMin: dto.price_min,
+        priceMax: dto.priceMax,
+        priceMin: dto.priceMin,
         sku: dto.sku,
         stock: dto.stock,
-        brand: { connect: { id: dto.brand_id } },
-        category: { connect: { id: dto.category_id } },
+        brand: { connect: { id: dto.brandId } },
+        category: { connect: { id: dto.categoryId } },
         options: JSON.stringify(dto.options || []),
         images: JSON.stringify(dto.images || []),
-        ...this.discount(dto),
+        discountType: dto.discountType,
+        discountAmount: dto.discountAmount,
+        discountStartDate: dto.discountStartDate,
+        discountEndDate: dto.discountEndDate,
         profit: this.calculateProfit(dto.price, dto.cost),
-        productVariant: this.variants(dto.product_variant),
+        productVariant: {
+          create: dto.productVariant?.map((variant) => ({
+            ...variant,
+            options: JSON.stringify(variant.options || []),
+            profit: this.calculateProfit(variant.price, variant.cost),
+          })),
+        },
       },
       include: {
         productVariant: true,
@@ -66,7 +89,10 @@ export class ProductService {
     });
   }
 
-  async productLists({ limit, offset, search }: QueryParamsDto) {
+  async getProducts(
+    { limit, offset, page, size }: Pagination,
+    search?: string,
+  ) {
     const searchQuery: Prisma.ProductWhereInput[] = [];
 
     if (search) {
@@ -83,10 +109,14 @@ export class ProductService {
     }
 
     const [count, products] = await this.prismaService.$transaction([
-      this.prismaService.product.count(),
+      this.prismaService.product.count({
+        where: {
+          AND: searchQuery,
+        },
+      }),
       this.prismaService.product.findMany({
         take: limit,
-        skip: (offset - 1) * limit,
+        skip: offset,
         where: {
           AND: searchQuery,
         },
@@ -94,15 +124,17 @@ export class ProductService {
     ]);
 
     return {
-      count,
-      products,
+      page,
+      size,
+      total: count,
+      data: products,
     };
   }
 
-  async productDetails(slug: string) {
+  async findBySlug(slug: string) {
     const product = await this.prismaService.product.findUnique({
       where: {
-        slug: slug,
+        slug,
       },
       omit: {
         cartId: true,
@@ -135,43 +167,58 @@ export class ProductService {
       throw new NotFoundException("Product not found!");
     }
 
-    return {
-      product,
-    };
+    return product;
   }
 
-  async updateProduct(id: string, dto: UpdateProductDto) {
-    const slug = slugify(dto.name);
-
-    const [product, isSkuExist] = await Promise.all([
-      this.prismaService.product.findUnique({
-        where: { id },
-        select: { id: true },
-      }),
-      this.prismaService.product.findUnique({
-        where: { sku: dto.sku },
-        select: { sku: true },
-      }),
-    ]);
+  async update(id: string, dto: UpdateProductDto) {
+    const product = await this.prismaService.product.findUnique({
+      where: { id },
+      include: {
+        productVariant: true,
+      },
+    });
 
     if (!product) {
       throw new NotFoundException("Product not found!");
     }
 
-    if (isSkuExist) {
-      throw new ConflictException("Sku already exits!");
-    }
-
     return await this.prismaService.product.update({
       where: { id: product.id },
       data: {
-        ...dto,
-        slug,
-        options: JSON.stringify(dto.options || []),
-        images: JSON.stringify(dto.images || []),
+        name: dto.name,
+        slug: slugify(dto.name),
+        description: dto.description,
+        featureImage: dto.featureImage,
+        cost: dto.cost,
+        price: dto.price,
+        priceMax: dto.priceMax,
+        priceMin: dto.priceMin,
+        sku: dto.sku,
+        stock: dto.stock,
+        brand: { connect: { id: dto.brandId } },
+        category: { connect: { id: dto.categoryId } },
+        options: JSON.stringify(dto.options),
+        images: JSON.stringify(dto.images),
+        discountType: dto.discountType,
+        discountAmount: dto.discountAmount,
+        discountStartDate: dto.discountStartDate,
+        discountEndDate: dto.discountEndDate,
         profit: this.calculateProfit(dto.price, dto.cost),
-        ...this.discount(dto),
-        productVariant: this.variants("", dto.product_variant),
+        productVariant: {
+          upsert: dto.productVariant.map((variant) => ({
+            where: { sku: variant.sku },
+            create: {
+              ...variant,
+              options: JSON.stringify(variant.options),
+              profit: this.calculateProfit(variant.price, variant.cost),
+            },
+            update: {
+              ...variant,
+              options: JSON.stringify(variant.options),
+              profit: this.calculateProfit(variant.price, variant.cost),
+            },
+          })),
+        },
       },
       include: {
         productVariant: true,
@@ -179,7 +226,7 @@ export class ProductService {
     });
   }
 
-  async deleteProduct(id: string) {
+  async delete(id: string) {
     const product = await this.prismaService.product.findUnique({
       where: { id },
       select: { id: true },
@@ -198,31 +245,91 @@ export class ProductService {
     };
   }
 
-  private discount(dto: CreateProductDto | UpdateProductDto) {
-    if (!dto.discount_type) return {};
+  async deleteMany(dto: DeleteProductsDto) {
+    const products = await this.prismaService.product.deleteMany({
+      where: {
+        id: { in: dto.ids },
+      },
+    });
+
+    if (products.count === 0) {
+      throw new NotFoundException("There is no matching id!");
+    }
 
     return {
-      discount_type: dto.discount_type,
-      discount_amount: dto.discount_amount,
-      discount_start_date: dto.discount_start_date,
-      discount_end_date: dto.discount_end_date,
+      message: "Products have been successfully deleted.",
     };
   }
 
-  private variants(tenantId: string, variants?: ProductVariantDto[]) {
-    if (!variants?.length) return undefined;
+  async discount(dto: DiscountProductDto) {
+    const products = await this.prismaService.$transaction(async (prisma) => {
+      const products = await prisma.product.findMany({
+        where: { id: { in: dto.ids } },
+        select: { id: true, price: true, discountEndDate: true },
+      });
+
+      const existingIds = new Set(products.map((product) => product.id));
+      const missingIds = dto.ids.filter((id) => !existingIds.has(id));
+
+      if (missingIds.length > 0) {
+        throw new NotFoundException("Products not found!");
+      }
+
+      // As the docs, Promise.all inside a $transaction will run serially
+      // In this case, For-loop provides more readability and cleaner syntax
+      for (const product of products) {
+        await prisma.product.update({
+          where: { id: product.id },
+          data: {
+            discountType: dto.discountType,
+            discountAmount: dto.discountAmount,
+            discountStartDate: dto.discountStartDate,
+            discountEndDate: dto.discountEndDate,
+            discountPrice: this.discountPrice(dto, product.price),
+          },
+          select: { id: true, discountEndDate: true },
+        });
+      }
+
+      return products;
+    });
+
+    // Schedule a discount job in parallel after a successful transaction
+    await Promise.all(
+      products.map((product) => {
+        const delay = new Date(dto.discountEndDate).getTime() - Date.now();
+        this.scheduleDiscountJob(product.id, delay);
+      }),
+    );
 
     return {
-      create: variants.map((variant) => ({
-        ...variant,
-        tenant: { connect: { id: tenantId } },
-        options: JSON.stringify(variant.options || []),
-        profit: this.calculateProfit(variant.price, variant.cost),
-      })),
+      message: "Products have been successfully updated.",
     };
+  }
+
+  private async scheduleDiscountJob(productId: string, delay: number) {
+    if (delay > 0) {
+      return await this.productQueue.add(
+        "remove-discount",
+        { productId },
+        { delay },
+      );
+    } else {
+      this.logger.warn(
+        `Skipping job for ${productId}. discountEndDate is in the past.`,
+      );
+    }
   }
 
   private calculateProfit(price: number, cost: number) {
     return Number((price - cost).toFixed(2));
+  }
+
+  private discountPrice(dto: DiscountProductDto, price: number) {
+    if (dto.discountType === Discount.Percentage) {
+      return price - (price * dto.discountAmount) / 100;
+    } else {
+      return price - dto.discountAmount;
+    }
   }
 }
