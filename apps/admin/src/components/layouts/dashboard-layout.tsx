@@ -2,9 +2,9 @@
 
 import React from "react";
 
-import { cn } from "@workspace/ui/libs/utils";
+import { cn } from "@workspace/ui/lib/utils";
 
-import { useAppSelector } from "@store/hook";
+import { useAppSelector } from "@/src/store/hook";
 
 export const DashboardLayout = ({
   children,

@@ -7,7 +7,7 @@ import {
 } from "@workspace/ui/components/dropdown-menu";
 import { Button } from "@workspace/ui/components/button";
 
-import { ThreeDotsIcon } from "@components/icons/three-dots-icon";
+import { ThreeDotsIcon } from "@/src/components/icons/three-dots-icon";
 
 const Actions = () => {
   return (

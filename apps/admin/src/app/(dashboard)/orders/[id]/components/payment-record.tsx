@@ -9,7 +9,7 @@ import {
 } from "@workspace/ui/components/dialog/dialog";
 import { Button } from "@workspace/ui/components/button";
 
-import { SuccessIcon } from "@components/icons/status-icon";
+import { SuccessIcon } from "@/src/components/icons/status-icon";
 
 const PaymentRecord = () => {
   return (

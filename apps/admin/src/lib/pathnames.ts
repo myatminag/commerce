@@ -1,4 +1,4 @@
-import { NavItems } from "@components/sidebar/nav-link";
+import { NavItems } from "@/src/components/sidebar/nav-link";
 
 export const NavLinks: NavItems[] = [
   {

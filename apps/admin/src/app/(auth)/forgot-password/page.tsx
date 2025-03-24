@@ -3,8 +3,9 @@ import Link from "next/link";
 
 import { CdsIcon } from "@workspace/ui/icons/cds-icon";
 
+import { MaskFiveIcon, MaskFourIcon } from "@/src/components/icons/mask-icons";
+
 import ForgotPasswordForm from "./components/forgot-password-form";
-import { MaskFiveIcon, MaskFourIcon } from "@components/icons/mask-icons";
 
 export const metadata: Metadata = {
   title: "Forgot password",

@@ -6,8 +6,8 @@ import { Checkbox } from "@workspace/ui/components/inputs/checkbox";
 import { ColumnHeader } from "@workspace/ui/components/table/column-header";
 
 import Actions from "./actions";
-import { SuccessIcon } from "@components/icons/status-icon";
-import { PopularIcon } from "@components/icons/popular-icon";
+import { SuccessIcon } from "@/src/components/icons/status-icon";
+import { PopularIcon } from "@/src/components/icons/popular-icon";
 
 export const productSchema = z.object({
   id: z.string().uuid(),

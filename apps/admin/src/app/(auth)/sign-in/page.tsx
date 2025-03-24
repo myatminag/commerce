@@ -10,8 +10,7 @@ import {
   MaskOneIcon,
   MaskTwoIcon,
   MaskThreeIcon,
-} from "@components/icons/mask-icons";
-import LoginImg from "@assets/images/login-img.webp";
+} from "@/src/components/icons/mask-icons";
 
 export const metadata: Metadata = {
   title: "Sign in to cds.admin",
@@ -37,7 +36,7 @@ const Page = () => {
             </p>
           </div>
           <Image
-            src={LoginImg}
+            src="/images/login-img.webp"
             alt="login-image"
             width={500}
             height={500}
