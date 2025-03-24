@@ -1,11 +1,12 @@
 "use client";
 
-import { cn } from "@commerce/ui/libs/utils";
 import Link from "next/link";
 
-import { useCategoryDetail } from "../use-category-detail";
+import { cn } from "@workspace/ui/lib/utils";
 
-import { PlusIcon } from "@components/icons/plus-icon";
+import { PlusIcon } from "@/src/components/icons/plus-icon";
+
+import { useCategoryDetail } from "../use-category-detail";
 
 const CATEGORY_LIST = [
   {

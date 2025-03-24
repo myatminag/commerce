@@ -3,10 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ColumnDef } from "@tanstack/react-table";
 
-import { Checkbox } from "@commerce/ui/components/inputs/checkbox";
-import { ColumnHeader } from "@commerce/ui/components/table/column-header";
-
-import { useViewType } from "@hooks/use-view-type";
+import { Checkbox } from "@workspace/ui/components/inputs/checkbox";
+import { ColumnHeader } from "@workspace/ui/components/table/column-header";
 
 const categorySchema = z.object({
   id: z.string(),
@@ -27,41 +25,29 @@ export const columns: ColumnDef<Category>[] = [
   {
     id: "select",
     header: function HeaderComponent({ table }) {
-      const { viewType } = useViewType();
-
-      if (viewType === "rows") {
-        return (
-          <Checkbox
-            checked={
-              table.getIsAllPageRowsSelected() ||
-              (table.getIsSomePageRowsSelected() && "indeterminate")
-            }
-            onCheckedChange={(value) =>
-              table.toggleAllPageRowsSelected(Boolean(value))
-            }
-            aria-label="Select all"
-            className="translate-y-[2px]"
-          />
-        );
-      }
-
-      return null;
+      return (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) =>
+            table.toggleAllPageRowsSelected(Boolean(value))
+          }
+          aria-label="Select all"
+          className="translate-y-[2px]"
+        />
+      );
     },
     cell: function CellComponent({ row }) {
-      const { viewType } = useViewType();
-
-      if (viewType === "rows") {
-        return (
-          <Checkbox
-            checked={row.getIsSelected()}
-            onClick={(e) => e.stopPropagation()}
-            onCheckedChange={(value) => row.toggleSelected(Boolean(value))}
-            aria-label="Select row"
-          />
-        );
-      }
-
-      return null;
+      return (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onClick={(e) => e.stopPropagation()}
+          onCheckedChange={(value) => row.toggleSelected(Boolean(value))}
+          aria-label="Select row"
+        />
+      );
     },
   },
   {

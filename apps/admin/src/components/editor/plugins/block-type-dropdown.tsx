@@ -15,9 +15,9 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@commerce/ui/components/select";
+} from "@workspace/ui/components/select";
 
-import { blockTypeToBlockName } from "@/types/block-name";
+import { blockTypeToBlockName } from "@/src/types/block-name";
 
 interface BlockTypeDropdownProps {
   blockType: keyof typeof blockTypeToBlockName;

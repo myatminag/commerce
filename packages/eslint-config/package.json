@@ -1,5 +1,5 @@
 {
-  "name": "@commerce/eslint-config",
+  "name": "@workspace/eslint-config",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -18,5 +18,11 @@
     "typescript-eslint": "^8.26.1",
     "@vercel/style-guide": "^6.0.0",
     "@tanstack/eslint-plugin-query": "^5.68.0"
+  },
+  "exports": {
+    "./base": "./base.js",
+    "./next": "./next.js",
+    "./library": "./library.js",
+    "./react-internal": "./react-internal.js"
   }
 }

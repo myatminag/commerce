@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 
-import { Button } from "@commerce/ui/components/button";
-import { Input } from "@commerce/ui/components/inputs/input";
-// import { Checkbox } from '@commerce/ui/components/inputs/checkbox';
-import { PasswordInput } from "@commerce/ui/components/inputs/password-input";
+import { Button } from "@workspace/ui/components/button";
+import { Input } from "@workspace/ui/components/inputs/input";
+// import { Checkbox } from '@workspace/ui/components/inputs/checkbox';
+import { PasswordInput } from "@workspace/ui/components/inputs/password-input";
 
 import { useSignIn } from "../use-sign-in";
 

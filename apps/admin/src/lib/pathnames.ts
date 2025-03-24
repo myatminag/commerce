@@ -1,6 +1,6 @@
-import { NavItems } from "@components/sidebar/nav-main";
+import { NavItems } from "@/src/components/sidebar/nav-link";
 
-export const NavMenu: NavItems[] = [
+export const NavLinks: NavItems[] = [
   {
     title: "Dashboard",
     url: "/",

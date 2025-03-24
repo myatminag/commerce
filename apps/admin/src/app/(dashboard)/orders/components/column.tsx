@@ -3,8 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import type { ColumnDef } from "@tanstack/react-table";
 
-import { Checkbox } from "@commerce/ui/components/inputs/checkbox";
-import { ColumnHeader } from "@commerce/ui/components/table/column-header";
+import { Checkbox } from "@workspace/ui/components/inputs/checkbox";
+import { ColumnHeader } from "@workspace/ui/components/table/column-header";
 
 import Actions from "./actions";
 

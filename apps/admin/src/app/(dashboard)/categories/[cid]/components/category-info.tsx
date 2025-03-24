@@ -6,25 +6,22 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@commerce/ui/components/tab";
-import { Separator } from "@commerce/ui/components/separator";
+} from "@workspace/ui/components/tab";
+import { Separator } from "@workspace/ui/components/separator";
 
 import SubCategoryList from "./sub-category-list";
 import RelatedProducts from "./related-products";
 import RelatedBrands from "./related-brands";
 
-import { EditIcon } from "@components/icons/edit-icon";
-import { DeleteIcon } from "@components/icons/delete-icon";
-
-import CategoryBanner from "@assets/temp/category-banner.png";
-import CategoryThumbnail from "@assets/temp/category-thumbnail.png";
+import { EditIcon } from "@/src/components/icons/edit-icon";
+import { DeleteIcon } from "@/src/components/icons/delete-icon";
 
 const CategoryInfo = () => {
   return (
     <>
       <div className="relative z-20 h-[189px]">
         <Image
-          src={CategoryBanner}
+          src="/temp/category-thumbnail.png"
           alt="category-banner"
           layout="fill"
           objectFit="cover"
@@ -33,7 +30,7 @@ const CategoryInfo = () => {
         <div className="absolute inset-0 rounded-lg bg-gradient-to-b from-[#30615870] to-[#084C42] opacity-50" />
         <div className="absolute bottom-4 left-4 z-20 flex items-end gap-x-5">
           <Image
-            src={CategoryThumbnail}
+            src="/temp/category-thumbnail.png"
             alt="category-thumbnail"
             width={500}
             height={500}

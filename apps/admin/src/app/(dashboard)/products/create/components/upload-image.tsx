@@ -1,4 +1,4 @@
-import { PlusIcon } from '@components/icons/plus-icon';
+import { PlusIcon } from "@/src/components/icons/plus-icon";
 
 const UploadImage = () => {
   return (
@@ -23,7 +23,7 @@ const UploadImage = () => {
             </div>
           </div>
           <span className="mt-2 block text-base text-neutral-800">
-            Browse your device or{' '}
+            Browse your device or{" "}
             <span className="text-brand-600">drag&apos;n drop&apos;</span>
           </span>
           <span className="mt-1 block text-sm text-gray-500">

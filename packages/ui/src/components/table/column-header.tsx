@@ -1,7 +1,7 @@
-import { HTMLAttributes } from 'react';
-import { Column } from '@tanstack/react-table';
+import { HTMLAttributes } from "react";
+import { Column } from "@tanstack/react-table";
 
-import { cn } from '../../libs/utils';
+import { cn } from "../../lib/utils";
 
 interface ColumnHeaderProps<TData, TValue>
   extends HTMLAttributes<HTMLDivElement> {
@@ -16,7 +16,7 @@ export const ColumnHeader = <TData, TValue>({
 }: ColumnHeaderProps<TData, TValue>) => {
   if (!column?.getCanSort()) {
     return (
-      <p className={cn('text-table-header text-sm font-medium', className)}>
+      <p className={cn("text-table-header text-sm font-medium", className)}>
         {title}
       </p>
     );

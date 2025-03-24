@@ -1,10 +1,10 @@
 import Link from "next/link";
 
-import { SearchInput } from "@commerce/ui/components/inputs/search-input";
+import { SearchInput } from "@workspace/ui/components/inputs/search-input";
 
-import { PopularIcon } from "@components/icons/popular-icon";
-import { FilterIcon } from "@components/icons/filter-icon";
-import { PlusIcon } from "@components/icons/plus-icon";
+import { PopularIcon } from "@/src/components/icons/popular-icon";
+import { FilterIcon } from "@/src/components/icons/filter-icon";
+import { PlusIcon } from "@/src/components/icons/plus-icon";
 
 const Filter = () => {
   return (

@@ -1,16 +1,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { SearchInput } from "@commerce/ui/components/inputs/search-input";
+import { SearchInput } from "@workspace/ui/components/inputs/search-input";
 
-import { useBrandList } from "../use-brand-list";
-import { PlusIcon } from "@components/icons/plus-icon";
-import { CardViewIcon, RowViewIcon } from "@components/icons/view-type-icon";
+import { PlusIcon } from "@/src/components/icons/plus-icon";
 
 const Filter = () => {
   const pathname = usePathname();
-
-  const { viewType } = useBrandList();
 
   return (
     <div className="ms-auto flex items-center justify-between gap-x-3">
@@ -26,13 +22,6 @@ const Filter = () => {
         <PlusIcon className="size-4" />
         Add Brand
       </Link>
-
-      <button
-        type="button"
-        className="flex size-10 items-center justify-center rounded-md bg-white shadow-sm"
-      >
-        {viewType === "rows" ? <CardViewIcon /> : <RowViewIcon />}
-      </button>
     </div>
   );
 };

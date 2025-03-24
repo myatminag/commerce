@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { ProductUploadIcon } from '@components/icons/product-upload-icon';
+import { ProductUploadIcon } from "@/src/components/icons/product-upload-icon";
 
 const RelatedProducts = () => {
   return (

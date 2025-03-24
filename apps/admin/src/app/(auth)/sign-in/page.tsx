@@ -3,15 +3,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { Suspense } from "react";
 
-import { CdsIcon } from "@commerce/ui/icons/cds-icon";
+import { CdsIcon } from "@workspace/ui/icons/cds-icon";
 
 import SignInForm from "./components/sign-in-form";
 import {
   MaskOneIcon,
   MaskTwoIcon,
   MaskThreeIcon,
-} from "@components/icons/mask-icons";
-import LoginImg from "@assets/images/login-img.webp";
+} from "@/src/components/icons/mask-icons";
 
 export const metadata: Metadata = {
   title: "Sign in to cds.admin",
@@ -33,11 +32,11 @@ const Page = () => {
             </h3>
             <p className="text-sm">
               Join thousands of successful sellers. Sign up for your <br />
-              e-commerce dashboard.
+              e-workspace dashboard.
             </p>
           </div>
           <Image
-            src={LoginImg}
+            src="/images/login-img.webp"
             alt="login-image"
             width={500}
             height={500}

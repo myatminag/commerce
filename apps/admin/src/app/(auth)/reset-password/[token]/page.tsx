@@ -1,10 +1,10 @@
-import type { Metadata } from 'next';
+import type { Metadata } from "next";
 
-import ResetPasswordForm from './components/reset-password-form';
-import { MaskFiveIcon, MaskFourIcon } from '@components/icons/mask-icons';
+import ResetPasswordForm from "./components/reset-password-form";
+import { MaskFiveIcon, MaskFourIcon } from "@/src/components/icons/mask-icons";
 
 export const metadata: Metadata = {
-  title: 'Reset password',
+  title: "Reset password",
 };
 
 const Page = () => {

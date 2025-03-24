@@ -1,10 +1,10 @@
 "use client";
 
-import { Label } from "@commerce/ui/components/inputs/label";
-import { Input } from "@commerce/ui/components/inputs/input";
+import { Label } from "@workspace/ui/components/inputs/label";
+import { Input } from "@workspace/ui/components/inputs/input";
 
-import { UploadImageIcon } from "@components/icons/image-upload-icon";
-import { TextEditor } from "@components/editor/text-editor";
+import { UploadImageIcon } from "@/src/components/icons/image-upload-icon";
+import { TextEditor } from "@/src/components/editor/text-editor";
 
 const CategoryForm = () => {
   return (

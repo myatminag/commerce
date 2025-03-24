@@ -21,25 +21,25 @@ import {
 } from "@lexical/utils";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 
-import { Toggle } from "@commerce/ui/components/toggle";
-import { Button } from "@commerce/ui/components/button";
-import { Separator } from "@commerce/ui/components/separator";
+import { Toggle } from "@workspace/ui/components/toggle";
+import { Button } from "@workspace/ui/components/button";
+import { Separator } from "@workspace/ui/components/separator";
 
-import { blockTypeToBlockName } from "@/types/block-name";
+import { blockTypeToBlockName } from "@/src/types/block-name";
 
 import { BlockNameDropDown } from "./block-type-dropdown";
-import { RedoIcon } from "@components/icons/redo-icon";
-import { UndoIcon } from "@components/icons/undo-icon";
-import { BoldIcon } from "@components/icons/bold-icon";
-import { ItalicIcon } from "@components/icons/italic-icon";
-import { UnderlineIcon } from "@components/icons/underline-icon";
-import { StrikeThroughIcon } from "@components/icons/strike-through-icon";
+import { RedoIcon } from "@/src/components/icons/redo-icon";
+import { UndoIcon } from "@/src/components/icons/undo-icon";
+import { BoldIcon } from "@/src/components/icons/bold-icon";
+import { ItalicIcon } from "@/src/components/icons/italic-icon";
+import { UnderlineIcon } from "@/src/components/icons/underline-icon";
+import { StrikeThroughIcon } from "@/src/components/icons/strike-through-icon";
 import {
   TextAlignCenterIcon,
   TextAlignJusitfyIcon,
   TextAlignLeftIcon,
   TextAlignRightIcon,
-} from "@components/icons/text-align-icon";
+} from "@/src/components/icons/text-align-icon";
 
 export const ToolbarPlugin = () => {
   const [editor] = useLexicalComposerContext();

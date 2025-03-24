@@ -1,13 +1,13 @@
-import type { SVGProps } from 'react';
+import type { SVGProps } from "react";
 
-import { cn } from '../libs/utils';
+import { cn } from "../lib/utils";
 
 export const ChevronIcon = ({
   direction,
   className,
   ...rest
 }: SVGProps<SVGSVGElement> & {
-  direction?: 'left' | 'right' | 'up' | 'down';
+  direction?: "left" | "right" | "up" | "down";
 }) => {
   return (
     <svg
@@ -17,10 +17,10 @@ export const ChevronIcon = ({
       fill="none"
       viewBox="0 0 22 22"
       {...rest}
-      className={cn('md:cursor-pointer', className, {
-        'rotate-180': direction === 'up',
-        '-rotate-90': direction === 'right',
-        'rotate-90': direction === 'left',
+      className={cn("md:cursor-pointer", className, {
+        "rotate-180": direction === "up",
+        "-rotate-90": direction === "right",
+        "rotate-90": direction === "left",
       })}
     >
       <path

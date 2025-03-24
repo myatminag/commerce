@@ -5,7 +5,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@commerce/ui/components/accordion";
+} from "@workspace/ui/components/accordion";
 import {
   Dialog,
   DialogClose,
@@ -15,13 +15,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@commerce/ui/components/dialog/dialog";
-import { Button } from "@commerce/ui/components/button";
+} from "@workspace/ui/components/dialog/dialog";
+import { Button } from "@workspace/ui/components/button";
 
-import { EditIcon } from "@components/icons/edit-icon";
-import { DeleteIcon } from "@components/icons/delete-icon";
-import { CategoryIcon } from "@components/icons/category-icon";
-import { SubCategoryFrameIcon } from "@components/icons/subcategory-frame-icon";
+import { EditIcon } from "@/src/components/icons/edit-icon";
+import { DeleteIcon } from "@/src/components/icons/delete-icon";
+import { CategoryIcon } from "@/src/components/icons/category-icon";
+import { SubCategoryFrameIcon } from "@/src/components/icons/subcategory-frame-icon";
 import { CreateSubCategory, SubCategoryForm } from "./add-subcategories";
 
 const SUB_CATEGORY_DATA = [

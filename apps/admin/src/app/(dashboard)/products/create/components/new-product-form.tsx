@@ -2,11 +2,11 @@
 
 import { useForm } from "react-hook-form";
 
-import { Button } from "@commerce/ui/components/button";
-import { Input } from "@commerce/ui/components/inputs/input";
+import { Button } from "@workspace/ui/components/button";
+import { Input } from "@workspace/ui/components/inputs/input";
+import { Label } from "@workspace/ui/components/inputs/label";
 
-import { PlusIcon } from "@components/icons/plus-icon";
-import { Label } from "@commerce/ui/components/inputs/label";
+import { PlusIcon } from "@/src/components/icons/plus-icon";
 
 const NewProductForm = () => {
   const { register } = useForm();
