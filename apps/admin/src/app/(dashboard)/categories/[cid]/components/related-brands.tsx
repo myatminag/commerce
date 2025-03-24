@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { BrandUploadIcon } from '@components/icons/brand-upload-icon';
+import { BrandUploadIcon } from "@/src/components/icons/brand-upload-icon";
 
 const RelatedBrands = () => {
   return (

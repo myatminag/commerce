@@ -6,9 +6,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@workspace/ui/components/accordion";
-import { CategoryIcon } from "@components/icons/category-icon";
+import { CategoryIcon } from "@/src/components/icons/category-icon";
 
-import { SubCategoryFrameIcon } from "@components/icons/subcategory-frame-icon";
+import { SubCategoryFrameIcon } from "@/src/components/icons/subcategory-frame-icon";
 
 const SUB_CATEGORY_DATA = [
   {

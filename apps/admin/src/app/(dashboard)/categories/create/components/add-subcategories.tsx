@@ -16,8 +16,8 @@ import { Button } from "@workspace/ui/components/button";
 import { Input } from "@workspace/ui/components/inputs/input";
 import { Label } from "@workspace/ui/components/inputs/label";
 
-import { PlusIcon } from "@components/icons/plus-icon";
-import { SubCategoryUploadIcon } from "@components/icons/subcategory-upload-icon";
+import { PlusIcon } from "@/src/components/icons/plus-icon";
+import { SubCategoryUploadIcon } from "@/src/components/icons/subcategory-upload-icon";
 
 const components = {
   DropdownIndicator: null,

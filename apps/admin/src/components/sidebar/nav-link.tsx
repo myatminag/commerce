@@ -59,7 +59,7 @@ const NavLink = ({ items }: NavMainProps) => {
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel className="text-sm font-semibold text-[#2F575380]">
+      <SidebarGroupLabel className="mb-2 text-base font-semibold text-neutral-400">
         Main Menu
       </SidebarGroupLabel>
       <SidebarMenu>
@@ -122,9 +122,7 @@ const NavLink = ({ items }: NavMainProps) => {
                     >
                       <IconComponent />
                     </span>
-                    <span className="ml-2 text-sm font-medium">
-                      {item.title}
-                    </span>
+                    <span className="text-sm font-medium">{item.title}</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

@@ -17,15 +17,15 @@ export default function Page({
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear">
+        <header className="flex h-16 shrink-0 items-center gap-2 bg-white transition-[width,height] ease-linear">
           <div className="flex w-full items-center gap-2 px-4">
-            <SidebarTrigger className="-ml-1 block size-5 md:hidden" />
+            <SidebarTrigger className="-ml-1 block md:hidden" />
             <div className="ml-auto flex items-center gap-x-3">
               <Button
                 variant="ghost"
                 size="icon"
                 aria-label="Notification"
-                className="rounded-full bg-transparent"
+                className="size-10 rounded-full bg-transparent"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -42,14 +42,18 @@ export default function Page({
                 </svg>
               </Button>
               <Button
-                variant="ghost"
                 size="icon"
+                variant="ghost"
                 aria-label="Translation"
-                className="rounded-full bg-transparent"
+                className="size-10 rounded-full bg-transparent"
               >
                 <TranslationIcon aria-hidden="true" className="size-4" />
               </Button>
-              <Button variant="ghost" className="gap-0 rounded-full py-0 ps-0">
+              <Button
+                size="lg"
+                variant="ghost"
+                className="gap-0 rounded-full py-0 ps-0"
+              >
                 <div className="me-0.5 flex aspect-square h-full p-1">
                   <Image
                     src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80"
@@ -67,8 +71,8 @@ export default function Page({
             </div>
           </div>
         </header>
-        <main className="flex h-[calc(100dvh)] w-full overflow-hidden bg-[#F0F5F4] p-4">
-          <div className="relative flex flex-1 flex-col overflow-auto pb-10">
+        <main className="bg-background flex h-[calc(100dvh-64px)] w-full overflow-hidden p-4">
+          <div className="relative flex flex-1 flex-col overflow-auto">
             {children}
           </div>
         </main>
