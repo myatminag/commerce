@@ -1,4 +1,4 @@
-import { SearchInput } from "@commerce/ui/components/inputs/search-input";
+import { SearchInput } from "@workspace/ui/components/inputs/search-input";
 
 const Filter = () => {
   return (

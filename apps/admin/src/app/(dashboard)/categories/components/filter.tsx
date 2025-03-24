@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
-import { SearchInput } from "@commerce/ui/components/inputs/search-input";
+import { SearchInput } from "@workspace/ui/components/inputs/search-input";
 
 import { useCategoryList } from "../use-category-list";
 import { PlusIcon } from "@components/icons/plus-icon";

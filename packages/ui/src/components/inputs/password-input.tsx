@@ -1,8 +1,8 @@
-import { forwardRef, InputHTMLAttributes, useState } from 'react';
+import { forwardRef, InputHTMLAttributes, useState } from "react";
 
-import { Label } from './label';
-import { cn } from '../../libs/utils';
-import { VisibleIcon, InvisibleIcon } from '../../icons/auth-icons';
+import { Label } from "./label";
+import { cn } from "../../lib/utils";
+import { VisibleIcon, InvisibleIcon } from "../../icons/auth-icons";
 
 export interface PasswordInputProps
   extends InputHTMLAttributes<HTMLInputElement> {
@@ -20,9 +20,9 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
         <div className="relative">
           <input
             id={id}
-            type={isVisible ? 'text' : 'password'}
+            type={isVisible ? "text" : "password"}
             className={cn(
-              'border-border-100 placeholder:text-placeholder focus-visible:ring-brand-600 rounded-base flex h-10 w-full border bg-transparent px-3 py-1 text-base transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-sm focus:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
+              "border-border-100 placeholder:text-placeholder focus-visible:ring-brand-600 rounded-base flex h-10 w-full border bg-transparent px-3 py-1 text-base transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-sm focus:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
               className,
             )}
             ref={ref}
@@ -47,6 +47,6 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
     );
   },
 );
-PasswordInput.displayName = 'Input';
+PasswordInput.displayName = "Input";
 
 export { PasswordInput };

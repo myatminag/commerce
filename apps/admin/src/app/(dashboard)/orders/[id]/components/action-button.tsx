@@ -7,10 +7,10 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@commerce/ui/components/dialog/dialog";
+} from "@workspace/ui/components/dialog/dialog";
 
-import { Button } from "@commerce/ui/components/button";
-import { TrashIcon } from "@commerce/ui/icons/trash-icon";
+import { Button } from "@workspace/ui/components/button";
+import { TrashIcon } from "@workspace/ui/icons/trash-icon";
 
 const ActionButton = () => {
   return (

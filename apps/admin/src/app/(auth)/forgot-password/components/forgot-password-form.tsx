@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@commerce/ui/components/button";
-import { Input } from "@commerce/ui/components/inputs/input";
+import { Button } from "@workspace/ui/components/button";
+import { Input } from "@workspace/ui/components/inputs/input";
 
 import { useForgotPassword } from "../user-forgot-password";
 

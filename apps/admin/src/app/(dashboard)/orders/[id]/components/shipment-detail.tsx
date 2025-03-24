@@ -1,5 +1,5 @@
-import { DeliveringIcon } from "@commerce/ui/icons/delivering-icon";
-import { DeliveredIcon } from "@commerce/ui/icons/delivered-icon";
+import { DeliveringIcon } from "@workspace/ui/icons/delivering-icon";
+import { DeliveredIcon } from "@workspace/ui/icons/delivered-icon";
 
 import { OrderIcon } from "@components/icons/order-icon";
 

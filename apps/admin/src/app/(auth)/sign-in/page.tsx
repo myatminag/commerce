@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Suspense } from "react";
 
-import { CdsIcon } from "@commerce/ui/icons/cds-icon";
+import { CdsIcon } from "@workspace/ui/icons/cds-icon";
 
 import SignInForm from "./components/sign-in-form";
 import {
@@ -33,7 +33,7 @@ const Page = () => {
             </h3>
             <p className="text-sm">
               Join thousands of successful sellers. Sign up for your <br />
-              e-commerce dashboard.
+              e-workspace dashboard.
             </p>
           </div>
           <Image

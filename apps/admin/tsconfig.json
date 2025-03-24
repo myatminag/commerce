@@ -1,25 +1,19 @@
 {
-  "extends": "@commerce/typescript-config/nextjs.json",
+  "extends": "@workspace/typescript-config/nextjs.json",
   "compilerOptions": {
+    "baseUrl": ".",
     "plugins": [{ "name": "next" }],
     "paths": {
-      "@services/*": ["./src/services/*"],
-      "@components/*": ["./src/components/*"],
-      "@constants/*": ["./src/constants/*"],
-      "@store/*": ["./src/store/*"],
-      "@assets/*": ["./src/assets/*"],
-      "@hooks/*": ["./src/hooks/*"],
-      "@lib/*": ["./src/lib/*"],
-      "@/types/*": ["./src/types/*"] // Including "/" prevents from @types global import error.
+      "@/*": ["./*"],
+      "@workspace/ui/*": ["../../packages/ui/src/*"]
     }
   },
   "include": [
     "next-env.d.ts",
+    "next.config.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts",
-    "jest.config.ts",
-    "jest.setup.ts"
+    ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }

@@ -5,7 +5,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@commerce/ui/components/accordion";
+} from "@workspace/ui/components/accordion";
 import { CategoryIcon } from "@components/icons/category-icon";
 
 import { SubCategoryFrameIcon } from "@components/icons/subcategory-frame-icon";

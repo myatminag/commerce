@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { CdsIcon } from "@commerce/ui/icons/cds-icon";
+import { CdsIcon } from "@workspace/ui/icons/cds-icon";
 
 import ForgotPasswordForm from "./components/forgot-password-form";
 import { MaskFiveIcon, MaskFourIcon } from "@components/icons/mask-icons";

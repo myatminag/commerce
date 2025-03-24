@@ -6,8 +6,8 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@commerce/ui/components/tab";
-import { Separator } from "@commerce/ui/components/separator";
+} from "@workspace/ui/components/tab";
+import { Separator } from "@workspace/ui/components/separator";
 
 import SubCategoryList from "./sub-category-list";
 import RelatedProducts from "./related-products";

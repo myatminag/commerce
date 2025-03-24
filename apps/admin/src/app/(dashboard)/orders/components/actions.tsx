@@ -4,8 +4,8 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@commerce/ui/components/dropdown-menu";
-import { Button } from "@commerce/ui/components/button";
+} from "@workspace/ui/components/dropdown-menu";
+import { Button } from "@workspace/ui/components/button";
 
 import { ThreeDotsIcon } from "@components/icons/three-dots-icon";
 

@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import { cn } from "@commerce/ui/libs/utils";
+import { cn } from "@workspace/ui/libs/utils";
 
 import { useAppSelector } from "@store/hook";
 

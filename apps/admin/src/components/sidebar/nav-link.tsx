@@ -4,13 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronRight } from "lucide-react";
 
-import { cn } from "@commerce/ui/libs/utils";
-
+import { cn } from "@workspace/ui/lib/utils";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@commerce/ui/components/collapsible";
+} from "@workspace/ui/components/collapsible";
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -20,15 +19,15 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from "@commerce/ui/components/sidebar";
+} from "@workspace/ui/components/sidebar";
 
-import { BrandIcon } from "@components/icons/brand-icon";
-import { CategoryIcon } from "@components/icons/category-icon";
-import { CustomerIcon } from "@components/icons/customer-icon";
-import { DashboardIcon } from "@components/icons/dashboard-icon";
-import { OrderIcon } from "@components/icons/order-icon";
-import { ProductsIcon } from "@components/icons/product-icon";
-import { SettingIcon } from "@components/icons/setting-icon";
+import { BrandIcon } from "../icons/brand-icon";
+import { CategoryIcon } from "../icons/category-icon";
+import { CustomerIcon } from "../icons/customer-icon";
+import { DashboardIcon } from "../icons/dashboard-icon";
+import { OrderIcon } from "../icons/order-icon";
+import { ProductsIcon } from "../icons/product-icon";
+import { SettingIcon } from "../icons/setting-icon";
 
 const icons = {
   dashboard: DashboardIcon,
@@ -55,7 +54,7 @@ export interface NavMainProps {
   items: NavItems[];
 }
 
-export function NavMain({ items }: NavMainProps) {
+const NavLink = ({ items }: NavMainProps) => {
   const pathname = usePathname();
 
   return (
@@ -110,7 +109,7 @@ export function NavMain({ items }: NavMainProps) {
                 <SidebarMenuButton
                   asChild
                   tooltip={item.title}
-                  className={cn("text- h-10 text-neutral-700", {
+                  className={cn("h-10 text-neutral-700", {
                     "bg-brand-600 hover:bg-brand-600 text-white hover:text-white":
                       isActive,
                   })}
@@ -135,4 +134,6 @@ export function NavMain({ items }: NavMainProps) {
       </SidebarMenu>
     </SidebarGroup>
   );
-}
+};
+
+export default NavLink;

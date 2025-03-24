@@ -1,6 +1,6 @@
 "use client";
 
-import { DataTable } from "@commerce/ui/components/table/data-table";
+import { DataTable } from "@workspace/ui/components/table/data-table";
 
 import Filter from "./filter";
 import { columns } from "./columns";

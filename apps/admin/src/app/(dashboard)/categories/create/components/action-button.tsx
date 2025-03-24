@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@commerce/ui/components/button";
+import { Button } from "@workspace/ui/components/button";
 
 const ActionButton = () => {
   return (

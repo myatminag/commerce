@@ -14,7 +14,7 @@
     "next": "^15.2.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "@commerce/ui": "workspace:*"
+    "@workspace/ui": "workspace:*"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^15.2.2",
@@ -25,8 +25,7 @@
     "postcss": "^8.5.3",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.2",
-    "@commerce/eslint-config": "workspace:*",
-    "@commerce/tailwind-config": "workspace:*",
-    "@commerce/typescript-config": "workspace:*"
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/typescript-config": "workspace:*"
   }
 }
