@@ -19,14 +19,12 @@ import {
   Pagination,
   PaginationParams,
 } from "src/decorators/pagination.decorator";
-import { IsPublic } from "src/services/auth/decorators/is-public.decorator";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { DeleteProductsDto } from "./dto/delete-products.dto";
 import { DiscountProductDto } from "./dto/discount-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 import { ProductService } from "./product.service";
 
-@IsPublic()
 @ApiTags("products")
 @Controller("products")
 export class ProductController {

@@ -3,6 +3,7 @@ import { ConfigModule, ConfigType } from "@nestjs/config";
 import { EventEmitterModule } from "@nestjs/event-emitter";
 
 import { BullModule } from "@nestjs/bullmq";
+import redisConfig from "src/config/redis.config";
 import { AuthModule } from "src/services/auth/auth.module";
 import { MailModule } from "src/services/mail/mail.module";
 import { PrismaModule } from "src/services/prisma/prisma.module";
@@ -11,9 +12,9 @@ import { S3Module } from "src/services/s3/s3.module";
 import { AdminModule } from "./admin/admin.module";
 import { BrandModule } from "./brand/brand.module";
 import { CategoryModule } from "./category/category.module";
+import { OrderModule } from "./order/order.module";
 import { ProductModule } from "./product/product.module";
 import { UserModule } from "./user/user.module";
-import redisConfig from "src/config/redis.config";
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import redisConfig from "src/config/redis.config";
     S3Module,
     RedisCacheModule,
     UserModule,
+    OrderModule,
     ConfigModule.forRoot({
       cache: true,
       isGlobal: true,
