@@ -17,7 +17,7 @@ export default function Page({
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 bg-white transition-[width,height] ease-linear">
+        <header className="border-border-300 z-5 sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b bg-white transition-[width,height] ease-linear">
           <div className="flex w-full items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1 block md:hidden" />
             <div className="ml-auto flex items-center gap-x-3">
@@ -71,10 +71,8 @@ export default function Page({
             </div>
           </div>
         </header>
-        <main className="bg-background flex h-[calc(100dvh-64px)] w-full overflow-hidden p-4">
-          <div className="relative flex flex-1 flex-col overflow-auto">
-            {children}
-          </div>
+        <main className="bg-background relative flex min-h-[calc(100dvh-64px)] w-full flex-1 flex-col overflow-hidden p-5">
+          {children}
         </main>
       </SidebarInset>
     </SidebarProvider>
