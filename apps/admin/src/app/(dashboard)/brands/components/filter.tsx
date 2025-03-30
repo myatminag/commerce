@@ -1,27 +1,16 @@
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-
 import { SearchInput } from "@workspace/ui/components/inputs/search-input";
 
-import { PlusIcon } from "@/src/components/icons/plus-icon";
-
 const Filter = () => {
-  const pathname = usePathname();
-
   return (
-    <div className="ms-auto flex items-center justify-between gap-x-3">
+    <div className="ms-auto flex items-start justify-between gap-x-3">
       <SearchInput
-        placeholder="Search brands..."
-        className="placeholder:text-brand-950 shadow-search-input w-full rounded-md lg:h-10 lg:w-64"
+        placeholder="Search brand..."
+        className="placeholder:text-brand-950 border-border-300 w-full rounded-md lg:h-10 lg:w-64"
       />
 
-      <Link
-        href={`${pathname}/new-brand`}
-        className="bg-brand-600 flex h-10 w-40 items-center justify-center gap-x-2 rounded-md px-4 text-sm font-medium text-white"
-      >
-        <PlusIcon className="size-4" />
-        Add Brand
-      </Link>
+      <button className="bg-brand-600 flex h-10 cursor-pointer items-center justify-center gap-x-2 rounded-md border px-4 text-sm font-medium text-white">
+        Search
+      </button>
     </div>
   );
 };

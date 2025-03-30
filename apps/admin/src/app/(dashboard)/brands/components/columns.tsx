@@ -1,11 +1,31 @@
 import * as z from "zod";
+import Link from "next/link";
 import Image from "next/image";
+import { EllipsisIcon } from "lucide-react";
 import type { ColumnDef } from "@tanstack/react-table";
 
+import { Button } from "@workspace/ui/components/button";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+} from "@workspace/ui/components/dropdown-menu";
 import { Checkbox } from "@workspace/ui/components/inputs/checkbox";
 import { ColumnHeader } from "@workspace/ui/components/table/column-header";
 
-const categorySchema = z.object({});
+import { paymentStatus } from "@/src/components/payment-status";
+
+const categorySchema = z.object({
+  name: z.string(),
+  description: z.string(),
+  poduct: z.string(),
+  "created-at": z.date(),
+  "updated-at": z.date(),
+});
 
 type Category = z.infer<typeof categorySchema>;
 
@@ -73,7 +93,7 @@ export const columns: ColumnDef<Category>[] = [
           <p className="truncate text-sm font-medium text-neutral-950">
             Clothes / Women&apos;s
           </p>
-          <p className="text-brand-600-700 flex size-7 items-center justify-center rounded-full bg-[#C8E9E3] text-sm">
+          <p className="text-brand-700 flex size-7 items-center justify-center rounded-full bg-[#C8E9E3] text-sm font-semibold">
             +8
           </p>
         </div>
@@ -90,7 +110,7 @@ export const columns: ColumnDef<Category>[] = [
     cell: () => {
       return (
         <p className="max-w-24 truncate text-sm font-medium text-neutral-950">
-          123 <span className="text-[#4F5E5D]">Products</span>
+          123 <span className="text-[#4F5E5D]">Items</span>
         </p>
       );
     },
@@ -98,14 +118,25 @@ export const columns: ColumnDef<Category>[] = [
     enableHiding: false,
   },
   {
+    accessorKey: "status",
+    header: ({ column }) => {
+      return <ColumnHeader column={column} title="Status" />;
+    },
+    cell: () => {
+      return paymentStatus("publish");
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
     accessorKey: "created-at",
     header: ({ column }) => {
-      return <ColumnHeader column={column} title="Description" />;
+      return <ColumnHeader column={column} title="Created At" />;
     },
     cell: () => {
       return (
         <p className="max-w-[500px] truncate text-sm font-medium text-neutral-950">
-          Clothing for men, women, and children
+          21 Feb 2024, 8:43 pm
         </p>
       );
     },
@@ -113,15 +144,67 @@ export const columns: ColumnDef<Category>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "created-at",
+    accessorKey: "updated-at",
     header: ({ column }) => {
-      return <ColumnHeader column={column} title="Last Modified On" />;
+      return <ColumnHeader column={column} title="Updated At" />;
     },
     cell: () => {
       return (
         <span className="max-w-[200px] truncate text-sm font-medium text-neutral-950">
           21 Feb 2024, 8:43 pm
         </span>
+      );
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    id: "action",
+    header: () => {
+      return <span className="sr-only">Actions</span>;
+    },
+    cell: () => {
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <div className="flex justify-start">
+              <Button
+                size="icon"
+                variant="none"
+                className="cursor-pointer shadow-none"
+                aria-label="Edit item"
+              >
+                <EllipsisIcon size={16} aria-hidden="true" />
+              </Button>
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuGroup>
+              <DropdownMenuItem className="hover:bg-background cursor-pointer">
+                <span>Detail</span>
+                <DropdownMenuShortcut>⌘E</DropdownMenuShortcut>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="hover:bg-background cursor-pointer">
+                <Link
+                  href="/brands/update?id=121"
+                  className="flex w-full items-center justify-between"
+                >
+                  <span>Update</span>
+                  <DropdownMenuShortcut>⌘D</DropdownMenuShortcut>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="hover:bg-background cursor-pointer">
+                <span>Draft</span>
+                <DropdownMenuShortcut>⌘D</DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="text-danger-500 focus:text-danger-500 hover:bg-background cursor-pointer">
+              <span>Delete</span>
+              <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       );
     },
     enableSorting: false,

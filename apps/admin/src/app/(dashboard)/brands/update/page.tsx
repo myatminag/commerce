@@ -1,11 +1,11 @@
-import { ActionButton } from "./components/action-button";
-import { CreateForm } from "./components/create-form";
+import { CreateForm } from "../create/components/create-form";
+import { ActionButton } from "../create/components/action-button";
 
-const Create = () => {
+const Update = () => {
   return (
     <section>
       <div className="relative flex items-center justify-between">
-        <h2 className="text-lg font-bold text-neutral-950">Create Brand</h2>
+        <h2 className="text-lg font-bold text-neutral-950">Update Brand</h2>
         <ActionButton />
       </div>
       <div className="mt-4 grid grid-cols-3">
@@ -20,4 +20,4 @@ const Create = () => {
   );
 };
 
-export default Create;
+export default Update;

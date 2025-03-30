@@ -1,17 +1,17 @@
-import { HeadingNode, QuoteNode } from '@lexical/rich-text';
-import { AutoLinkNode, LinkNode } from '@lexical/link';
-import { ListItemNode, ListNode } from '@lexical/list';
-import type { InitialConfigType } from '@lexical/react/LexicalComposer';
-import { LexicalComposer } from '@lexical/react/LexicalComposer';
-import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
-import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
-import { ContentEditable } from '@lexical/react/LexicalContentEditable';
-import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
-import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
-import { ListPlugin } from '@lexical/react/LexicalListPlugin';
-import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
+import { HeadingNode, QuoteNode } from "@lexical/rich-text";
+import { AutoLinkNode, LinkNode } from "@lexical/link";
+import { ListItemNode, ListNode } from "@lexical/list";
+import type { InitialConfigType } from "@lexical/react/LexicalComposer";
+import { LexicalComposer } from "@lexical/react/LexicalComposer";
+import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
+import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
+import { ContentEditable } from "@lexical/react/LexicalContentEditable";
+import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
+import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
+import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 
-import { ToolbarPlugin } from './plugins/toolbar-plugin';
+import { ToolbarPlugin } from "./plugins/toolbar-plugin";
 
 // Catch any errors that occur during Lexical updates and log them
 // or throw them as needed. If you don't throw them, Lexical will
@@ -22,11 +22,11 @@ const onError = (error: Error) => {
 
 export const TextEditor = () => {
   const config: InitialConfigType = {
-    namespace: 'lexical-editor',
+    namespace: "lexical-editor",
     theme: {
       text: {
-        underline: 'underline',
-        strikethrough: 'editor-text-strikethrough',
+        underline: "underline",
+        strikethrough: "editor-text-strikethrough",
       },
     },
     nodes: [
@@ -42,15 +42,15 @@ export const TextEditor = () => {
 
   return (
     <LexicalComposer initialConfig={config}>
-      <div className="prose border-border-100 rounded-base relative mx-auto flex max-w-full flex-col border">
+      <div className="prose border-border-200 rounded-base relative mx-auto flex max-w-full flex-col border">
         <ToolbarPlugin />
-        <div className="relative">
+        <div className="relative mt-2">
           <RichTextPlugin
             contentEditable={
               <ContentEditable className="relative h-56 w-full overflow-auto px-3 focus:outline-none" />
             }
             placeholder={
-              <p className="text-placeholder pointer-events-none absolute top-1 w-full px-3 text-sm">
+              <p className="pointer-events-none absolute top-1 w-full px-3 text-sm text-neutral-400">
                 Enter some text...
               </p>
             }

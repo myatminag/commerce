@@ -12,7 +12,7 @@ import { TrendingUpIcon } from "@/src/components/icons/trending-up-icon";
 
 export const Statistics = () => {
   return (
-    <div className="*:data-[slot=card]:border-card-100 grid grid-cols-1 gap-4 *:data-[slot=card]:bg-white *:data-[slot=card]:shadow-none lg:grid-cols-2 xl:grid-cols-4">
+    <div className="*:data-[slot=card]:border-border-300 grid grid-cols-1 gap-4 *:data-[slot=card]:bg-white *:data-[slot=card]:shadow-none lg:grid-cols-2 xl:grid-cols-4">
       <Card className="@container/card py-4">
         <CardHeader className="relative flex items-center gap-x-3 px-4">
           <svg
