@@ -92,7 +92,7 @@ export const BlockNameDropDown = ({ blockType }: BlockTypeDropdownProps) => {
         }
       }}
     >
-      <SelectTrigger className="h-9 w-36 border-none bg-transparent">
+      <SelectTrigger className="h-9 w-36 border-none bg-transparent hover:bg-neutral-100">
         <SelectValue placeholder="Block Type" />
       </SelectTrigger>
 

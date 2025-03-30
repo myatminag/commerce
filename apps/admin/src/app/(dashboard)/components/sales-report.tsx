@@ -72,7 +72,7 @@ export const SalesReport = () => {
   });
 
   return (
-    <Card className="border-card-100 col-span-3 py-6">
+    <Card className="border-border-300 col-span-3 py-6">
       <CardHeader className="flex items-center gap-2 space-y-0 px-4 sm:flex-row">
         <CardTitle>Sales & Order Report</CardTitle>
       </CardHeader>

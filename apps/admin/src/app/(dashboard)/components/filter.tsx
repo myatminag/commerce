@@ -24,7 +24,7 @@ export const Filter = () => {
   return (
     <div className="grid gap-2">
       <Popover>
-        <PopoverTrigger asChild className="border-card-100 bg-white">
+        <PopoverTrigger asChild className="border-border-300 bg-white">
           <Button
             id="date"
             variant={"outline"}
