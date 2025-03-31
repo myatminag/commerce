@@ -1,19 +1,15 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 
-import CategoryForm from "./components/category-form";
-import ActionButton from "./components/action-button";
-import { CreateSubCategory } from "./components/add-subcategories";
-import SubCategoryList from "./components/sub-category-list";
 import { BackArrowIcon } from "@/src/components/icons/back-arrow-icon";
 import {
-  ParcelIcon,
   GiftIcon,
+  ParcelIcon,
 } from "@/src/components/icons/category-banner-icon";
 
-export const metadata: Metadata = {
-  title: "New Category",
-};
+import ActionButton from "./components/action-button";
+import { CreateSubCategory } from "./components/add-subcategories";
+import CategoryForm from "./components/category-form";
+import SubCategoryList from "./components/sub-category-list";
 
 const Page = () => {
   return (

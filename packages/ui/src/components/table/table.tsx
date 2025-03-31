@@ -56,7 +56,10 @@ function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
   return (
     <tr
       data-slot="table-row"
-      className={cn("border-b bg-white transition-colors", className)}
+      className={cn(
+        "border-brand-600 border bg-white transition-colors",
+        className,
+      )}
       {...props}
     />
   );
@@ -69,7 +72,7 @@ function TableHead({ className, ...props }: React.ComponentProps<"th">) {
     <th
       data-slot="table-head"
       className={cn(
-        "border-table-border h-12 whitespace-nowrap px-4 text-left align-middle font-medium first:rounded-bl-lg first:rounded-tl-lg last:rounded-br-lg last:rounded-tr-lg [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+        "border-border-300 h-12 whitespace-nowrap border-b border-t px-4 text-left align-middle font-medium first:rounded-bl-lg first:rounded-tl-lg first:border-l last:rounded-br-lg last:rounded-tr-lg last:border-r [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
         className,
       )}
       {...props}
@@ -82,7 +85,7 @@ function TableCell({ className, ...props }: React.ComponentProps<"td">) {
     <td
       data-slot="table-cell"
       className={cn(
-        "border-table-border whitespace-nowrap px-4 py-2 align-middle first:rounded-bl-lg first:rounded-tl-lg last:rounded-br-lg last:rounded-tr-lg [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+        "border-border-300 whitespace-nowrap border-b border-t px-4 py-2 align-middle first:rounded-bl-lg first:rounded-tl-lg first:border-l last:rounded-br-lg last:rounded-tr-lg last:border-r [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
         className,
       )}
       {...props}

@@ -72,7 +72,7 @@ const orders = [
 
 export const LatestOrders = () => {
   return (
-    <Card className="col-span-4 flex flex-col">
+    <Card className="border-border-300 col-span-4 flex flex-col">
       <CardHeader className="items-center pb-0">
         <CardTitle>Latest Orders</CardTitle>
       </CardHeader>

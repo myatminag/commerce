@@ -53,7 +53,7 @@ const chartConfig = {
 
 export const TopSellingCategories = () => {
   return (
-    <Card className="col-span-1 flex flex-col">
+    <Card className="border-border-300 col-span-1 flex flex-col">
       <CardHeader className="items-center pb-0">
         <CardTitle>Top Selling Categories</CardTitle>
       </CardHeader>

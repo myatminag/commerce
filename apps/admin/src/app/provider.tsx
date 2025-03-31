@@ -29,7 +29,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <Provider store={storeRef.current}>
-        <ReactQueryDevtools initialIsOpen={false} />
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         {children}
       </Provider>
     </QueryClientProvider>
