@@ -5,6 +5,7 @@ model Category {
   description    String?
   bannerImage    Json?
   thumbnailImage Json?
+  status         Status     @default(publish)
   parentId       String?
   parent         Category?  @relation("parent_category", fields: [parentId], references: [id], onDelete: Cascade)
   children       Category[] @relation("parent_category")

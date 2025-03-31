@@ -11,6 +11,7 @@ import { PrismaService } from "src/services/prisma/prisma.service";
 import { CreateCategoryDto } from "./dto/create-category.dto";
 import { CreateSubCategoryDto } from "./dto/create-subcategory.dto";
 import { DeleteCategoriesDto } from "./dto/delete-categories.dto";
+import { StatusDto } from "./dto/status.dto";
 import { UpdateCategoryDto } from "./dto/update-category.dto";
 import { UpdateSubCategoryDto } from "./dto/update-subcategory.dto";
 
@@ -215,6 +216,38 @@ export class CategoryService {
     });
   }
 
+  async status(id: string, dto: StatusDto) {
+    const category = await this.prismaService.category.findUnique({
+      where: { id },
+      include: { children: true },
+    });
+
+    if (!category) {
+      throw new NotFoundException("Category not found!");
+    }
+
+    await this.prismaService.$transaction([
+      this.prismaService.category.update({
+        where: { id: category.id },
+        data: { status: dto.status },
+      }),
+      this.prismaService.category.updateMany({
+        where: { parentId: category.id },
+        data: { status: dto.status },
+      }),
+      this.prismaService.product.updateMany({
+        where: { categoryId: category.id },
+        data: {
+          isAvailable: false,
+        },
+      }),
+    ]);
+
+    return {
+      message: "Category status has been successfully updated.",
+    };
+  }
+
   async deleteCategory(id: string) {
     const category = await this.prismaService.category.findFirst({
       where: { id },
@@ -243,7 +276,7 @@ export class CategoryService {
     });
 
     if (categories.count === 0) {
-      throw new NotFoundException("There is no matching slugs or tenant id!");
+      throw new NotFoundException("There is no category id!");
     }
 
     return {

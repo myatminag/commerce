@@ -22,6 +22,7 @@ import {
 import { CreateProductDto } from "./dto/create-product.dto";
 import { DeleteProductsDto } from "./dto/delete-products.dto";
 import { DiscountProductDto } from "./dto/discount-product.dto";
+import { StatusDto } from "./dto/status.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 import { ProductService } from "./product.service";
 
@@ -58,6 +59,13 @@ export class ProductController {
   @HttpCode(HttpStatus.NO_CONTENT)
   async deleteMany(@Body() dto: DeleteProductsDto) {
     return this.productService.deleteMany(dto);
+  }
+
+  @AdminOnly()
+  @Patch(":id/status")
+  @HttpCode(HttpStatus.OK)
+  async status(@Param("id") id: string, @Body() dto: StatusDto) {
+    return this.productService.status(id, dto);
   }
 
   @Get(":slug")

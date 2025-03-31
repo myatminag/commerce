@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  Patch,
   Post,
   Put,
   Query,
@@ -21,6 +22,8 @@ import {
 import { BrandService } from "./brand.service";
 import { CreateBrandDto } from "./dto/create-brand.dto";
 import { UpdateBrandDto } from "./dto/update-brand.dto";
+import { StatusDto } from "./dto/status.dto";
+import { DeleteBrandsDto } from "./dto/delete-brands.dto";
 
 @ApiTags("brands")
 @Controller("brands")
@@ -46,6 +49,20 @@ export class BrandController {
   @Get(":slug")
   async findBySlug(@Param("slug") slug: string) {
     return this.brandService.findBySlug(slug);
+  }
+
+  @Delete()
+  @AdminOnly()
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async deleteCategories(@Body() dto: DeleteBrandsDto) {
+    return this.brandService.deleteBrands(dto);
+  }
+
+  @AdminOnly()
+  @Patch(":id/status")
+  @HttpCode(HttpStatus.OK)
+  async status(@Param("id") id: string, @Body() dto: StatusDto) {
+    return this.brandService.status(id, dto);
   }
 
   @AdminOnly()
