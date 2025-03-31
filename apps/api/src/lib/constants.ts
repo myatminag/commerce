@@ -21,6 +21,11 @@ export enum PaymentStatus {
   Failed = "failed",
 }
 
+export enum Status {
+  Publish = "publish",
+  Draft = "draft",
+}
+
 export enum Weight {
   Kg = "kg",
   G = "g",

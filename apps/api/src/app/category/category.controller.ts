@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  Patch,
   Post,
   Put,
   Query,
@@ -22,6 +23,7 @@ import { CategoryService } from "./category.service";
 import { CreateCategoryDto } from "./dto/create-category.dto";
 import { CreateSubCategoryDto } from "./dto/create-subcategory.dto";
 import { DeleteCategoriesDto } from "./dto/delete-categories.dto";
+import { StatusDto } from "./dto/status.dto";
 import { UpdateCategoryDto } from "./dto/update-category.dto";
 import { UpdateSubCategoryDto } from "./dto/update-subcategory.dto";
 
@@ -67,6 +69,13 @@ export class CategoryController {
   @HttpCode(HttpStatus.NO_CONTENT)
   async deleteCategories(@Body() dto: DeleteCategoriesDto) {
     return this.categoryService.deleteCategories(dto);
+  }
+
+  @AdminOnly()
+  @Patch(":id/status")
+  @HttpCode(HttpStatus.OK)
+  async status(@Param("id") id: string, @Body() dto: StatusDto) {
+    return this.categoryService.status(id, dto);
   }
 
   @Get(":slug")

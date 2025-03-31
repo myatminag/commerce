@@ -15,6 +15,7 @@ import { PrismaService } from "src/services/prisma/prisma.service";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { DeleteProductsDto } from "./dto/delete-products.dto";
 import { DiscountProductDto } from "./dto/discount-product.dto";
+import { StatusDto } from "./dto/status.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 
 @Injectable()
@@ -258,6 +259,28 @@ export class ProductService {
 
     return {
       message: "Products have been successfully deleted.",
+    };
+  }
+
+  async status(id: string, dto: StatusDto) {
+    const product = await this.prismaService.product.findUnique({
+      where: { id },
+      select: { id: true },
+    });
+
+    if (!product) {
+      throw new NotFoundException("Product not found!");
+    }
+
+    await this.prismaService.product.update({
+      where: { id: product.id },
+      data: {
+        status: dto.status,
+      },
+    });
+
+    return {
+      message: "Product status has been successfully updated.",
     };
   }
 

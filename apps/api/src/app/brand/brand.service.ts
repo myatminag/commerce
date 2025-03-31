@@ -12,7 +12,9 @@ import { PrismaError } from "src/lib/constants";
 import { slugify } from "src/lib/utils";
 import { PrismaService } from "src/services/prisma/prisma.service";
 import { CreateBrandDto } from "./dto/create-brand.dto";
+import { StatusDto } from "./dto/status.dto";
 import { UpdateBrandDto } from "./dto/update-brand.dto";
+import { DeleteBrandsDto } from "./dto/delete-brands.dto";
 
 @Injectable()
 export class BrandService {
@@ -21,7 +23,7 @@ export class BrandService {
   async create(dto: CreateBrandDto) {
     const slug = slugify(dto.name);
 
-    const isBrandExist = await this.prismaService.brand.findFirst({
+    const isBrandExist = await this.prismaService.brand.findUnique({
       where: {
         slug,
       },
@@ -97,10 +99,15 @@ export class BrandService {
     try {
       await this.prismaService.brand.update({
         where: { id },
-        data: dto,
+        data: {
+          slug: slugify(dto.name),
+          ...dto,
+        },
       });
 
-      return { status: "ok" };
+      return {
+        message: "Brand has been successfully updated.",
+      };
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === PrismaError.RECORD_TO_UPDATE_NOT_FOUND) {
@@ -109,6 +116,36 @@ export class BrandService {
       }
       throw error;
     }
+  }
+
+  async status(id: string, dto: StatusDto) {
+    const brand = await this.prismaService.brand.findUnique({
+      where: { id },
+      select: { id: true },
+    });
+
+    if (!brand) {
+      throw new NotFoundException("Brand not found!");
+    }
+
+    await this.prismaService.$transaction([
+      this.prismaService.brand.update({
+        where: { id: brand.id },
+        data: {
+          status: dto.status,
+        },
+      }),
+      this.prismaService.product.updateMany({
+        where: { brandId: brand.id },
+        data: {
+          isAvailable: false,
+        },
+      }),
+    ]);
+
+    return {
+      message: "Brand status has been successfully updated.",
+    };
   }
 
   async delete(id: string) {
@@ -126,6 +163,22 @@ export class BrandService {
 
     return {
       message: "Brand has been successfully deleted.",
+    };
+  }
+
+  async deleteBrands(dto: DeleteBrandsDto) {
+    const brands = await this.prismaService.brand.deleteMany({
+      where: {
+        id: { in: dto.ids },
+      },
+    });
+
+    if (brands.count === 0) {
+      throw new NotFoundException("There is no matching brand id!");
+    }
+
+    return {
+      message: "Brands have been successfully deleted.",
     };
   }
 }
