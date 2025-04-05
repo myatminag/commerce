@@ -24,7 +24,9 @@ import { DeleteProductsDto } from "./dto/delete-products.dto";
 import { DiscountProductDto } from "./dto/discount-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 import { ProductService } from "./product.service";
+import { IsPublic } from "src/services/auth/decorators/is-public.decorator";
 
+@IsPublic()
 @ApiTags("products")
 @Controller("products")
 export class ProductController {

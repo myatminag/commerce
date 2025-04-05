@@ -10,5 +10,5 @@ model Admin {
   updatedAt    DateTime       @updatedAt
   notification Notification[]
 
-  @@map("admin")
+  @@index([name])
 }

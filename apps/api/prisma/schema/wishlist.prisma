@@ -5,6 +5,4 @@ model Wishlist {
   product   Product[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-
-  @@map("wishlist")
 }

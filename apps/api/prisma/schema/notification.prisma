@@ -10,8 +10,6 @@ model Notification {
   user          User               @relation(fields: [userId], references: [id], onDelete: Cascade)
   adminId       String
   admin         Admin              @relation(fields: [adminId], references: [id], onDelete: Cascade)
-
-  @@map("notification")
 }
 
 enum NotificationStatus {

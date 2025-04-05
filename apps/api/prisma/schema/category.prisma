@@ -13,5 +13,4 @@ model Category {
   product        Product[]
 
   @@index([name])
-  @@map("category")
 }

@@ -1,21 +1,16 @@
 model Cart {
-  id            String    @id @default(cuid())
-  userId        String    @unique
-  user          User      @relation(fields: [userId], references: [id])
-  quantity      Int       @default(1)
+  id            String      @id @default(cuid())
+  userId        String      @unique
+  user          User        @relation(fields: [userId], references: [id])
   deliveryFee   Int
   tax           Int
   itemCount     Int
   subTotalPrice Int
-  totalDiscount Int
   totalPrice    Int
   totalWeight   Int
   currency      Currency
-  note          String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  product       Product[]
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  cartItems     CartItems[]
   order         Order?
-
-  @@map("cart")
 }

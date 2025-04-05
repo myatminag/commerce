@@ -28,34 +28,12 @@ model Product {
   createdAt         DateTime         @default(now())
   updatedAt         DateTime         @default(now())
   productVariant    ProductVariant[]
-  cartId            String?
-  cart              Cart?            @relation(fields: [cartId], references: [id])
+  cartItem          CartItems[]
   wishlist          Wishlist[]
   orderItem         OrderItems[]
 
   @@unique([slug, sku])
   @@index([name])
-  @@map("product")
-}
-
-model ProductVariant {
-  id           String   @id @default(cuid())
-  name         String   @db.VarChar(255)
-  productId    String?
-  product      Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
-  options      Json
-  featureImage String
-  sku          String   @unique @db.VarChar(255)
-  price        Int
-  cost         Int
-  profit       Int
-  isAvailable  Boolean  @default(true)
-  weight       Int      @default(0)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  @@index([productId])
-  @@map("product_variant")
 }
 
 enum Weight {

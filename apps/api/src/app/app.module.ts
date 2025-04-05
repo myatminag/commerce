@@ -15,6 +15,7 @@ import { CategoryModule } from "./category/category.module";
 import { OrderModule } from "./order/order.module";
 import { ProductModule } from "./product/product.module";
 import { UserModule } from "./user/user.module";
+import { CartModule } from "./cart/cart.module";
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { UserModule } from "./user/user.module";
     S3Module,
     RedisCacheModule,
     UserModule,
+    CartModule,
     OrderModule,
     ConfigModule.forRoot({
       cache: true,

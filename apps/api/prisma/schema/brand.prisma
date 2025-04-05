@@ -10,5 +10,4 @@ model Brand {
   product        Product[]
 
   @@index([name])
-  @@map("brand")
 }
