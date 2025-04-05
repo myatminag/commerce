@@ -1,16 +1,17 @@
 model Category {
-  id             String     @id @default(cuid())
-  name           String     @db.VarChar(255)
-  slug           String     @unique @db.VarChar(255)
+  id             String      @id @default(cuid())
+  name           String      @db.VarChar(255)
+  slug           String      @unique @db.VarChar(255)
   description    String?
   bannerImage    Json?
   thumbnailImage Json?
   parentId       String?
-  parent         Category?  @relation("parent_category", fields: [parentId], references: [id], onDelete: Cascade)
-  children       Category[] @relation("parent_category")
-  createdAt      DateTime   @default(now())
-  updatedAt      DateTime   @updatedAt
+  parent         Category?   @relation("parent_category", fields: [parentId], references: [id], onDelete: Cascade)
+  children       Category[]  @relation("parent_category")
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
   product        Product[]
+  items          CartItems[]
 
   @@index([name])
 }

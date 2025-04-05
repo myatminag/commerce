@@ -1,15 +1,22 @@
-import { IsArray, IsNotEmpty, IsString, Min } from "class-validator";
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Min,
+} from "class-validator";
 
-class CartProductDto {
+export class CreateCartDto {
   @IsString()
   @IsNotEmpty()
   productId: string;
 
-  @Min(1)
-  quantity: number;
-}
+  @IsString()
+  @IsOptional()
+  variantId: string;
 
-export class CreateCartDto {
-  @IsArray()
-  products: CartProductDto[];
+  @Min(1)
+  @IsNumber()
+  @IsNotEmpty()
+  quantity: number;
 }

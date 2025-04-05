@@ -5,7 +5,6 @@ import {
   Get,
   HttpCode,
   HttpStatus,
-  Patch,
   Post,
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
@@ -21,11 +20,11 @@ export class CartController {
   constructor(private cartService: CartService) {}
 
   @Post()
-  async create(
+  async add(
     @ActiveUser() activeUser: ActiveUserData,
     @Body() dto: CreateCartDto,
   ) {
-    return this.cartService.create(activeUser.sub, dto);
+    return this.cartService.add(activeUser.sub, dto);
   }
 
   @Get()
@@ -37,11 +36,5 @@ export class CartController {
   @HttpCode(HttpStatus.NO_CONTENT)
   async removeCart(@ActiveUser() activeUser: ActiveUserData) {
     return this.cartService.removeCart(activeUser.sub);
-  }
-
-  @Patch()
-  @HttpCode(HttpStatus.CREATED)
-  async updateCart(@ActiveUser() activeUser: ActiveUserData) {
-    return this.cartService.updateCart(activeUser.sub);
   }
 }

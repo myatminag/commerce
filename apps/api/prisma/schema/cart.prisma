@@ -1,16 +1,17 @@
 model Cart {
-  id            String      @id @default(cuid())
-  userId        String      @unique
-  user          User        @relation(fields: [userId], references: [id])
-  deliveryFee   Int
-  tax           Int
-  itemCount     Int
-  subTotalPrice Int
-  totalPrice    Int
-  totalWeight   Int
-  currency      Currency
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-  cartItems     CartItems[]
-  order         Order?
+  id               String      @id @default(cuid())
+  userId           String      @unique
+  user             User        @relation(fields: [userId], references: [id])
+  currency         Currency
+  itemCount        Int
+  items            CartItems[]
+  requiredShipping Boolean     @default(true)
+  subTotalPrice    Int
+  totalPrice       Int
+  totalWeight      Int         @default(0)
+  totalDiscount    Int         @default(0)
+  deliveryFee      Int
+  order            Order?
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
 }

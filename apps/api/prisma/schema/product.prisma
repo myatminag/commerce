@@ -28,7 +28,6 @@ model Product {
   createdAt         DateTime         @default(now())
   updatedAt         DateTime         @default(now())
   productVariant    ProductVariant[]
-  cartItem          CartItems[]
   wishlist          Wishlist[]
   orderItem         OrderItems[]
 
