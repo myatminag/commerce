@@ -1,12 +1,22 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
+import { Prisma, Product } from "@prisma/client";
 
 import { PrismaService } from "src/services/prisma/prisma.service";
-import { CreateOrUpdate, Option } from "./cart.type";
 import { CreateCartDto } from "./dto/create-cart.dto";
-import { Prisma } from "@prisma/client";
+import {
+  AddNewItemToCartParams,
+  CreateCartItemsParams,
+  CreateNewCartParams,
+  Option,
+  UpdateExistingItemParams,
+  VariantPayload,
+} from "./interfaces/cart.interface";
 
 @Injectable()
 export class CartService {
+  private readonly DELIVERY_FEE = 3_500;
+  private readonly CURRENCY = "mmk";
+
   constructor(private prismaService: PrismaService) {}
 
   async add(id: string, dto: CreateCartDto) {
@@ -20,14 +30,10 @@ export class CartService {
         include: {
           productVariant: {
             where: { id: dto.variantId },
-            select: { options: true, featureImage: true },
+            select: { options: true, featureImage: true, price: true },
           },
-          brand: {
-            select: { id: true, name: true },
-          },
-          category: {
-            select: { id: true, name: true },
-          },
+          brand: true,
+          category: true,
         },
       }),
     ]);
@@ -41,18 +47,11 @@ export class CartService {
     }
 
     const variant = product.productVariant[0];
-    const option = JSON.parse(product.options as string) as Option[];
-    const selectedVariant = JSON.parse(variant.options as string) as string[];
-
-    const selectedOption = option.map((otp, index) => ({
-      name: otp.name,
-      value: selectedVariant[index] ?? null,
-    }));
-
-    const deliveryFee = 3500;
-    const pricePerItem = product.discountPrice ?? product.price;
-    const subTotalPrice = pricePerItem * dto.quantity;
-    const totalPrice = subTotalPrice + deliveryFee;
+    const { pricePerItem, subTotalPrice, totalPrice } = this.calculatePrices(
+      product,
+      variant,
+      dto.quantity,
+    );
 
     const cart = await this.prismaService.cart.findUnique({
       where: { userId: id },
@@ -60,57 +59,41 @@ export class CartService {
     });
 
     if (!cart) {
-      return this.createOrUpdate({
-        user,
+      return this.createNewCart({
         dto,
+        product,
+        user,
+        variant,
+        pricePerItem,
         subTotalPrice,
         totalPrice,
-        variant,
-        product,
-        selectedOption,
-        selectedVariant,
       });
     }
 
+    const selectedVariant = this.parsedSelectedVariant(variant.options);
     const existingItem = cart.items.find(
-      (item) => item.productId === product.id,
+      (i) =>
+        i.productId === product.id &&
+        JSON.stringify(i.variants) === JSON.stringify(selectedVariant),
     );
 
     if (existingItem) {
-      return await this.prismaService.cart.update({
-        where: { id: cart.id },
-        data: {
-          itemCount: cart.itemCount + dto.quantity,
-          subTotalPrice: cart.subTotalPrice + subTotalPrice,
-          totalPrice: cart.totalPrice + totalPrice - deliveryFee,
-          totalDiscount: cart.totalDiscount + (product.discountAmount ?? 0),
-          totalWeight: cart.totalWeight + product.weight * dto.quantity,
-          items: {
-            update: {
-              where: { id: existingItem.id },
-              data: {
-                quantity: existingItem.quantity + dto.quantity,
-                price: existingItem.price + pricePerItem * dto.quantity,
-                discountAmount:
-                  existingItem.discountAmount + product.discountAmount,
-                discountPrice:
-                  existingItem.discountPrice + pricePerItem * dto.quantity,
-              },
-            },
-          },
-        },
-        include: { items: true },
+      return this.updateExistingItem({
+        cart,
+        dto,
+        existingItem,
+        product,
+        pricePerItem,
+        subTotalPrice,
       });
     } else {
-      return this.createOrUpdate({
-        user,
+      return this.addNewItemToCart({
+        cart,
         dto,
-        variant,
-        subTotalPrice,
-        totalPrice,
-        selectedOption,
-        selectedVariant,
         product,
+        pricePerItem,
+        subTotalPrice,
+        variant,
       });
     }
   }
@@ -123,10 +106,6 @@ export class CartService {
         items: true,
       },
     });
-
-    if (!cart) {
-      throw new NotFoundException("Cart not found!");
-    }
 
     return cart;
   }
@@ -150,31 +129,152 @@ export class CartService {
     };
   }
 
-  private async createOrUpdate({
-    dto,
-    user,
-    product,
-    subTotalPrice,
-    totalPrice,
-    variant,
-    selectedOption,
-    selectedVariant,
-  }: CreateOrUpdate) {
-    const cartItems: Prisma.CartItemsCreateInput = {
+  private parsedSelectedOption(
+    options: Prisma.JsonValue,
+    variants: Prisma.JsonValue,
+  ): Option[] {
+    const selectedOption = JSON.parse(options as string) as Option[];
+    const selectedVariant = JSON.parse(variants as string) as string[];
+
+    return selectedOption.map((opt, index) => ({
+      name: opt.name,
+      value: selectedVariant[index] ?? null,
+    }));
+  }
+
+  private parsedSelectedVariant(variant: Prisma.JsonValue): string[] {
+    return JSON.parse(JSON.stringify(variant));
+  }
+
+  private calculatePrices(
+    product: Product,
+    variant: VariantPayload,
+    quantity: number,
+  ) {
+    const variantPrice = variant.price ?? null;
+    const basePrice = product.discountPrice ?? product.price;
+    const pricePerItem = variantPrice ?? basePrice;
+    const subTotalPrice = pricePerItem * quantity;
+    const totalPrice = subTotalPrice + this.DELIVERY_FEE;
+
+    return { pricePerItem, subTotalPrice, totalPrice };
+  }
+
+  private async updateExistingItem(params: UpdateExistingItemParams) {
+    const { cart, dto, existingItem, product, pricePerItem, subTotalPrice } =
+      params;
+
+    const priceIncrease = pricePerItem * dto.quantity;
+    const discountAmount = (product.discountAmount ?? 0) * dto.quantity;
+
+    return await this.prismaService.cart.update({
+      where: { id: cart.id },
+      data: {
+        itemCount: cart.itemCount + dto.quantity,
+        subTotalPrice: cart.subTotalPrice + subTotalPrice,
+        totalPrice: cart.totalPrice + subTotalPrice,
+        totalDiscount: cart.totalDiscount + discountAmount,
+        totalWeight: cart.totalWeight + product.weight * dto.quantity,
+        items: {
+          update: {
+            where: { id: existingItem.id },
+            data: {
+              quantity: existingItem.quantity + dto.quantity,
+              price: existingItem.price + priceIncrease,
+              discountAmount: existingItem.discountAmount + discountAmount,
+              discountPrice: existingItem.discountPrice + priceIncrease,
+            },
+          },
+        },
+      },
+      include: { items: true },
+    });
+  }
+
+  private async createNewCart(params: CreateNewCartParams) {
+    const {
+      dto,
+      product,
+      user,
+      variant,
+      pricePerItem,
+      subTotalPrice,
+      totalPrice,
+    } = params;
+
+    const cartItems = this.createCartItems({
+      dto,
+      pricePerItem,
+      product,
+      variant,
+    });
+
+    return await this.prismaService.cart.create({
+      data: {
+        currency: this.CURRENCY,
+        itemCount: dto.quantity,
+        subTotalPrice,
+        totalPrice,
+        totalDiscount: product.discountAmount ?? 0,
+        totalWeight: product.weight * dto.quantity,
+        deliveryFee: 3500,
+        items: { create: cartItems },
+        user: { connect: { id: user.id } },
+      },
+      include: {
+        items: true,
+      },
+    });
+  }
+
+  private async addNewItemToCart(params: AddNewItemToCartParams) {
+    const { cart, dto, product, pricePerItem, subTotalPrice, variant } = params;
+
+    const discountAmount = (product.discountAmount ?? 0) * dto.quantity;
+
+    const cartItems = this.createCartItems({
+      dto,
+      pricePerItem,
+      product,
+      variant,
+    });
+
+    return await this.prismaService.cart.update({
+      where: { id: cart.id },
+      data: {
+        itemCount: cart.itemCount + dto.quantity,
+        subTotalPrice: cart.subTotalPrice + subTotalPrice,
+        totalPrice: cart.totalPrice + subTotalPrice,
+        totalDiscount: cart.totalDiscount + discountAmount,
+        totalWeight: cart.totalWeight + product.weight * dto.quantity,
+        items: { create: cartItems },
+      },
+      include: {
+        items: true,
+      },
+    });
+  }
+
+  private createCartItems(
+    params: CreateCartItemsParams,
+  ): Prisma.CartItemsCreateInput {
+    const { dto, pricePerItem, product, variant } = params;
+
+    return {
       productId: product.id,
       name: product.name,
       slug: product.slug,
       sku: product.sku,
       description: product.description,
       image: variant?.featureImage ?? product.featureImage,
-      price: (product.discountPrice ?? product.price) * dto.quantity,
+      price: pricePerItem * dto.quantity,
       quantity: dto.quantity,
       discountAmount: product.discountAmount,
-      discountPrice: (product.discountPrice ?? product.price) * dto.quantity,
+      discountPrice: pricePerItem * dto.quantity,
       weight: product.weight,
       weightUnit: product.weightUnit,
-      options: selectedOption,
-      variants: selectedVariant,
+      options: this.parsedSelectedOption(product.options, variant.options),
+      variants: this.parsedSelectedVariant(variant.options),
       category: {
         connect: { id: product.category.id },
       },
@@ -182,38 +282,5 @@ export class CartService {
         connect: { id: product.brand.id },
       },
     };
-
-    return await this.prismaService.cart.upsert({
-      where: { userId: user.id },
-      update: {
-        currency: "mmk",
-        itemCount: dto.quantity,
-        subTotalPrice,
-        totalPrice,
-        totalDiscount: product.discountAmount ?? 0,
-        totalWeight: product.weight * dto.quantity,
-        deliveryFee: 3500,
-        items: { create: cartItems },
-        user: {
-          connect: { id: user.id },
-        },
-      },
-      create: {
-        currency: "mmk",
-        itemCount: dto.quantity,
-        subTotalPrice,
-        totalPrice,
-        totalDiscount: product.discountAmount ?? 0,
-        totalWeight: product.weight * dto.quantity,
-        deliveryFee: 3500,
-        items: { create: cartItems },
-        user: {
-          connect: { id: user.id },
-        },
-      },
-      include: {
-        items: true,
-      },
-    });
   }
 }
