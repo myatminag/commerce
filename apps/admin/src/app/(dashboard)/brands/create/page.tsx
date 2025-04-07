@@ -1,5 +1,23 @@
-const NewBrand = () => {
-  return <div>Enter</div>;
+import { ActionButton } from "./components/action-button";
+import { CreateForm } from "./components/create-form";
+
+const Create = () => {
+  return (
+    <section>
+      <div className="relative flex items-center justify-between">
+        <h2 className="text-lg font-bold text-neutral-950">Create Brand</h2>
+        <ActionButton />
+      </div>
+      <div className="mt-4 grid grid-cols-3">
+        <div className="border-border-300 col-span-2 rounded-md border bg-white p-6">
+          <p className="text-base font-semibold uppercase text-neutral-700">
+            Brand Info
+          </p>
+          <CreateForm />
+        </div>
+      </div>
+    </section>
+  );
 };
 
-export default NewBrand;
+export default Create;

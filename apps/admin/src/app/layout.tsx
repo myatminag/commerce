@@ -1,11 +1,10 @@
-// import "./globals.css";
-import "@workspace/ui/styles/globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
+import "@workspace/ui/styles/globals.css";
 import { Toaster } from "@workspace/ui/components/toast/toaster";
 
-import AppProvider from "./provider";
+import { AppProvider } from "./provider";
 
 const roboto = Inter({
   subsets: ["latin"],

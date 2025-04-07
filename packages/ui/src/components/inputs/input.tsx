@@ -11,7 +11,7 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, className, type, id, errors, ...props }, ref) => {
     return (
-      <div className="w-full space-y-1">
+      <div className="w-full space-y-3">
         <Label htmlFor={id}>{label}</Label>
         <input
           id={id}

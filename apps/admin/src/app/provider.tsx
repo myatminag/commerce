@@ -19,7 +19,7 @@ const queryClient = new QueryClient({
   },
 });
 
-const AppProvider = ({ children }: { children: ReactNode }) => {
+export const AppProvider = ({ children }: { children: ReactNode }) => {
   const storeRef = useRef<AppStore>(undefined);
 
   if (!storeRef.current) {
@@ -29,11 +29,9 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <Provider store={storeRef.current}>
-        <ReactQueryDevtools initialIsOpen={false} />
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         {children}
       </Provider>
     </QueryClientProvider>
   );
 };
-
-export default AppProvider;

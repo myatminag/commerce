@@ -18,6 +18,7 @@ model Product {
   category          Category         @relation(fields: [categoryId], references: [id])
   stock             Int
   isAvailable       Boolean          @default(true)
+  status            Status           @default(publish)
   weight            Int              @default(0)
   weightUnit        Weight           @default(kg)
   discountType      Discount?
@@ -44,4 +45,9 @@ enum Weight {
 enum Discount {
   percentage
   kyats
+}
+
+enum Status {
+  publish
+  draft
 }

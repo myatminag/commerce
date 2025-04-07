@@ -138,13 +138,14 @@ export const ToolbarPlugin = () => {
   }, [editor]);
 
   return (
-    <div className="rounded-t-base z-10 w-full border-b bg-[#E8FCF9] p-1">
-      <div className="flex space-x-2">
+    <div className="rounded-t-base bg-upload z-10 w-full border-b p-1">
+      <div className="flex h-8 items-center space-x-2">
         <div className="flex items-center">
           <Button
             size="sm"
             disabled={!undo}
             variant="ghost"
+            className="border-none"
             onClick={(e) => {
               e.preventDefault();
               editor.dispatchCommand(UNDO_COMMAND, undefined);
@@ -157,6 +158,7 @@ export const ToolbarPlugin = () => {
             size="sm"
             disabled={!redo}
             variant="ghost"
+            className="border-none"
             onClick={(e) => {
               e.preventDefault();
               editor.dispatchCommand(REDO_COMMAND, undefined);
@@ -166,11 +168,11 @@ export const ToolbarPlugin = () => {
           </Button>
         </div>
 
-        <Separator orientation="vertical" className="h-9" />
+        <Separator orientation="vertical" />
 
         <BlockNameDropDown blockType={blockType} />
 
-        <Separator orientation="vertical" className="h-9" />
+        <Separator orientation="vertical" />
 
         <Toggle
           area-label="Bold"
