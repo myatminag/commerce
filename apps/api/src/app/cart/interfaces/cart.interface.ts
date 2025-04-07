@@ -21,7 +21,7 @@ export type ProductPayload = Prisma.ProductGetPayload<{
 
 export type VariantPayload = Pick<
   ProductVariant,
-  "options" | "featureImage" | "price"
+  "id" | "options" | "featureImage" | "price"
 >;
 
 export interface UpdateExistingItemParams {

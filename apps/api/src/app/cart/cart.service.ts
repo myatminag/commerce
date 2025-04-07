@@ -30,7 +30,6 @@ export class CartService {
         include: {
           productVariant: {
             where: { id: dto.variantId },
-            select: { options: true, featureImage: true, price: true },
           },
           brand: true,
           category: true,
@@ -47,6 +46,11 @@ export class CartService {
     }
 
     const variant = product.productVariant[0];
+
+    if (!variant) {
+      throw new NotFoundException("Product variant not found!");
+    }
+
     const { pricePerItem, subTotalPrice, totalPrice } = this.calculatePrices(
       product,
       variant,
@@ -70,11 +74,8 @@ export class CartService {
       });
     }
 
-    const selectedVariant = this.parsedSelectedVariant(variant.options);
     const existingItem = cart.items.find(
-      (i) =>
-        i.productId === product.id &&
-        JSON.stringify(i.variants) === JSON.stringify(selectedVariant),
+      (i) => i.productId === product.id && i.id === dto.variantId,
     );
 
     if (existingItem) {
@@ -261,6 +262,7 @@ export class CartService {
     const { dto, pricePerItem, product, variant } = params;
 
     return {
+      id: variant.id,
       productId: product.id,
       name: product.name,
       slug: product.slug,

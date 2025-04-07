@@ -1,5 +1,5 @@
 model CartItems {
-  id             String    @id @default(cuid())
+  id             String    @id @unique
   productId      String
   name           String    @db.VarChar(255)
   slug           String    @db.VarChar(255)
