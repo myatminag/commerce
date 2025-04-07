@@ -1,15 +1,15 @@
 model Brand {
-  id             String    @id @default(cuid())
-  name           String    @db.VarChar(255)
-  slug           String    @unique @db.VarChar(255)
+  id             String      @id @default(cuid())
+  name           String      @db.VarChar(255)
+  slug           String      @unique @db.VarChar(255)
   bannerImage    Json
   thumbnailImage Json
   description    String
-  status         Status    @default(publish)
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  status         Status      @default(publish)
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
   product        Product[]
+  items          CartItems[]
 
   @@index([name])
-  @@map("brand")
 }

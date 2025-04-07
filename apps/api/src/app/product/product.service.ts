@@ -137,9 +137,6 @@ export class ProductService {
       where: {
         slug,
       },
-      omit: {
-        cartId: true,
-      },
       include: {
         productVariant: {
           omit: {

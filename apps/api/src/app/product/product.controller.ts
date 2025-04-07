@@ -25,6 +25,7 @@ import { DiscountProductDto } from "./dto/discount-product.dto";
 import { StatusDto } from "./dto/status.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 import { ProductService } from "./product.service";
+import { IsPublic } from "src/services/auth/decorators/is-public.decorator";
 
 @ApiTags("products")
 @Controller("products")

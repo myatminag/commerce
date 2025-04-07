@@ -18,27 +18,12 @@ model Order {
   orderDate     DateTime
   currency      Currency
   invoice       Invoice?
+  payment       Payment?
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
-  payment       Payment?
 
   @@index([orderStatus])
   @@index([orderDate])
-  @@map("order")
-}
-
-model OrderItems {
-  id        String   @id @default(cuid())
-  quantity  Int      @default(1)
-  price     Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  orderId   String
-  order     Order    @relation(fields: [orderId], references: [id])
-  productId String
-  product   Product  @relation(fields: [productId], references: [id])
-
-  @@map("order_items")
 }
 
 enum OrderStatus {

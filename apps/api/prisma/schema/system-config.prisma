@@ -1,7 +1,7 @@
 model SystemConfig {
   id                String   @id @default(cuid())
   deliveryOptions   Json
-  taxRate           Decimal  @db.Decimal(5, 2)
+  tax               Decimal  @db.Decimal(5, 2)
   currency          Currency @default(mmk)
   bannerImage       Json?
   adsImage          Json?
@@ -13,8 +13,6 @@ model SystemConfig {
   socialLinks       Json?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
-
-  @@map("system_config")
 }
 
 enum Currency {
