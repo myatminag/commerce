@@ -1,8 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { Prisma, Product } from "@prisma/client";
+import { Cart, CartItems, Prisma, Product } from "@prisma/client";
 
-import { PrismaService } from "src/services/prisma/prisma.service";
-import { CreateCartDto } from "./dto/create-cart.dto";
 import {
   AddNewItemToCartParams,
   CreateCartItemsParams,
@@ -11,6 +9,9 @@ import {
   UpdateExistingItemParams,
   VariantPayload,
 } from "./interfaces/cart.interface";
+import { CreateCartDto } from "./dto/create-cart.dto";
+import { UpdateCartDto } from "./dto/update-cart.dto";
+import { PrismaService } from "src/services/prisma/prisma.service";
 
 @Injectable()
 export class CartService {
@@ -19,10 +20,10 @@ export class CartService {
 
   constructor(private prismaService: PrismaService) {}
 
-  async add(id: string, dto: CreateCartDto) {
+  async add(userId: string, dto: CreateCartDto) {
     const [user, product] = await Promise.all([
       this.prismaService.user.findUnique({
-        where: { id },
+        where: { id: userId },
         select: { id: true },
       }),
       this.prismaService.product.findUnique({
@@ -58,7 +59,7 @@ export class CartService {
     );
 
     const cart = await this.prismaService.cart.findUnique({
-      where: { userId: id },
+      where: { userId },
       include: { items: true },
     });
 
@@ -99,21 +100,103 @@ export class CartService {
     }
   }
 
-  async getCart(id: string) {
+  async getCart(userId: string) {
     const cart = await this.prismaService.cart.findUnique({
-      where: { userId: id },
+      where: { userId },
       omit: { userId: true },
       include: {
-        items: true,
+        items: {
+          omit: { cartId: true },
+        },
       },
     });
 
     return cart;
   }
 
-  async removeCart(id: string) {
+  async updateItemQuantity(
+    userId: string,
+    dto: UpdateCartDto,
+    action: "increase" | "decrease",
+  ) {
     const cart = await this.prismaService.cart.findUnique({
-      where: { userId: id },
+      where: { userId },
+      include: {
+        items: true,
+      },
+    });
+
+    if (!cart) {
+      throw new NotFoundException("Cart not found!");
+    }
+
+    const item = cart.items.find(
+      (i) => i.productId === dto.productId && i.id === dto.variantId,
+    );
+
+    if (!item) {
+      throw new NotFoundException("Item not found!");
+    }
+
+    const unitPrice = item.price / item.quantity;
+    const unitWeight = item.weight / item.quantity || 0;
+    const unitDiscountPrice = item.discountPrice / item.quantity || 0;
+    const unitDiscountAmount = item.discountAmount / item.quantity || 0;
+    const quantity = action === "increase" ? dto.quantity : -dto.quantity;
+    const newQuantity = Math.max(0, item.quantity + quantity);
+
+    if (newQuantity === 0) {
+      return this.deleteCartItem(cart, item);
+    }
+
+    const price = unitPrice * quantity;
+    const weight = unitWeight * quantity;
+    const discount = unitDiscountAmount * quantity;
+
+    const updatedCart = await this.prismaService.cart.update({
+      where: { id: cart.id },
+      data: {
+        itemCount: cart.itemCount + quantity,
+        subTotalPrice: cart.subTotalPrice + price,
+        totalPrice: cart.subTotalPrice + price + this.DELIVERY_FEE,
+        totalDiscount: cart.totalDiscount + discount,
+        totalWeight: cart.totalWeight + weight,
+        items: {
+          update: {
+            where: { id: item.id },
+            data: {
+              quantity: newQuantity,
+              price: unitPrice * newQuantity,
+              discountAmount: unitDiscountAmount * newQuantity,
+              discountPrice: unitDiscountPrice * newQuantity,
+            },
+          },
+        },
+      },
+      include: { items: true },
+    });
+
+    return this.cleanupEmptyCart(updatedCart);
+  }
+
+  async removeCartItem(userId: string, itemId: string) {
+    const cart = await this.prismaService.cart.findUnique({
+      where: { userId },
+      include: { items: true },
+    });
+
+    if (!cart) {
+      throw new NotFoundException("Cart not found!");
+    }
+
+    const item = cart.items.find((i) => i.id === itemId);
+
+    return this.deleteCartItem(cart, item);
+  }
+
+  async deleteCart(userId: string) {
+    const cart = await this.prismaService.cart.findUnique({
+      where: { userId },
       select: { id: true },
     });
 
@@ -222,9 +305,7 @@ export class CartService {
         items: { create: cartItems },
         user: { connect: { id: user.id } },
       },
-      include: {
-        items: true,
-      },
+      include: { items: true },
     });
   }
 
@@ -250,10 +331,43 @@ export class CartService {
         totalWeight: cart.totalWeight + product.weight * dto.quantity,
         items: { create: cartItems },
       },
-      include: {
-        items: true,
-      },
+      include: { items: true },
     });
+  }
+
+  private async deleteCartItem(
+    cart: Omit<Cart, "userId">,
+    item: Omit<CartItems, "cartId">,
+  ) {
+    const updatedCart = await this.prismaService.cart.update({
+      where: { id: cart.id },
+      data: {
+        itemCount: cart.itemCount - item.quantity,
+        subTotalPrice: cart.subTotalPrice - item.price,
+        totalPrice: cart.subTotalPrice - item.price + this.DELIVERY_FEE,
+        totalDiscount: cart.totalDiscount - item.discountAmount,
+        totalWeight: cart.totalWeight - item.weight * item.quantity,
+        items: {
+          delete: { id: item.id },
+        },
+      },
+      include: { items: true },
+    });
+
+    return this.cleanupEmptyCart(updatedCart);
+  }
+
+  private async cleanupEmptyCart(
+    cart: Prisma.CartGetPayload<{ include: { items: true } }>,
+  ) {
+    if (cart.items.length === 0) {
+      await this.prismaService.cart.delete({
+        where: { id: cart.id },
+      });
+      return null;
+    }
+
+    return cart;
   }
 
   private createCartItems(

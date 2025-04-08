@@ -13,7 +13,7 @@ import {
   ValidateNested,
 } from "class-validator";
 
-import { Discount, Weight } from "src/lib/constants";
+import { Discount, Status, Weight } from "src/lib/constants";
 
 export class ProductOptionDto {
   @IsString()
@@ -133,6 +133,10 @@ export class CreateProductDto {
   @IsNotEmpty()
   @Min(1)
   stock: number;
+
+  @IsEnum(Status)
+  @IsNotEmpty()
+  status: Status;
 
   @IsBoolean()
   @IsNotEmpty()
