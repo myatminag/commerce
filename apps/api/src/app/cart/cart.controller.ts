@@ -5,14 +5,18 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Param,
+  Patch,
   Post,
+  Query,
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 
-import { CartService } from "./cart.service";
-import { CreateCartDto } from "./dto/create-cart.dto";
 import { ActiveUser } from "src/services/auth/decorators/active-user.decorator";
 import { ActiveUserData } from "src/services/auth/interfaces/active-user.interface";
+import { CartService } from "./cart.service";
+import { CreateCartDto } from "./dto/create-cart.dto";
+import { UpdateCartDto } from "./dto/update-cart.dto";
 
 @ApiTags("cart")
 @Controller("cart")
@@ -34,7 +38,25 @@ export class CartController {
 
   @Delete()
   @HttpCode(HttpStatus.NO_CONTENT)
-  async removeCart(@ActiveUser() activeUser: ActiveUserData) {
-    return this.cartService.removeCart(activeUser.sub);
+  async deleteCart(@ActiveUser() activeUser: ActiveUserData) {
+    return this.cartService.deleteCart(activeUser.sub);
+  }
+
+  @Patch()
+  @HttpCode(HttpStatus.OK)
+  async update(
+    @Body() dto: UpdateCartDto,
+    @ActiveUser() activeUser: ActiveUserData,
+    @Query("action") action: "increase" | "decrease",
+  ) {
+    return this.cartService.updateItemQuantity(activeUser.sub, dto, action);
+  }
+
+  @Delete(":id")
+  async removeCartItem(
+    @Param("id") id: string,
+    @ActiveUser() activeUser: ActiveUserData,
+  ) {
+    return this.cartService.removeCartItem(activeUser.sub, id);
   }
 }

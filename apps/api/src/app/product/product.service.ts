@@ -67,6 +67,7 @@ export class ProductService {
         priceMin: dto.priceMin,
         sku: dto.sku,
         stock: dto.stock,
+        status: dto.status,
         brand: { connect: { id: dto.brandId } },
         category: { connect: { id: dto.categoryId } },
         options: JSON.stringify(dto.options || []),
@@ -120,6 +121,7 @@ export class ProductService {
         skip: offset,
         where: {
           AND: searchQuery,
+          status: "publish",
         },
       }),
     ]);
@@ -193,6 +195,7 @@ export class ProductService {
         priceMin: dto.priceMin,
         sku: dto.sku,
         stock: dto.stock,
+        status: dto.status,
         brand: { connect: { id: dto.brandId } },
         category: { connect: { id: dto.categoryId } },
         options: JSON.stringify(dto.options),
