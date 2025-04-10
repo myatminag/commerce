@@ -51,7 +51,7 @@ export const TextEditor = () => {
             }
             placeholder={
               <p className="pointer-events-none absolute top-1 w-full px-3 text-sm text-neutral-400">
-                Enter some text...
+                Enter description...
               </p>
             }
             ErrorBoundary={LexicalErrorBoundary}

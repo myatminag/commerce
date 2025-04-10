@@ -6,7 +6,7 @@ import { Label } from "@workspace/ui/components/inputs/label";
 import { UploadImageIcon } from "@/src/components/icons/image-upload-icon";
 import { TextEditor } from "@/src/components/editor/text-editor";
 
-export const CreateForm = () => {
+export const BrandForm = () => {
   return (
     <form className="mt-6 grid grid-cols-3 gap-x-4 gap-y-6">
       <div className="col-span-2">
@@ -56,7 +56,7 @@ export const CreateForm = () => {
         </label>
       </div>
       <div className="col-span-3 space-y-2">
-        <Label className="block">Name</Label>
+        <Label className="block">Brand Name</Label>
         <Input placeholder="Enter brand name" />
       </div>
       <div className="col-span-3 space-y-3">

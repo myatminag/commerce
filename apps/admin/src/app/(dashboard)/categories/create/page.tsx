@@ -1,47 +1,28 @@
-import Link from "next/link";
-
-import { BackArrowIcon } from "@/src/components/icons/back-arrow-icon";
-import {
-  GiftIcon,
-  ParcelIcon,
-} from "@/src/components/icons/category-banner-icon";
-
 import ActionButton from "./components/action-button";
-import { CreateSubCategory } from "./components/add-subcategories";
 import CategoryForm from "./components/category-form";
 import SubCategoryList from "./components/sub-category-list";
+import SubCategoryForm from "./components/subcategory-form";
 
 const Page = () => {
   return (
     <section>
-      <div className="h-60 space-y-3 bg-[linear-gradient(90deg,_#EFFEF9_0%,_#C7F5E6_100%)] lg:px-6 lg:pb-6 lg:pt-6">
-        <div className="relative flex items-center justify-between">
-          <ParcelIcon className="absolute -left-8 -top-7 z-20" />
-          <GiftIcon className="absolute right-0 top-8 z-20" />
-          <Link
-            href="/category-list"
-            className="flex items-center gap-x-2 text-sm text-black"
-          >
-            <BackArrowIcon />
-            Back
-          </Link>
-          <ActionButton />
-        </div>
-        <h2 className="text-lg font-bold text-neutral-950">Electronics</h2>
+      <div className="relative flex items-center justify-between">
+        <h2 className="text-lg font-bold text-neutral-950">Create Category</h2>
+        <ActionButton />
       </div>
-      <div className="relative -top-28 z-30 grid grid-cols-3 gap-6 overflow-hidden px-6">
-        <div className="shadow-base col-span-2 rounded-md bg-white p-6">
+      <div className="mt-6 grid grid-cols-3 gap-6 overflow-hidden">
+        <div className="border-border-300 col-span-2 rounded-md border bg-white p-6">
           <p className="text-base font-semibold uppercase text-neutral-700">
             Category Info
           </p>
           <CategoryForm />
         </div>
-        <div className="shadow-base col-span-1 rounded-md bg-white p-6">
-          <div className="flex items-center justify-between">
+        <div className="border-border-300 col-span-1 rounded-md border bg-white p-6">
+          <div className="mb-3 flex items-center justify-between">
             <p className="text-base font-semibold uppercase text-neutral-700">
               Sub Categories
             </p>
-            <CreateSubCategory hasSubCategory />
+            <SubCategoryForm />
           </div>
           <SubCategoryList />
         </div>

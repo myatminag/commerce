@@ -229,7 +229,7 @@ td:last-child {
 
 /* ----- React Select ----- */
 .react-select__control {
-  border: 1px solid #b4d3ce !important;
+  border: 1px solid #bee2dc !important;
   border-radius: 6px !important;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
   background-color: transparent !important;
@@ -245,7 +245,7 @@ td:last-child {
 }
 
 .react-select__placeholder {
-  color: #0f524847 !important;
+  color: #6a978c !important;
   font-size: 14px !important;
 }
 
