@@ -12,8 +12,8 @@ import { TrendingUpIcon } from "@/src/components/icons/trending-up-icon";
 
 export const Statistics = () => {
   return (
-    <div className="*:data-[slot=card]:border-border-300 grid grid-cols-1 gap-4 *:data-[slot=card]:bg-white *:data-[slot=card]:shadow-none lg:grid-cols-2 xl:grid-cols-4">
-      <Card className="@container/card py-4">
+    <div className="*:data-[slot=card]:border-border-300 grid grid-cols-1 gap-4 *:data-[slot=card]:h-[100px] *:data-[slot=card]:bg-white *:data-[slot=card]:shadow-none lg:grid-cols-2 xl:grid-cols-4">
+      <Card className="@container/card py-5">
         <CardHeader className="relative flex items-center gap-x-3 px-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -50,7 +50,7 @@ export const Statistics = () => {
           </div>
         </CardHeader>
       </Card>
-      <Card className="@container/card py-4">
+      <Card className="@container/card py-5">
         <CardHeader className="relative flex items-center gap-x-3 px-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -96,7 +96,7 @@ export const Statistics = () => {
           </div>
         </CardHeader>
       </Card>
-      <Card className="@container/card py-4">
+      <Card className="@container/card py-5">
         <CardHeader className="relative flex items-center gap-x-3 px-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -127,7 +127,7 @@ export const Statistics = () => {
           </div>
         </CardHeader>
       </Card>
-      <Card className="@container/card py-4">
+      <Card className="@container/card py-5">
         <CardHeader className="relative flex items-center gap-x-3 px-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
