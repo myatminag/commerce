@@ -1,0 +1,9 @@
+model Delivery {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  fee       Int
+  duration  String
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

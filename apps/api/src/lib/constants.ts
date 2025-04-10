@@ -65,3 +65,9 @@ export enum RecipientType {
   USER,
   ADMIN,
 }
+
+export enum ShoppingHoursMode {
+  Everyday = "everyday",
+  Weekdays = "weekdays",
+  Weekends = "weekends",
+}
