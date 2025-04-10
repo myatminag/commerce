@@ -1,10 +1,23 @@
 import * as z from "zod";
 import Image from "next/image";
 import Link from "next/link";
+import { EllipsisIcon } from "lucide-react";
 import type { ColumnDef } from "@tanstack/react-table";
 
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+} from "@workspace/ui/components/dropdown-menu";
+import { Button } from "@workspace/ui/components/button";
 import { Checkbox } from "@workspace/ui/components/inputs/checkbox";
 import { ColumnHeader } from "@workspace/ui/components/table/column-header";
+
+import { paymentStatus } from "@/src/components/payment-status";
 
 const categorySchema = z.object({
   id: z.string(),
@@ -111,16 +124,12 @@ export const columns: ColumnDef<Category>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "description",
+    accessorKey: "status",
     header: ({ column }) => {
-      return <ColumnHeader column={column} title="Description" />;
+      return <ColumnHeader column={column} title="Status" />;
     },
     cell: () => {
-      return (
-        <p className="max-w-[500px] truncate text-sm font-medium text-neutral-950">
-          Clothing for men, women, and children
-        </p>
-      );
+      return paymentStatus("publish");
     },
     enableSorting: false,
     enableHiding: false,
@@ -128,13 +137,80 @@ export const columns: ColumnDef<Category>[] = [
   {
     accessorKey: "created-at",
     header: ({ column }) => {
-      return <ColumnHeader column={column} title="Last Modified On" />;
+      return <ColumnHeader column={column} title="Created At" />;
+    },
+    cell: () => {
+      return (
+        <p className="max-w-[500px] truncate text-sm font-medium text-neutral-950">
+          21 Feb 2024, 8:43 pm
+        </p>
+      );
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: "updated-at",
+    header: ({ column }) => {
+      return <ColumnHeader column={column} title="Updated At" />;
     },
     cell: () => {
       return (
         <span className="max-w-[200px] truncate text-sm font-medium text-neutral-950">
           21 Feb 2024, 8:43 pm
         </span>
+      );
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    id: "action",
+    header: () => {
+      return <span className="sr-only">Actions</span>;
+    },
+    cell: () => {
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <div className="flex justify-start">
+              <Button
+                size="icon"
+                variant="none"
+                className="cursor-pointer shadow-none"
+                aria-label="Edit item"
+              >
+                <EllipsisIcon size={16} aria-hidden="true" />
+              </Button>
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuGroup>
+              <DropdownMenuItem className="hover:bg-background cursor-pointer">
+                <span>Detail</span>
+                <DropdownMenuShortcut>⌘E</DropdownMenuShortcut>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="hover:bg-background cursor-pointer">
+                <Link
+                  href="/categories/update?id=121"
+                  className="flex w-full items-center justify-between"
+                >
+                  <span>Update</span>
+                  <DropdownMenuShortcut>⌘D</DropdownMenuShortcut>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="hover:bg-background cursor-pointer">
+                <span>Draft</span>
+                <DropdownMenuShortcut>⌘D</DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="text-danger-500 focus:text-danger-500 hover:bg-background cursor-pointer">
+              <span>Delete</span>
+              <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       );
     },
     enableSorting: false,

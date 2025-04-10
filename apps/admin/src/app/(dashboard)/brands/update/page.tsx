@@ -1,4 +1,4 @@
-import { CreateForm } from "../create/components/create-form";
+import { BrandForm } from "../create/components/brand-form";
 import { ActionButton } from "../create/components/action-button";
 
 const Update = () => {
@@ -13,7 +13,7 @@ const Update = () => {
           <p className="text-base font-semibold uppercase text-neutral-700">
             Brand Info
           </p>
-          <CreateForm />
+          <BrandForm />
         </div>
       </div>
     </section>
