@@ -53,6 +53,7 @@ export class CartController {
   }
 
   @Delete(":id")
+  @HttpCode(HttpStatus.NO_CONTENT)
   async removeCartItem(
     @Param("id") id: string,
     @ActiveUser() activeUser: ActiveUserData,

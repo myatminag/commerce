@@ -16,6 +16,7 @@ import { OrderModule } from "./order/order.module";
 import { ProductModule } from "./product/product.module";
 import { UserModule } from "./user/user.module";
 import { CartModule } from "./cart/cart.module";
+import { SettingModule } from "./settings/setting.module";
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { CartModule } from "./cart/cart.module";
     UserModule,
     CartModule,
     OrderModule,
+    SettingModule,
     ConfigModule.forRoot({
       cache: true,
       isGlobal: true,
