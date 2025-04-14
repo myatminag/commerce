@@ -1,16 +1,19 @@
-import type { Metadata } from 'next';
+import type { Metadata } from "next";
 
-import NewProductForm from './components/new-product-form';
+import ProductForm from "./components/product-form";
 
 export const metadata: Metadata = {
-  title: 'New Product',
+  title: "New Product",
 };
 
 const Page = () => {
   return (
-    <div className="hidden h-full flex-1 flex-col space-y-4 p-6 lg:flex">
-      <NewProductForm />
-    </div>
+    <section>
+      <h2 className="mb-6 text-lg font-bold text-neutral-950">
+        Create Product
+      </h2>
+      <ProductForm />
+    </section>
   );
 };
 

@@ -76,11 +76,11 @@ export const LatestOrders = () => {
       <CardHeader className="items-center pb-0">
         <CardTitle>Latest Orders</CardTitle>
       </CardHeader>
-      <CardContent className="scrollbar-none flex-1 px-4 pb-0">
+      <CardContent className="scrollbar-none flex-1 p-0">
         <Table>
           <TableHeader>
             <TableRow className="h-12 bg-gray-100">
-              <TableHead className="font-normal text-[#8B909A]">
+              <TableHead className="px-6 font-normal text-[#8B909A]">
                 Order Id
               </TableHead>
               <TableHead className="font-normal text-[#8B909A]">
@@ -106,7 +106,9 @@ export const LatestOrders = () => {
           <TableBody>
             {orders.map((order, i) => (
               <TableRow key={i} className="h-12">
-                <TableCell className="text-[#0F60FF]">{order.id}</TableCell>
+                <TableCell className="px-6 text-[#0F60FF]">
+                  {order.id}
+                </TableCell>
                 <TableCell>{order.name}</TableCell>
                 <TableCell>{order.totalQty} Qty</TableCell>
                 <TableCell>{order.totalPrice.toLocaleString()} MMK</TableCell>
