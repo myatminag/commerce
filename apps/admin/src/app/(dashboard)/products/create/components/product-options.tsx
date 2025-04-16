@@ -1,5 +1,6 @@
 import { Fragment, useState, KeyboardEventHandler } from "react";
 import { PlusIcon } from "lucide-react";
+import { Controller, SubmitHandler, useFormContext } from "react-hook-form";
 import CreatableSelect from "react-select/creatable";
 
 import {
@@ -13,6 +14,8 @@ import {
 import { Button } from "@workspace/ui/components/button";
 import { Label } from "@workspace/ui/components/inputs/label";
 import { Input } from "@workspace/ui/components/input";
+
+import { useProductStore } from "@/src/stores/product";
 
 const components = {
   DropdownIndicator: null,
@@ -29,8 +32,13 @@ const createOption = (label: string) => ({
 });
 
 const ProductOptions = () => {
+  const { control, register, getValues, setValue, handleSubmit, reset } =
+    useFormContext();
+
+  const { option, addOption } = useProductStore();
   const [inputValue, setInputValue] = useState("");
-  const [value, setValue] = useState<readonly Option[]>([]);
+
+  const [options] = getValues(["options"]);
 
   const handleKeyDown: KeyboardEventHandler = (event) => {
     if (!inputValue) return;
@@ -38,10 +46,26 @@ const ProductOptions = () => {
       case "Enter":
       case "Tab":
       case ",":
-        setValue((prev) => [...prev, createOption(inputValue)]);
-        setInputValue("");
-        event.preventDefault();
+        {
+          event.preventDefault();
+
+          const newOption = createOption(inputValue);
+          const currentValue = options || [];
+
+          if (
+            !currentValue.some((opt: Option) => opt.value === newOption.value)
+          ) {
+            const updatedValue = [...currentValue, newOption];
+            setValue("options", updatedValue, { shouldValidate: true });
+          }
+          setInputValue("");
+        }
+        break;
     }
+  };
+
+  const onSubmit: SubmitHandler<any> = (data) => {
+    console.log("data", data);
   };
 
   return (
@@ -66,41 +90,50 @@ const ProductOptions = () => {
             <DialogHeader className="mb-5">
               <DialogTitle>Add Product Option</DialogTitle>
             </DialogHeader>
-            <div className="space-y-5">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               <div className="col-span-2 space-y-2">
                 <Label className="block">Option Name</Label>
-                <Input placeholder="Enter option name" />
+                <Input
+                  placeholder="Enter option name"
+                  {...register("optionName")}
+                />
               </div>
               <div>
                 <Label className="mb-2 block">Options</Label>
-                <CreatableSelect
-                  className="react-select-container"
-                  classNamePrefix="react-select"
-                  components={components}
-                  inputValue={inputValue}
-                  isClearable
-                  isMulti
-                  menuIsOpen={false}
-                  onChange={(newValue) => setValue(newValue)}
-                  onInputChange={(newValue) => setInputValue(newValue)}
-                  onKeyDown={handleKeyDown}
-                  placeholder="Enter option eg. Small, Medium, Large"
-                  value={value}
+                <Controller
+                  name="options"
+                  control={control}
+                  render={({ field: { value, onChange } }) => (
+                    <CreatableSelect
+                      isClearable
+                      isMulti
+                      value={value}
+                      menuIsOpen={false}
+                      onChange={onChange}
+                      components={components}
+                      inputValue={inputValue}
+                      onInputChange={(newValue) => setInputValue(newValue)}
+                      onKeyDown={handleKeyDown}
+                      className="react-select-container"
+                      classNamePrefix="react-select"
+                      placeholder="Enter option eg. Small, Medium, Large"
+                    />
+                  )}
                 />
                 <small className="text-gray-400">
                   Press &quot;Enter&quot; or add a &quot;Comma&quot; for each
                   option
                 </small>
               </div>
-            </div>
-            <div className="mt-5 flex items-center justify-end gap-x-3">
-              <DialogClose asChild>
-                <Button type="button" variant="outline">
-                  Cancel
-                </Button>
-              </DialogClose>
-              <Button type="submit">Add</Button>
-            </div>
+              <div className="flex items-center justify-end gap-x-3">
+                <DialogClose asChild>
+                  <Button type="button" variant="outline" onClick={reset}>
+                    Cancel
+                  </Button>
+                </DialogClose>
+                <Button type="submit">Add</Button>
+              </div>
+            </form>
           </DialogContent>
         </Dialog>
       </div>
