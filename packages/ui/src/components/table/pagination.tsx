@@ -21,7 +21,7 @@ interface PaginationProps<TData> {
 
 const Pagination = <TData,>({ table }: PaginationProps<TData>) => {
   return (
-    <div className="border-border-300 flex h-14 items-center justify-between rounded-lg border bg-white px-4">
+    <div className="flex h-14 items-center justify-between bg-white px-4">
       <div className="flex-1 text-sm text-neutral-950">
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} row(s) selected.

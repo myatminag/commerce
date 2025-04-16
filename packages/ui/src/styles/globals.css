@@ -173,7 +173,7 @@ input:-webkit-autofill:active {
 }
 
 /* ----- Table ----- */
-th:first-child {
+/* th:first-child {
   border-left-style: solid !important;
 }
 
@@ -186,7 +186,7 @@ td:first-child {
 }
 td:last-child {
   border-right-style: solid !important;
-}
+} */
 
 /* ----- Accordion ----- */
 .AccordionChevron {

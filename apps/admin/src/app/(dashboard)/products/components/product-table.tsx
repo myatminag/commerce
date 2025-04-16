@@ -1,5 +1,11 @@
 "use client";
 
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@workspace/ui/components/card";
 import { DataTable } from "@workspace/ui/components/table/data-table";
 
 import column from "./columns";
@@ -16,7 +22,14 @@ const CategoryTable = () => {
         <Filter />
       </div>
 
-      <DataTable data={products} columns={column} />
+      <Card className="border-border-300 col-span-4 flex flex-col">
+        <CardHeader className="items-center pb-0">
+          <CardTitle>Latest Orders</CardTitle>
+        </CardHeader>
+        <CardContent className="p-0">
+          <DataTable data={products} columns={column} />
+        </CardContent>
+      </Card>
     </>
   );
 };

@@ -1,4 +1,3 @@
-import * as z from "zod";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronDownIcon, ChevronUpIcon, EllipsisIcon } from "lucide-react";
@@ -18,40 +17,26 @@ import { Checkbox } from "@workspace/ui/components/inputs/checkbox";
 import { ColumnHeader } from "@workspace/ui/components/table/column-header";
 
 import { paymentStatus } from "@/src/components/payment-status";
+import { Products } from "./data";
 
-export const categorySchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  url: z.string(),
-  subCategory: z.array(
-    z.object({
-      id: z.number(),
-      name: z.string(),
-      url: z.string(),
-    }),
-  ),
-});
-
-type Category = z.infer<typeof categorySchema>;
-
-export const columns: ColumnDef<Category>[] = [
+export const columns: ColumnDef<Products>[] = [
   {
     id: "expander",
     header: () => null,
     cell: ({ row }) => {
-      return (
+      return row.getCanExpand() ? (
         <Button
           {...{
+            className: "size-7 shadow-none text-muted-foreground",
+            onClick: row.getToggleExpandedHandler(),
             "aria-expanded": row.getIsExpanded(),
             "aria-label": row.getIsExpanded()
               ? `Collapse details for ${row.original.name}`
               : `Expand details for ${row.original.name}`,
+            size: "icon",
+            variant: "none",
+            role: "expander",
           }}
-          size="icon"
-          role="expander"
-          variant="none"
-          onClick={row.getToggleExpandedHandler()}
-          className="size-7 shadow-none"
         >
           {row.getIsExpanded() ? (
             <ChevronUpIcon size={16} />
@@ -59,7 +44,7 @@ export const columns: ColumnDef<Category>[] = [
             <ChevronDownIcon size={16} />
           )}
         </Button>
-      );
+      ) : undefined;
     },
   },
   {
@@ -97,10 +82,7 @@ export const columns: ColumnDef<Category>[] = [
     },
     cell: ({ row }) => {
       return (
-        <Link
-          href={`/products/${row.original.id}`}
-          className="flex max-w-[500px] items-center gap-x-3"
-        >
+        <div className="flex max-w-[200px] items-center gap-x-3">
           <Image
             width={100}
             height={100}
@@ -109,12 +91,14 @@ export const columns: ColumnDef<Category>[] = [
             alt="Image Description"
           />
           <div className="truncate">
-            <p className="truncate text-sm font-medium text-neutral-950">
+            <p className="truncate text-sm text-neutral-950">
               {row.getValue("name")}
             </p>
-            <p className="text-xs text-neutral-500">SKU: 135341905934</p>
+            <p className="text-xs font-medium text-neutral-400">
+              SKU: 135341905934
+            </p>
           </div>
-        </Link>
+        </div>
       );
     },
     enableSorting: false,
@@ -128,9 +112,7 @@ export const columns: ColumnDef<Category>[] = [
     cell: () => {
       return (
         <div className="flex max-w-40 items-center space-x-2">
-          <p className="truncate text-sm font-medium text-neutral-950">
-            4500000 MMK
-          </p>
+          <p className="truncate text-sm text-neutral-950">4500000 MMK</p>
         </div>
       );
     },
@@ -144,7 +126,7 @@ export const columns: ColumnDef<Category>[] = [
     },
     cell: () => {
       return (
-        <p className="max-w-24 truncate text-sm font-medium text-neutral-950">
+        <p className="max-w-24 truncate text-sm text-neutral-950">
           6 <span className="text-[#4F5E5D]">left</span>
         </p>
       );
@@ -159,9 +141,7 @@ export const columns: ColumnDef<Category>[] = [
     },
     cell: () => {
       return (
-        <p className="max-w-24 truncate text-sm font-medium text-neutral-950">
-          Macbook
-        </p>
+        <p className="max-w-24 truncate text-sm text-neutral-950">Apple</p>
       );
     },
     enableSorting: false,
@@ -174,9 +154,7 @@ export const columns: ColumnDef<Category>[] = [
     },
     cell: () => {
       return (
-        <p className="max-w-24 truncate text-sm font-medium text-neutral-950">
-          Apple
-        </p>
+        <p className="max-w-24 truncate text-sm text-neutral-950">Macbook</p>
       );
     },
     enableSorting: false,
@@ -200,7 +178,7 @@ export const columns: ColumnDef<Category>[] = [
     },
     cell: () => {
       return (
-        <p className="max-w-[500px] truncate text-sm font-medium text-neutral-950">
+        <p className="max-w-[500px] truncate text-sm text-neutral-950">
           21 Feb 2024, 8:43 pm
         </p>
       );
@@ -215,7 +193,7 @@ export const columns: ColumnDef<Category>[] = [
     },
     cell: () => {
       return (
-        <span className="max-w-[200px] truncate text-sm font-medium text-neutral-950">
+        <span className="max-w-[200px] truncate text-sm text-neutral-950">
           21 Feb 2024, 8:43 pm
         </span>
       );
@@ -231,7 +209,7 @@ export const columns: ColumnDef<Category>[] = [
     cell: () => {
       return (
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger asChild role="dropdown">
             <div className="flex justify-start">
               <Button
                 size="icon"
