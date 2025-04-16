@@ -1,41 +1,69 @@
-import Link from "next/link";
+"use client";
 
+import { SVGProps } from "react";
+
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@workspace/ui/components/select";
+import { Button } from "@workspace/ui/components/button";
 import { SearchInput } from "@workspace/ui/components/inputs/search-input";
 
-import { PopularIcon } from "@/src/components/icons/popular-icon";
-import { FilterIcon } from "@/src/components/icons/filter-icon";
-import { PlusIcon } from "@/src/components/icons/plus-icon";
+const StatusDot = (props: SVGProps<SVGSVGElement>) => {
+  return (
+    <svg
+      width="8"
+      height="8"
+      fill="currentColor"
+      viewBox="0 0 8 8"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      {...props}
+    >
+      <circle cx="4" cy="4" r="4" />
+    </svg>
+  );
+};
 
 const Filter = () => {
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex items-center gap-x-3">
-        <SearchInput
-          placeholder="Search products..."
-          className="w-full lg:w-64"
-        />
-        <button
-          type="button"
-          className="inline-flex items-center justify-between gap-x-2 rounded-md border border-gray-200 bg-white px-3 py-2 text-base text-neutral-800 shadow-sm hover:bg-gray-50 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-700 dark:bg-slate-900 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-        >
-          <PopularIcon className="size-3.5 flex-shrink-0" />
-          View Popular
-        </button>
-        <button
-          type="button"
-          className="inline-flex items-center justify-between gap-x-2 rounded-md border border-gray-200 bg-white px-3 py-2 text-base text-neutral-800 shadow-sm hover:bg-gray-50 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-700 dark:bg-slate-900 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-        >
-          <FilterIcon className="size-4 fill-white/60" />
-          Status
-        </button>
+    <div className="ms-auto flex items-start justify-between gap-x-3">
+      <SearchInput
+        placeholder="Search category..."
+        className="border-border-300 w-full rounded-md lg:h-9 lg:w-52"
+      />
+
+      <div>
+        <Select>
+          <SelectTrigger className="w-32">
+            <SelectValue placeholder="Filter status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value="publish">
+                <span className="flex items-center gap-2">
+                  <StatusDot className="text-brand-600 size-2" />
+                  <span className="truncate">Publish</span>
+                </span>
+              </SelectItem>
+              <SelectItem value="draft">
+                <span className="flex items-center gap-2">
+                  <StatusDot className="text-danger-500 size-2" />
+                  <span className="truncate">Draft</span>
+                </span>
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </div>
-      <Link
-        href="/new-product"
-        className="bg-brand-600 flex items-center gap-x-2 rounded-sm px-4 py-2 text-base font-light text-neutral-100"
-      >
-        <PlusIcon className="size-4" />
-        Add Product
-      </Link>
+
+      <Button>Search</Button>
+
+      <Button variant="outline">Clear</Button>
     </div>
   );
 };

@@ -1,15 +1,15 @@
-import type { Metadata } from 'next';
-import { Suspense } from 'react';
+import type { Metadata } from "next";
+import { Suspense } from "react";
 
-import ProductTable from './components/product-table';
+import ProductTable from "./components/product-table";
 
 export const metadata: Metadata = {
-  title: 'Products',
+  title: "Products",
 };
 
 const Page = () => {
   return (
-    <div className="hidden h-full flex-1 flex-col space-y-4 p-6 lg:flex">
+    <div className="hidden h-full flex-1 flex-col space-y-4 lg:flex">
       <Suspense>
         <ProductTable />
       </Suspense>

@@ -19,7 +19,7 @@ import { ColumnHeader } from "@workspace/ui/components/table/column-header";
 
 import { paymentStatus } from "@/src/components/payment-status";
 
-const categorySchema = z.object({
+export const categorySchema = z.object({
   id: z.string(),
   name: z.string(),
   url: z.string(),
