@@ -4,7 +4,7 @@ import { DataTable } from "@workspace/ui/components/table/data-table";
 
 import Filter from "./filter";
 import { columns } from "./columns";
-import { categories } from "../../products/components/data";
+import { categories } from "../../categories/components/data";
 
 const BrandTable = () => {
   return (

@@ -21,7 +21,7 @@ import { cn } from "@workspace/ui/lib/utils";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+  data: any[];
 }
 
 export const DataTable = <TData, TValue>({

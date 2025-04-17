@@ -14,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
 } from "@workspace/ui/components/dropdown-menu";
-import { Checkbox } from "@workspace/ui/components/inputs/checkbox";
+import { Checkbox } from "@workspace/ui/components/checkbox";
 import { ColumnHeader } from "@workspace/ui/components/table/column-header";
 
 import { paymentStatus } from "@/src/components/payment-status";

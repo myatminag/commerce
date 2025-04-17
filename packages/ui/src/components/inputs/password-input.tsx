@@ -1,6 +1,6 @@
 import { forwardRef, InputHTMLAttributes, useState } from "react";
 
-import { Label } from "./label";
+import { Label } from "../label";
 import { cn } from "../../lib/utils";
 import { VisibleIcon, InvisibleIcon } from "../../icons/auth-icons";
 

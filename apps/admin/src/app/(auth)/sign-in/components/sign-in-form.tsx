@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 import { Button } from "@workspace/ui/components/button";
-import { Input } from "@workspace/ui/components/inputs/input";
+import { Input } from "@workspace/ui/components/input";
 // import { Checkbox } from '@workspace/ui/components/inputs/checkbox';
 import { PasswordInput } from "@workspace/ui/components/inputs/password-input";
 
@@ -21,11 +21,9 @@ const SignInForm = () => {
       >
         <Input
           type="email"
-          label="Email"
           id="email"
           placeholder="Enter your email address"
           {...register("email")}
-          errors={errors.email?.message}
         />
         <PasswordInput
           label="Password"

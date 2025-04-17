@@ -13,7 +13,7 @@ import { ChevronDownIcon, ChevronUpIcon, InfoIcon } from "lucide-react";
 import { cn } from "@workspace/ui/lib/utils";
 import { Badge } from "../badge";
 import { Button } from "../button";
-import { Checkbox } from "../inputs/checkbox";
+import { Checkbox } from "../checkbox";
 import {
   Table,
   TableBody,
