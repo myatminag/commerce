@@ -1,8 +1,7 @@
-import { Fragment } from "react";
-
 import { Input } from "@workspace/ui/components/input";
+import { Label } from "@workspace/ui/components/label";
 import { Combobox } from "@workspace/ui/components/combobox";
-import { Label } from "@workspace/ui/components/inputs/label";
+import { Card, CardHeader, CardTitle } from "@workspace/ui/components/card";
 
 import { TextEditor } from "@/src/components/editor/text-editor";
 
@@ -75,11 +74,13 @@ const Brands = [
 
 const ProductInfo = () => {
   return (
-    <Fragment>
-      <p className="border-b p-6 text-base font-semibold uppercase text-neutral-700">
-        Product Info
-      </p>
-      <div className="grid grid-cols-4 gap-6 p-6">
+    <Card className="col-span-2 row-span-2 max-h-fit overflow-y-scroll border">
+      <CardHeader className="gap-0 border-b">
+        <CardTitle className="text-base font-semibold uppercase text-neutral-700">
+          Product Info
+        </CardTitle>
+      </CardHeader>
+      <div className="grid grid-cols-4 gap-6 px-6">
         <div className="col-span-2 space-y-2">
           <Label className="block">Product Name</Label>
           <Input placeholder="Enter product name" />
@@ -145,7 +146,7 @@ const ProductInfo = () => {
           <TextEditor />
         </div>
       </div>
-    </Fragment>
+    </Card>
   );
 };
 

@@ -1,3 +1,10 @@
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@workspace/ui/components/card";
+
 import ActionButton from "./components/action-button";
 import CategoryForm from "./components/category-form";
 import SubCategoryList from "./components/sub-category-list";
@@ -11,21 +18,27 @@ const Page = () => {
         <ActionButton />
       </div>
       <div className="mt-6 grid grid-cols-3 gap-6 overflow-hidden">
-        <div className="border-border-300 col-span-2 rounded-md border bg-white p-6">
-          <p className="text-base font-semibold uppercase text-neutral-700">
-            Category Info
-          </p>
-          <CategoryForm />
-        </div>
-        <div className="border-border-300 col-span-1 rounded-md border bg-white p-6">
-          <div className="mb-3 flex items-center justify-between">
-            <p className="text-base font-semibold uppercase text-neutral-700">
+        <Card className="col-span-2 gap-y-0">
+          <CardHeader className="gap-0 border-b">
+            <CardTitle className="text-base font-semibold uppercase text-neutral-700">
+              Category Info
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <CategoryForm />
+          </CardContent>
+        </Card>
+        <Card className="col-span-1 gap-y-0">
+          <CardHeader className="flex items-center justify-between border-b">
+            <CardTitle className="text-base font-semibold uppercase text-neutral-700">
               Sub Categories
-            </p>
+            </CardTitle>
             <SubCategoryForm />
-          </div>
-          <SubCategoryList />
-        </div>
+          </CardHeader>
+          <CardContent>
+            <SubCategoryList />
+          </CardContent>
+        </Card>
       </div>
     </section>
   );

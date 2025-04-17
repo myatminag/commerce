@@ -1,4 +1,4 @@
-import { Fragment, useState, KeyboardEventHandler } from "react";
+import { useState, KeyboardEventHandler } from "react";
 import { PlusIcon } from "lucide-react";
 import { Controller, SubmitHandler, useFormContext } from "react-hook-form";
 import CreatableSelect from "react-select/creatable";
@@ -11,11 +11,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@workspace/ui/components/dialog";
-import { Button } from "@workspace/ui/components/button";
-import { Label } from "@workspace/ui/components/inputs/label";
+import { Label } from "@workspace/ui/components/label";
 import { Input } from "@workspace/ui/components/input";
-
-import { useProductStore } from "@/src/stores/product";
+import { Button } from "@workspace/ui/components/button";
+import { Card, CardHeader, CardTitle } from "@workspace/ui/components/card";
 
 const components = {
   DropdownIndicator: null,
@@ -35,7 +34,6 @@ const ProductOptions = () => {
   const { control, register, getValues, setValue, handleSubmit, reset } =
     useFormContext();
 
-  const { option, addOption } = useProductStore();
   const [inputValue, setInputValue] = useState("");
 
   const [options] = getValues(["options"]);
@@ -69,11 +67,11 @@ const ProductOptions = () => {
   };
 
   return (
-    <Fragment>
-      <div className="flex items-center justify-between border-b p-6">
-        <p className="text-base font-semibold uppercase text-neutral-700">
+    <Card className="col-span-2 row-span-2 max-h-fit">
+      <CardHeader className="flex items-center justify-between gap-0 border-b">
+        <CardTitle className="text-base font-semibold uppercase text-neutral-700">
           Product Options
-        </p>
+        </CardTitle>
         <Dialog>
           <DialogTrigger
             type="button"
@@ -136,12 +134,12 @@ const ProductOptions = () => {
             </form>
           </DialogContent>
         </Dialog>
-      </div>
-      <div className="flex items-start gap-x-6 p-6">
+      </CardHeader>
+      <div className="flex items-start gap-x-6 px-6">
         <p>Color</p>
         <p>Gray Green Blue</p>
       </div>
-    </Fragment>
+    </Card>
   );
 };
 

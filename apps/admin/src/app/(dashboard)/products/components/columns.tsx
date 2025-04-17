@@ -112,7 +112,9 @@ export const columns: ColumnDef<Products>[] = [
     cell: () => {
       return (
         <div className="flex max-w-40 items-center space-x-2">
-          <p className="truncate text-sm text-neutral-950">4500000 MMK</p>
+          <p className="truncate text-sm text-neutral-950">
+            {Number(4500000).toLocaleString()} Ks
+          </p>
         </div>
       );
     },

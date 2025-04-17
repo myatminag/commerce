@@ -25,7 +25,7 @@ const SubCategoryData = [
 
 const SubCategoryList = () => {
   return (
-    <>
+    <div className="mt-6">
       {SubCategoryData.length > 0 ? (
         <div className="grid grid-cols-1 gap-y-4">
           {SubCategoryData.map((subCategory) => (
@@ -42,7 +42,7 @@ const SubCategoryList = () => {
       ) : (
         <SubCategoryForm />
       )}
-    </>
+    </div>
   );
 };
 

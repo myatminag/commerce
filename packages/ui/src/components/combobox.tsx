@@ -34,9 +34,10 @@ function Combobox({ options, placeholder }: ComboboxProps) {
         <Button
           variant="outline"
           role="combobox"
+          size="lg"
           aria-expanded={open}
           className={cn(
-            "w-full justify-between bg-transparent font-normal text-neutral-950 hover:bg-transparent",
+            "border-border-200 w-full justify-between bg-transparent font-normal text-neutral-950 hover:bg-transparent has-[>svg]:px-3",
             {
               "border-brand-600 ring-brand-600 ring-[1px]": open,
             },

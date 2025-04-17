@@ -1,15 +1,16 @@
-import { Fragment } from "react";
-
 import { Input } from "@workspace/ui/components/input";
-import { Label } from "@workspace/ui/components/inputs/label";
+import { Label } from "@workspace/ui/components/label";
+import { Card, CardHeader, CardTitle } from "@workspace/ui/components/card";
 
 const DiscountInfo = () => {
   return (
-    <Fragment>
-      <p className="border-b p-6 text-base font-semibold uppercase text-neutral-700">
-        Discount Info
-      </p>
-      <div className="flex flex-col gap-y-6 p-6">
+    <Card className="col-span-1 row-span-1 max-h-fit">
+      <CardHeader className="gap-0 border-b">
+        <CardTitle className="text-base font-semibold uppercase text-neutral-700">
+          Discount Info
+        </CardTitle>
+      </CardHeader>
+      <div className="flex flex-col gap-y-6 px-6">
         <div className="col-span-2 space-y-2">
           <Label className="block">Discount Type</Label>
           <Input placeholder="Enter discount type" />
@@ -30,7 +31,7 @@ const DiscountInfo = () => {
           <Input placeholder="Enter discount price" />
         </div>
       </div>
-    </Fragment>
+    </Card>
   );
 };
 

@@ -1,5 +1,3 @@
-import { Fragment } from "react";
-
 import {
   Table,
   TableBody,
@@ -16,6 +14,7 @@ import {
 } from "@workspace/ui/components/tooltip";
 import { Switch } from "@workspace/ui/components/switch";
 import { Input } from "@workspace/ui/components/input";
+import { Card, CardHeader, CardTitle } from "@workspace/ui/components/card";
 
 const orders = [
   {
@@ -62,12 +61,12 @@ const orders = [
 
 const ProductVariants = () => {
   return (
-    <Fragment>
-      <div className="flex items-center justify-between border-b p-6">
-        <p className="text-base font-semibold uppercase text-neutral-700">
+    <Card className="col-span-3 row-span-2 max-h-fit gap-y-0">
+      <CardHeader className="gap-0 border-b">
+        <CardTitle className="text-base font-semibold uppercase text-neutral-700">
           Product Variants
-        </p>
-      </div>
+        </CardTitle>
+      </CardHeader>
       <Table>
         <TableHeader>
           <TableRow className="h-12 bg-gray-100">
@@ -147,7 +146,7 @@ const ProductVariants = () => {
           ))}
         </TableBody>
       </Table>
-    </Fragment>
+    </Card>
   );
 };
 

@@ -1,14 +1,16 @@
-import { Fragment } from "react";
+import { Card, CardHeader, CardTitle } from "@workspace/ui/components/card";
 
 import { UploadImageIcon } from "@/src/components/icons/image-upload-icon";
 
 const ProductImages = () => {
   return (
-    <Fragment>
-      <p className="border-b p-6 text-base font-semibold uppercase text-neutral-700">
-        Product Image
-      </p>
-      <div className="grid grid-cols-4 gap-3 p-6">
+    <Card className="col-span-1 row-span-1">
+      <CardHeader className="gap-0 border-b">
+        <CardTitle className="text-base font-semibold uppercase text-neutral-700">
+          Product Images
+        </CardTitle>
+      </CardHeader>
+      <div className="grid grid-cols-4 gap-3 px-6">
         <label
           htmlFor="upload-banner"
           className="bg-upload border-border-200 group col-span-4 flex h-48 cursor-pointer flex-col items-center justify-center rounded-md border border-dashed text-center"
@@ -87,7 +89,7 @@ const ProductImages = () => {
           </div>
         </label>
       </div>
-    </Fragment>
+    </Card>
   );
 };
 
