@@ -13,7 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@workspace/ui/components/dialog";
-import { Label } from "@workspace/ui/components/inputs/label";
+import { Label } from "@workspace/ui/components/label";
 
 import { PlusIcon } from "@/src/components/icons/plus-icon";
 
@@ -50,9 +50,9 @@ export const SubCategoryForm = () => {
     <Dialog>
       <DialogTrigger
         type="button"
-        className="bg-upload-100 flex size-10 cursor-pointer items-center justify-center rounded-full"
+        className="bg-upload-100 flex size-6 cursor-pointer items-center justify-center rounded-full"
       >
-        <PlusIcon className="text-brand-600" />
+        <PlusIcon className="text-brand-600 size-3" />
       </DialogTrigger>
       <DialogContent
         onClick={(e) => e.stopPropagation()}

@@ -1,3 +1,10 @@
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@workspace/ui/components/card";
+
 import { ActionButton } from "./components/action-button";
 import { BrandForm } from "./components/brand-form";
 
@@ -9,12 +16,16 @@ const Create = () => {
         <ActionButton />
       </div>
       <div className="mt-6 grid grid-cols-3">
-        <div className="border-border-300 col-span-2 rounded-md border bg-white p-6">
-          <p className="text-base font-semibold uppercase text-neutral-700">
-            Brand Info
-          </p>
-          <BrandForm />
-        </div>
+        <Card className="col-span-2 gap-y-0">
+          <CardHeader className="gap-0 border-b">
+            <CardTitle className="text-base font-semibold uppercase text-neutral-700">
+              Brand Info
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <BrandForm />
+          </CardContent>
+        </Card>
       </div>
     </section>
   );

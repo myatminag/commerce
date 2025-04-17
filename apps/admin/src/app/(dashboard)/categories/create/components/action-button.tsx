@@ -7,7 +7,7 @@ import { Button } from "@workspace/ui/components/button";
 const ActionButton = () => {
   return (
     <div className="flex items-center gap-x-3">
-      <Button variant="default">
+      <Button size="lg" variant="default">
         <LoaderCircleIcon
           className="-ms-1 animate-spin"
           size={16}

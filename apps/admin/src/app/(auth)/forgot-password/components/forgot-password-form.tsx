@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@workspace/ui/components/button";
-import { Input } from "@workspace/ui/components/inputs/input";
+import { Input } from "@workspace/ui/components/input";
 
 import { useForgotPassword } from "../user-forgot-password";
 
@@ -17,11 +17,9 @@ const ForgotPasswordForm = () => {
       >
         <Input
           type="email"
-          label="Email"
           id="email"
           placeholder="Enter your email address"
           disabled={isPending}
-          errors={errors.email?.message}
           {...register("email")}
         />
         <Button disabled={isPending}>Sent resent link</Button>

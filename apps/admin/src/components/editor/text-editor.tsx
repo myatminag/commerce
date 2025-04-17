@@ -50,8 +50,8 @@ export const TextEditor = () => {
               <ContentEditable className="relative h-56 w-full overflow-auto px-3 focus:outline-none" />
             }
             placeholder={
-              <p className="pointer-events-none absolute top-1 w-full px-3 text-sm text-neutral-400">
-                Enter description...
+              <p className="pointer-events-none absolute top-1 w-full px-3 text-sm text-neutral-500/50">
+                Enter description
               </p>
             }
             ErrorBoundary={LexicalErrorBoundary}

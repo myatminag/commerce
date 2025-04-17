@@ -71,7 +71,7 @@ export default function Page({
             </div>
           </div>
         </header>
-        <main className="bg-background mt-16 flex min-h-[calc(100dvh-64px)] w-full flex-1 flex-col overflow-hidden p-5">
+        <main className="bg-background mt-18 min-h-[calc(100dvh-64px)] p-5">
           {children}
         </main>
       </SidebarInset>
