@@ -1,7 +1,7 @@
 import { HTMLAttributes } from "react";
 import { Column } from "@tanstack/react-table";
 
-import { cn } from "../../lib/utils";
+import { cn } from "../lib/utils";
 
 interface ColumnHeaderProps<TData, TValue>
   extends HTMLAttributes<HTMLDivElement> {

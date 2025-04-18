@@ -4,7 +4,7 @@ import Image from "next/image";
 import type { ColumnDef } from "@tanstack/react-table";
 
 import { Checkbox } from "@workspace/ui/components/checkbox";
-import { ColumnHeader } from "@workspace/ui/components/table/column-header";
+import { ColumnHeader } from "@workspace/ui/components/column-header";
 
 import Actions from "./actions";
 

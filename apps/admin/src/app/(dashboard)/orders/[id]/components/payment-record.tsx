@@ -6,7 +6,7 @@ import {
   DialogClose,
   DialogContent,
   DialogHeader,
-} from "@workspace/ui/components/dialog/dialog";
+} from "@workspace/ui/components/dialog";
 import { Button } from "@workspace/ui/components/button";
 
 import { SuccessIcon } from "@/src/components/icons/status-icon";

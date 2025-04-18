@@ -1,6 +1,7 @@
 "use client";
 
 import { SVGProps } from "react";
+import { RotateCwIcon } from "lucide-react";
 
 import {
   Select,
@@ -11,7 +12,7 @@ import {
   SelectValue,
 } from "@workspace/ui/components/select";
 import { Button } from "@workspace/ui/components/button";
-import { SearchInput } from "@workspace/ui/components/inputs/search-input";
+import { SearchInput } from "@workspace/ui/components/search-input";
 
 const StatusDot = (props: SVGProps<SVGSVGElement>) => {
   return (
@@ -31,15 +32,12 @@ const StatusDot = (props: SVGProps<SVGSVGElement>) => {
 
 const Filter = () => {
   return (
-    <div className="ms-auto flex items-start justify-between gap-x-3">
-      <SearchInput
-        placeholder="Search category..."
-        className="border-border-300 w-full rounded-md lg:h-9 lg:w-52"
-      />
+    <div className="flex items-start justify-between gap-x-3">
+      <div className="flex items-start gap-x-3">
+        <SearchInput placeholder="Search by name..." />
 
-      <div>
         <Select>
-          <SelectTrigger className="w-32">
+          <SelectTrigger className="lg:w-32">
             <SelectValue placeholder="Filter status" />
           </SelectTrigger>
           <SelectContent>
@@ -61,9 +59,14 @@ const Filter = () => {
         </Select>
       </div>
 
-      <Button>Search</Button>
+      <div className="flex items-center gap-x-3">
+        <Button size="lg">Search</Button>
 
-      <Button variant="outline">Clear</Button>
+        <Button size="lg" variant="outline">
+          <RotateCwIcon />
+          Clear
+        </Button>
+      </div>
     </div>
   );
 };

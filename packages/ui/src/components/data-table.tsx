@@ -14,9 +14,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../table";
+} from "./table";
 import Pagination from "./pagination";
-import { Separator } from "../separator";
+import { Separator } from "./separator";
 import { cn } from "@workspace/ui/lib/utils";
 
 interface DataTableProps<TData, TValue> {

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@workspace/ui/components/button";
-import { PasswordInput } from "@workspace/ui/components/inputs/password-input";
+import { PasswordInput } from "@workspace/ui/components/password-input";
 
 import { useResetPassword } from "../use-reset-password";
 

@@ -83,7 +83,7 @@ const ProductOptions = () => {
           <DialogContent
             onClick={(e) => e.stopPropagation()}
             onMouseLeave={(e) => e.stopPropagation()}
-            className="bg-white sm:max-w-lg"
+            className="bg-white sm:max-w-md"
           >
             <DialogHeader className="mb-5">
               <DialogTitle>Add Product Option</DialogTitle>

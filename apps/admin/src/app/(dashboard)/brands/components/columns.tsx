@@ -1,7 +1,7 @@
 import * as z from "zod";
 import Link from "next/link";
 import Image from "next/image";
-import { EllipsisIcon } from "lucide-react";
+import { CircleAlertIcon, EllipsisIcon } from "lucide-react";
 import type { ColumnDef } from "@tanstack/react-table";
 
 import { Button } from "@workspace/ui/components/button";
@@ -14,12 +14,23 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
 } from "@workspace/ui/components/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@workspace/ui/components/alert-dialog";
 import { Checkbox } from "@workspace/ui/components/checkbox";
-import { ColumnHeader } from "@workspace/ui/components/table/column-header";
+import { ColumnHeader } from "@workspace/ui/components/column-header";
 
 import { paymentStatus } from "@/src/components/payment-status";
 
-const categorySchema = z.object({
+const brandSchema = z.object({
   name: z.string(),
   description: z.string(),
   poduct: z.string(),
@@ -27,9 +38,9 @@ const categorySchema = z.object({
   "updated-at": z.date(),
 });
 
-type Category = z.infer<typeof categorySchema>;
+type Brand = z.infer<typeof brandSchema>;
 
-export const columns: ColumnDef<Category>[] = [
+export const columns: ColumnDef<Brand>[] = [
   {
     id: "select",
     header: ({ table }) => {
@@ -165,46 +176,73 @@ export const columns: ColumnDef<Category>[] = [
     },
     cell: () => {
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <div className="flex justify-start">
-              <Button
-                size="icon"
-                variant="none"
-                className="cursor-pointer shadow-none"
-                aria-label="Edit item"
-              >
-                <EllipsisIcon size={16} aria-hidden="true" />
-              </Button>
-            </div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuGroup>
-              <DropdownMenuItem className="hover:bg-background cursor-pointer">
-                <span>Detail</span>
-                <DropdownMenuShortcut>⌘E</DropdownMenuShortcut>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="hover:bg-background cursor-pointer">
-                <Link
-                  href="/brands/update?id=121"
-                  className="flex w-full items-center justify-between"
+        <AlertDialog>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild role="dropdown">
+              <div className="flex justify-start">
+                <Button
+                  size="icon"
+                  variant="none"
+                  className="cursor-pointer shadow-none"
+                  aria-label="Edit item"
                 >
-                  <span>Update</span>
+                  <EllipsisIcon size={16} aria-hidden="true" />
+                </Button>
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuGroup>
+                <DropdownMenuItem className="hover:bg-background cursor-pointer">
+                  <span>Detail</span>
+                  <DropdownMenuShortcut>⌘E</DropdownMenuShortcut>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="hover:bg-background cursor-pointer">
+                  <Link
+                    href="/categories/update?id=121"
+                    className="flex w-full items-center justify-between"
+                  >
+                    <span>Update</span>
+                    <DropdownMenuShortcut>⌘D</DropdownMenuShortcut>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="hover:bg-background cursor-pointer">
+                  <span>Draft</span>
                   <DropdownMenuShortcut>⌘D</DropdownMenuShortcut>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="hover:bg-background cursor-pointer">
-                <span>Draft</span>
-                <DropdownMenuShortcut>⌘D</DropdownMenuShortcut>
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-danger-500 focus:text-danger-500 hover:bg-background cursor-pointer">
-              <span>Delete</span>
-              <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <AlertDialogTrigger className="w-full">
+                <DropdownMenuItem className="text-danger-500 focus:text-danger-500 hover:bg-background cursor-pointer">
+                  <span>Delete</span>
+                  <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+                </DropdownMenuItem>
+              </AlertDialogTrigger>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <AlertDialogContent className="max-w-sm gap-y-6">
+            <AlertDialogHeader className="gap-y-3">
+              <AlertDialogTitle className="text-md flex items-center gap-x-2">
+                <div className="bg-danger-500/10 flex size-10 items-center justify-center rounded-full">
+                  <CircleAlertIcon
+                    size={20}
+                    className="text-danger-500 opacity-80"
+                  />
+                </div>
+                Confirm Deletion
+              </AlertDialogTitle>
+              <AlertDialogDescription>
+                Are you sure you want to delete this brand? <br /> This action
+                cannot be undone.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel className="h-10">Cancel</AlertDialogCancel>
+              <AlertDialogAction className="border-danger-400 hover:bg-danger-400/90 bg-danger-400 h-10 text-white">
+                Delete
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       );
     },
     enableSorting: false,

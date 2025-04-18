@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import "@workspace/ui/styles/globals.css";
-import { Toaster } from "@workspace/ui/components/toast/toaster";
+import { Toaster } from "@workspace/ui/components/toaster";
 
 import { AppProvider } from "./provider";
 
-const roboto = Inter({
+const inter = Inter({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800", "900"],
 });
@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={roboto.className}>
+      <body className={inter.className}>
         <AppProvider>
           {children}
           <Toaster />
