@@ -1,8 +1,8 @@
 import { forwardRef, InputHTMLAttributes, useState } from "react";
 
-import { Label } from "../label";
-import { cn } from "../../lib/utils";
-import { VisibleIcon, InvisibleIcon } from "../../icons/auth-icons";
+import { Label } from "./label";
+import { cn } from "../lib/utils";
+import { VisibleIcon, InvisibleIcon } from "../icons/auth-icons";
 
 export interface PasswordInputProps
   extends InputHTMLAttributes<HTMLInputElement> {

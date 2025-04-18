@@ -9,11 +9,9 @@ export const metadata: Metadata = {
 
 const Page = () => {
   return (
-    <div className="hidden h-full flex-1 flex-col space-y-6 lg:flex">
-      <Suspense>
-        <ProductTable />
-      </Suspense>
-    </div>
+    <Suspense>
+      <ProductTable />
+    </Suspense>
   );
 };
 

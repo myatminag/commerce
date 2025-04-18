@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useRecoverPassword } from "../../../services/auth/recover-password";
 
-import { useToast } from "@workspace/ui/components/toast/use-toast";
+import { useToast } from "@workspace/ui/components/use-toast";
 
 const schema = z.object({
   email: z

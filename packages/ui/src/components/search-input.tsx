@@ -4,11 +4,15 @@ import { cn } from "../lib/utils";
 
 import { Input } from "./input";
 
-function SearchInput({ className, ...props }: React.ComponentProps<"input">) {
+function SearchInput({
+  className,
+  placeholder,
+  ...props
+}: React.ComponentProps<"input">) {
   return (
     <div className="relative">
       <Input
-        placeholder="Search by name or sku..."
+        placeholder={placeholder}
         className={cn("pe-9 ps-9", className)}
         {...props}
       />

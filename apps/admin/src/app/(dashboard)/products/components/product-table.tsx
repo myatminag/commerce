@@ -30,7 +30,7 @@ import { Label } from "@workspace/ui/components/label";
 import { Input } from "@workspace/ui/components/input";
 import { Button } from "@workspace/ui/components/button";
 import { Calendar } from "@workspace/ui/components/calendar";
-import { DataTable } from "@workspace/ui/components/table/data-table";
+import { DataTable } from "@workspace/ui/components/data-table";
 
 import column from "./columns";
 import Filter from "./filter";
@@ -44,7 +44,7 @@ const CategoryTable = () => {
   const onSubmit = () => {};
 
   return (
-    <>
+    <div className="space-y-6">
       <Filter />
 
       <Card className="border-border-300 col-span-4 flex flex-col">
@@ -80,7 +80,7 @@ const CategoryTable = () => {
             <DialogContent
               onClick={(e) => e.stopPropagation()}
               onMouseLeave={(e) => e.stopPropagation()}
-              className="bg-white sm:max-w-lg"
+              className="bg-white sm:max-w-md"
             >
               <DialogHeader className="mb-5">
                 <DialogTitle>Set Discount</DialogTitle>
@@ -166,7 +166,7 @@ const CategoryTable = () => {
           <DataTable data={products} columns={column} />
         </CardContent>
       </Card>
-    </>
+    </div>
   );
 };
 

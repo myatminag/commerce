@@ -34,7 +34,7 @@ const Filter = () => {
   return (
     <div className="flex items-start justify-between gap-x-3">
       <div className="flex items-start gap-x-3">
-        <SearchInput />
+        <SearchInput placeholder="Search by name or sku..." />
 
         <Select>
           <SelectTrigger className="lg:w-32">
