@@ -11,14 +11,16 @@
     "noEmit": true,
     "inlineSources": false,
     "isolatedModules": true,
+    "lib": ["es2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "moduleDetection": "force",
+    "moduleResolution": "bundler",
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "preserveWatchOutput": true,
+    "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "strictNullChecks": true
+    "target": "ES2022"
   },
   "exclude": ["node_modules"]
 }
