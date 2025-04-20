@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 
 import ProductTable from "./components/product-table";
 
@@ -8,11 +7,7 @@ export const metadata: Metadata = {
 };
 
 const Page = () => {
-  return (
-    <Suspense>
-      <ProductTable />
-    </Suspense>
-  );
+  return <ProductTable />;
 };
 
 export default Page;

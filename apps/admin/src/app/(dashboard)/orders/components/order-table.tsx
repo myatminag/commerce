@@ -1,6 +1,6 @@
 "use client";
 
-// import { DataTable } from '@workspace/ui/components/table/data-table';
+import { DataTable } from "@workspace/ui/components/data-table";
 
 import Filter from "./filter";
 
@@ -9,13 +9,11 @@ import Filter from "./filter";
 
 const OrderTable = () => {
   return (
-    <>
-      <h2 className="text-heading font-semibold">Order Lists (32)</h2>
-
+    <div className="space-y-6">
       <Filter />
 
       {/* <DataTable columns={columns} data={orders} /> */}
-    </>
+    </div>
   );
 };
 
