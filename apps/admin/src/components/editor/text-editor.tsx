@@ -3,13 +3,15 @@ import { AutoLinkNode, LinkNode } from "@lexical/link";
 import { ListItemNode, ListNode } from "@lexical/list";
 import type { InitialConfigType } from "@lexical/react/LexicalComposer";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
-import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
+// import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
+
+import { cn } from "@workspace/ui/lib/utils";
 
 import { ToolbarPlugin } from "./plugins/toolbar-plugin";
 
@@ -20,7 +22,15 @@ const onError = (error: Error) => {
   throw error;
 };
 
-export const TextEditor = () => {
+interface TextEditorProps {
+  className?: string;
+  placeholder?: string;
+}
+
+export const TextEditor = ({
+  className,
+  placeholder = "Enter description...",
+}: TextEditorProps) => {
   const config: InitialConfigType = {
     namespace: "lexical-editor",
     theme: {
@@ -47,11 +57,16 @@ export const TextEditor = () => {
         <div className="relative mt-2">
           <RichTextPlugin
             contentEditable={
-              <ContentEditable className="relative h-56 w-full overflow-auto px-3 focus:outline-none" />
+              <ContentEditable
+                className={cn(
+                  "relative h-56 w-full overflow-auto px-3 focus:outline-none",
+                  className,
+                )}
+              />
             }
             placeholder={
               <p className="pointer-events-none absolute top-1 w-full px-3 text-sm text-neutral-500/50">
-                Enter description
+                {placeholder}
               </p>
             }
             ErrorBoundary={LexicalErrorBoundary}
@@ -60,7 +75,7 @@ export const TextEditor = () => {
         <ListPlugin />
         <LinkPlugin />
         <HistoryPlugin />
-        <AutoFocusPlugin />
+        {/* <AutoFocusPlugin /> */}
       </div>
     </LexicalComposer>
   );

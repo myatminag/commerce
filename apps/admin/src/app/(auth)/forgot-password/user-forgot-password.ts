@@ -2,10 +2,9 @@ import * as z from "zod";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 
 import { useRecoverPassword } from "../../../services/auth/recover-password";
-
-import { useToast } from "@workspace/ui/components/use-toast";
 
 const schema = z.object({
   email: z
@@ -17,8 +16,6 @@ const schema = z.object({
 type SchemaType = z.infer<typeof schema>;
 
 export const useForgotPassword = () => {
-  const { toast } = useToast();
-
   const {
     formState: { errors },
     reset,
@@ -34,22 +31,15 @@ export const useForgotPassword = () => {
     mutate(
       { email: data.email },
       {
-        onSuccess: (res: any) => {
-          toast({
-            title: "Request Password Reset Successful.",
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- Temporary disabling the rule because of unknown response type
-            description: res.message,
-            variant: "success",
+        onSuccess: () => {
+          toast.success("Request Password Reset", {
+            description: "Please check your email for further instructions.",
           });
           reset();
         },
-        onError: (err: any) => {
-          toast({
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- Temporary disabling the rule because of unknown response type
-            title: err.response.data.error,
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- Temporary disabling the rule because of unknown response type
-            description: err.response.data.message,
-            variant: "destructive",
+        onError: () => {
+          toast.error("Fail Request Password Reset", {
+            description: "Please try again later.",
           });
         },
       },

@@ -1,49 +1,65 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
+import Image from "next/image";
+
+import {
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
+} from "@workspace/ui/components/table";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@workspace/ui/components/card";
 
 const ProductList = () => {
   return (
-    <div className="w-full rounded-md bg-white shadow-sm">
-      <p className="text-heading border-b border-gray-200 p-4 font-medium text-neutral-800">
-        Product List
-      </p>
-      <div className="space-y-4 p-4">
-        {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- Temporary disabling the rule because of no actual API binding */}
-        {[...Array(3)].map((_, i) => (
-          // eslint-disable-next-line react/jsx-key -- Temporary disabling the rule because of no actual API binding
-          <>
-            {/* eslint-disable-next-line react/no-array-index-key -- Temporary disabling the rule because of no actual API binding */}
-            <div key={i} className="flex items-start gap-x-4">
-              <Image
-                className="size-16 flex-shrink-0 rounded-sm"
-                src="https://images.unsplash.com/photo-1572307480813-ceb0e59d8325?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=320&h=320&q=80"
-                alt="Image Description"
-                width={150}
-                height={150}
-              />
-              <div className="flex-1 space-y-0.5">
-                <p className="line-clamp-2 block text-base font-medium text-neutral-800">
-                  Nike Air Max INTRLK for women. International size an..
-                </p>
-                <p className="block text-sm text-neutral-800">
-                  Option: (Black, Medium)
-                </p>
-                <div className="flex items-center justify-between">
-                  <p className="block text-sm text-neutral-800">
-                    (123,000 Ks / pc)
-                  </p>
-                  <p className="text-brand-600-100 block text-base font-semibold">
-                    123,000 Ks
-                  </p>
-                </div>
-              </div>
-            </div>
-            {i !== 2 && <hr />}
-          </>
-        ))}
-      </div>
-    </div>
+    <Card className="gap-y-3 pb-3">
+      <CardHeader className="gap-0 border-b">
+        <CardTitle className="text-base font-semibold uppercase text-neutral-700">
+          Product List
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="px-0">
+        <Table>
+          <TableBody>
+            {[...Array(4)].map((_, i) => (
+              <TableRow key={i} className="h-12">
+                <TableCell className="p-6">
+                  <div className="flex items-center gap-x-4">
+                    <Image
+                      className="size-14 flex-shrink-0 rounded-sm"
+                      src="https://images.unsplash.com/photo-1572307480813-ceb0e59d8325?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=320&h=320&q=80"
+                      alt="Image Description"
+                      width={150}
+                      height={150}
+                    />
+                    <div className="flex-1 space-y-0.5">
+                      <p className="line-clamp-2 block text-base font-medium text-neutral-950">
+                        Nike Air Max INTRLK
+                      </p>
+                      <p className="text-placeholder block text-sm font-medium">
+                        SKU: 41329053201
+                      </p>
+                    </div>
+                  </div>
+                </TableCell>
+                <TableCell className="text-center">
+                  {Number(4000000).toLocaleString()} Ks
+                </TableCell>
+                <TableCell className="w-20 text-center">x1</TableCell>
+                <TableCell className="text-right">
+                  {Number(4000000).toLocaleString()} Ks
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </CardContent>
+    </Card>
   );
 };
 

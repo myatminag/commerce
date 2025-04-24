@@ -25,7 +25,7 @@ import {
   DropdownMenuShortcut,
 } from "@workspace/ui/components/dropdown-menu";
 
-import { paymentStatus } from "@/src/components/payment-status";
+import { status } from "@/src/components/status";
 
 const orders = [
   {
@@ -112,7 +112,7 @@ export const LatestOrders = () => {
                 <TableCell>{order.name}</TableCell>
                 <TableCell>{order.totalQty} Qty</TableCell>
                 <TableCell>{order.totalPrice.toLocaleString()} MMK</TableCell>
-                <TableCell>{paymentStatus(order.paymentStatus)}</TableCell>
+                <TableCell>{status(order.paymentStatus)}</TableCell>
                 <TableCell>{order.orderDate}</TableCell>
                 <TableCell>
                   <DropdownMenu>

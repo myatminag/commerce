@@ -6,7 +6,7 @@ import { Input } from "@workspace/ui/components/input";
 import { useForgotPassword } from "../user-forgot-password";
 
 const ForgotPasswordForm = () => {
-  const { errors, isPending, register, handleSubmit, handleForgotPassword } =
+  const { isPending, register, handleSubmit, handleForgotPassword } =
     useForgotPassword();
 
   return (
