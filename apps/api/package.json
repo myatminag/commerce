@@ -72,8 +72,6 @@
     "@nestjs/cli": "^11.0.6",
     "@nestjs/schematics": "^11.0.4",
     "@nestjs/testing": "^11.0.13",
-    "@swc/cli": "0.7.3",
-    "@swc/core": "^1.11.18",
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
     "@types/multer": "^1.4.12",
