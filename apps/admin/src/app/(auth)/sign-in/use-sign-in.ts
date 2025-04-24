@@ -1,11 +1,9 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import * as z from "zod";
 import { signIn } from "next-auth/react";
-import type { SubmitHandler } from "react-hook-form";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-import { useToast } from "@workspace/ui/components/use-toast";
+import { toast } from "sonner";
 
 const schema = z.object({
   email: z
@@ -25,8 +23,6 @@ export const useSignIn = () => {
   const searchParams = useSearchParams();
 
   const callbackUrl = searchParams.get("callbackUrl") || "/";
-
-  const { toast } = useToast();
 
   const {
     formState: { errors, isSubmitting },
@@ -48,20 +44,16 @@ export const useSignIn = () => {
       });
 
       if (res?.error) {
-        toast({
-          title: "Whoops! Something Went Wrong.",
+        toast.error("Whoops. Something Went Wrong!", {
           description:
             "Unable to sign in. Please double-check your credentials, and try again.",
-          variant: "destructive",
         });
       } else {
         router.replace("/");
       }
-    } catch (err) {
-      toast({
-        title: "Our server just broke up!",
+    } catch (error: unknown) {
+      toast.error("Our server just broke up!", {
         description: "We're working on fixing the problem. Be back soon.",
-        variant: "destructive",
       });
     }
   };

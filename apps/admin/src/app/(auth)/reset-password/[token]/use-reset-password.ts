@@ -1,12 +1,10 @@
 import { usePathname, useRouter } from "next/navigation";
+import { toast } from "sonner";
 import * as z from "zod";
-import type { SubmitHandler } from "react-hook-form";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useSetNewPassword } from "../../../../services/auth/reset-password";
-
-import { useToast } from "@workspace/ui/components/use-toast";
 
 const schema = z
   .object({
@@ -36,8 +34,6 @@ export const useResetPassword = () => {
 
   const sessionToken = pathname.split("/")[2];
 
-  const { toast } = useToast();
-
   const {
     formState: { errors },
     register,
@@ -56,22 +52,15 @@ export const useResetPassword = () => {
         password: data.password,
       },
       {
-        onSuccess: (res) => {
-          router.replace("/");
-          toast({
-            title: "Access Restored! Password Has Been Reset.",
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- Temporary disabling the rule because of unknown response type
-            description: `${res.data.message}. Sign in now with your new credentials.`,
-            variant: "success",
+        onSuccess: () => {
+          toast.success("Request Password Reset", {
+            description: "Please check your email for further instructions.",
           });
+          router.replace("/");
         },
-        onError: (err: any) => {
-          toast({
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- Temporary disabling the rule because of unknown response type
-            title: err.response.data.error,
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- Temporary disabling the rule because of unknown response type
-            description: err.response.data.message,
-            variant: "destructive",
+        onError: () => {
+          toast.error("Fail Request Password Reset", {
+            description: "Please try again later.",
           });
         },
       },
