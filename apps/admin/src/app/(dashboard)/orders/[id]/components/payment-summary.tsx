@@ -33,7 +33,7 @@ const PaymentSummary = () => {
         </div>
         <Separator />
         <div className="flex items-center justify-between px-6">
-          <p className="text-sm text-neutral-950">Total:</p>
+          <p className="text-sm text-neutral-950">Total Amount:</p>
           <p className="text-md font-medium text-neutral-950">380,000 Ks</p>
         </div>
       </CardContent>

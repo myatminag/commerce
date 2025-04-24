@@ -17,7 +17,7 @@ export default function Page({
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="border-border-300 z-5 fixed inset-0 flex h-16 shrink-0 items-center gap-2 border-b bg-white transition-[width,height] ease-linear">
+        <header className="border-border-300 fixed inset-0 z-40 flex h-16 shrink-0 items-center gap-2 border-b bg-white transition-[width,height] ease-linear">
           <div className="flex w-full items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1 block md:hidden" />
             <div className="ml-auto flex items-center gap-x-3">

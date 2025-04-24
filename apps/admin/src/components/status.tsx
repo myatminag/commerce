@@ -6,6 +6,7 @@ const statusVariants = {
   publish: "bg-publish",
   draft: "",
   failed: "",
+  "order-placed": "bg-pending",
 };
 
 export const status = (status: string) => {
@@ -13,7 +14,7 @@ export const status = (status: string) => {
 
   return (
     <Badge className={`font-medium capitalize text-white ${bgColor}`}>
-      {status}
+      {status.replace(/-/g, " ")}
     </Badge>
   );
 };

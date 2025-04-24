@@ -128,7 +128,7 @@ export const columns: ColumnDef<Category>[] = [
       return <ColumnHeader column={column} title="Order Status" />;
     },
     cell: () => {
-      return <div className="text-center">{status("publish")}</div>;
+      return <div className="text-center">{status("order-placed")}</div>;
     },
     enableSorting: false,
     enableHiding: false,
