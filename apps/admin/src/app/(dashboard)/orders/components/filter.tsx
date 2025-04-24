@@ -34,24 +34,70 @@ const Filter = () => {
   return (
     <div className="flex items-start justify-between gap-x-3">
       <div className="flex items-start gap-x-3">
-        <SearchInput placeholder="Search by name or sku..." />
+        <SearchInput placeholder="Search by order id..." />
 
         <Select>
-          <SelectTrigger className="lg:w-32">
-            <SelectValue placeholder="Filter status" />
+          <SelectTrigger className="">
+            <SelectValue placeholder="Filter Payment Status" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
               <SelectItem value="publish">
                 <span className="flex items-center gap-2">
                   <StatusDot className="text-brand-600 size-2" />
-                  <span className="truncate">Publish</span>
+                  <span className="truncate">Pending</span>
                 </span>
               </SelectItem>
               <SelectItem value="draft">
                 <span className="flex items-center gap-2">
                   <StatusDot className="text-danger-500 size-2" />
-                  <span className="truncate">Draft</span>
+                  <span className="truncate">Completed</span>
+                </span>
+              </SelectItem>
+              <SelectItem value="draft">
+                <span className="flex items-center gap-2">
+                  <StatusDot className="text-danger-500 size-2" />
+                  <span className="truncate">Failed</span>
+                </span>
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+
+        <Select>
+          <SelectTrigger className="">
+            <SelectValue placeholder="Filter Order Status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value="publish">
+                <span className="flex items-center gap-2">
+                  <StatusDot className="text-brand-600 size-2" />
+                  <span className="truncate">Order Placed</span>
+                </span>
+              </SelectItem>
+              <SelectItem value="publish">
+                <span className="flex items-center gap-2">
+                  <StatusDot className="text-brand-600 size-2" />
+                  <span className="truncate">In Progress</span>
+                </span>
+              </SelectItem>
+              <SelectItem value="publish">
+                <span className="flex items-center gap-2">
+                  <StatusDot className="text-brand-600 size-2" />
+                  <span className="truncate">Delivered</span>
+                </span>
+              </SelectItem>
+              <SelectItem value="publish">
+                <span className="flex items-center gap-2">
+                  <StatusDot className="text-brand-600 size-2" />
+                  <span className="truncate">Refund</span>
+                </span>
+              </SelectItem>
+              <SelectItem value="draft">
+                <span className="flex items-center gap-2">
+                  <StatusDot className="text-danger-500 size-2" />
+                  <span className="truncate">Rejected</span>
                 </span>
               </SelectItem>
             </SelectGroup>
@@ -62,9 +108,8 @@ const Filter = () => {
       <div className="flex items-center gap-x-3">
         <Button size="lg">Search</Button>
 
-        <Button size="lg" variant="outline">
+        <Button size="icon" variant="outline" className="size-10">
           <RotateCwIcon />
-          Clear
         </Button>
       </div>
     </div>

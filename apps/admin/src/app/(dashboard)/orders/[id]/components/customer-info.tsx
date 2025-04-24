@@ -1,11 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import type { ReactNode } from "react";
-import type { Libraries } from "@react-google-maps/api";
-import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
+import { ReactNode } from "react";
+import { GoogleMap, useJsApiLoader, Libraries } from "@react-google-maps/api";
 
-import { LocationIcon } from "@workspace/ui/icons/location-icon";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@workspace/ui/components/card";
 
 const libraries = ["places", "drawing", "geometry"];
 
@@ -16,7 +20,7 @@ const center = {
 
 const defaultMapContainerStyle = {
   width: "100%",
-  height: "150px",
+  height: "180px",
   borderRadius: "10px",
 };
 
@@ -35,26 +39,26 @@ const MapProvider = ({ children }: { children: ReactNode }) => {
 
 const CustomerInfo = () => {
   return (
-    <div className="w-full rounded-md bg-white shadow-sm">
-      <div className="flex items-center justify-between border-b border-gray-200 p-4">
-        <p className="text-heading font-medium">Customer Info</p>
-        <div className="bg-brand-600-100 flex items-center gap-x-1 rounded-full px-2 py-1">
-          <LocationIcon className="size-3 text-white" />
-          <p className="text-sm text-white">Home</p>
-        </div>
-      </div>
-      <div className="space-y-3 p-4">
-        <div className="flex items-center gap-x-4">
+    <Card>
+      <CardHeader className="gap-0 border-b">
+        <CardTitle className="text-base font-semibold uppercase text-neutral-700">
+          <p className="text-heading font-medium">Customer Info</p>
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-5">
+        <div className="flex items-start gap-x-4">
           <Image
-            className="size-[44px] flex-shrink-0 rounded-full"
+            className="size-14 flex-shrink-0 rounded-md"
             src="https://images.unsplash.com/photo-1572307480813-ceb0e59d8325?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=320&h=320&q=80"
             alt="Image Description"
             width={150}
             height={150}
           />
-          <div>
-            <p className="text-base text-neutral-800">Customer Name</p>
-            <p className="text-base text-neutral-800">+95 987654321</p>
+          <div className="space-y-1">
+            <p className="text-sm font-semibold text-neutral-950">
+              Customer Name
+            </p>
+            <p className="text-sm text-neutral-950">0987654321</p>
           </div>
         </div>
         <MapProvider>
@@ -64,14 +68,14 @@ const CustomerInfo = () => {
             center={center}
           />
         </MapProvider>
-        <div className="flex flex-col items-start gap-x-2">
-          <p className="font-medium text-neutral-800">Ahlone, Yangon</p>
-          <p className="text-base text-neutral-800">
+        <div className="flex flex-col items-start">
+          <p className="font-medium text-neutral-950">Ahlone, Yangon</p>
+          <p className="text-sm text-neutral-950">
             45 Roker Terrace Latheronwheel KW5 8NW, London, UK
           </p>
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 };
 

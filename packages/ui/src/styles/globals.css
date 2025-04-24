@@ -68,8 +68,9 @@
   --color-danger-400: oklch(0.57 0.2162 22.2);
   --color-danger-500: oklch(51.82% 0.2055 28.5);
 
-  /* Success Color */
-  --color-success: oklch(70.92% 0.1973 137.82);
+  /* status Color */
+  --color-pending: oklch(0.83 0.1705 81.36);
+  --color-publish: oklch(0.64 0.1712 147.39);
 
   /* Border Colors */
   --color-border-100: oklch(93.88% 0.0141 185.94);

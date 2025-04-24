@@ -74,11 +74,11 @@ const Brands = [
 
 const ProductInfo = () => {
   return (
-    <Card className="col-span-2 row-span-2 max-h-fit overflow-y-scroll border">
+    <Card className="col-span-2 row-span-2 max-h-fit overflow-y-scroll">
       <CardHeader className="gap-0 border-b">
-        <p className="text-base font-semibold uppercase text-neutral-700">
+        <CardTitle className="text-base font-semibold uppercase text-neutral-700">
           Product Info
-        </p>
+        </CardTitle>
       </CardHeader>
       <div className="grid grid-cols-4 gap-6 px-6">
         <div className="col-span-2 space-y-2">

@@ -28,7 +28,7 @@ import {
 import { Checkbox } from "@workspace/ui/components/checkbox";
 import { ColumnHeader } from "@workspace/ui/components/column-header";
 
-import { paymentStatus } from "@/src/components/payment-status";
+import { status } from "@/src/components/status";
 
 const brandSchema = z.object({
   name: z.string(),
@@ -134,7 +134,7 @@ export const columns: ColumnDef<Brand>[] = [
       return <ColumnHeader column={column} title="Status" />;
     },
     cell: () => {
-      return paymentStatus("publish");
+      return status("publish");
     },
     enableSorting: false,
     enableHiding: false,

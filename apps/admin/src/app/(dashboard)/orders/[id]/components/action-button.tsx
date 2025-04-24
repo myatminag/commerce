@@ -17,9 +17,7 @@ const ActionButton = () => {
     <div className="flex items-center gap-x-4">
       <Dialog>
         <DialogTrigger>
-          <Button size="icon" className="rounded-md bg-[#FAE9EA] p-2">
-            <TrashIcon className="text-brand-600-100 size-5" />
-          </Button>
+          <TrashIcon className="text-brand-600-100 size-5" />
         </DialogTrigger>
         <DialogContent className="max-w-sm">
           <DialogHeader className="text-heading border-b font-medium text-neutral-800">

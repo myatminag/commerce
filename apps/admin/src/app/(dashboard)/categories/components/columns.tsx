@@ -28,7 +28,7 @@ import { Button } from "@workspace/ui/components/button";
 import { Checkbox } from "@workspace/ui/components/checkbox";
 import { ColumnHeader } from "@workspace/ui/components/column-header";
 
-import { paymentStatus } from "@/src/components/payment-status";
+import { status } from "@/src/components/status";
 
 export const categorySchema = z.object({
   id: z.string(),
@@ -140,7 +140,7 @@ export const columns: ColumnDef<Category>[] = [
       return <ColumnHeader column={column} title="Status" />;
     },
     cell: () => {
-      return paymentStatus("publish");
+      return status("publish");
     },
     enableSorting: false,
     enableHiding: false,

@@ -32,7 +32,7 @@ import { Button } from "@workspace/ui/components/button";
 import { Checkbox } from "@workspace/ui/components/checkbox";
 import { ColumnHeader } from "@workspace/ui/components/column-header";
 
-import { paymentStatus } from "@/src/components/payment-status";
+import { status } from "@/src/components/status";
 import { Products } from "./data";
 
 export const columns: ColumnDef<Products>[] = [
@@ -184,7 +184,7 @@ export const columns: ColumnDef<Products>[] = [
       return <ColumnHeader column={column} title="Status" />;
     },
     cell: () => {
-      return paymentStatus("publish");
+      return status("publish");
     },
     enableSorting: false,
     enableHiding: false,
@@ -211,9 +211,9 @@ export const columns: ColumnDef<Products>[] = [
     },
     cell: () => {
       return (
-        <span className="max-w-[200px] truncate text-sm text-neutral-950">
+        <p className="max-w-[200px] truncate text-sm text-neutral-950">
           21 Feb 2024, 8:43 pm
-        </span>
+        </p>
       );
     },
     enableSorting: false,
