@@ -2,8 +2,10 @@ import { Badge } from "@workspace/ui/components/badge";
 
 const statusVariants = {
   pending: "bg-pending",
-  delivered: "bg-delivered",
+  delivered: "bg-publish",
   publish: "bg-publish",
+  active: "bg-publish",
+  paid: "bg-publish",
   draft: "",
   failed: "",
   "order-placed": "bg-pending",

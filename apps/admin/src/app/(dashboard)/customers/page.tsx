@@ -1,5 +1,7 @@
+import CustomerTable from "./components/customer-table";
+
 const Page = () => {
-  return <div>Customer List</div>;
+  return <CustomerTable />;
 };
 
 export default Page;
