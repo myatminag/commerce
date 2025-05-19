@@ -4,9 +4,8 @@ import {
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
-import { Prisma } from "@prisma/client";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
+import { Prisma } from "src/generated/prisma";
 import { Pagination } from "src/decorators/pagination.decorator";
 import { PrismaError } from "src/lib/constants";
 import { slugify } from "src/lib/utils";
@@ -15,6 +14,7 @@ import { CreateBrandDto } from "./dto/create-brand.dto";
 import { StatusDto } from "./dto/status.dto";
 import { UpdateBrandDto } from "./dto/update-brand.dto";
 import { DeleteBrandsDto } from "./dto/delete-brands.dto";
+import { PrismaClientKnownRequestError } from "src/generated/prisma/internal/prismaNamespace";
 
 @Injectable()
 export class BrandService {

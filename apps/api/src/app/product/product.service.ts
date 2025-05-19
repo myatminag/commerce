@@ -5,12 +5,12 @@ import {
   Logger,
   NotFoundException,
 } from "@nestjs/common";
-import { Prisma } from "@prisma/client";
 import { Queue } from "bullmq";
 
+import { slugify } from "src/lib/utils";
+import { Prisma } from "src/generated/prisma";
 import { Pagination } from "src/decorators/pagination.decorator";
 import { Discount, QueueProcessor } from "src/lib/constants";
-import { slugify } from "src/lib/utils";
 import { PrismaService } from "src/services/prisma/prisma.service";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { DeleteProductsDto } from "./dto/delete-products.dto";

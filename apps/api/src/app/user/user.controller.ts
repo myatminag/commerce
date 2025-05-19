@@ -19,11 +19,11 @@ import {
   PaginationParams,
 } from "src/decorators/pagination.decorator";
 import { ActiveUser } from "src/services/auth/decorators/active-user.decorator";
-import { ActiveUserData } from "src/services/auth/interfaces/active-user.interface";
 import { DeleteUsersDto } from "./dto/delete-users.dto";
 import { UpdatePasswordDto } from "./dto/update-password.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { UserService } from "./user.service";
+import { ActiveUserData } from "src/services/auth/interfaces/active-user.interface";
 
 @ApiTags("users")
 @Controller("users")

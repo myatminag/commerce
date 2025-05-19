@@ -4,12 +4,10 @@ model Notification {
   type          NotificationType
   status        NotificationStatus @default(unread)
   recipientType RecipientType
-  createdAt     DateTime           @default(now())
-  updatedAt     DateTime           @updatedAt
   userId        String
   user          User               @relation(fields: [userId], references: [id], onDelete: Cascade)
-  adminId       String
-  admin         Admin              @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
 }
 
 enum NotificationStatus {

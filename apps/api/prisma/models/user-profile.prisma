@@ -1,0 +1,11 @@
+model UserProfile {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  avatar    String?
+  address   String?
+  city      String?  @db.VarChar(255)
+  township  String?  @db.VarChar(255)
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}

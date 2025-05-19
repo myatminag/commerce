@@ -6,24 +6,20 @@ import {
   UnauthorizedException,
 } from "@nestjs/common";
 import { ConfigType } from "@nestjs/config";
-import { EventEmitter2 } from "@nestjs/event-emitter";
 import { JwtService } from "@nestjs/jwt";
-import { Admin, User } from "@prisma/client";
 import { randomBytes } from "crypto";
+import { EventEmitter2 } from "@nestjs/event-emitter";
 
-import { AdminService } from "src/app/admin/admin.service";
+import { User } from "src/generated/prisma";
+import { Role } from "src/lib/constants";
 import { UserService } from "src/app/user/user.service";
 import authConfig from "src/config/auth.config";
-import { UserType } from "src/lib/types";
 import { PrismaService } from "../prisma/prisma.service";
-import { AdminSignInDto } from "./dto/admin-signin.dto";
-import { AdminSignUpDto } from "./dto/admin-signup.dto";
 import { ForgotPasswordDto } from "./dto/forgot-password.dto";
 import { RefreshTokenDto } from "./dto/refresh-token.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 import { UserSignInDto } from "./dto/user-signin.dto";
 import { UserSignUpDto } from "./dto/user-signup.dto";
-import { AdminEvent } from "./events/admin.event";
 import { UserEvent } from "./events/user.event";
 import { HashingService } from "./hashing/hashing.service";
 import { ActiveUserData } from "./interfaces/active-user.interface";
@@ -35,103 +31,44 @@ export class AuthService {
     private authConfiguration: ConfigType<typeof authConfig>,
     private jwtService: JwtService,
     private userService: UserService,
-    private adminService: AdminService,
     private prismaService: PrismaService,
     private hashingService: HashingService,
     private eventEmitter: EventEmitter2,
   ) {}
 
-  async userSignUp(dto: UserSignUpDto) {
-    return this.signUp(dto, "user");
-  }
-
-  async userSignIn(dto: UserSignInDto) {
-    return this.signIn(dto, "user");
-  }
-
-  async userForgotPassword(dto: ForgotPasswordDto) {
-    return this.forgotPassword(dto, "user");
-  }
-
-  async userResetPassword(dto: ResetPasswordDto) {
-    return this.resetPassword(dto, "user");
-  }
-
-  async userRefreshToken(dto: RefreshTokenDto) {
-    return this.refreshToken(dto, "user");
-  }
-
-  async adminSignUp(dto: AdminSignUpDto) {
-    return this.signUp(dto, "admin");
-  }
-
-  async adminSignIn(dto: AdminSignInDto) {
-    return this.signIn(dto, "admin");
-  }
-
-  async adminForgotPassword(dto: ForgotPasswordDto) {
-    return this.forgotPassword(dto, "admin");
-  }
-
-  async adminResetPassword(dto: ResetPasswordDto) {
-    return this.resetPassword(dto, "admin");
-  }
-
-  async adminRefreshToken(dto: RefreshTokenDto) {
-    return this.refreshToken(dto, "admin");
-  }
-
-  private async signUp(
-    dto: UserSignUpDto | AdminSignUpDto,
-    type: "user" | "admin",
-  ) {
+  async signUp(dto: UserSignUpDto, role: Role) {
     try {
-      const hashPassword = await this.hashingService.hash(dto.password);
+      const password = await this.hashingService.hash(dto.password);
 
-      let entity: User | Admin;
+      const user = await this.userService.create(
+        {
+          ...dto,
+          password,
+        },
+        role,
+      );
 
-      if (type === "user") {
-        entity = await this.userService.create({
-          ...(dto as UserSignUpDto),
-          password: hashPassword,
-        });
-
-        this.eventEmitter.emit(UserEvent.REGISTERED, {
-          name: entity.name,
-          email: entity.email,
-        });
-      } else {
-        entity = await this.adminService.create({
-          ...(dto as AdminSignUpDto),
-          password: hashPassword,
+      if (user.role === "user") {
+        this.eventEmitter.emitAsync(UserEvent.REGISTERED, {
+          name: user.name,
+          email: user.email,
         });
       }
 
-      return await this.generateToken(entity, type);
+      return await this.generateToken(user);
     } catch (err) {
       console.error(err);
       throw new ForbiddenException("Something went wrong!");
     }
   }
 
-  private async signIn(
-    dto: UserSignInDto | AdminSignInDto,
-    type: "user" | "admin",
-  ) {
-    let entity: User | Admin;
+  async signIn(dto: UserSignInDto) {
+    const user = await this.validateCredentials(dto.email, dto.password);
 
-    if (type === "user") {
-      entity = await this.validateCredentials("user", dto.email, dto.password);
-    } else {
-      entity = await this.validateCredentials("admin", dto.email, dto.password);
-    }
-
-    return await this.generateToken(entity, type);
+    return await this.generateToken(user);
   }
 
-  private async forgotPassword(dto: ForgotPasswordDto, type: "user" | "admin") {
-    let entity: User | Admin;
-
+  async forgotPassword(dto: ForgotPasswordDto) {
     const token = randomBytes(32).toString("hex");
     const hashToken = await this.hashingService.hash(token);
 
@@ -139,195 +76,115 @@ export class AuthService {
       Date.now() + this.authConfiguration.resetTokenTtl,
     ).toISOString();
 
-    if (type === "user") {
-      entity = await this.userService.findByEmail(dto.email);
+    const user = await this.userService.findByEmail(dto.email);
 
-      await this.prismaService.user.update({
-        where: { id: entity.id },
+    await Promise.all([
+      this.prismaService.user.update({
+        where: { id: user.id },
         data: {
           token: hashToken,
           tokenExpiry: expiredAt,
         },
         omit: { password: true },
-      });
+      }),
+      this.eventEmitter.emitAsync(UserEvent.FORGOT_PASSWORD, {
+        email: user.email,
+        name: user.name,
+      }),
+    ]);
 
-      this.eventEmitter.emit(UserEvent.FORGOT_PASSWORD, {
-        email: entity.email,
-        name: entity.name,
-      });
-    } else {
-      entity = await this.adminService.findByEmail(dto.email);
-
-      await this.prismaService.admin.update({
-        where: { id: entity.id },
-        data: {
-          token: hashToken,
-          tokenExpiry: expiredAt,
-        },
-        omit: { password: true },
-      });
-
-      this.eventEmitter.emit(AdminEvent.FORGOT_PASSWORD, {
-        email: entity.email,
-        name: entity.name,
-      });
-    }
-
-    return { token, id: entity.id };
+    return { token, id: user.id };
   }
 
-  private async resetPassword(dto: ResetPasswordDto, type: "user" | "admin") {
-    let entity: User | Admin;
+  async resetPassword(dto: ResetPasswordDto) {
+    const user = await this.prismaService.user.findUnique({
+      where: { id: dto.id },
+    });
 
-    if (type === "user") {
-      entity = await this.prismaService.user.findUnique({
-        where: { id: dto.id },
-      });
-    } else {
-      entity = await this.prismaService.admin.findUnique({
-        where: { id: dto.id },
-      });
-    }
+    const isValid = await this.hashingService.compare(dto.token, user.token);
 
-    if (!entity) {
-      throw new UnauthorizedException(
-        `${type === "user" ? "User" : "Admin"} not found!`,
-      );
-    }
+    if (!user) throw new UnauthorizedException("User not found!");
+    if (!isValid) throw new UnauthorizedException("Invalid token!");
 
-    const isValid = await this.hashingService.compare(dto.token, entity.token);
-
-    if (!isValid) {
-      throw new UnauthorizedException("Invalid token!");
-    }
-
-    if (entity.tokenExpiry && entity.tokenExpiry < new Date()) {
+    if (user.tokenExpiry && user.tokenExpiry < new Date()) {
       throw new BadRequestException("Token has expired!");
     }
 
     const hashedPassword = await this.hashingService.hash(dto.password);
 
-    if (type === "user") {
-      await this.prismaService.$transaction([
-        this.prismaService.user.update({
-          where: { id: entity.id },
-          data: {
-            password: hashedPassword,
-          },
-        }),
-        this.prismaService.user.update({
-          where: { id: entity.id },
-          data: {
-            token: null,
-            tokenExpiry: null,
-          },
-        }),
-      ]);
-    } else {
-      await this.prismaService.$transaction([
-        this.prismaService.admin.update({
-          where: { id: entity.id },
-          data: {
-            password: hashedPassword,
-          },
-        }),
-        this.prismaService.admin.update({
-          where: { id: entity.id },
-          data: {
-            token: null,
-            tokenExpiry: null,
-          },
-        }),
-      ]);
-    }
+    await this.prismaService.$transaction([
+      this.prismaService.user.update({
+        where: { id: user.id },
+        data: {
+          password: hashedPassword,
+        },
+      }),
+      this.prismaService.user.update({
+        where: { id: user.id },
+        data: {
+          token: null,
+          tokenExpiry: null,
+        },
+      }),
+    ]);
 
     return { message: "Password successfully updated!" };
   }
 
-  private async refreshToken(dto: RefreshTokenDto, type: "user" | "admin") {
+  async refreshToken(dto: RefreshTokenDto) {
     try {
-      let entity: User | Admin;
+      const { sub } = await this.jwtService.verifyAsync<
+        Pick<ActiveUserData, "sub">
+      >(dto.refreshToken, {
+        secret: this.authConfiguration.secret,
+      });
 
-      if (type === "user") {
-        const { sub } = await this.jwtService.verifyAsync<
-          Pick<ActiveUserData, "sub">
-        >(dto.refreshToken, {
-          secret: this.authConfiguration.secret,
-        });
+      const user = await this.prismaService.user.findUnique({
+        where: { id: sub },
+      });
 
-        entity = await this.prismaService.user.findUnique({
-          where: { id: sub },
-        });
-      } else {
-        const { sub } = await this.jwtService.verifyAsync<
-          Pick<ActiveUserData, "sub">
-        >(dto.refreshToken, {
-          secret: this.authConfiguration.adminSecret,
-        });
+      if (!user) throw new UnauthorizedException("Bad Request!");
 
-        entity = await this.prismaService.admin.findUnique({
-          where: { id: sub },
-        });
-      }
-
-      return await this.generateToken(entity, type);
+      return await this.generateToken(user);
     } catch {
       throw new UnauthorizedException("Access denied!");
     }
   }
 
-  private async validateCredentials(
-    type: "user" | "admin",
-    email: string,
-    password: string,
-  ) {
-    let entity: User | Admin;
+  private async validateCredentials(email: string, password: string) {
+    const user = await this.prismaService.user.findUnique({
+      where: { email },
+    });
 
-    if (type === "user") {
-      entity = await this.prismaService.user.findUnique({
-        where: { email },
-      });
-    } else {
-      entity = await this.prismaService.admin.findUnique({
-        where: { email },
-      });
+    if (!user) {
+      throw new UnauthorizedException("User not found!");
     }
 
-    if (!entity) {
-      throw new UnauthorizedException(
-        `${type === "user" ? "User" : "Admin"} not found!`,
-      );
-    }
-
-    const isEqual = await this.hashingService.compare(
-      password,
-      entity.password,
-    );
+    const isEqual = await this.hashingService.compare(password, user.password);
 
     if (!isEqual) {
-      throw new UnauthorizedException("Password does not match!");
+      throw new UnauthorizedException("Invalid credentials!");
     }
 
-    return entity;
+    return user;
   }
 
-  private async generateToken(entity: User | Admin, type: UserType) {
-    const secret =
-      type === "user"
-        ? this.authConfiguration.secret
-        : this.authConfiguration.adminSecret;
-
+  private async generateToken(user: User) {
     const [accessToken, refreskToken] = await Promise.all([
       this.signToken<Partial<ActiveUserData>>(
-        entity.id,
+        user.id,
         this.authConfiguration.accessTokenTtl,
-        secret,
+        this.authConfiguration.secret,
         {
-          name: entity.name,
-          email: entity.email,
+          name: user.name,
+          email: user.email,
         },
       ),
-      this.signToken(entity.id, this.authConfiguration.refreshTokenTtl, secret),
+      this.signToken(
+        user.id,
+        this.authConfiguration.refreshTokenTtl,
+        this.authConfiguration.secret,
+      ),
     ]);
 
     return {

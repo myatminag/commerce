@@ -7,9 +7,9 @@ import authConfig from "src/config/auth.config";
 import { ActiveUserData } from "../interfaces/active-user.interface";
 
 @Injectable()
-export class UserRefreshTokenStrategy extends PassportStrategy(
+export class RefreshTokenStrategy extends PassportStrategy(
   Strategy,
-  "user-refresh-token",
+  "refresh-token",
 ) {
   constructor(
     @Inject(authConfig.KEY)
