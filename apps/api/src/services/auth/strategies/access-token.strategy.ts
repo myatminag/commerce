@@ -1,15 +1,15 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { ConfigType } from "@nestjs/config";
 import { PassportStrategy } from "@nestjs/passport";
 import { ExtractJwt, Strategy } from "passport-jwt";
+import { ConfigType } from "@nestjs/config";
 
 import authConfig from "src/config/auth.config";
 import { ActiveUserData } from "../interfaces/active-user.interface";
 
 @Injectable()
-export class AdminRefreshTokenStrategy extends PassportStrategy(
+export class AccessTokenStrategy extends PassportStrategy(
   Strategy,
-  "admin-refresh-token",
+  "access-token",
 ) {
   constructor(
     @Inject(authConfig.KEY)
@@ -17,8 +17,8 @@ export class AdminRefreshTokenStrategy extends PassportStrategy(
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: authConfiguration.adminSecret,
-      passReqToCallback: true,
+      secretOrKey: authConfiguration.secret,
+      ignoreExpiration: false,
     });
   }
 

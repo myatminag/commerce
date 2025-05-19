@@ -13,7 +13,6 @@ import {
 } from "@nestjs/common";
 import { ApiQuery, ApiTags } from "@nestjs/swagger";
 
-import { AdminOnly } from "src/decorators/admin-only.decorator";
 import {
   ApiPagination,
   Pagination,
@@ -33,12 +32,10 @@ export class CategoryController {
   constructor(private categoryService: CategoryService) {}
 
   @Post()
-  @AdminOnly()
   async createCategory(@Body() dto: CreateCategoryDto) {
     return this.categoryService.createCategory(dto);
   }
 
-  @AdminOnly()
   @Post("sub-category")
   async createSubCategory(@Body() dto: CreateSubCategoryDto) {
     return this.categoryService.createSubCategory(dto);
@@ -54,7 +51,6 @@ export class CategoryController {
     return this.categoryService.getCategories(pagination, search);
   }
 
-  @AdminOnly()
   @Put("sub-category/:id")
   @HttpCode(HttpStatus.CREATED)
   async updateSubCategory(
@@ -65,13 +61,11 @@ export class CategoryController {
   }
 
   @Delete()
-  @AdminOnly()
   @HttpCode(HttpStatus.NO_CONTENT)
   async deleteCategories(@Body() dto: DeleteCategoriesDto) {
     return this.categoryService.deleteCategories(dto);
   }
 
-  @AdminOnly()
   @Patch(":id/status")
   @HttpCode(HttpStatus.OK)
   async status(@Param("id") id: string, @Body() dto: StatusDto) {
@@ -84,7 +78,6 @@ export class CategoryController {
   }
 
   @Put(":id")
-  @AdminOnly()
   @HttpCode(HttpStatus.CREATED)
   async updateCategory(
     @Param("id") id: string,
@@ -93,7 +86,6 @@ export class CategoryController {
     return this.categoryService.updateCategory(id, dto);
   }
 
-  @AdminOnly()
   @Delete(":id")
   @HttpCode(HttpStatus.NO_CONTENT)
   async deleteCategory(@Param("id") id: string) {

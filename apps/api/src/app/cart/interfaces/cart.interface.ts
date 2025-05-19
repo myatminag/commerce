@@ -5,8 +5,7 @@ import {
   Product,
   ProductVariant,
   User,
-} from "@prisma/client";
-
+} from "src/generated/prisma";
 import { UpdateCartDto } from "../dto/update-cart.dto";
 import { CreateCartDto } from "../dto/create-cart.dto";
 

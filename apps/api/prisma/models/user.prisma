@@ -1,14 +1,22 @@
-model Admin {
+model User {
   id           String         @id @default(cuid())
   name         String         @db.VarChar(255)
-  email        String         @unique @db.VarChar(255)
   phone        String         @unique @db.VarChar(15)
+  email        String         @unique @db.VarChar(255)
   password     String         @db.VarChar(255)
+  role         Role           @default(user)
   token        String?
   tokenExpiry  DateTime?
-  createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
+  createdAt    DateTime       @default(now())
+  userProfile  UserProfile?
+  cart         Cart?
+  order        Order[]
+  wishlist     Wishlist[]
   notification Notification[]
+}
 
-  @@index([name])
+enum Role {
+  user
+  admin
 }

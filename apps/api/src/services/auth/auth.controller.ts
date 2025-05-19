@@ -8,18 +8,15 @@ import {
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 
+import { Role } from "src/lib/constants";
 import { IsPublic } from "src/services/auth/decorators/is-public.decorator";
 import { AuthService } from "./auth.service";
-import { IsAdmin } from "./decorators/is-admin.decorator";
-import { AdminSignInDto } from "./dto/admin-signin.dto";
-import { AdminSignUpDto } from "./dto/admin-signup.dto";
 import { ForgotPasswordDto } from "./dto/forgot-password.dto";
 import { RefreshTokenDto } from "./dto/refresh-token.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 import { UserSignInDto } from "./dto/user-signin.dto";
 import { UserSignUpDto } from "./dto/user-signup.dto";
-import { AdminRefreshTokenGuard } from "./guards/admin-refresh-token.guard";
-import { UserRefreshTokenGuard } from "./guards/user-refresh-token.guard";
+import { RefreshTokenGuard } from "./guards/refresh-token.guard";
 
 @ApiTags("auth")
 @Controller("auth")
@@ -29,69 +26,68 @@ export class AuthController {
   @IsPublic()
   @Post("sign-up")
   async signUp(@Body() dto: UserSignUpDto) {
-    return this.authService.userSignUp(dto);
+    return this.authService.signUp(dto, Role.User);
   }
 
   @IsPublic()
   @HttpCode(HttpStatus.OK)
   @Post("sign-in")
   async signIn(@Body() dto: UserSignInDto) {
-    return this.authService.userSignIn(dto);
+    return this.authService.signIn(dto);
   }
 
   @IsPublic()
   @HttpCode(HttpStatus.ACCEPTED)
   @Post("forgot-password")
   async forgotPassword(@Body() dto: ForgotPasswordDto) {
-    return this.authService.userForgotPassword(dto);
+    return this.authService.forgotPassword(dto);
   }
 
   @IsPublic()
   @HttpCode(HttpStatus.NO_CONTENT)
   @Post("reset-password")
   async resetPassword(@Body() dto: ResetPasswordDto) {
-    return this.authService.userResetPassword(dto);
+    return this.authService.resetPassword(dto);
   }
 
   @HttpCode(HttpStatus.OK)
-  @UseGuards(UserRefreshTokenGuard)
+  @UseGuards(RefreshTokenGuard)
   @Post("refresh-token")
   async refreshToken(@Body() dto: RefreshTokenDto) {
-    return this.authService.userRefreshToken(dto);
+    return this.authService.refreshToken(dto);
   }
 
   @IsPublic()
   @Post("sign-up/admin")
-  async adminSignUp(@Body() dto: AdminSignUpDto) {
-    return this.authService.adminSignUp(dto);
+  async adminSignUp(@Body() dto: UserSignUpDto) {
+    return this.authService.signUp(dto, Role.Admin);
   }
 
   @IsPublic()
   @HttpCode(HttpStatus.OK)
   @Post("sign-in/admin")
-  async adminSignIn(@Body() dto: AdminSignInDto) {
-    return this.authService.adminSignIn(dto);
+  async adminSignIn(@Body() dto: UserSignInDto) {
+    return this.authService.signIn(dto);
   }
 
   @IsPublic()
   @HttpCode(HttpStatus.ACCEPTED)
   @Post("forgot-password/admin")
   async adminForgotPassword(@Body() dto: ForgotPasswordDto) {
-    return this.authService.adminForgotPassword(dto);
+    return this.authService.forgotPassword(dto);
   }
 
   @IsPublic()
   @HttpCode(HttpStatus.NO_CONTENT)
   @Post("reset-password/admin")
   async adminResetPassword(@Body() dto: ResetPasswordDto) {
-    return this.authService.adminResetPassword(dto);
+    return this.authService.resetPassword(dto);
   }
 
-  @IsAdmin()
   @HttpCode(HttpStatus.OK)
-  @UseGuards(AdminRefreshTokenGuard)
+  @UseGuards(RefreshTokenGuard)
   @Post("refresh-token/admin")
   async adminRefreshToken(@Body() dto: RefreshTokenDto) {
-    return this.authService.adminRefreshToken(dto);
+    return this.authService.refreshToken(dto);
   }
 }

@@ -3,10 +3,10 @@ import {
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
-import { Prisma } from "@prisma/client";
 
-import { Pagination } from "src/decorators/pagination.decorator";
 import { slugify } from "src/lib/utils";
+import { Prisma } from "src/generated/prisma";
+import { Pagination } from "src/decorators/pagination.decorator";
 import { PrismaService } from "src/services/prisma/prisma.service";
 import { CreateCategoryDto } from "./dto/create-category.dto";
 import { CreateSubCategoryDto } from "./dto/create-subcategory.dto";

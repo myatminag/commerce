@@ -43,6 +43,11 @@ export enum Discount {
   Kyats = "kyats",
 }
 
+export enum Role {
+  Admin = "admin",
+  User = "user",
+}
+
 export enum NotificationType {
   ORDER_CONFIRMATION,
   ORDER_SHIPPED,

@@ -4,16 +4,16 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from "@nestjs/common";
-import { Prisma } from "@prisma/client";
 
+import { Role } from "src/lib/constants";
 import { PrismaService } from "src/services/prisma/prisma.service";
-
 import { Pagination } from "src/decorators/pagination.decorator";
 import { HashingService } from "src/services/auth/hashing/hashing.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { DeleteUsersDto } from "./dto/delete-users.dto";
 import { UpdatePasswordDto } from "./dto/update-password.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
+import { Prisma } from "src/generated/prisma";
 
 @Injectable()
 export class UserService {
@@ -22,7 +22,7 @@ export class UserService {
     private hashingService: HashingService,
   ) {}
 
-  async create(dto: CreateUserDto) {
+  async create(dto: CreateUserDto, role: Role) {
     const user = await this.prismaService.user.findUnique({
       where: { email: dto.email },
     });
@@ -32,7 +32,7 @@ export class UserService {
     }
 
     return await this.prismaService.user.create({
-      data: { ...dto },
+      data: { ...dto, role },
     });
   }
 
@@ -102,7 +102,7 @@ export class UserService {
   }
 
   async getUsers({ page, size, limit, offset }: Pagination, search: string) {
-    const searchQuery: Prisma.UserWhereInput[] = [];
+    const searchQuery = [];
 
     if (search) {
       searchQuery.push({
