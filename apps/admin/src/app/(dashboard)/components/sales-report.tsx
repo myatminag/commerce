@@ -153,7 +153,7 @@ export const SalesReport = () => {
               stackId="a"
             />
             <ChartLegend
-              content={<ChartLegendContent />}
+              content={<ChartLegendContent payload={[]} />}
               className="absolute -top-[296px] right-0"
             />
           </AreaChart>

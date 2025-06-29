@@ -74,7 +74,7 @@ export const TopSellingCategories = () => {
               innerRadius={50}
             />
             <ChartLegend
-              content={<ChartLegendContent nameKey="browser" />}
+              content={<ChartLegendContent nameKey="browser" payload={[]} />}
               className="-translate-y-2 flex-wrap gap-2 [&>*]:basis-1/4 [&>*]:justify-center"
             />
           </PieChart>
