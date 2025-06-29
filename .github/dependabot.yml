@@ -14,6 +14,8 @@ updates:
     ignore:
       - dependency-name: "react-day-picker"
         versions: ["*"]
+      - dependency-name: "zod"
+        versions: ["*"]
     groups:
       root-dependencies:
         patterns:

@@ -1,5 +1,5 @@
 import { useRouter, useSearchParams } from "next/navigation";
-import * as z from "zod";
+import * as z from "zod/v4";
 import { signIn } from "next-auth/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
